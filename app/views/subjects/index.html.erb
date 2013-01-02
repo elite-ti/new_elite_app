@@ -1,0 +1,28 @@
+<%= title 'Subjects' %>
+
+<table id='subjects' class='display'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Short Name</th>
+      <th>Code</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @subjects.each do |subject| %>
+    <tr>
+      <td>
+        <%= subject.name %>
+        <%= link_to 'Edit', edit_subject_path(subject), class: 'float-right' %>
+      </td>
+      <td><%= subject.short_name %></td>
+      <td><%= subject.code %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Subject', new_subject_path %>

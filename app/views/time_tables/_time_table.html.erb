@@ -1,0 +1,9 @@
+<a href='#' class='edit'>
+  <div class='time_table <%= color(time_table) %>'>
+    <p>
+      <span class='teacher_name'><%= time_table.teaching_assignment.teacher.nickname %></span><br />
+      <span class='subject_code'><%= time_table.teaching_assignment.subject.code %></span>
+      <span class='time_table_id' style='display: none;'><%= time_table.id %></span>
+    </p>
+  </div>
+</a>

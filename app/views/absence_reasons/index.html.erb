@@ -1,0 +1,24 @@
+<%= title 'Absence Reasons' %>
+
+<table id="absence_reasons" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @absence_reasons.each do |absence_reason| %>
+    <tr>
+      <td>
+        <%= absence_reason.name %> 
+        <%= link_to 'Edit', edit_absence_reason_path(absence_reason), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Absence Reason', new_absence_reason_path %>

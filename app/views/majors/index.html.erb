@@ -1,0 +1,24 @@
+<%= title 'Majors' %>
+
+<table id="majors" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @majors.each do |major| %>
+    <tr>
+      <td>
+        <%= major.name %>
+        <%= link_to 'Edit', edit_major_path(major), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Major', new_major_path %>

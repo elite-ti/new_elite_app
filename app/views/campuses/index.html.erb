@@ -1,0 +1,28 @@
+<%= title 'Campuses' %>
+
+<table id='campuses' class='display'>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @campuses.each do |campus| %>
+    <tr>
+      <td>
+        <%= campus.name %>
+        <%= content_tag :span, class: 'float-right' do 
+          link_to('Time Table', campus_time_table_path(campus)) + 
+          ' | ' + 
+          link_to('Edit', edit_campus_path(campus))
+        end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Campus', new_campus_path %>

@@ -1,0 +1,41 @@
+<%= title 'Employees' %>
+
+<table id="employees" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>EliteID</th>
+      <th>Email</th>
+      <th>Roles</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @employees.each do |employee| %>
+    <tr>
+      <td>
+        <%= employee.name %><br />
+        <%= content_tag :span do
+          if employee.teacher?
+            link_to('Time Table', teacher_time_table_path(id: employee.teacher.id)) + ' | ' + 
+            link_to('Absences', teacher_path(employee.teacher)) + ' | ' +
+            link_to('Report', teacher_report_path(employee.teacher)) + ' | ' +
+            link_to('Edit', edit_employee_path(employee)) + ' | ' +
+            link_to('Login as', login_as_path(employee))
+          else
+            link_to('Edit', edit_employee_path(employee)) + ' | ' +
+            link_to('Login as', login_as_path(employee))
+          end
+        end %>
+      </td>
+      <td><%= employee.elite_id %></td>
+      <td><%= employee.email %></td>
+      <td><%= employee.roles.map(&:titleize).join(', ') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Employee', new_employee_path %>

@@ -1,0 +1,137 @@
+.form-inputs {
+  position: relative;
+  #image {
+    position: absolute;
+    top: 0; right: 50px;
+    width: 300px;
+
+    img {
+      margin-left: 100px;
+    }
+    label { 
+      width: 50px; 
+      margin-top: 10px;
+    }
+    #employee_photo { 
+      width: 200px; 
+      margin-top: 10px;
+    }
+    #remove_label { 
+      width: 100px; 
+      margin-left: 80px;
+      margin-top: 0;
+    }
+  }
+}
+
+
+#prof_exp_fields {
+  width: 470px;
+  margin-left: 60px;
+  margin-top: 10px;
+  border: 1px solid #999;
+  border-radius: 15px;
+  padding-left: 0;
+  padding-top: 15px;
+
+  th, td { width: 120px; }
+  colgroup { width: 250px; }
+  td label { width: 100%; }
+  td.error { margin-left: 0; }
+  td.radio {
+    input { margin-right: 20px; }
+    label { display: none; }
+  }
+  label {
+    width: 100px;
+    margin-left: 7px;
+  }
+  .remove_fields {
+    float: right;
+    margin-right: 20px;
+  }
+}
+
+.add_field {
+  margin-bottom: 20px;
+  position: relative;
+  margin-left: 180px;
+  margin-top: 0;
+}
+
+#employee_post_graduated {
+  display: block;
+  clear: both;
+}
+#employee_post_graduated_comment { margin-bottom: 15px; }
+
+#employee_campus_head_teacher_attributes_campus_ids,
+  #employee_campus_head_teacher_attributes_product_ids,
+  #employee_product_head_teacher_attributes_product_ids,
+  #employee_subject_head_teacher_attributes_product_ids,
+  #employee_subject_head_teacher_attributes_subject_ids,
+  #employee_teacher_attributes_subject_ids,
+  #employee_teacher_attributes_campus_ids,
+  #employee_campus_principal_attributes_campus_id {
+  width: 335px;
+}
+
+#product_group_preferences {
+  margin-left: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #999;
+  border-radius: 15px;
+
+  th, td { width: 120px; }
+  colgroup { width: 250px; }
+  td label { width: 100%; }
+  td.error { margin-left: 0; }
+  td.radio {
+    input { margin-left: 70px; }
+    label { display: none; }
+  }
+}
+
+#teacher_campus_ids, #teacher_campus_ids_chzn {
+  margin-bottom: 10px;
+  margin-left: 180px;
+  width: 400px;
+}
+
+#weekend {
+  margin-left: 110px;
+  margin-bottom: 30px;
+  td.first { text-align: right; }
+  label { 
+    margin-left: 5px; 
+    margin-top: 5px;
+  }
+}
+
+#administrative_job_wrapper {
+  margin-bottom: 10px;
+  label { 
+    width: 320px; 
+    margin-left: -5px;
+  }
+  input { margin-top: 4px; }
+}
+
+.form-actions {
+  th {
+    width: 180px;
+    input { 
+      float: right;
+      margin-top: -25px;
+      margin-right: 10px; 
+    }
+  }
+}
+
+#agree_with_terms_wrapper {
+  float: left;
+  label { 
+    margin-left: 0;
+    margin-top: 0;
+  }
+}

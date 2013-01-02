@@ -1,0 +1,102 @@
+@mixin naked { margin: 0; border: 0; padding: 0; }
+
+.bold { font-weight: bold; }
+
+#month {
+  float:left;
+  a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
+
+#search_form {
+  float: right;
+}
+
+#calendar {
+  width: 960px;
+  border-collapse: collapse;
+  /*border: 1px black solid;
+  border-radius: 10px;*/
+
+  .time_table, tr, th, td { @include naked; }
+
+  #selected { background-color: #ddd }
+
+  td {
+    color: #666;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: middle;
+    background-color: white;
+    border: 1px solid #999;
+    height: 63px;
+  }
+
+  .day_cell, .cell { width: 150px; }
+  .time_cell { width: 60px; }
+
+  .time_cell, .day_cell { text-align: center; }
+
+  .cell {
+    a {
+      text-decoration: none;
+      color: #666;
+      .time_table {
+        float: left;
+        width: 149px;
+        height: 63px;
+        overflow: hidden;
+        span { white-space: nowrap; }
+        p {
+          margin-top: 7px;
+          margin-left: 5px;
+        }
+        .teacher_name { font-weight: bold; }
+      }
+      .not_empty { background-color: #EDEF85; }
+      .loading { background-color: #000000; }
+    }
+    .edit > .time_table {
+      border-right: 1px solid #999;
+    }
+    .yellow { background-color: #F6FD65; }
+    .green { background-color: #65FD67; }
+    .red { background-color: #FD6565; }
+  }
+}
+
+#time_table_box {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #999;
+  padding: 20px;
+  padding-top: 0;
+  width: 400px;
+
+  #close_form {
+    position: absolute;
+    font-size: 12px;
+    top: 10px; right: 15px;
+    line-height: 20px;
+    width: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #999;
+    font-weight:bold;
+
+    &:hover {
+      background-color: #999;
+      color: white;
+    }
+  }
+
+  #time_table_teacher_id, #time_table_subject_id, #time_table_replicate_until,
+    #time_table_teacher_absence_attributes_teacher_id, #time_table_teacher_absence_attributes_subject_id { width: 220px; }
+  label { width: 120px; }
+  .btn { margin-left: 140px; }
+  .form-actions span {
+    float: right;
+  }
+}

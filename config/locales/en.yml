@@ -1,0 +1,6 @@
+# encoding: UTF-8
+en:
+  hello: "Hello world"
+  morning: 'Manhã'
+  afternoon: 'Tarde'
+  evening: 'Noite'

@@ -1,0 +1,62 @@
+<%= simple_form_for time_table do |f| %>
+  <%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <div class='field'>
+      <%= f.label :teacher_id %>
+      <%= f.collection_select :teacher_id, Teacher.all, :id, :nickname, 
+        {include_blank: true}, {data: {placeholder: "Select an option"}} %>
+    </div>
+    <div class='field'>
+      <%= f.label :subject_id %>
+      <%= f.collection_select :subject_id, Subject.all, :id, :code, 
+        {include_blank: true}, {data: {placeholder: "Select an option"}} %>
+    </div>
+    <div class='field'>
+      <%= f.association :klazz_type %>
+    </div>
+    
+    <%= f.hidden_field :date %>
+    <%= f.hidden_field :position %>
+    <%= f.hidden_field :klazz_id %>
+
+    <h3>Options</h3>
+
+    <div class='field'>
+      <%= f.label :replicate, 'Replicate' %>
+      <%= f.check_box :replicate %>
+    </div>
+
+    <% if time_table.past? %>
+      <div class='field'>
+        <%= label_tag :teacher_absence_fields_check_box, 'Teacher absent' %>
+        <%= check_box_tag :teacher_absence_fields_check_box %>
+      </div>
+      <div id='teacher_absence_fields'>
+        <%= f.simple_fields_for :teacher_absence, time_table.find_or_build_teacher_absence do |builder| %>
+          <%= builder.association :absence_reason %>
+          <%= builder.association :teacher, label_method: :nickname %>
+          <%= builder.association :subject, label_method: :code %>
+          <%= builder.association :klazz_type %>
+          <%= builder.hidden_field :_destroy, class: 'destroy' %>
+        <% end %>
+      </div>
+    <% end %>
+
+  <br />
+
+  </div>
+  <div class='form-actions'>
+    <% if time_table.new_record? %>
+      <%= f.button :submit, 'Create', class: 'create' %>
+    <% else %>
+      
+      <%= f.button :submit, 'Update', class: 'update' %>
+      <span>
+        <%= link_to 'New', '#', class: 'new_from_form' %> |
+        <%= link_to 'Destroy', time_table, class: 'destroy' %> |
+        <%= link_to 'Destroy All', time_table, class: 'destroy_all' %>
+      </span>
+    <% end %>
+  </div>
+<% end %>

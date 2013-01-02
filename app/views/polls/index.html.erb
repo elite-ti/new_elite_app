@@ -1,0 +1,24 @@
+<%= title 'Polls' %>
+
+<table id="polls" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @polls.each do |poll| %>
+    <tr>
+      <td>
+        <%= poll.name %>
+        <%= link_to 'Show', poll, class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Poll', new_poll_path %>

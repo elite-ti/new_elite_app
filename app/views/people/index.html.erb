@@ -1,0 +1,24 @@
+<%= title 'People' %>
+
+<table id="people" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @people.each do |person| %>
+    <tr>
+      <td>
+        <%= person.name %> 
+        <%= link_to 'Edit', edit_person_path(person), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Person', new_person_path %>

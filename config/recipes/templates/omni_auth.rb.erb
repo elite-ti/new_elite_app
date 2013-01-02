@@ -1,0 +1,8 @@
+OmniAuth.config.logger = Rails.logger
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :google_oauth2, 
+    '<%= google_oauth2_client_id %>', 
+    '<%= google_oauth2_client_secret %>', 
+    { access_type: 'online', approval_prompt: '' }
+end

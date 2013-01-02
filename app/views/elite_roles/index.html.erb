@@ -1,0 +1,26 @@
+<%= title 'Elite Roles' %>
+
+<table id="elite_roles" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>School Role</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @elite_roles.each do |elite_role| %>
+    <tr>
+      <td>
+        <%= elite_role.name %>
+        <%= link_to 'Edit', edit_elite_role_path(elite_role), class: 'float-right' %>
+      </td>
+      <td><%= elite_role.school_role.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Elite Role', new_elite_role_path %>

@@ -1,0 +1,48 @@
+<%= title 'Poll - ' + @poll.name %>
+
+<h2>Klazzes</h2>
+
+<table id='polls-pdfs' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Klazz</th>
+      <th>Number of answers</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @poll.pdfs.each do |pdf| %>
+    <tr>
+      <td>
+        <%= pdf.klazz.name %>
+        <%= link_to "Download PDF", pdf_path(pdf, format: "pdf"), class: 'float-right' %>
+      </td>
+      <td><%= pdf.answers.size %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to "Download All PDFs", poll_path(@poll, format: "pdf") %>
+
+<br />
+
+<h2>Add Answers</h2>
+
+<%= simple_form_for(@poll) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :dat_file, as: :file %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<br />
+
+<%= link_to 'Back', polls_path %>

@@ -1,0 +1,52 @@
+<%= title 'Edit Teacher Absence' %>
+
+<table id='teacher_absence'>
+  <tr>
+    <th>Teacher</th>
+    <td><%= @teacher_absence.time_table.teaching_assignment.teacher.nickname %></td>
+  </tr>
+  <tr>
+    <th>Date and Time</th>
+    <td><%= @teacher_absence.time_table.date %> <%= @teacher_absence.time_table.time %></td>
+  </tr>
+  <tr>
+    <th>Absence Reason</th>
+    <td><%= @teacher_absence.absence_reason.name %></td>
+  </tr>
+  <tr>
+    <th>Campus</th>
+    <td><%= @teacher_absence.time_table.teaching_assignment.klazz.campus.name %></td>
+  </tr>
+  <tr>
+    <th>Subject</th>
+    <td><%= @teacher_absence.time_table.teaching_assignment.subject.name %></td>
+  </tr>
+  <tr>
+    <th>Klazz</th>
+    <td><%= @teacher_absence.time_table.teaching_assignment.klazz.name %></td>
+  </tr>
+  <tr>
+    <th>Substitute Teacher</th>
+    <td><%= @teacher_absence.teacher.nickname %></td>
+  </tr>
+  <tr>
+    <th>Substitute Subject</th>
+    <td><%= @teacher_absence.subject.name %></td>
+  </tr>
+</table>
+
+<%= simple_form_for @teacher_absence do |f| %>
+	<%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <%= f.input :justification %>
+    <%= f.input :excused %>
+  </div>
+
+  <div class='form-actions'>
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<br />
+<%= link_to 'Back', teacher_absences_path %>

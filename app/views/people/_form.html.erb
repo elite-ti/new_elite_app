@@ -1,0 +1,22 @@
+<%= simple_form_for(@person, html: { multipart: true }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= render 'people_fields', f: f %>
+
+    <h2>Roles</h2>
+    <%= f.input :roles, as: :check_boxes, wrapper_html: { id: 'person_roles' }, 
+      collection: Person::ROLES.map{|x| [x.humanize, x]} %>
+
+    <div id='employee_fields'>
+      <h3>Employee</h3>
+      <%= f.simple_fields_for :employee, @person.employee do |builder| %>
+        <%= render 'employee_fields', f: builder %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

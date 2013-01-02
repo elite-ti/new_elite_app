@@ -1,0 +1,24 @@
+<%= title 'School Roles' %>
+
+<table id="school_roles" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @school_roles.each do |school_role| %>
+    <tr>
+      <td>
+        <%= school_role.name %>
+        <%= link_to 'Edit', edit_school_role_path(school_role), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New School Role', new_school_role_path %>

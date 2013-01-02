@@ -1,0 +1,17 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: elite_app_development
+  host: localhost
+  pool: 5
+  username: elite_app
+  password: password
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: elite_app_test
+  host: localhost
+  pool: 5
+  username: elite_app
+  password: password

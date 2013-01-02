@@ -1,0 +1,24 @@
+<%= title 'Klazz Types' %>
+
+<table id="klazz_types" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @klazz_types.each do |klazz_type| %>
+    <tr>
+      <td>
+        <%= klazz_type.name %> 
+        <%= link_to 'Edit', edit_klazz_type_path(klazz_type), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New klazz type', new_klazz_type_path %>

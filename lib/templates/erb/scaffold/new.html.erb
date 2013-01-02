@@ -1,0 +1,5 @@
+<%%= title 'New <%= singular_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>' %>
+
+<%%= render 'form' %>
+
+<%%= link_to 'Back', <%= plural_table_name %>_path %>

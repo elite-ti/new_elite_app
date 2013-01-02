@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elite<%= yield(:title) %></title>
+    <%= stylesheet_link_tag    'application', :media => 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  
+  <body>
+    <div id='header'>
+      <div id='left-header'>
+        <%= link_to image_tag('elite-logo.png', id: 'logo'), root_path %>
+      </div>
+      <div id='right-header'>
+        <div id='navigation'>
+          <% if current_employee %>
+            <%= select_roles current_employee, current_role %>
+            <%= link_to current_employee.email, '#', class: 'first' %>
+            <%= link_to 'Log Out', logout_path %>
+          <% else %>
+            <%= link_to 'Log In', '/auth/google_oauth2', class: 'first' %>
+          <% end %>
+        </div>
+        <%= flash_message(flash) %>
+      </div>
+    </div>
+
+    <div id='content'><%= yield %></div>
+    <div id='footer'></div>
+  </body>
+</html>

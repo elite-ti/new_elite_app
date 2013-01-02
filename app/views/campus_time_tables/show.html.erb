@@ -1,0 +1,41 @@
+<%= title @campus.name + ' - Time Table' %>
+
+<%= navigation(@date) %>
+
+<%= search(campus_time_table_path(@campus), @date) %>
+
+<table id='calendar'>
+  <tr>
+    <td class='time_cell' colspan='2'></td>
+    <% @klazzes.each do |klazz| %>
+      <%= content_tag :td, class: 'klazz_cell', data: {klazz_id: klazz.id} do %>
+        <span class='bold'><%= klazz.name %></span><br />
+      <% end %>
+    <% end %>
+  </tr>
+  <% @dates.each do |date| %>
+    <% (0..15).each do |i| %>
+      <tr>
+        <% if i == 0 %>
+          <td rowspan='16'>
+            <span class='bold'><%= Date::DAYNAMES[date.wday] %></span>
+            <%= date.strftime('%-d/%-m/%Y') %>
+          </td>
+        <% end %>
+        <%= content_tag :td, class: 'time_cell', data: {position: i} { @times[i] } %>
+        <% @klazzes.each do |klazz| %>
+          <td class='cell'>
+            <% klazz.find_time_tables_by_date_and_position(date, i).each do |time_table| %>
+              <div class='time_table'>  
+                <span class='subject_code'><%= time_table.teaching_assignment.teacher.nickname %></span><br />
+                <span class='subject_code'><%= time_table.teaching_assignment.subject.code %></span><br />
+                <span class='time_table_id' style='display: none;'><%= time_table.id %></span>
+              </div>
+            <% end %>
+            <div class='empty_time_table'></div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

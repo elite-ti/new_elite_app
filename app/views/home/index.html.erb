@@ -1,0 +1,6 @@
+<%= title 'Home' %>
+
+<% unless current_role.nil? %>
+  <%= render current_role + '_links' %>
+<% end %>
+

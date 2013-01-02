@@ -1,0 +1,43 @@
+<%= title @teacher.nickname + ' - Report' %>
+
+<%= form_tag teacher_report_path(@teacher), method: 'get' do %>
+  <%= select_date @date, discard_day: true %>
+  <%= submit_tag 'Go' %>
+<% end %>
+
+<h2>Assigned klazzes</h2>
+<% if @time_tables.empty? %>
+  <p>None</p>
+<% else %>
+  <% @time_tables.group_by(&:date).each do |date, time_tables| %>
+    <p><%= date %></p>
+    <p>
+      <% time_tables.each do |time_table| %>
+        <%= time_table.time %> 
+        <%= time_table.teaching_assignment.klazz.name %> 
+        (<%= time_table.teaching_assignment.subject.code %>)
+        <% if time_table.teacher_absence %>
+        - ABSENT
+        <% end %>
+        <br />
+      <% end %>
+    </p>
+  <% end %>
+<% end %>
+
+<h2>Substitute klazzes</h2>
+<% if @substitute_time_tables.empty? %>
+  <p>None.</p>
+<% else %>
+  <% @substitute_time_tables.group_by(&:date).each do |date, time_tables| %>
+    <p><%= date %></p>
+    <p>
+      <% time_tables.each do |time_table| %>
+        <%= time_table.time %> 
+        <%= time_table.teaching_assignment.klazz.name %> 
+        (<%= time_table.teacher_absence.subject.code %>)
+        <br />
+      <% end %>
+    </p>
+  <% end %>
+<% end %>

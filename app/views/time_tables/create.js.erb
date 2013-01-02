@@ -1,0 +1,2 @@
+$('#selected').parent().replaceWith("<%= j render 'selected_time_table', time_table: @time_table %><%= render 'empty_time_table' %>");
+$('#time_table_box').find('form').replaceWith("<%= j render 'form', time_table: @time_table %>");

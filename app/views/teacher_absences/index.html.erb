@@ -1,0 +1,34 @@
+<%= title 'Teacher Absences' %>
+
+<table id='teacher_absences' class='display'>
+  <thead>
+    <tr>
+      <th>Teacher</th>
+      <th>Date and Time</th>
+      <th>Klazz</th>
+      <th>Absence Reason</th>
+      <th>Justification</th>
+      <th>Excused</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @teacher_absences.each do |teacher_absence| %>
+    <tr>
+      <td>
+        <%= link_to teacher_absence.time_table.teaching_assignment.teacher.nickname, 
+          edit_teacher_absence_path(teacher_absence) %>
+      </td>
+      <td><%= teacher_absence.time_table.date %> <%= teacher_absence.time_table.time %></td>
+      <td><%= teacher_absence.time_table.teaching_assignment.klazz.name %></td>
+      <td><%= teacher_absence.absence_reason.name %></td>
+      <td><%= teacher_absence.justification %></td>
+      <td>
+        <%= check_box_tag 'excused', 'excused', teacher_absence.excused == true, 
+      	  class: :excused, data: { id: teacher_absence.id } %>
+        <span class='ok' style="display=none;">Ok</span>
+      </td>
+     </tr>
+  <% end %>
+  </tbody>
+</table>
