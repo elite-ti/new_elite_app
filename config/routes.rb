@@ -1,7 +1,7 @@
 EliteApp::Application.routes.draw do
-  resources :question_types
-  resources :question_categories
-  resources :pdfs
+  resources :poll_question_types
+  resources :poll_question_categories
+  resources :poll_pdfs
   resources :polls
 
   resources :teacher_absences

@@ -7,7 +7,7 @@ jQuery ->
   $('.is-datatable,
       #product_types, #products, #years, #campuses, #klazzes, #subjects, #employees, #klazz_types, #majors, 
     	#elite_roles, #school_roles, #absence_reasons, #product_groups, #people, #teacher_absences, 
-      #polls, #question_types, #question_categories').dataTable
+      #polls, #poll_question_types, #poll_question_categories').dataTable
     sPaginationType: "full_numbers"
     bJQueryUI: true
 

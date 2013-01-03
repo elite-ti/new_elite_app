@@ -1,0 +1,21 @@
+<%= title 'Poll Question Types' %>
+
+<table id="poll_question_types" class="display">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @poll_question_types.each do |poll_question_type| %>
+    <tr>
+      <td><%= poll_question_type.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Poll Question Type', new_poll_question_type_path %>

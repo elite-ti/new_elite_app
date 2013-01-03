@@ -1,0 +1,21 @@
+<%= title 'Poll Question Categories' %>
+
+<table id='poll_question_categories' class='display'>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @poll_question_categories.each do |poll_question_category| %>
+    <tr>
+      <td><%= poll_question_category.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Poll Question Category', new_poll_question_category_path %>

@@ -189,20 +189,21 @@ namespace :db do
     end
 
     task poll_question_types: :environment do
-      # p 'Populating question_types'
-      # poll_question_types = []
-      # read_csv('poll_question_types').flatten.each do |poll_question_type_name|
-      #   poll_question_types << {name: poll_question_type_name}
-      # end
-      # QuestionType.create!(poll_question_types)
+      p 'Populating question_types'
+      poll_question_types = []
+      read_csv('poll_question_types').flatten.each do |poll_question_type_name|
+        poll_question_types << {name: poll_question_type_name}
+      end
+      PollQuestionType.create!(poll_question_types)
     end
 
     task poll_question_categories: :environment do
-      # p 'Populating question_categories'
-      # read_csv('poll_question_categories').flatten.each do |poll_question_category_name|
-      #   poll_question_categories << {name: poll_question_category_name}
-      # end
-      # QuestionCategory.create!(poll_question_categories)
+      p 'Populating question_categories'
+      poll_question_categories = []
+      read_csv('poll_question_categories').flatten.each do |poll_question_category_name|
+        poll_question_categories << {name: poll_question_category_name}
+      end
+      PollQuestionCategory.create!(poll_question_categories)
     end
   end
 end
