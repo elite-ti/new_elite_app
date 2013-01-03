@@ -23,11 +23,11 @@ echo "=> Setting omniauth for local development"
 cp config/initializers/omni_auth.rb.local config/initializers/omni_auth.rb
 
 clear
-echo "=> Creating database roles"
+echo "=> Creating database role"
 sudo -u postgres createuser $app_name -P
 
 clear
-echo "=> Setting and populating database"
+echo "=> Creating and populating database"
 cp config/database.yml.example config/database.yml
 rake db:create:all
 rake db:populate:all
