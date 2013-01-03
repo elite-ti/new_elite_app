@@ -5,9 +5,9 @@
 * Create export script - OK
 * Create new import script - OK
 * Clean up db schema - OK
-* Create setup script and test it
-* Create virtualbox image
+* Create setup script and test it - OK
 
+* Create virtualbox image
 * Create new db schema
 
 ## Setup
