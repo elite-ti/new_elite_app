@@ -2,12 +2,7 @@
 
 ## Todo
 
-* Create export script - OK
-* Create new import script - OK
-* Clean up db schema - OK
-* Create setup script and test it - OK
-
-* Create virtualbox image
+* Merge branchs
 * Create new db schema
 
 ## Setup

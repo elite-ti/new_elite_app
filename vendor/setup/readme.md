@@ -7,11 +7,11 @@ Any questions or bugs? gustavo.schmidt@sistemaeliterio.com.br
 
 * Install virtualbox and ubuntu 12.04.1
 * Install updates 
-    ** Ubuntu Update Manager
+  * Ubuntu > Update Manager
 * Install guest additions 
-    ** Menu > Devices > Install Guest Additions...
+  * VirtualBox > Menu > Devices > Install Guest Additions...
 * Take a snapshot with the virtual machine turned off
-    ** in case something goes wrong
+  * in case something goes wrong
 * Copy this setup folder to your Home Folder
 
 
@@ -24,8 +24,8 @@ Any questions or bugs? gustavo.schmidt@sistemaeliterio.com.br
 
 * Run the script `bash setup/environment.sh`
 * During the installation, you have to:
-  ** set your ssh key filename (just press enter to use default) 
-  ** set your passphrase to unlock your private key
+** set your ssh key filename (just press enter to use default) 
+** set your passphrase to unlock your private key
 * This step could take a few minutes
 
 
@@ -33,7 +33,7 @@ Any questions or bugs? gustavo.schmidt@sistemaeliterio.com.br
 
 * `sudo -u postgres psql`
 * `\password`
-* <type your password and its confirmation>
+* type your password and its confirmation
 * `\q`
 
 
@@ -49,17 +49,17 @@ Any questions or bugs? gustavo.schmidt@sistemaeliterio.com.br
 
 * This way ruby and rubygems will be available for you
 * Check using the following commands:
-  ** `ruby -v`
-  ** `gem -v`
+  * `ruby -v`
+  * `gem -v`
 
 
 ## Run project.sh
 
 * Run the script `bash setup/project.sh`
 * Restart your terminal window and check if rails is available
-  ** `rails -v`
+  * `rails -v`
 * Set your elite_app postgres user password in config/database.yml
 * Run 
-  ** `cd code/elite_app`
-  ** `rails s`
+  * `cd code/elite_app`
+  * `rails s`
 * Visit localhost:3000 and the app should be running
