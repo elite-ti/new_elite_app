@@ -5,7 +5,7 @@ class PollsController < ApplicationController
   end
 
   def show
-    @poll = Poll.includes(pdfs: [:klazz, :answers]).find(params[:id])
+    @poll = Poll.includes(poll_pdfs: [:klazz, :poll_answers]).find(params[:id])
     respond_to do |format|
       format.html
       format.pdf do

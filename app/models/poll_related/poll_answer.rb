@@ -1,7 +1,7 @@
 class PollAnswer < ActiveRecord::Base
-  attr_accessible :grade, :question_id
+  attr_accessible :grade, :poll_question_id
 
-  belongs_to :question, dependent: :destroy
+  belongs_to :poll_question, dependent: :destroy
 
-  validates :grade, :question_id, presence: true
+  validates :grade, :poll_question_id, presence: true
 end

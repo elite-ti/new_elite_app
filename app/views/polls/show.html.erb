@@ -11,13 +11,13 @@
   </thead>
 
   <tbody>
-  <% @poll.pdfs.each do |pdf| %>
+  <% @poll.poll_pdfs.each do |poll_pdf| %>
     <tr>
       <td>
-        <%= pdf.klazz.name %>
-        <%= link_to "Download PDF", pdf_path(pdf, format: "pdf"), class: 'float-right' %>
+        <%= poll_pdf.klazz.name %>
+        <%= link_to "Download PDF", poll_pdf_path(poll_pdf, format: "pdf"), class: 'float-right' %>
       </td>
-      <td><%= pdf.answers.size %></td>
+      <td><%= poll_pdf.poll_answers.size %></td>
     </tr>
   <% end %>
   </tbody>

@@ -176,12 +176,47 @@
 	},
 	"file_history":
 	[
-		"/home/charlie/code/elite/new_elite_app/elite_app.sublime-project",
-		"/home/charlie/code/elite/new_elite_app/README.md",
-		"/home/charlie/code/elite/new_elite_app/app/models/employee.rb",
+		"/home/charlie/code/elite/new_elite_app/config/application.rb",
+		"/home/charlie/code/elite/new_elite_app/app/views/home/_admin_links.html.erb",
 		"/home/charlie/code/elite/new_elite_app/db/schema.rb",
-		"/home/charlie/code/elite/new_elite_app/vendor/setup/project.sh",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/_form.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/edit.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/new.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/show.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/new.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/assets/javascripts/layout.js.coffee",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/edit.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/_form.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/home/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/lib/tasks/populate/all.rake",
+		"/home/charlie/code/elite/new_elite_app/config/routes.rb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/poll_pdfs_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/pdfs/poll_pdf_prawn.rb",
+		"/home/charlie/code/elite/new_elite_app/app/pdfs/poll_pdf.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/poll_pdf.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/pdf.rb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/poll_question_categories_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/poll_question_types_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/question_categories_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/question_types_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/poll_answer.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/poll_question_category.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/poll_question.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/poll_question_type.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/question_category.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/question.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/question_type.rb",
+		"/home/charlie/code/elite/new_elite_app/db/old_schema.rb",
+		"/home/charlie/code/elite/new_elite_app/db/new_schema.rb",
+		"/home/charlie/code/elite/new_elite_app/README.md",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/environment.sh",
+		"/home/charlie/code/elite/new_elite_app/vendor/setup/readme.md",
+		"/home/charlie/code/elite/new_elite_app/config/environment.rb",
+		"/home/charlie/code/elite/new_elite_app/elite_app.sublime-project",
+		"/home/charlie/code/elite/new_elite_app/app/models/employee.rb",
+		"/home/charlie/code/elite/new_elite_app/vendor/setup/project.sh",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/readme",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/setup_project.sh",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/setup_environment.sh",
@@ -191,7 +226,6 @@
 		"/home/charlie/code/elite/new_elite_app/app/models/admin.rb",
 		"/home/charlie/code/elite/new_elite_app/app/models/campus_principal.rb",
 		"/home/charlie/code/elite/new_elite_app/app/models/teacher.rb",
-		"/home/charlie/code/elite/new_elite_app/lib/tasks/populate/all.rake",
 		"/home/charlie/code/elite/new_elite_app/lib/assets/populate/employees.csv",
 		"/home/charlie/code/elite/new_elite_app/lib/assets/populate/admins.csv",
 		"/home/charlie/code/elite/new_elite_app/app/controllers/application_controller.rb",
@@ -201,9 +235,7 @@
 		"/home/charlie/code/elite/new_elite_app/config/database.yml.example",
 		"/home/charlie/code/elite/new_elite_app/config/database.yml",
 		"/home/charlie/code/elite/new_elite_app/config/database.example.yml",
-		"/home/charlie/code/elite/new_elite_app/config/environment.rb",
 		"/home/charlie/Desktop/setup/environment.sh",
-		"/home/charlie/code/elite/new_elite_app/db/new_schema.rb",
 		"/home/charlie/code/elite/new_elite_app/lib/tasks/populate/time_tables.rake",
 		"/home/charlie/code/elite/new_elite_app/lib/tasks/export.rake",
 		"/home/charlie/code/elite/new_elite_app/lib/tasks/populate/populate.rake",
@@ -271,39 +303,7 @@
 		"/home/charlie/Desktop/gtypist-2.9/INSTALL",
 		"/home/charlie/code/bts/besttrip/spec/features/deals_spec.rb",
 		"/home/charlie/code/bts/besttrip/spec/models/deal_spec.rb",
-		"/home/charlie/code/bts/besttrip/app/models/deal.rb",
-		"/home/charlie/code/bts/besttrip/app/controllers/deals_controller.rb",
-		"/home/charlie/code/bts/besttrip/Gemfile",
-		"/home/charlie/code/bts/besttrip/app/models/active_interval.rb",
-		"/home/charlie/code/bts/besttrip/spec/support/factories.rb",
-		"/home/charlie/code/bts/besttrip/app/models/rating.rb",
-		"/home/charlie/code/bts/besttrip/.gitignore",
-		"/home/charlie/code/bts/besttrip/app/views/deals/show.html.erb",
-		"/home/charlie/code/bts/besttrip/db/migrate/20121224200004_create_photos.rb",
-		"/home/charlie/code/bts/besttrip/spec/features/photos_spec.rb",
-		"/home/charlie/Dropbox/Documents/resume/versions/english/version",
-		"/home/charlie/Dropbox/Documents/ideas/nerd",
-		"/home/charlie/Dropbox/nerd.txt",
-		"/home/charlie/Dropbox/Documents/ideas/zero_hungry.txt",
-		"/home/charlie/Dropbox/Desktop/calendar",
-		"/home/charlie/Dropbox/Projects/alf/books/gaga_rails",
-		"/home/charlie/code/bts/besttrip/db/migrate/20121224203508_add_head_photo_to_deal.rb",
-		"/home/charlie/code/bts/besttrip/app/views/photos/_photo.html.erb",
-		"/home/charlie/code/bts/besttrip/app/controllers/photos_controller.rb",
-		"/home/charlie/code/bts/besttrip/app/models/photo.rb",
-		"/home/charlie/code/bts/besttrip/app/models/review.rb",
-		"/home/charlie/code/bts/besttrip/app/uploaders/photo_uploader.rb",
-		"/home/charlie/code/bts/besttrip/app/views/deals/_deal.html.erb",
-		"/home/charlie/code/bts/besttrip/Guardfile",
-		"/home/charlie/code/bts/besttrip/config/initializers/carrierwave.rb",
-		"/home/charlie/code/bts/besttrip/spec/features/ratings_spec.rb",
-		"/home/charlie/code/bts/besttrip/spec/factories.rb",
-		"/home/charlie/code/bts/besttrip/spec/features/reviews_spec.rb",
-		"/home/charlie/code/bts/besttrip/README.md",
-		"/home/charlie/code/bts/besttrip/config/routes.rb",
-		"/home/charlie/code/bts/besttrip/app/views/reviews/_review.html.erb",
-		"/home/charlie/code/bts/besttrip/app/views/deals/index.html.erb",
-		"/home/charlie/code/bts/besttrip/app/views/deals/new.html.erb"
+		"/home/charlie/code/bts/besttrip/app/models/deal.rb"
 	],
 	"find":
 	{
@@ -322,6 +322,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"",
+			"prefer",
+			"question_type",
+			"question_categories_url",
+			"question_category",
+			"poll",
+			"poll_questions",
+			"poll",
 			"admin",
 			"install",
 			"Install",
@@ -399,6 +407,8 @@
 		"regex": true,
 		"replace_history":
 		[
+			"'",
+			"poll_question_type",
 			"",
 			"'",
 			"question",
@@ -472,6 +482,50 @@
 		"selected_items":
 		[
 			[
+				".js.cof",
+				"app/assets/javascripts/layout.js.coffee"
+			],
+			[
+				"homind",
+				"app/views/home/index.html.erb"
+			],
+			[
+				"sch",
+				"db/schema.rb"
+			],
+			[
+				"appli",
+				"config/application.rb"
+			],
+			[
+				"pdf",
+				"app/models/pdf.rb"
+			],
+			[
+				"rou",
+				"config/routes.rb"
+			],
+			[
+				"questy",
+				"app/models/question_type.rb"
+			],
+			[
+				"all.",
+				"lib/tasks/populate/all.rake"
+			],
+			[
+				"envi",
+				"vendor/setup/environment.sh"
+			],
+			[
+				"en",
+				"vendor/setup/environment.sh"
+			],
+			[
+				"eni",
+				"config/environment.rb"
+			],
+			[
 				"read",
 				"vendor/setup/readme"
 			],
@@ -486,10 +540,6 @@
 			[
 				"admin.r",
 				"app/models/admin.rb"
-			],
-			[
-				"sch",
-				"db/schema.rb"
 			],
 			[
 				"empl",
@@ -562,10 +612,6 @@
 			[
 				"se",
 				"vendor/setup_scripts/setup_environment.sh"
-			],
-			[
-				"envi",
-				"config/environment.rb"
 			],
 			[
 				"popul",
@@ -946,42 +992,6 @@
 			[
 				"pollcon",
 				"app/controllers/polls_controller.rb"
-			],
-			[
-				"pdfs",
-				"app/controllers/pdfs_controller.rb"
-			],
-			[
-				"pdfcon",
-				"app/controllers/pdfs_controller.rb"
-			],
-			[
-				"pdf",
-				"app/models/pdf.rb"
-			],
-			[
-				"emplsho.",
-				"app/views/campus_time_tables/show.html.erb"
-			],
-			[
-				"empsho",
-				"app/views/campus_time_tables/show.html.erb"
-			],
-			[
-				"posho",
-				"app/views/polls/show.html.erb"
-			],
-			[
-				"_for",
-				"app/views/absence_reasons/_form.html.erb"
-			],
-			[
-				"poll",
-				"app/models/poll.rb"
-			],
-			[
-				"polsho",
-				"app/views/polls/show.html.erb"
 			]
 		],
 		"width": 0.0
@@ -993,7 +1003,7 @@
 		[
 			[
 				"",
-				"/home/charlie/code/elite/new_elite_app/new_elite_app.sublime-project"
+				"/home/charlie/code/elite/setup/setup.sublime-workspace"
 			]
 		],
 		"width": 380.0
@@ -1002,6 +1012,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 238.0,
+	"side_bar_width": 373.0,
 	"status_bar_visible": true
 }
