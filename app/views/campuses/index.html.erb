@@ -1,4 +1,4 @@
-<%= title 'Campuses' %>
+<%= title 'Campuses', link_to('New Campus', new_campus_path) %>
 
 <table id='campuses' class='display'>
   <thead>
@@ -22,7 +22,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Campus', new_campus_path %>

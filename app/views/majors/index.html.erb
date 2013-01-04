@@ -1,4 +1,4 @@
-<%= title 'Majors' %>
+<%= title 'Majors', link_to('New Major', new_major_path) %>
 
 <table id="majors" class="display">
   <thead>
@@ -18,7 +18,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Major', new_major_path %>

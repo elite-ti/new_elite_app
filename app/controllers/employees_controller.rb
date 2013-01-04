@@ -5,6 +5,9 @@ class EmployeesController < ApplicationController
     @employees = @employees.includes(:teacher).all
   end
 
+  def show
+  end
+
   def new
     set_employee
   end

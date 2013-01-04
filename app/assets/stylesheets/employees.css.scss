@@ -1,3 +1,18 @@
+#employee_important_fields {
+  width: 100%;
+  height: 150px;
+
+  .resource {
+    float:left;
+    width: 700px;
+  }
+  #photo {
+    float: right;
+    margin-top: 20px;
+    width: 150px;
+  }
+}
+
 .form-inputs {
   position: relative;
   #image {

@@ -1,4 +1,4 @@
-<%= title 'Absence Reasons' %>
+<%= title 'Absence Reasons', link_to('New Absence Reason', new_absence_reason_path) %>
 
 <table id="absence_reasons" class="display">
   <thead>
@@ -18,7 +18,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Absence Reason', new_absence_reason_path %>

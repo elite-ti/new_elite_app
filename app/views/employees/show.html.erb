@@ -4,6 +4,7 @@
   <div class='resource'>
     <p><span>Elite ID: </span><%= @employee.elite_id %></p>
     <p><span>Email: </span><%= @employee.email %></p>
+    <p><span>Roles: </span><%= @employee.roles.map(&:titleize).join(', ') %></p>
   </div>
 
   <div id='photo'>
@@ -16,7 +17,7 @@
     <ul>
       <li><a href='#info'>Info</a></li>
 
-      <% if @employee.teacher? %>
+      <% if false # @employee.teacher? %>
         <li><a href='/employees/<%= @employee.id %>/teacher_info'>Teacher Info</a></li>
         <li><a href='/employees/<%= @employee.id %>/report'>Report</a></li>
         <li><a href='/employees/<%= @employee.id %>/timetable'>Timetable</a></li>

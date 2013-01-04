@@ -1,4 +1,4 @@
-<%= title 'Polls' %>
+<%= title 'Polls', link_to('New Poll', new_poll_path) %>
 
 <table id="polls" class="display is-datatable">
   <thead>
@@ -18,7 +18,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Poll', new_poll_path %>

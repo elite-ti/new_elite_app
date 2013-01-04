@@ -4,5 +4,6 @@
 //= require dataTables/jquery.dataTables
 //= require chosen-jquery
 //= require jquery.ui.datepicker
+//= require jquery.ui.tabs
 //= require jquery.maskedinput
 //= require_tree .

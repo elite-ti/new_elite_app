@@ -1,4 +1,4 @@
-<%= title 'Subjects' %>
+<%= title 'Subjects', link_to('New Subject', new_subject_path) %>
 
 <table id='subjects' class='display'>
   <thead>
@@ -22,7 +22,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Subject', new_subject_path %>

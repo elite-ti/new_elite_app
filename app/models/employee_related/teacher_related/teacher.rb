@@ -6,7 +6,8 @@ class Teacher < ActiveRecord::Base
     :saturday_moning, :saturday_afternoon, :sunday_morning, :sunday_afternoon, 
     :agree_with_terms, :administrative_job,
     :graduated, :major_id, :institute, :bachelor, :cref, :time_teaching, 
-    :post_graduated, :post_graduated_comment, :professional_experiences, :professional_experiences_attributes
+    :post_graduated, :post_graduated_comment, :professional_experiences, 
+    :professional_experiences_attributes, :campus_preference_ids
 
   belongs_to :employee
   belongs_to :major

@@ -399,6 +399,15 @@ ActiveRecord::Schema.define(:version => 20121219191042) do
 
   add_index "teachers", ["employee_id"], :name => "index_teachers_on_employee_id", :unique => true
 
+  create_table "teached_subjects", :force => true do |t|
+    t.integer  "teacher_id", :null => false
+    t.integer  "subject_id", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "teached_subjects", ["teacher_id", "subject_id"], :name => "index_teached_subjects_on_teacher_id_and_subject_id", :unique => true
+
   create_table "teaching_assignments", :force => true do |t|
     t.integer  "klazz_id",   :null => false
     t.integer  "teacher_id"

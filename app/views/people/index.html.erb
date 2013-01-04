@@ -1,4 +1,4 @@
-<%= title 'People' %>
+<%= title 'People', link_to('New Person', new_person_path) %>
 
 <table id="people" class="display">
   <thead>
@@ -18,7 +18,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Person', new_person_path %>

@@ -1,4 +1,4 @@
-<%= title 'Poll Question Categories' %>
+<%= title 'Poll Question Categories', link_to('New Poll Question Category', new_poll_question_category_path) %>
 
 <table id='poll_question_categories' class='display'>
   <thead>
@@ -15,7 +15,3 @@
   <% end %>
   </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Poll Question Category', new_poll_question_category_path %>

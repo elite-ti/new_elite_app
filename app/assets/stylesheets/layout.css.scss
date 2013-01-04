@@ -1,6 +1,8 @@
+@mixin naked { margin: 0; border: 0; padding: 0; }
+
 html {
   background-color: #FFF;
-  margin: 0; padding: 0; border: 0;
+  @include naked;
 
   body {
     background-color: #FFF;
@@ -69,16 +71,45 @@ html {
       padding-bottom:20px;
     }
 
-    #title {
-      margin-bottom:30px;
-      #sep_line {
-        height:3px;
-        background-color:#6B7B95;
-      }
-    }
+    #content {
+      position: relative; 
 
-    .section {
-      margin-bottom: 20px;
+      #title {
+        @include naked;
+        width: 100%; height: 65px;
+        position: relative;
+        margin-top: 20px;
+
+        h1 {
+          @include naked;
+          width: 500px; height: 25px;
+          position: absolute;
+          top: 0; left: 0;
+        }
+        span { 
+          position: absolute;
+          top: 7px; right: 0;
+          a { text-decoration: none; }
+        }
+        #sep_line {
+          position: absolute;
+          top: 35px; left: 0;
+          width: 100%; height:3px;
+          background-color:#6B7B95;
+        }
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .resource {
+        p {
+          span {
+            font-weight: bold;
+          }
+        }
+      }
     }
   }
 }
