@@ -1,0 +1,61 @@
+<div id='report'>
+  <%= monthly_navigation @date %>
+  <br /><br />
+
+  <h2>Assigned Klazzes</h2>
+  <% if @assignments.empty? %>
+    <p>None</p>
+  <% else %>
+    <table class='display datatable'>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Klazz</th>
+          <th>Subject</th>
+          <th>Absent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @assignments.each do |assignment| %>
+          <tr>
+            <td><%= assignment.date %></td>
+            <td><%= assignment.time %></td>
+            <td><%= assignment.klazz.name %></td>
+            <td><%= assignment.subject.code %></td>
+            <td><% assignment.absence.nil? ? '' : 'ABSENT' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <h2>Replacement Klazzes</h2>
+  <% if @assignments_as_substitute.empty? %>
+    <p>None</p>
+  <% else %>
+    <table class='display datatable'>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Klazz</th>
+          <th>Subject</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @assignments_as_substitute.each do |assignment| %>
+          <tr>
+            <td><%= assignment.date %></td>
+            <td><%= assignment.time %></td>
+            <td><%= assignment.klazz.name %></td>
+            <td><%= assignment.absence.subject.code %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <h2>Wage</h2>
+  <p><%= @hours %> (hours) x <%= @cost_per_hour %> (R$/hour) = R$ <%= @wage %></p>
+</div>

@@ -1,0 +1,29 @@
+<div id='timetable'>
+  <%= weekly_navigation @week.first %>
+  <table>
+    <tr>
+      <td class='time_cell'></td>
+      <% @week.each do |date| %>
+        <td class='date_cell'>
+          <span class='bold'><%= Date::DAYNAMES[date.wday] %></span><br /><%= date.strftime('%-d/%-m') %>
+        </td>
+      <% end %>
+    </tr>
+    <% (0..15).each do |position| %>
+      <tr>
+        <%= content_tag :td, class: 'time_cell' do %>
+          <%= Assignment.time_array[position] %>
+        <% end %>
+        <% @week.each do |date| %>
+          <%= content_tag :td, class: 'cell', data: {position: position, date: date} do %>
+            <% @teacher.find_assignments_by_date_and_position(date, position).each do |assignment| %>
+              <%= content_tag :div, class: 'assignment', data: {id: assignment.id} do %>
+                <span><%= assignment.klazz.name %></span><br /><%= assignment.subject.code %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>

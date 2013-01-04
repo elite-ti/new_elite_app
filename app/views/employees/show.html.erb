@@ -1,0 +1,71 @@
+<%= title @employee.name, link_to('Edit', edit_employee_path(@employee)) %>
+
+<div id='employee_important_fields'>
+  <div class='resource'>
+    <p><span>Elite ID: </span><%= @employee.elite_id %></p>
+    <p><span>Email: </span><%= @employee.email %></p>
+  </div>
+
+  <div id='photo'>
+    <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
+  </div>
+</div>
+
+<% if @employee.roles.any? %>
+  <div class='tabs'>
+    <ul>
+      <li><a href='#info'>Info</a></li>
+
+      <% if @employee.teacher? %>
+        <li><a href='/employees/<%= @employee.id %>/teacher_info'>Teacher Info</a></li>
+        <li><a href='/employees/<%= @employee.id %>/report'>Report</a></li>
+        <li><a href='/employees/<%= @employee.id %>/timetable'>Timetable</a></li>
+      <% end %>
+    </ul>
+
+    <div id='info'>
+      <div class='resource'>
+        <%= show_group 'Contact Info', 
+          {
+            'Personal Email' => @employee.personal_email,
+            'Cellphone' => @employee.cellphone,
+            'Alternative Cellphone' => @employee.alternative_cellphone,
+            'Telephone' => @employee.telephone,
+            'Alternative Telephone' => @employee.alternative_telephone,
+            'Contact Telephone' => @employee.contact_telephone,
+            'Contact Name' => @employee.contact_name
+          }
+        %>
+
+        <%= show_group 'Address',
+          {
+            'Address' => @employee.address,
+            'Suburb' => @employee.suburb,
+            'City' => @employee.city,
+            'State' => @employee.state
+          } 
+        %>
+
+        <%= show_group 'Documents', 
+          {
+            'Identification Number' => @employee.identification,
+            'Expeditor' => @employee.expeditor,
+            'CPF' => @employee.cpf,
+            'Pis/Pasep' => @employee.pis_pasep,
+            'Working Paper Number' => @employee.working_paper_number,
+            'Date of Birth' => @employee.date_of_birth
+          }
+        %>
+
+        <%= show_group 'Elite Info', 
+          {
+            'Elite Role' => @employee.elite_role,
+            'Workload' => @employee.workload,
+            'Contract Type' => @employee.contract_type,
+            'Cost per Hour' => @employee.cost_per_hour.to_s
+          }
+        %>
+      </div>
+    </div>
+  </div>
+<% end %>

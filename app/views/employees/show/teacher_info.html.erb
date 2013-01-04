@@ -1,0 +1,25 @@
+<div class='resource'>
+  <%= show_group '', 
+    {
+      'Nickname' => @teacher.nickname,
+      'Graduated' => @teacher.graduated,
+      'Major' => @teacher.major.try(:name),
+      'Institute' => @teacher.institute,
+      'Bachelor' => @teacher.bachelor,
+      'CREF' => @teacher.cref,
+      'Time teaching' => @teacher.time_teaching,
+      'Post Graduated' => @teacher.post_graduated,
+      'Comment' => @teacher.post_graduated_comment
+    }
+  %>
+
+  <%= show_group 'Preferences', 
+    {  
+      'Product Groups' => @teacher.product_group_preferences_to_string,
+      'Subjects' => @teacher.preferred_subjects.join(', '),
+      'Campuses' => @teacher.preferred_campuses.join(', '),
+      'Availability' => @teacher.availability_to_string,
+      'Administrative jobs' => @teacher.administrative_job
+    }
+  %>
+</div>

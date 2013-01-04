@@ -9,7 +9,7 @@
 <%= f.input :time_teaching, placeholder: "Ex: 10 anos" %>
 
 <%= f.simple_fields_for :professional_experiences do |builder| %>
-  <%= render 'professional_experience_fields', f: builder %>
+  <%= render 'employees/form/professional_experience_fields', f: builder %>
 <% end %>
 <p class="add_field"><%= link_to_add_fields "Adicionar", f, :professional_experiences %></p>
 
@@ -44,8 +44,7 @@
 </table>
 
 <p>Escolha quais são as Unidades de sua preferência.</p>
-<%= f.association :campuses, label: false,
-  wrapper_html: { id: 'campus_preferences' } %>
+<%= f.association :campus_preferences, label: false, wrapper_html: { id: 'campus_preferences' } %>
 
 <p>Marque a seguir a sua disponibilidade para o ano de 2013.</p>
 <%= period_input f, :morning %>

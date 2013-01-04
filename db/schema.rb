@@ -414,6 +414,7 @@ ActiveRecord::Schema.define(:version => 20121219191042) do
     t.date     "date",                   :null => false
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
+    t.integer  "linked_time_table"
   end
 
   create_table "versions", :force => true do |t|
