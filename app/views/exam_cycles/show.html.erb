@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @exam_cycle.name %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @exam_cycle.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @exam_cycle.end_date %>
+</p>
+
+<p>
+  <b>Year:</b>
+  <%= @exam_cycle.year_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_exam_cycle_path(@exam_cycle) %> |
+<%= link_to 'Back', exam_cycles_path %>

@@ -1,4 +1,8 @@
 EliteApp::Application.routes.draw do
+  resources :exam_cycles
+
+  resources :students
+
   resources :poll_question_types
   resources :poll_question_categories
   resources :poll_pdfs

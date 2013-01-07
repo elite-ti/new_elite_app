@@ -1,4 +1,4 @@
-module Login
+module LoginMacros
   Employee::ROLES.each do |role|
     define_method "log_#{role}_in" do
       employee = FactoryGirl.create :employee, roles: [role]

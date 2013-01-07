@@ -1,13 +1,14 @@
 FactoryGirl.define do
   factory :employee do
     sequence(:elite_id) { |n| "#{n}" }
-    name 'Employee'
+    name { "Employee#{elite_id}" }
     email { "employee#{elite_id}@sistemaeliterio.com.br" }
   end
 
-  factory :teacher do
-    employee
-    nickname 'Teacher'
+  factory :student do
+    sequence(:ra) { |n| "#{n}" }
+    name { "Student#{ra}" }
+    email { "student#{ra}@example.com.br" }
   end
 
   factory :campus do
@@ -56,5 +57,12 @@ FactoryGirl.define do
 
   factory :poll do
     sequence(:name) { |n| "Poll#{n}" }
+  end
+
+  factory :exam_cycle do
+    year
+    sequence(:name) { |n| "ExamCycle#{n}" }
+    start_date { Time.now }
+    end_date { Time.now + 1.month }
   end
 end

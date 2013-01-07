@@ -8,6 +8,9 @@ class Klazz < ActiveRecord::Base
   belongs_to :campus
   belongs_to :year
 
+  has_many :enrollments, dependent: :destroy
+  has_many :students, through: :enrollments
+
   has_many :ticks, dependent: :destroy
   has_many :topics, through: :ticks
 

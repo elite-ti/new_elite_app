@@ -1,0 +1,29 @@
+<%= title 'Exam Cycles', link_to('New Exam Cycle', new_exam_cycle_path) %>
+
+<table id="exam_cycles" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Year</th>
+      <th>Start date</th>
+      <th>End date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @exam_cycles.each do |exam_cycle| %>
+    <tr>
+      <td>
+        <%= exam_cycle.name %>
+        <span style='float: right;'>
+          <%= link_to 'Show', exam_cycle_path(exam_cycle) %> |
+          <%= link_to 'Edit', edit_exam_cycle_path(exam_cycle) %>
+        </span>
+      </td>
+      <td><%= exam_cycle.year_id %></td>
+      <td><%= exam_cycle.start_date %></td>
+      <td><%= exam_cycle.end_date %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

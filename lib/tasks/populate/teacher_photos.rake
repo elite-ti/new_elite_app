@@ -1,7 +1,7 @@
 namespace :db do
   namespace :populate do
     # Set this path to where you saved teachers photos
-    PHOTOS_PATH = ''
+    PHOTOS_PATH = '/home/charlie/Dropbox/projects/elite/new_elite_app/teacher_photos'
     JPG_EXT = '.jpg'
 
     task teacher_photos: :environment do

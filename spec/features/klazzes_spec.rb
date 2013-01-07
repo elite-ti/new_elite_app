@@ -25,7 +25,7 @@ describe 'Klazzes' do
 
     page.should have_content 'Klazz was successfully created.'
     page.should have_content 'Klazzes'
-    Product.count.must.equal 1
+    Klazz.count.must.equal 1
   end
 
   it 'updates a klazz' do
@@ -42,6 +42,6 @@ describe 'Klazzes' do
 
     page.should have_content 'Klazz was successfully updated.'
     page.should have_content 'Klazzes'
-    Product.count.must.equal 1
+    Klazz.count.must.equal 1
   end
 end

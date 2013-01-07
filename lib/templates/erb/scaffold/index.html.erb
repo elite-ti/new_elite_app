@@ -1,6 +1,6 @@
-<%%= title '<%= plural_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>' %>
+<%%= title '<%= plural_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>', link_to('New <%= singular_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>', new_<%= singular_table_name %>_path) %>
 
-<table id="<%= plural_table_name %>" class="display">
+<table id="<%= plural_table_name %>" class="display is-datatable">
   <thead>
     <tr>
     <%- attributes.each do |attribute| -%>
@@ -19,7 +19,3 @@
   <%% end %>
   </tbody>
 </table>
-
-<br />
-
-<%%= link_to 'New <%= singular_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>', new_<%= singular_table_name %>_path %>
