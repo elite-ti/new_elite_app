@@ -7,6 +7,8 @@ require 'database_cleaner'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+OmniAuth.config.test_mode = true
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -23,11 +25,6 @@ RSpec.configure do |config|
 
   config.order = "random"
 
-  config.include(MailerMacros)
-  config.before(:each) { reset_email }
-
-  config.include FactoryGirl::Syntax::Methods
-
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
@@ -40,4 +37,11 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.include(MailerMacros)
+  config.before(:each) { reset_email }
+
+  config.include FactoryGirl::Syntax::Methods
+
+  config.include(Login)
 end

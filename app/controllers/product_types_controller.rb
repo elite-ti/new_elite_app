@@ -12,7 +12,7 @@ class ProductTypesController < ApplicationController
 
   def create
     if @product_type.save
-      redirect_to product_type_url, notice: 'Product type was successfully created.'
+      redirect_to product_types_url, notice: 'Product type was successfully created.'
     else
       render 'new'
     end
@@ -20,7 +20,7 @@ class ProductTypesController < ApplicationController
 
   def update
     if @product_type.update_attributes(params[:product_type])
-      redirect_to product_type_url, notice: 'Product type was successfully updated.'
+      redirect_to product_types_url, notice: 'Product type was successfully updated.'
     else
       render 'edit'
     end

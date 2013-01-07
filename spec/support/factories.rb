@@ -10,10 +10,6 @@ FactoryGirl.define do
     nickname 'Teacher'
   end
 
-  factory :klazz_type do
-    sequence(:name) { |n| "KlazzType#{n}" }
-  end
-
   factory :campus do
     sequence(:name) { |n| "Campus#{n}" }
   end
@@ -40,6 +36,10 @@ FactoryGirl.define do
     campus
     year
     sequence(:name) { |n| "Klazz#{n}" }
+  end
+
+  factory :klazz_type do
+    sequence(:name) { |n| "KlazzType#{n}" }
   end
 
   factory :subject do

@@ -79,6 +79,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/home/charlie/code/elite/card_reader/README.md",
+			"settings":
+			{
+				"buffer_size": 618,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -176,6 +184,56 @@
 	},
 	"file_history":
 	[
+		"/home/charlie/code/elite/card_reader/app/models/card.rb",
+		"/home/charlie/code/elite/card_reader/lib/tasks/check_card.rake",
+		"/home/charlie/code/elite/card_reader/card_reader.sublime-project",
+		"/home/charlie/code/elite/card_reader/app/controllers/cards_controller.rb",
+		"/home/charlie/code/elite/card_reader/app/views/cards/show.html.erb",
+		"/home/charlie/code/elite/card_reader/app/views/cards/_form.html.erb",
+		"/home/charlie/code/elite/card_reader/config/routes.rb",
+		"/home/charlie/code/elite/card_reader/public/robots.txt",
+		"/home/charlie/code/elite/card_reader/Gemfile",
+		"/home/charlie/code/elite/card_reader/app/models/answer.rb",
+		"/home/charlie/code/elite/card_reader/db/migrate/20130104182550_create_answers.rb",
+		"/home/charlie/code/elite/card_reader/config/database.yml",
+		"/home/charlie/code/elite/card_reader/db/migrate/20130104182501_create_cards.rb",
+		"/home/charlie/code/elite/card_reader/README.md",
+		"/home/charlie/code/elite/card_reader/README.rdoc",
+		"/home/charlie/code/elite/new_elite_app/app/views/absence_reasons/card_reader.sublime-project",
+		"/home/charlie/code/elite/new_elite_app/app/views/absence_reasons/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/campuses/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/elite_roles/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/klazz_types/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/klazzes/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/majors/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/people/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/polls/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/product_groups/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/product_types/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/products/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/school_roles/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/subjects/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/teacher_absences/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/views/years/index.html.erb",
+		"/home/charlie/code/elite/new_elite_app/README.md",
+		"/home/charlie/code/elite/new_elite_app/app/views/employees/show.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/assets/stylesheets/employees.css.scss",
+		"/home/charlie/code/elite/new_elite_app/app/assets/javascripts/layout.js.coffee",
+		"/home/charlie/code/elite/new_elite_app/app/assets/stylesheets/application.css",
+		"/home/charlie/code/elite/new_elite_app/app/assets/stylesheets/layout.css.scss",
+		"/home/charlie/code/elite/new_elite_app/app/assets/javascripts/application.js",
+		"/home/charlie/code/elite/new_elite_app/app/models/employee_related/teacher_related/teached_subject.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/employee_related/teacher_related/teacher.rb",
+		"/home/charlie/code/elite/new_elite_app/app/views/employees/form/_teacher_fields.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/controllers/employees_controller.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/klazz_related/subject.rb",
+		"/home/charlie/code/elite/new_elite_app/db/schema.rb",
+		"/home/charlie/code/elite/new_elite_app/app/models/employee_related/subject_head_teacher_related/subject_head_teacher_subject.rb",
+		"/home/charlie/code/elite/new_elite_app/app/views/employees/_form.html.erb",
+		"/home/charlie/code/elite/new_elite_app/app/helpers/professional_infos_helper.rb",
+		"/home/charlie/code/elite/new_elite_app/db/old_schema.rb",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/project.sh",
 		"/home/charlie/code/elite/new_elite_app/Guardfile",
 		"/home/charlie/code/elite/new_elite_app/app/models/poll_related/poll.rb",
@@ -186,17 +244,13 @@
 		"/home/charlie/code/elite/new_elite_app/app/views/polls/show.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/pdfs/poll_pdf_prawn.rb",
 		"/home/charlie/code/elite/new_elite_app/app/controllers/poll_pdfs_controller.rb",
-		"/home/charlie/code/elite/new_elite_app/db/schema.rb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/new.html.erb",
 		"/home/charlie/code/elite/new_elite_app/config/application.rb",
 		"/home/charlie/code/elite/new_elite_app/app/views/home/_admin_links.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/_form.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/edit.html.erb",
-		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_categories/index.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/show.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/new.html.erb",
-		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/index.html.erb",
-		"/home/charlie/code/elite/new_elite_app/app/assets/javascripts/layout.js.coffee",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/edit.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/poll_question_types/_form.html.erb",
 		"/home/charlie/code/elite/new_elite_app/app/views/home/index.html.erb",
@@ -216,9 +270,7 @@
 		"/home/charlie/code/elite/new_elite_app/app/models/question_category.rb",
 		"/home/charlie/code/elite/new_elite_app/app/models/question.rb",
 		"/home/charlie/code/elite/new_elite_app/app/models/question_type.rb",
-		"/home/charlie/code/elite/new_elite_app/db/old_schema.rb",
 		"/home/charlie/code/elite/new_elite_app/db/new_schema.rb",
-		"/home/charlie/code/elite/new_elite_app/README.md",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/environment.sh",
 		"/home/charlie/code/elite/new_elite_app/vendor/setup/readme.md",
 		"/home/charlie/code/elite/new_elite_app/config/environment.rb",
@@ -259,51 +311,7 @@
 		"/home/charlie/code/elite/new_elite_app/lib/assets/populate/poll_question_types.csv",
 		"/home/charlie/code/elite/new_elite_app/Gemfile",
 		"/home/charlie/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
-		"/home/charlie/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
-		"/home/charlie/Dropbox/todo",
-		"/home/charlie/.config/sublime-text-2/Packages/User/Gist.sublime-settings",
-		"/home/charlie/.config/sublime-text-2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt",
-		"/home/charlie/code/elite/new_elite_app/app/models/time_table.rb",
-		"/home/charlie/code/elite/new_elite_app/app/assets/javascripts/calendar.js.coffee",
-		"/home/charlie/code/elite/new_elite_app/app/models/poll.rb",
-		"/home/charlie/.config/sublime-text-2/Packages/AdvancedNewFile/README.md",
-		"/home/charlie/code/elite/new_elite_app/macaco",
-		"/home/charlie/code/elite/new_elite_app/public/500.html",
-		"/home/charlie/Desktop/todo",
-		"/home/charlie/Desktop/linux.txt",
-		"/home/charlie/code/elite/new_elite_app/app/views/absence_reasons/new.html.erb",
-		"/home/charlie/code/elite/new_elite_app/spec/models/poll_spec.rb",
-		"/home/charlie/code/elite/new_elite_app/app/controllers/campuses_controller.rb",
-		"/home/charlie/code/elite/new_elite_app/Capfile",
-		"/home/charlie/code/elite/new_elite_app/spec/spec_helper.rb",
-		"/home/charlie/Desktop/setup/project.sh",
-		"/home/charlie/code/elite/new_elite_app/db/seeds.rb",
-		"/home/charlie/code/elite/elite_app/.gitignore",
-		"/home/charlie/code/elite/elite_app/README.md",
-		"/home/charlie/code/elite/elite_app/lib/tasks/export.rake",
-		"/home/charlie/code/elite/old/README.md",
-		"/home/charlie/code/elite/elite_app/db/schema.rb",
-		"/home/charlie/code/elite/elite_app/config/database.example.yml",
-		"/home/charlie/Desktop/linux",
-		"/home/charlie/Desktop/setup/before.sh",
-		"/home/charlie/Desktop/setup/readme",
-		"/home/charlie/Desktop/setup/after.sh",
-		"/home/charlie/Desktop/setup.sh",
-		"/home/charlie/code/elite/elite_app/config/database.yml",
-		"/home/charlie/code/personal/scripts/setup.sh",
-		"/home/charlie/code/elite/elite_app/spec/support/mailer_macros.rb",
-		"/home/charlie/Dropbox/Projects/todo",
-		"/home/charlie/test",
-		"/home/charlie/Desktop/argouml-0.34/README.txt",
-		"/home/charlie/code/elite/elite_app/config/application.rb",
-		"/home/charlie/code/bts/besttrip/config/application.rb",
-		"/home/charlie/code/elite/elite_app/Guardfile",
-		"/home/charlie/code/elite/elite_app/Gemfile",
-		"/home/charlie/code/bts/besttrip/spec/spec_helper.rb",
-		"/home/charlie/code/elite/elite_app/spec/spec_helper.rb",
-		"/home/charlie/code/bts/besttrip/db/migrate/20121226175510_create_addresses.rb",
-		"/home/charlie/code/bts/besttrip/db/migrate/20121224032630_create_deals.rb",
-		"/home/charlie/code/bts/besttrip/app/models/address.rb"
+		"/home/charlie/.config/sublime-text-2/Packages/User/Preferences.sublime-settings"
 	],
 	"find":
 	{
@@ -314,6 +322,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"/home/charlie/code/elite/new_elite_app",
 			""
 		]
 	},
@@ -322,6 +331,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"format.html { ",
+			"teached",
 			"poll_quest",
 			"question",
 			"\"",
@@ -409,6 +420,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"",
 			"'",
 			"poll_question_type",
 			"",
@@ -433,8 +445,123 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/home/charlie/code/elite/card_reader/README.md",
+					"settings":
+					{
+						"buffer_size": 618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								618,
+								618
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -484,6 +611,94 @@
 		"selected_items":
 		[
 			[
+				"acar.",
+				"app/models/card.rb"
+			],
+			[
+				"card",
+				"card_reader.sublime-project"
+			],
+			[
+				"_form",
+				"app/views/cards/_form.html.erb"
+			],
+			[
+				"card.r",
+				"app/models/card.rb"
+			],
+			[
+				"carcon",
+				"app/controllers/cards_controller.rb"
+			],
+			[
+				"rou",
+				"config/routes.rb"
+			],
+			[
+				"rot",
+				"public/robots.txt"
+			],
+			[
+				"rout",
+				"config/routes.rb"
+			],
+			[
+				"gem",
+				"Gemfile"
+			],
+			[
+				"data",
+				"config/database.yml"
+			],
+			[
+				"create",
+				"db/migrate/20130104182501_create_cards.rb"
+			],
+			[
+				"databa",
+				"config/database.yml"
+			],
+			[
+				"emsho",
+				"app/views/employees/show.html.erb"
+			],
+			[
+				"emplcon",
+				"app/controllers/employees_controller.rb"
+			],
+			[
+				"teacher.r",
+				"app/models/employee_related/teacher_related/teacher.rb"
+			],
+			[
+				"sch",
+				"db/schema.rb"
+			],
+			[
+				"subject.r",
+				"app/models/klazz_related/subject.rb"
+			],
+			[
+				"teachesu",
+				"app/models/employee_related/teacher_related/teached_subject.rb"
+			],
+			[
+				"subject.rb",
+				"app/models/klazz_related/subject.rb"
+			],
+			[
+				"teacher.rb",
+				"app/models/employee_related/teacher_related/teacher.rb"
+			],
+			[
+				"teachsu",
+				"app/models/employee_related/subject_head_teacher_related/subject_head_teacher_subject.rb"
+			],
+			[
+				"oldsch",
+				"db/old_schema.rb"
+			],
+			[
 				"proj",
 				"vendor/setup/project.sh"
 			],
@@ -520,10 +735,6 @@
 				"app/models/poll_related/poll_question.rb"
 			],
 			[
-				"sch",
-				"db/schema.rb"
-			],
-			[
 				"popdf",
 				"app/models/poll_related/poll_pdf.rb"
 			],
@@ -558,10 +769,6 @@
 			[
 				"pdf",
 				"app/models/pdf.rb"
-			],
-			[
-				"rou",
-				"config/routes.rb"
 			],
 			[
 				"questy",
@@ -650,10 +857,6 @@
 			[
 				"examp",
 				"config/database.yml.example"
-			],
-			[
-				"data",
-				"config/database.yml"
 			],
 			[
 				"dtaex",
@@ -758,10 +961,6 @@
 			[
 				"da",
 				"config/database.yml"
-			],
-			[
-				"gem",
-				"Gemfile"
 			],
 			[
 				"omni",
@@ -916,84 +1115,12 @@
 				"app/models/review.rb"
 			],
 			[
-				"rout",
-				"config/routes.rb"
-			],
-			[
 				"factor",
 				"spec/factories.rb"
 			],
 			[
 				"deaind",
 				"app/views/deals/index.html.erb"
-			],
-			[
-				"dealnwe",
-				"app/views/deals/new.html.erb"
-			],
-			[
-				"revisp",
-				"spec/features/reviews_spec.rb"
-			],
-			[
-				"migra",
-				"db/migrate/20121224043622_create_reviews.rb"
-			],
-			[
-				"deas",
-				"spec/features/deals_spec.rb"
-			],
-			[
-				"factori",
-				"spec/factories.rb"
-			],
-			[
-				"moddeal",
-				"spec/models/deal_spec.rb"
-			],
-			[
-				"deal_sp",
-				"spec/models/deal_spec.rb"
-			],
-			[
-				"viewind",
-				"app/views/deals/index.html.erb"
-			],
-			[
-				"tempcon",
-				"lib/templates/rails/scaffold_controller/controller.rb"
-			],
-			[
-				"route",
-				"config/routes.rb"
-			],
-			[
-				"spechel",
-				"spec/spec_helper.rb"
-			],
-			[
-				"aplicon",
-				"app/controllers/application_controller.rb"
-			],
-			[
-				"abi",
-				"app/models/ability.rb"
-			],
-			[
-				"dealscon",
-				"app/controllers/deals_controller.rb"
-			],
-			[
-				"deals",
-				"spec/requests/deals_spec.rb"
-			],
-			[
-				"dealssp",
-				"spec/requests/deals_spec.rb"
-			],
-			[
-				"speche",
-				"spec/spec_helper.rb"
 			]
 		],
 		"width": 0.0
@@ -1014,6 +1141,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 373.0,
+	"side_bar_width": 288.0,
 	"status_bar_visible": true
 }

@@ -68,7 +68,7 @@ class Employee < ActiveRecord::Base
 
   def check_uid(_uid)
     if uid.nil?
-      update_attribute :uid, _uid
+      update_column :uid, _uid
     else
       logger.info "Uid from employee number #{id} changed" if _uid != uid
     end
