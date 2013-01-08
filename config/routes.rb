@@ -1,8 +1,8 @@
 EliteApp::Application.routes.draw do
-  resources :subject_threads
+  resources :exams
 
+  resources :questions
   resources :exam_cycles
-
   resources :students
 
   resources :poll_question_types
@@ -31,6 +31,7 @@ EliteApp::Application.routes.draw do
   resources :elite_roles
   resources :klazz_types
   resources :subjects
+  resources :subject_threads
 
   resources :klazzes
   resources :campuses

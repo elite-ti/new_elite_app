@@ -1,0 +1,20 @@
+<%= title 'Questions', link_to('New Question', new_question_path) %>
+
+<table id="questions" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @questions.each do |question| %>
+    <tr>
+      <td>
+        <%= question.name %>
+        <%= link_to 'Edit', edit_question_path(question), class: 'float-right' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

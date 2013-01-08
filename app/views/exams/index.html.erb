@@ -1,0 +1,24 @@
+<%= title 'Exams', link_to('New Exam', new_exam_path) %>
+
+<table id="exams" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Exam cycle</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @exams.each do |exam| %>
+    <tr>
+      <td>
+        <%= exam.name %>
+        <%= link_to 'Edit', edit_exam_path(exam), class: 'float-right' %>
+      </td>
+      <td><%= exam.date %></td>
+      <td><%= exam.exam_cycle_id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

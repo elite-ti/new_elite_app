@@ -71,4 +71,14 @@ FactoryGirl.define do
     start_date { Time.now }
     end_date { Time.now + 1.month }
   end
+
+  factory :question do
+    sequence(:name) { |n| "ExamQuestion#{n}" }
+  end
+
+  factory :exam do
+    sequence(:name) { |n| "Exam#{n}" }
+    date { Time.now }
+    exam_cycle
+  end
 end

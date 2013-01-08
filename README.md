@@ -2,8 +2,7 @@
 
 ## Todo
 
-* Merge branchs
-* Create new db schema
+* Considerar exam_subjects/exam_subject_threads
 
 
 ## Setup
