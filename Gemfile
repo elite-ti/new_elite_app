@@ -5,6 +5,7 @@ gem 'debugger'
 
 gem 'pg'
 gem 'thin', group: :development
+gem 'composite_primary_keys'
 
 gem 'capistrano'
 gem 'unicorn'

@@ -1,6 +1,8 @@
 EliteApp::Application.routes.draw do
-  resources :exams
-
+  resources :exam_answers
+  resources :exams do
+    post 'upload_answers', on: :member
+  end
   resources :questions
   resources :exam_cycles
   resources :students

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108192709) do
+ActiveRecord::Schema.define(:version => 20130108193136) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -139,6 +139,16 @@ ActiveRecord::Schema.define(:version => 20130108192709) do
   end
 
   add_index "enrollments", ["student_id", "klazz_id"], :name => "index_enrollments_on_student_id_and_klazz_id", :unique => true
+
+  create_table "exam_answers", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "exam_question_id"
+    t.string   "answer"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "exam_answers", ["student_id", "exam_question_id"], :name => "index_exam_answers_on_student_id_and_exam_question_id", :unique => true
 
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
