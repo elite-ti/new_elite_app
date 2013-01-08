@@ -6,6 +6,7 @@ class Year < ActiveRecord::Base
   belongs_to :product
   has_many :klazzes, dependent: :destroy
   has_many :exam_cycles, dependent: :destroy
+  has_many :subject_threads, dependent: :destroy
   
   validates :product_id, :name, presence: true
   validates :name, uniqueness: { scope: :product_id }

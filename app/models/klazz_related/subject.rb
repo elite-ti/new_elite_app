@@ -18,6 +18,7 @@ class Subject < ActiveRecord::Base
   has_many :klazzes, through: :teaching_assignments
 
   has_many :teacher_absences
+  has_many :subject_threads, dependent: :destroy
 
   validates :name, :short_name, :code, presence: true, uniqueness: true
 end

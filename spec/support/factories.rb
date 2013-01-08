@@ -49,6 +49,12 @@ FactoryGirl.define do
     sequence(:code) { |n| "Sub#{n}" }
   end
 
+  factory :subject_thread do
+    sequence(:name) { |n| "SubjectThread#{n}" }
+    subject
+    year
+  end
+
   factory :teaching_assignment do
     teacher
     subject

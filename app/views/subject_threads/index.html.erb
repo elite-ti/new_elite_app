@@ -1,0 +1,24 @@
+<%= title 'Subject Threads', link_to('New Subject Thread', new_subject_thread_path) %>
+
+<table id="subject_threads" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Year</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @subject_threads.each do |subject_thread| %>
+    <tr>
+      <td>
+        <%= subject_thread.name %>
+        <%= link_to 'Edit', edit_subject_thread_path(subject_thread), class: 'float-right' %>
+      </td>
+      <td><%= subject_thread.subject_id %></td>
+      <td><%= subject_thread.year_id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

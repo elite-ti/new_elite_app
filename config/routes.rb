@@ -1,4 +1,6 @@
 EliteApp::Application.routes.draw do
+  resources :subject_threads
+
   resources :exam_cycles
 
   resources :students
