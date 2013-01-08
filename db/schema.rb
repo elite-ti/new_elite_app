@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108190606) do
+ActiveRecord::Schema.define(:version => 20130108192709) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -151,10 +151,19 @@ ActiveRecord::Schema.define(:version => 20130108190606) do
 
   add_index "exam_cycles", ["name", "year_id"], :name => "index_exam_cycles_on_name_and_year_id", :unique => true
 
+  create_table "exam_questions", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "exam_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "exam_questions", ["question_id", "exam_id"], :name => "index_exam_questions_on_question_id_and_exam_id", :unique => true
+
   create_table "exams", :force => true do |t|
-    t.datetime "date",          :null => false
-    t.integer  "exam_cycle_id", :null => false
-    t.string   "name",          :null => false
+    t.datetime "date"
+    t.integer  "exam_cycle_id"
+    t.string   "name"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
@@ -312,7 +321,7 @@ ActiveRecord::Schema.define(:version => 20130108190606) do
   end
 
   create_table "questions", :force => true do |t|
-    t.string   "name",       :null => false
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
