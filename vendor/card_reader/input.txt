@@ -1,0 +1,26 @@
+C:\Users\PauloAndre\Documents\Visual Studio 2010\Projects\EliteCardReader\MainForm\bin\Debug\tiff
+1
+2
+0.4
+
+1
+0
+10
+1
+2
+5
+2
+0123456789
+18
+35
+
+2
+8
+50
+2
+2
+5
+2
+ABCDE
+11
+67
