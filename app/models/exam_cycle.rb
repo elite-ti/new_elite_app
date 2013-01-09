@@ -3,6 +3,6 @@ class ExamCycle < ActiveRecord::Base
 
   belongs_to :year
 
-  validates :end_date, :start_date, :name, :year_id, presence: true
+  validates :name, :year_id, presence: true
   validates :name, uniqueness: { scope: :year_id }
 end

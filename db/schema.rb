@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108193136) do
+ActiveRecord::Schema.define(:version => 20130108230346) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -169,6 +169,15 @@ ActiveRecord::Schema.define(:version => 20130108193136) do
   end
 
   add_index "exam_questions", ["question_id", "exam_id"], :name => "index_exam_questions_on_question_id_and_exam_id", :unique => true
+
+  create_table "exam_subjects", :force => true do |t|
+    t.integer  "subject_id"
+    t.integer  "exam_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "exam_subjects", ["subject_id", "exam_id"], :name => "index_exam_subjects_on_subject_id_and_exam_id", :unique => true
 
   create_table "exams", :force => true do |t|
     t.datetime "date"
@@ -346,11 +355,21 @@ ActiveRecord::Schema.define(:version => 20130108193136) do
 
   add_index "school_roles", ["name"], :name => "index_school_roles_on_name", :unique => true
 
+  create_table "student_exams", :force => true do |t|
+    t.integer  "exam_id",    :null => false
+    t.integer  "student_id", :null => false
+    t.string   "card",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "student_exams", ["exam_id", "student_id"], :name => "index_student_exams_on_exam_id_and_student_id", :unique => true
+
   create_table "students", :force => true do |t|
-    t.string   "name"
+    t.string   "name",            :null => false
     t.string   "email"
     t.string   "password_digest"
-    t.string   "ra"
+    t.string   "ra",              :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

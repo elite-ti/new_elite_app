@@ -20,5 +20,8 @@ class Subject < ActiveRecord::Base
   has_many :teacher_absences
   has_many :subject_threads, dependent: :destroy
 
+  has_many :exam_subjects, dependent: :destroy
+  has_many :exams, through: :exam_subjects
+
   validates :name, :short_name, :code, presence: true, uniqueness: true
 end

@@ -5,6 +5,7 @@
     <%= f.input :name %>
     <%= f.input :date %>
     <%= f.association :exam_cycle %>
+    <%= f.association :subjects, input_html: { class: 'is-chosen' } %>
   </div>
 
   <div class="form-actions">

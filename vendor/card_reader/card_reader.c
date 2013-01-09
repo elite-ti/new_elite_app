@@ -124,12 +124,14 @@ int main(int argc, char* argv[])
                     int j;
                     for (j = 0; j < strlen(conf.zones[zone].alternatives); j++)
                     {
-                        if (VerifyRectangle(conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups,
-                            conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks), conf.zones[zone].marks_horizontal_diameter, conf.zones[zone].marks_vertical_diameter)
-                            > conf.threshold)
+                        int start_x = conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups;
+                        int start_y = conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks);
+                        int width = conf.zones[zone].marks_horizontal_diameter;
+                        int height = conf.zones[zone].marks_vertical_diameter;
+
+                        if (VerifyRectangle(start_x, start_y, width, height) > conf.threshold)
                         {
-                            DrawRectangle(conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups,
-                                conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks), conf.zones[zone].marks_horizontal_diameter, conf.zones[zone].marks_vertical_diameter);
+                            DrawRectangle(start_x, start_y, width, height);
                             if (answer == 'Z')
                                 answer = conf.zones[zone].alternatives[j];
                             else

@@ -27,4 +27,3 @@ threshold = 0.4;
 	alternatives = "ABCDE"
 	group_horizontal_position = 11
 	group_vertical_position = 67
-	

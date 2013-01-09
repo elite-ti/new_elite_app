@@ -4,6 +4,9 @@ class Student < ActiveRecord::Base
   has_many :enrollments, dependent: :destroy
   has_many :klazz, through: :enrollments
 
+  has_many :student_exams, dependent: :destroy
+  has_many :exams, through: :student_exams
+
   validates :email, :name, :ra, presence: true
   validates :email, :ra, uniqueness: true
 end

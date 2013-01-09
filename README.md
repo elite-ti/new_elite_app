@@ -10,6 +10,11 @@
 Check the vendor/setup/readme file.
 
 
+## Dependencies
+
+* unrar unzip imagemagick
+
+
 ## Database
 
 * Postgresql (written in ruby) - db/schema.rb

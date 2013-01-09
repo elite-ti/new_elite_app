@@ -1,5 +1,3 @@
-<%%= title 'Edit <%= singular_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>' %>
+<%%= title 'Edit <%= singular_table_name.humanize.split(' ').map(&:capitalize).join(' ') %>', link_to('Back', <%= plural_table_name %>_path) %>
 
 <%%= render 'form' %>
-
-<%%= link_to 'Back', <%= plural_table_name %>_path %>
