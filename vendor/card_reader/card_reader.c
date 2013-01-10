@@ -40,7 +40,7 @@ typedef struct {
 // Functions
 void FindFiles(Directory *);
 void PrintFiles(Directory);
-double VerifyRectangle(int start_x, int start_y, int len_x, int len_y, TIFF *);
+double VerifyRectangle(int, int, int, int, uint32 *, int, int);
 void PrintAnswers(Directory);
 
 int main(int argc, char* argv[])
@@ -120,36 +120,56 @@ int main(int argc, char* argv[])
         strcat(full_file_path, dir.files[file_number].path);
         TIFF* tif = TIFFOpen(full_file_path, "r");
         if (tif) {
-            for(zone = 0; zone < conf.number_of_zones; zone++)
+
+            int w = 0, h = 0; 
+            TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
+            TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
+         
+            if ((w > 0) && (h > 0))
             {
-                int k;
-                for (k = 0; k < conf.zones[zone].number_of_groups; k++)
-                {
-                    int i;
-                    for (i = 0; i < conf.zones[zone].questions_per_group; i++)
+                uint32 *raster = (uint32*) _TIFFmalloc(w * h * sizeof (uint32));
+                if (raster)
+                { 
+                    if (TIFFReadRGBAImage(tif, w, h, raster, 0))
                     {
-                        char answer = 'Z';
-
-                        int j;
-                        for (j = 0; j < strlen(conf.zones[zone].alternatives); j++)
+                        for(zone = 0; zone < conf.number_of_zones; zone++)
                         {
-                            int start_x = conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups;
-                            int start_y = conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks);
-                            int width = conf.zones[zone].marks_horizontal_diameter;
-                            int height = conf.zones[zone].marks_vertical_diameter;
-
-                            if (VerifyRectangle(start_x, start_y, width, height, tif) > conf.threshold)
+                            int k;
+                            for (k = 0; k < conf.zones[zone].number_of_groups; k++)
                             {
-                                if (answer == 'Z')
-                                    answer = conf.zones[zone].alternatives[j];
-                                else
-                                    answer = 'W';
+                                int i;
+                                for (i = 0; i < conf.zones[zone].questions_per_group; i++)
+                                {
+                                    char answer = 'Z';
+
+                                    int j;
+                                    for (j = 0; j < strlen(conf.zones[zone].alternatives); j++)
+                                    {
+                                        int start_x = conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups;
+                                        int start_y = conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks);
+                                        int width = conf.zones[zone].marks_horizontal_diameter;
+                                        int height = conf.zones[zone].marks_vertical_diameter;
+
+                                        if (VerifyRectangle(start_x, start_y, width, height, raster, h, w) > conf.threshold)
+                                        {
+                                            if (answer == 'Z')
+                                                answer = conf.zones[zone].alternatives[j];
+                                            else
+                                                answer = 'W';
+                                        }
+                                    }
+                                    ans[question] = answer;
+                                    question++;
+                                }
                             }
                         }
-                        ans[question] = answer;
-                        question++;
+                    }
+                    else 
+                    {
+                        perror("Couldn't open file.");
                     }
                 }
+                _TIFFfree(raster);
             }
         }
         TIFFClose(tif);
@@ -161,47 +181,29 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-double VerifyRectangle(int start_x, int start_y, int width, int height, TIFF *tif)
+double VerifyRectangle(int start_x, int start_y, int width, int height, uint32 *raster, int h, int w)
 {
     int all = 0;
     int match = 0;
 
-    int w = 0, h = 0; 
-    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
-    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
- 
-    if ((w > 0) && (h > 0))
+    int y;
+    for (y = start_y; y <= height + start_y; y++)
     {
-        uint32 *raster = (uint32*) _TIFFmalloc(w * h * sizeof (uint32));
-        if (raster)
-        { 
-            if (TIFFReadRGBAImage(tif, w, h, raster, 0))
-            {
-                int y;
-                for (y = start_y; y <= height + start_y; y++)
-                {
-                    int x;
-                    for (x = start_x; x <= width + start_x; x++)
-                    {
-                        all++;
-                        int i = (h-y)*w + x;
-                        int a = (int) TIFFGetA(raster[i]);
-                        int r = (int) TIFFGetR(raster[i]);
-                        int g = (int) TIFFGetG(raster[i]);
-                        int b = (int) TIFFGetB(raster[i]);
+        int x;
+        for (x = start_x; x <= width + start_x; x++)
+        {
+            all++;
+            int i = (h-y)*w + x;
+            int a = (int) TIFFGetA(raster[i]);
+            int r = (int) TIFFGetR(raster[i]);
+            int g = (int) TIFFGetG(raster[i]);
+            int b = (int) TIFFGetB(raster[i]);
 
-                        if (r + g + b < 100)
-                        {
-                            match++;
-                        }
-                    }
-                }
-            }
-            else {
-                perror("Couldn't open file.");
+            if (r + g + b == 0)
+            {
+                match++;
             }
         }
-        _TIFFfree(raster);
     }
 
     return all == 0 ? 0 : (double)match/(double)all;
