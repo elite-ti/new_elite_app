@@ -194,6 +194,7 @@ void ProcessGroup(File *file, Configuration conf, Zone zone, int group_number)
 void ProcessQuestion(File *file, Configuration conf, Zone zone, int group_number, int question_number)
 {
     char answer = 'Z';
+    double options_values[10];
 
     int option_number;
     for (option_number = 0; option_number < strlen(zone.alternatives); option_number++)
@@ -211,6 +212,7 @@ void ProcessQuestion(File *file, Configuration conf, Zone zone, int group_number
                 answer = 'W';
         }
     }
+
     file->answers[file->number_of_questions] = answer;
     file->number_of_questions++;
 }
@@ -246,7 +248,7 @@ void FindFiles(Directory *dir)
 {
     DIR *dp;
     struct dirent *ep;
-    dp = opendir ((*dir).path);
+    dp = opendir (dir->path);
 
     if (dp != NULL) 
     {
@@ -254,8 +256,8 @@ void FindFiles(Directory *dir)
         {
             if(strcmp(ep->d_name, "..") != 0 && strcmp(ep->d_name, ".") != 0) 
             {
-                strcpy((*dir).files[(*dir).number_of_files].path, (ep->d_name));
-                (*dir).number_of_files++;
+                strcpy(dir->files[dir->number_of_files].path, (ep->d_name));
+                dir->number_of_files++;
             }
         }
         (void) closedir (dp);
