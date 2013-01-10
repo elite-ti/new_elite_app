@@ -2,7 +2,8 @@
 
 ## Todo
 
-* Considerar exam_subjects/exam_subject_threads
+* Extract raster calculation to main function
+* Print squares in file to test parameters
 
 
 ## Setup
@@ -12,7 +13,7 @@ Check the vendor/setup/readme file.
 
 ## Dependencies
 
-* unrar unzip imagemagick
+* unrar unzip imagemagick libtiff-tools
 
 
 ## Database

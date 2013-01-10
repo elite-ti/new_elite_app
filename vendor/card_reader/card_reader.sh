@@ -1,5 +1,10 @@
 #!/bin/bash
 
-rm -v card_reader
-gcc -o card_reader card_reader.c
+echo "=> Removing card_reader"
+rm card_reader
+
+echo "=> Compiling program"
+gcc -o card_reader card_reader.c -ltiff
+
+echo "=> Running program"
 cat input | ./card_reader

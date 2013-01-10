@@ -1,7 +1,8 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
+#include <tiffio.h>
 
 // Models
 typedef struct {
@@ -26,6 +27,7 @@ typedef struct {
 
 typedef struct {
     char path[200];
+    int number_of_questions;
     char* answers;
 } File;
 
@@ -36,10 +38,10 @@ typedef struct {
 } Directory;
 
 // Functions
-void FindFiles(Directory);
-void PrintFiles(char *);
-double VerifyRectangle(int start_x, int start_y, int len_x, int len_y);
-void DrawRectangle(int start_x, int start_y, int len_x, int len_y);
+void FindFiles(Directory *);
+void PrintFiles(Directory);
+double VerifyRectangle(int start_x, int start_y, int len_x, int len_y, TIFF *);
+void PrintAnswers(Directory);
 
 int main(int argc, char* argv[])
 {
@@ -51,7 +53,7 @@ int main(int argc, char* argv[])
 
     // Gets directory
     gets (dir.path);
-    FindFiles(dir);
+    FindFiles(&dir);
 
     // Reads configuration
     scanf("%d", &conf.is_clocked);
@@ -66,7 +68,7 @@ int main(int argc, char* argv[])
         printf("Number of zones: %d\n", conf.number_of_zones);
         printf("Threshold: %f\n", conf.threshold);
 
-        PrintFiles(dir.path);
+        PrintFiles(dir);
     }
 
     int zone;
@@ -111,108 +113,146 @@ int main(int argc, char* argv[])
     {
         char ans[200];
         int question = 0;
-        for(zone = 0; zone < conf.number_of_zones; zone++)
-        {
-            int k;
-            for (k = 0; k < conf.zones[zone].number_of_groups; k++)
+
+        char full_file_path[1000];
+        strcpy(full_file_path, dir.path);
+        strcat(full_file_path, "/");
+        strcat(full_file_path, dir.files[file_number].path);
+        TIFF* tif = TIFFOpen(full_file_path, "r");
+        if (tif) {
+            for(zone = 0; zone < conf.number_of_zones; zone++)
             {
-                int i;
-                for (i = 0; i < conf.zones[zone].questions_per_group; i++)
+                int k;
+                for (k = 0; k < conf.zones[zone].number_of_groups; k++)
                 {
-                    char answer = 'Z';
-
-                    int j;
-                    for (j = 0; j < strlen(conf.zones[zone].alternatives); j++)
+                    int i;
+                    for (i = 0; i < conf.zones[zone].questions_per_group; i++)
                     {
-                        int start_x = conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups;
-                        int start_y = conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks);
-                        int width = conf.zones[zone].marks_horizontal_diameter;
-                        int height = conf.zones[zone].marks_vertical_diameter;
+                        char answer = 'Z';
 
-                        if (VerifyRectangle(start_x, start_y, width, height) > conf.threshold)
+                        int j;
+                        for (j = 0; j < strlen(conf.zones[zone].alternatives); j++)
                         {
-                            DrawRectangle(start_x, start_y, width, height);
-                            if (answer == 'Z')
-                                answer = conf.zones[zone].alternatives[j];
-                            else
-                                answer = 'W';
+                            int start_x = conf.zones[zone].group_horizontal_position + j * (conf.zones[zone].marks_horizontal_diameter + conf.zones[zone].horizontal_space_between_marks) + k * conf.zones[zone].space_between_groups;
+                            int start_y = conf.zones[zone].group_vertical_position + i * (conf.zones[zone].marks_vertical_diameter + conf.zones[zone].vertical_space_between_marks);
+                            int width = conf.zones[zone].marks_horizontal_diameter;
+                            int height = conf.zones[zone].marks_vertical_diameter;
+
+                            if (VerifyRectangle(start_x, start_y, width, height, tif) > conf.threshold)
+                            {
+                                if (answer == 'Z')
+                                    answer = conf.zones[zone].alternatives[j];
+                                else
+                                    answer = 'W';
+                            }
                         }
+                        ans[question] = answer;
+                        question++;
                     }
-                    ans[question] = answer;
-                    question++;
                 }
             }
         }
+        TIFFClose(tif);
         dir.files[file_number].answers = ans;
+        dir.files[file_number].number_of_questions = question + 1;
     }
+    PrintAnswers(dir);
 
     return 0;
 }
 
-double VerifyRectangle(int start_x, int start_y, int width, int height)
+double VerifyRectangle(int start_x, int start_y, int width, int height, TIFF *tif)
 {
     int all = 0;
     int match = 0;
 
-    int y;
-    for (y = start_y; y <= height + start_y; y++)
+    int w = 0, h = 0; 
+    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
+    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
+ 
+    if ((w > 0) && (h > 0))
     {
-        int x;
-        for (x = start_x; x <= width + start_x; x++)
-        {
-            all++;
-            //if (GetPixel(x, y).A == 255 && bmp.GetPixel(x, y).R < 128)
-            if(1)
-                match++;
+        uint32 *raster = (uint32*) _TIFFmalloc(w * h * sizeof (uint32));
+        if (raster)
+        { 
+            if (TIFFReadRGBAImage(tif, w, h, raster, 0))
+            {
+                int y;
+                for (y = start_y; y <= height + start_y; y++)
+                {
+                    int x;
+                    for (x = start_x; x <= width + start_x; x++)
+                    {
+                        all++;
+                        int i = (h-y)*w + x;
+                        int a = (int) TIFFGetA(raster[i]);
+                        int r = (int) TIFFGetR(raster[i]);
+                        int g = (int) TIFFGetG(raster[i]);
+                        int b = (int) TIFFGetB(raster[i]);
+
+                        if (r + g + b < 100)
+                        {
+                            match++;
+                        }
+                    }
+                }
+            }
+            else {
+                perror("Couldn't open file.");
+            }
         }
+        _TIFFfree(raster);
     }
 
     return all == 0 ? 0 : (double)match/(double)all;
 }
 
-void DrawRectangle(int start_x, int start_y, int len_x, int len_y)
-{
-    printf("Drawing rectangle: (%d, %d, %d, %d)\n", start_x, start_y, len_x, len_y);
-}
-
-void FindFiles(Directory dir)
+void FindFiles(Directory *dir) 
 {
     DIR *dp;
     struct dirent *ep;
-    dp = opendir (dir.path);
+    dp = opendir ((*dir).path);
 
-    if (dp != NULL)
+    if (dp != NULL) 
     {
-        while (ep = readdir (dp))
+        while (ep = readdir (dp)) 
         {
-            if(strcmp(ep->d_name, "..") != 0 && strcmp(ep->d_name, ".") != 0)
+            if(strcmp(ep->d_name, "..") != 0 && strcmp(ep->d_name, ".") != 0) 
             {
-                strcpy(dir.files[dir.number_of_files].path, (ep->d_name));
-                dir.number_of_files++;
+                strcpy((*dir).files[(*dir).number_of_files].path, (ep->d_name));
+                (*dir).number_of_files++;
             }
         }
         (void) closedir (dp);
     }
     else
+    {
         perror ("Couldn't open the directory");
+    }
 }
 
-void PrintFiles(char * directory)
+void PrintFiles(Directory dir)
 {
-    DIR *dp;
-    struct dirent *ep;
-    dp = opendir (directory);
-
-    if (dp != NULL)
+    printf("Files:\n");
+    int i;
+    for (i = 0; i < dir.number_of_files; i++)
     {
-        printf("Files:\n");
-        while (ep = readdir (dp))
+        printf("\t%s\n", dir.files[i].path);
+    } 
+}
+
+void PrintAnswers(Directory dir) 
+{
+    printf("Answers:");
+    int i;
+    for (i = 0; i < dir.number_of_files; i++)
+    {
+        printf("\n\t%s", dir.files[i].path);
+        int j;
+        for (j = 0; j < dir.files[i].number_of_questions; j++)
         {
-            if(strcmp(ep->d_name, "..") != 0 && strcmp(ep->d_name, ".") != 0)
-                printf("\t%s\n", ep->d_name);
+            printf(" %c", dir.files[i].answers[j]);
         }
-        (void) closedir (dp);
     }
-    else
-        perror ("Couldn't open the directory");
+    printf("\n\n");
 }
