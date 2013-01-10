@@ -7,4 +7,4 @@ echo "=> Compiling program"
 gcc -o card_reader card_reader.c -ltiff
 
 echo "=> Running program"
-cat input | ./card_reader
+cat new_input | ./card_reader
