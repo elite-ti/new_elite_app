@@ -1,10 +1,14 @@
 class Exam < ActiveRecord::Base
-  attr_accessible :date, :exam_cycle_id, :name, :subject_ids
+  attr_accessible :date, :exam_cycle_id, :name, :subject_ids, :question_ids
+  attr_accessor :skipped_subject_ids, :skipped_question_ids
 
   belongs_to :exam_cycle
 
-  has_many :exam_subjects, dependent: :destroy
+  has_many :exam_subjects, dependent: :destroy, inverse_of: :exam
   has_many :subjects, through: :exam_subjects
+
+  has_many :exam_questions, dependent: :destroy, inverse_of: :exam
+  has_many :questions, through: :exam_questions
 
   has_many :student_exams, dependent: :destroy
   has_many :students, through: :student_exams

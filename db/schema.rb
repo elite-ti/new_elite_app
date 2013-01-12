@@ -132,8 +132,8 @@ ActiveRecord::Schema.define(:version => 20130108230346) do
   add_index "employees", ["uid"], :name => "index_employees_on_uid", :unique => true
 
   create_table "enrollments", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "klazz_id"
+    t.integer  "student_id", :null => false
+    t.integer  "klazz_id",   :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -141,14 +141,14 @@ ActiveRecord::Schema.define(:version => 20130108230346) do
   add_index "enrollments", ["student_id", "klazz_id"], :name => "index_enrollments_on_student_id_and_klazz_id", :unique => true
 
   create_table "exam_answers", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "exam_question_id"
-    t.string   "answer"
+    t.integer  "student_exam_id",  :null => false
+    t.integer  "exam_question_id", :null => false
+    t.string   "answer",           :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "exam_answers", ["student_id", "exam_question_id"], :name => "index_exam_answers_on_student_id_and_exam_question_id", :unique => true
+  add_index "exam_answers", ["student_exam_id", "exam_question_id"], :name => "index_exam_answers_on_student_exam_id_and_exam_question_id", :unique => true
 
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
@@ -162,8 +162,9 @@ ActiveRecord::Schema.define(:version => 20130108230346) do
   add_index "exam_cycles", ["name", "year_id"], :name => "index_exam_cycles_on_name_and_year_id", :unique => true
 
   create_table "exam_questions", :force => true do |t|
-    t.integer  "question_id"
-    t.integer  "exam_id"
+    t.integer  "question_id", :null => false
+    t.integer  "exam_id",     :null => false
+    t.integer  "number",      :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

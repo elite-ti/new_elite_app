@@ -1,25 +1,30 @@
 class StudentExam < ActiveRecord::Base
-  attr_accessible :card, :exam_id, :student_id
-  attr_accessor :card_data
+  attr_accessible :card, :exam_id
+  attr_accessor :answers
 
   belongs_to :exam
   belongs_to :student
+
+  has_many :exam_answers, dependent: :destroy
 
   validates :card, :exam_id, :student_id, presence: true
   validates :exam_id, uniqueness: { scope: :student_id }
 
   mount_uploader :card, StudentExamCardUploader
 
-  before_validation :scan_card
-  before_save :create_exam_answers
+  before_save :build_exam_answers
+
+  def scan_card(temp_card_url)
+    self.student_id = Student.first.try(:id) || Student.create(name: 'Student', ra: '1').id
+    self.answers = RunProgram.card_scanner(temp_card_url)
+  end
 
 private
 
-  def scan_card
-    # run card_reader and save data in card_data attribute
-  end
-
-  def create_exam_answers
-    # create exam_answers via card data
+  def build_exam_answers
+    exam_questions = exam.exam_questions.order(:number)
+    for i in 0..(answers.size-1)
+      exam_answers.build(answer: answers[i], exam_question_id: exam_questions[i].id)
+    end
   end
 end

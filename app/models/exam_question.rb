@@ -4,6 +4,14 @@ class ExamQuestion < ActiveRecord::Base
   belongs_to :exam
   belongs_to :question
 
-  validates :exam_id, :question_id, presence: true
+  validates :number, :exam, :question, presence: true
   validates :question_id, uniqueness: { scope: :exam_id }
+
+  before_validation :set_number
+
+private
+
+  def set_number
+    self.number = ExamQuestion.where(exam_id: exam_id).count + 1
+  end
 end

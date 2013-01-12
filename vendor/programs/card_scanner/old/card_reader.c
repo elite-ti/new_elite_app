@@ -4,7 +4,6 @@
 #include <string.h>
 #include <tiffio.h>
 
-// Models
 typedef struct {
     int number_of_groups;
     int space_between_groups;
@@ -41,103 +40,73 @@ typedef struct {
     File files[2000];
 } Directory;
 
-// Functions
+void ReadConfiguration();
 void FindFiles(Directory *);
 void PrintFiles(Directory);
-void ProcessDirectory(Directory *dir, Configuration conf);
-void ReadFile(char* path, File *file) ;
-void ProcessFile(File *file, Configuration conf);
-void ProcessZone(File *file, Configuration conf, Zone zone);
-void ProcessGroup(File *file, Configuration conf, Zone zone, int group_number);
-void ProcessQuestion(File *file, Configuration conf, Zone zone, int group_number, int question_number);
-double ProcessOption(int start_x, int start_y, int width, int height, File *file);
 void PrintAnswers(Directory);
+
+void ProcessDirectory(Directory *dir);
+void ReadFile(char* path, File *file) ;
+void ProcessFile(File *file);
+void ProcessZone(File *file, Zone zone);
+void ProcessGroup(File *file, Zone zone, int group_number);
+void ProcessQuestion(File *file, Zone zone, int group_number, int question_number);
+double ProcessOption(int start_x, int start_y, int width, int height, File *file);
+
+Configuration conf;
 
 int main(int argc, char* argv[])
 {
     Directory dir;
-    Configuration conf;
-    int debug = 1;
-
-    printf("Starting program...\n");
-
-    // Gets directory
     gets (dir.path);
     FindFiles(&dir);
 
-    // Reads configuration
-    scanf("%d", &conf.is_clocked);
-    scanf("%d", &conf.number_of_zones);
-    scanf("%lf", &conf.threshold);
-
-
-    if(debug)
-    {
-        printf("Directory: %s\n", dir.path);
-        printf("Uses Clock: %s\n", conf.is_clocked == 1 ? "Yes" : "No");
-        printf("Number of zones: %d\n", conf.number_of_zones);
-        printf("Threshold: %f\n", conf.threshold);
-
-        PrintFiles(dir);
-    }
-
-    int zone;
-    for(zone = 0; zone < conf.number_of_zones; zone++)
-    {
-        Zone z;
-
-        // Reads group properties
-        scanf("%d", &z.number_of_groups);
-        scanf("%d", &z.space_between_groups);
-        scanf("%d", &z.questions_per_group);
-        scanf("%d", &z.horizontal_space_between_marks);
-        scanf("%d", &z.vertical_space_between_marks);
-        scanf("%d", &z.marks_horizontal_diameter);
-        scanf("%d", &z.marks_vertical_diameter);
-        scanf("%s", z.alternatives);
-        scanf("%d", &z.group_horizontal_position);
-        scanf("%d", &z.group_vertical_position);
-
-        conf.zones[zone] = z;
-
-        if(debug)
-        {
-            printf("Zone #%d\n", zone);
-            printf("\tnumber_of_groups: %d\n", conf.zones[zone].number_of_groups);
-            printf("\tspace_between_groups: %d\n", conf.zones[zone].space_between_groups);
-            printf("\tquestions_per_group: %d\n", conf.zones[zone].questions_per_group);
-            printf("\thorizontal_space_between_marks: %d\n", conf.zones[zone].horizontal_space_between_marks);
-            printf("\tvertical_space_between_marks: %d\n", conf.zones[zone].vertical_space_between_marks);
-            printf("\tmarks_horizontal_diameter: %d\n", conf.zones[zone].marks_horizontal_diameter);
-            printf("\tmarks_vertical_diameter: %d\n", conf.zones[zone].marks_vertical_diameter);
-            printf("\talternatives: %s\n", conf.zones[zone].alternatives);
-            printf("\tgroup_horizontal_position: %d\n", conf.zones[zone].group_horizontal_position);
-            printf("\tgroup_vertical_position: %d\n", conf.zones[zone].group_vertical_position);
-            printf("\n");
-        }
-    }
-
-    ProcessDirectory(&dir, conf);    
+    ReadConfiguration();
+    ProcessDirectory(&dir);    
     PrintAnswers(dir);
 
     return 0;
 }
 
-void ProcessDirectory(Directory *dir, Configuration conf)
+void ReadConfiguration()
+{
+    scanf("%d", &conf.is_clocked);
+    scanf("%d", &conf.number_of_zones);
+    scanf("%lf", &conf.threshold);
+
+    int zone_number;
+    for(zone_number = 0; zone_number < conf.number_of_zones; zone_number++)
+    {
+        Zone zone;
+        scanf("%d", &zone.number_of_groups);
+        scanf("%d", &zone.space_between_groups);
+        scanf("%d", &zone.questions_per_group);
+        scanf("%d", &zone.horizontal_space_between_marks);
+        scanf("%d", &zone.vertical_space_between_marks);
+        scanf("%d", &zone.marks_horizontal_diameter);
+        scanf("%d", &zone.marks_vertical_diameter);
+        scanf("%s", zone.alternatives);
+        scanf("%d", &zone.group_horizontal_position);
+        scanf("%d", &zone.group_vertical_position);
+        conf.zones[zone_number] = zone;
+    }
+}
+
+void ProcessDirectory(Directory *dir)
 {
     int file_number;
     for(file_number = 0; file_number < dir->number_of_files; file_number++)
     {
         File *file = &(dir->files[file_number]);
         ReadFile(dir->path, file);
-        ProcessFile(file, conf);
+        ProcessFile(file);
         _TIFFfree(file->raster);
     }
 }
 
 void ReadFile(char* path, File *file) 
 {
-    char full_file_path[1000];
+    char full_file_path[300];
     strcpy(full_file_path, path);
     strcat(full_file_path, "/");
     strcat(full_file_path, (*file).path);
@@ -170,28 +139,28 @@ void ReadFile(char* path, File *file)
     TIFFClose(tif);
 }
 
-void ProcessFile(File *file, Configuration conf)
+void ProcessFile(File *file)
 {
     int zone_number;
     for(zone_number = 0; zone_number < conf.number_of_zones; zone_number++)
-        ProcessZone(file, conf, conf.zones[zone_number]);
+        ProcessZone(file, conf.zones[zone_number]);
 }
 
-void ProcessZone(File *file, Configuration conf, Zone zone)
+void ProcessZone(File *file, Zone zone)
 {
     int group_number;
     for (group_number = 0; group_number < zone.number_of_groups; group_number++)
-        ProcessGroup(file, conf, zone, group_number);
+        ProcessGroup(file, zone, group_number);
 }
 
-void ProcessGroup(File *file, Configuration conf, Zone zone, int group_number) 
+void ProcessGroup(File *file, Zone zone, int group_number) 
 {
     int question_number;
     for (question_number = 0; question_number < zone.questions_per_group; question_number++)
-        ProcessQuestion(file, conf, zone, group_number, question_number);
+        ProcessQuestion(file, zone, group_number, question_number);
 }
 
-void ProcessQuestion(File *file, Configuration conf, Zone zone, int group_number, int question_number)
+void ProcessQuestion(File *file, Zone zone, int group_number, int question_number)
 {
     char answer = 'Z';
     double options_values[10];
@@ -235,9 +204,7 @@ double ProcessOption(int start_x, int start_y, int width, int height, File *file
             int g = (int) TIFFGetG(file->raster[i]);
             int b = (int) TIFFGetB(file->raster[i]);
             if (a > 128 && r < 128 && g < 128 && b < 128)
-            {
                 match++;
-            }
         }
     }
 
@@ -280,16 +247,15 @@ void PrintFiles(Directory dir)
 
 void PrintAnswers(Directory dir) 
 {
-    printf("Answers:");
     int i;
     for (i = 0; i < dir.number_of_files; i++)
     {
-        printf("\n\t%s", dir.files[i].path);
+        printf("%s ", dir.files[i].path);
         int j;
         for (j = 0; j < dir.files[i].number_of_questions; j++)
         {
-            printf(" %c", dir.files[i].answers[j]);
+            printf("%c", dir.files[i].answers[j]);
         }
+        printf("\n");
     }
-    printf("\n\n");
 }

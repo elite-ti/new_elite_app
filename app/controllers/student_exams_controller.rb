@@ -5,6 +5,7 @@ class StudentExamsController < ApplicationController
   end
 
   def create
+    @student_exam.scan_card(params[:student_exam][:card].path)
     if @student_exam.save
       redirect_to root_url, notice: 'Student exam was successfully created.'
     else
