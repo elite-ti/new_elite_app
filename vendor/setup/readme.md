@@ -24,8 +24,8 @@ Any questions or bugs? gustavo.schmidt@sistemaeliterio.com.br
 
 * Run the script `bash setup/environment.sh`
 * During the installation, you have to:
-** set your ssh key filename (just press enter to use default) 
-** set your passphrase to unlock your private key
+  * set your ssh key filename (just press enter to use default) 
+  * set your passphrase to unlock your private key
 * This step could take a few minutes
 
 
