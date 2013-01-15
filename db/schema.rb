@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108230346) do
+ActiveRecord::Schema.define(:version => 20130115031928) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(:version => 20130108230346) do
   end
 
   add_index "admins", ["employee_id"], :name => "index_admins_on_employee_id", :unique => true
+
+  create_table "answer_card_types", :force => true do |t|
+    t.string   "name",       :null => false
+    t.string   "parameters", :null => false
+    t.string   "card",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
 
   create_table "campus_head_teacher_campuses", :force => true do |t|
     t.integer  "campus_head_teacher_id", :null => false
@@ -357,11 +367,12 @@ ActiveRecord::Schema.define(:version => 20130108230346) do
   add_index "school_roles", ["name"], :name => "index_school_roles_on_name", :unique => true
 
   create_table "student_exams", :force => true do |t|
-    t.integer  "exam_id",    :null => false
-    t.integer  "student_id", :null => false
-    t.string   "card",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "exam_id",             :null => false
+    t.integer  "student_id",          :null => false
+    t.string   "card",                :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.integer  "answer_card_type_id", :null => false
   end
 
   add_index "student_exams", ["exam_id", "student_id"], :name => "index_student_exams_on_exam_id_and_student_id", :unique => true

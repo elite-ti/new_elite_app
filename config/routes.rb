@@ -1,4 +1,7 @@
 EliteApp::Application.routes.draw do
+  resources :answer_card_types
+
+
   resources :student_exams
 
   resources :exam_answers

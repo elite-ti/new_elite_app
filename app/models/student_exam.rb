@@ -1,5 +1,5 @@
 class StudentExam < ActiveRecord::Base
-  attr_accessible :card, :exam_id
+  attr_accessible :card, :exam_id, :answer_card_type_id
   attr_accessor :answers
 
   belongs_to :exam
@@ -10,7 +10,7 @@ class StudentExam < ActiveRecord::Base
   validates :card, :exam_id, :student_id, presence: true
   validates :exam_id, uniqueness: { scope: :student_id }
 
-  mount_uploader :card, StudentExamCardUploader
+  mount_uploader :card, AnswerCardUploader
 
   before_save :build_exam_answers
 

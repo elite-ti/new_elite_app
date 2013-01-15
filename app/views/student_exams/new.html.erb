@@ -5,6 +5,7 @@
 
   <div class="form-inputs">
     <%= f.input :card %>
+    <%= f.association :answer_card_type, input_html: { class: 'is-chosen' } %>
     <%= f.association :exam, input_html: { class: 'is-chosen' } %>
   </div>
 

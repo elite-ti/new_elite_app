@@ -12,7 +12,7 @@ mkdir ~/code && cd ~/code && git clone $app_repository $app_name
 
 clear
 echo "=> Installing elite_app dependencies"
-sudo apt-get -y install libxslt-dev libxml2-dev imagemagick
+sudo apt-get -y install libxslt-dev libxml2-dev imagemagick libtiff-dev
 
 clear
 echo "=> Installing project gems"

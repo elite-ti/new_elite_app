@@ -86,4 +86,10 @@ FactoryGirl.define do
   factory :question do
     sequence(:name) { |n| "Question#{n}" }
   end
+
+  factory :answer_card_type do
+    sequence(:name) { |n| "AnswerCardType#{n}" }
+    parameters '1 2 3 4 5'
+    card { File.open(File.join(Rails.root, 'spec/support/answer_card.tif')) }
+  end
 end

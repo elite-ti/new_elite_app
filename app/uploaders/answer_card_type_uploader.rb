@@ -1,4 +1,4 @@
-class StudentExamCardUploader < CarrierWave::Uploader::Base
+class AnswerCardTypeUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::MiniMagick
   storage :file
@@ -15,24 +15,21 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
     "original.tif" if original_filename
   end 
 
-  version :normalized_tif do
+  version :with_squares do
     process :normalize
-
-    def full_filename(for_file = model.logo.file) 
-      "normalized.tif" 
-    end 
-  end
-
-  version :normalized_png do
-    process :normalize
+    process :draw_squares
     process convert: 'png'
 
     def full_filename(for_file = model.logo.file) 
-      "normalized.png" 
+      "with_squares.png" 
     end 
   end
 
   def normalize
+    # TODO
+  end
+
+  def draw_squares
     # TODO
   end
 end
