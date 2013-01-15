@@ -4,7 +4,7 @@ shopt -s nocaseglob
 set -e
 
 app_repository="git@github.com:elite-ti/new_elite_app.git"
-app_name="elite_app"
+app_name="new_elite_app"
 
 clear
 echo "=> Cloning elite_app repository"
@@ -16,7 +16,7 @@ sudo apt-get -y install libxslt-dev libxml2-dev imagemagick
 
 clear
 echo "=> Installing project gems"
-cd elite_app && bundle
+cd $app_name && bundle
 
 clear
 echo "=> Setting omniauth for local development"
