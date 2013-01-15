@@ -8,13 +8,13 @@ typedef struct {
   int number_of_groups;
   int space_between_groups;
   int questions_per_group;
-  int horizontal_space_between_marks;
-  int vertical_space_between_marks;
+  char alternatives[20];
   int marks_horizontal_diameter;
   int marks_vertical_diameter;
-  char alternatives[20];
   int group_horizontal_position;
   int group_vertical_position;
+  int horizontal_space_between_marks;
+  int vertical_space_between_marks;
 } Zone;
 
 typedef struct {
@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
   }
 
   strcpy(conf.path, argv[1]);
-  sscanf(argv[2], "%i", &conf.number_of_zones);
-  sscanf(argv[3], "%lf", &conf.threshold);
+  sscanf(argv[2], "%lf", &conf.threshold);
+  sscanf(argv[3], "%i", &conf.number_of_zones);
 
   if(argc != (4 + conf.number_of_zones*10)) {
     perror("Wrong number of arguments!");
@@ -66,13 +66,22 @@ int main(int argc, char* argv[])
     sscanf(argv[i], "%i", &zone.number_of_groups);
     sscanf(argv[i+1], "%i", &zone.space_between_groups);
     sscanf(argv[i+2], "%i", &zone.questions_per_group);
-    sscanf(argv[i+3], "%i", &zone.horizontal_space_between_marks);
-    sscanf(argv[i+4], "%i", &zone.vertical_space_between_marks);
-    sscanf(argv[i+5], "%i", &zone.marks_horizontal_diameter);
-    sscanf(argv[i+6], "%i", &zone.marks_vertical_diameter);
-    strcpy(zone.alternatives, argv[i+7]);
-    sscanf(argv[i+8], "%i", &zone.group_horizontal_position);
-    sscanf(argv[i+9], "%i", &zone.group_vertical_position);
+    strcpy(zone.alternatives, argv[i+3]);
+    sscanf(argv[i+4], "%i", &zone.marks_horizontal_diameter);
+    sscanf(argv[i+5], "%i", &zone.marks_vertical_diameter);
+    sscanf(argv[i+6], "%i", &zone.group_horizontal_position);
+    sscanf(argv[i+7], "%i", &zone.group_vertical_position);
+
+    int number_of_options = strlen(zone.alternatives);
+    int horizontal_group_size;
+    sscanf(argv[i+8], "%i", &horizontal_group_size);
+    zone.horizontal_space_between_marks = (horizontal_group_size - zone.marks_horizontal_diameter*number_of_options)/(number_of_options - 1);
+
+    int number_of_questions = zone.questions_per_group;
+    int vertical_group_size;
+    sscanf(argv[i+9], "%i", &vertical_group_size);
+    zone.vertical_space_between_marks = (vertical_group_size - zone.marks_vertical_diameter*number_of_questions)/(number_of_questions - 1);
+
     conf.zones[zone_number] = zone;
   }
 
