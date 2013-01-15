@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <sys/types.h>
-#include <dirent.h>
 #include <string.h>
 #include <tiffio.h>
 
@@ -13,8 +11,8 @@ typedef struct {
   int marks_vertical_diameter;
   int group_horizontal_position;
   int group_vertical_position;
-  int horizontal_space_between_marks;
-  int vertical_space_between_marks;
+  double horizontal_space_between_marks;
+  double vertical_space_between_marks;
 } Zone;
 
 typedef struct {
@@ -38,7 +36,9 @@ void ProcessFile(File *);
 void ProcessZone(File *, Zone);
 void ProcessGroup(File *, Zone, int);
 void ProcessQuestion(File *, Zone, int, int);
-double ProcessOption(int, int, int, int, File *);
+double ProcessOption(File, int, int, int, int);
+int IsFilled(File, int, int);
+int FindRasterIndex(File, int, int);
 void PrintAnswers(File);
 
 Configuration conf;
@@ -75,12 +75,16 @@ int main(int argc, char* argv[])
     int number_of_options = strlen(zone.alternatives);
     int horizontal_group_size;
     sscanf(argv[i+8], "%i", &horizontal_group_size);
-    zone.horizontal_space_between_marks = (horizontal_group_size - zone.marks_horizontal_diameter*number_of_options)/(number_of_options - 1);
+    zone.horizontal_space_between_marks = 
+      (double)(horizontal_group_size - zone.marks_horizontal_diameter*number_of_options)/
+      (double)(number_of_options - 1);
 
     int number_of_questions = zone.questions_per_group;
     int vertical_group_size;
     sscanf(argv[i+9], "%i", &vertical_group_size);
-    zone.vertical_space_between_marks = (vertical_group_size - zone.marks_vertical_diameter*number_of_questions)/(number_of_questions - 1);
+    zone.vertical_space_between_marks = 
+      (double)(vertical_group_size - zone.marks_vertical_diameter*number_of_questions)/
+      (double)(number_of_questions - 1);
 
     conf.zones[zone_number] = zone;
   }
@@ -98,18 +102,14 @@ int main(int argc, char* argv[])
 void ReadFile(File *file) {
   TIFF* tif = TIFFOpen(conf.path, "r");
   if(tif) {
-    int w = 0, h = 0; 
-    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
-    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
+    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &file->width);
+    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &file->height);
  
-    if((w > 0) && (h > 0)) {
-      uint32 *raster = (uint32*) _TIFFmalloc(w * h * sizeof (uint32));
+    if((file->width > 0) && (file->height > 0)) {
+      uint32 *raster = (uint32*) _TIFFmalloc(file->width * file->height * sizeof (uint32));
       if (raster) { 
-        if (TIFFReadRGBAImage(tif, w, h, raster, 0)) {
+        if (TIFFReadRGBAImage(tif, file->width, file->height, raster, 0))
           file->raster = raster;
-          file->width = w;
-          file->height = h;
-        }
         else 
           perror("Couldn't open file.");
       }
@@ -147,12 +147,15 @@ void ProcessQuestion(File *file, Zone zone, int group_number, int question_numbe
 
   int option_number;
   for(option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
-    int start_x = zone.group_horizontal_position + option_number * (zone.marks_horizontal_diameter + zone.horizontal_space_between_marks) + group_number * zone.space_between_groups;
-    int start_y = zone.group_vertical_position + question_number * (zone.marks_vertical_diameter + zone.vertical_space_between_marks);
+    int start_x = zone.group_horizontal_position + 
+      option_number * (zone.marks_horizontal_diameter + zone.horizontal_space_between_marks) + 
+      group_number * zone.space_between_groups;
+    int start_y = zone.group_vertical_position + 
+      question_number * (zone.marks_vertical_diameter + zone.vertical_space_between_marks);
     int width = zone.marks_horizontal_diameter;
     int height = zone.marks_vertical_diameter;
 
-    if(ProcessOption(start_x, start_y, width, height, file) > conf.threshold) {
+    if(ProcessOption(*file, start_x, start_y, width, height) > conf.threshold) {
       if(answer == 'Z')
           answer = zone.alternatives[option_number];
       else
@@ -164,26 +167,35 @@ void ProcessQuestion(File *file, Zone zone, int group_number, int question_numbe
   file->number_of_questions++;
 }
 
-double ProcessOption(int start_x, int start_y, int width, int height, File *file) {
-  int all = 0;
+double ProcessOption(File file, int start_x, int start_y, int width, int height) {
   int match = 0;
 
   int y;
   for(y = start_y; y <= height + start_y; y++) {
     int x;
     for(x = start_x; x <= width + start_x; x++) {
-      all++;
-      unsigned long int i = (file->height - y)*file->width + x;
-      int a = (int) TIFFGetA(file->raster[i]);
-      int r = (int) TIFFGetR(file->raster[i]);
-      int g = (int) TIFFGetG(file->raster[i]);
-      int b = (int) TIFFGetB(file->raster[i]);
-      if(a > 128 && r < 128 && g < 128 && b < 128)
+      if(IsFilled(file, x, y))
         match++;
     }
   }
 
-  return all == 0 ? 0 : (double)match/(double)all;
+  return (double)match / (double)(width*height);
+}
+
+int IsFilled(File file, int x, int y) {
+  int i = FindRasterIndex(file, x, y);
+  int a = (int) TIFFGetA(file.raster[i]);
+  int r = (int) TIFFGetR(file.raster[i]);
+  int g = (int) TIFFGetG(file.raster[i]);
+  int b = (int) TIFFGetB(file.raster[i]);
+  if(a == 255 && r + g + b == 0)
+    return 1;
+  else
+    return 0;
+}
+
+int FindRasterIndex(File file, int x, int y) {
+  return (file.height - y) * file.width + x;
 }
 
 void PrintAnswers(File file) {
