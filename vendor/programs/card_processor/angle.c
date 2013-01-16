@@ -4,6 +4,8 @@
 #include <tiffio.h>
 #include <math.h>
 
+#define PI 3.141592653589793
+
 typedef struct {
   uint32 *raster;
   int height;
@@ -14,32 +16,41 @@ typedef struct {
   char path[200];
   int mark_width;
   int mark_height;
+  float error;
 } Configuration;
 
 void ReadFile(File *);
 double GetAngle(File);
-int IsFileAligned(File);
-void FindPivot(File, int, int, int *, int *);
+void FindFirstPivot(File);
+void FindSecondPivot(File);
 int IsPixelFilled(File, int, int);
 int FindRasterIndex(File, int, int);
+double LineDensity(File file, int x1, int y1, int x2, int y2);
 
 Configuration conf;
+int xx, yy, xxx;
 
 int main(int argc, char* argv[])
 {
+
   if(argc != 4) {
     perror("Wrong number of arguments!");
     return 1;
   }
 
+  xx = 0;
+  yy = 0;
+  xxx = 0;
+
   strcpy(conf.path, argv[1]);
   sscanf(argv[2], "%d", &conf.mark_width);
   sscanf(argv[3], "%d", &conf.mark_height);
+  conf.error = 0.8;
 
   File file;
   ReadFile(&file);
-  printf("%lf", GetAngle(file));
 
+  printf("%lf", GetAngle(file));
   return 0;    
 }
 
@@ -67,44 +78,72 @@ void ReadFile(File *file) {
 }
 
 double GetAngle(File file) {
-  if(IsFileAligned(file))
-    return (double) 0;
+  while(xxx == 0) {
+    FindFirstPivot(file);
+    FindSecondPivot(file);
+  }
 
-  int x0, y0, x1, y1;
-  FindPivot(file, 0, 0, &x0, &y0);
-  FindPivot(file, x0, y0, &x1, &y1);
-  // printf("x0: %d\ny0: %d\nx1: %d\ny1: %d\n", x0, y0, x1, y1);
+  double min = 1.0;
+  int x_min = 0;
+  int bottom = 0;
+  double density;
+  int boolean = 1;
+  while(boolean) {
+    density = LineDensity(file, yy, xxx + 5, yy + 3000, bottom);
+    if(density < min) {
+      min = density;
+      x_min = bottom;
+    } else {
+      if(min < 0.1) {
+        boolean = 0;
+      } else {
+        // do nothing
+      }
+    }
+    // printf("Density: %lf\n", density);
+    // printf("x0: %d, y0: %d, x1: %d, y1: %d\n", xxx, yy, bottom, yy + 3000);
+    bottom++;
+  }
+  // printf("x: %d, y:%d\n", bottom, yy+3000);
 
-  return atan((double)(x1 - x0) / (double)(y1 - y0))*180.0/3.141592653589793;
+  return atan((double)(bottom - xxx - 5) / (double)(yy + 3000 - yy))*180.0/PI;
 }
 
-int IsFileAligned(File file) {
-  int counter, i;
-  for(i = 0; i < file.height; i++)
-    if(IsPixelFilled(file, 0, i))
-      counter++;
-
-  if(counter > 50*conf.mark_height*0.9)
-    return 1;
-  else
-    return 0;
-}
-
-void FindPivot(File file, int x0, int y0, int *x1, int *y1) {
+void FindFirstPivot(File file) {
   int x;
-  for(x = 0; x < file.width; x++) {
+  for(x = xx; x < file.width; x++) {
     int y;
-    for(y = (file.height - 1); y >= 0; y--) {
+    for(y = yy + 1; y < file.height; y++) {
       if(IsPixelFilled(file, x, y)) {
-        if(x > x0 && y > y0) {
-          (*x1) = x;
-          (*y1) = y;
-          return;
-        }
+        xx = x;
+        yy = y;
+        return;
       }
     }
   }
   perror("File is blank");
+}
+
+void FindSecondPivot(File file) {
+  int counter = 0;
+  while(IsPixelFilled(file, xx + counter, yy)) {
+    counter++;
+  }
+
+  if(IsAproximatelly(counter, conf.mark_width)) {
+    xxx = xx + counter;
+  }
+}
+
+int IsAproximatelly(int actual, int expected) {
+  float expected_top = (float) expected / conf.error;
+  float expected_bottom = (float) expected * conf.error;
+  float actual_float = (float) actual;
+
+  if(actual_float < expected_top && actual_float > expected_bottom)
+    return 1;
+  else
+    return 0;
 }
 
 int IsPixelFilled(File file, int x, int y) {
@@ -121,4 +160,43 @@ int IsPixelFilled(File file, int x, int y) {
 
 int FindRasterIndex(File file, int x, int y) {
   return (file.height - y) * file.width + x;
+}
+
+double LineDensity(File file, int x1, int y1, int x2, int y2) {
+  int counter = 0;
+  int slope;
+  int dx, dy, incE, incNE, d, x, y;
+
+  if (x1 > x2)
+    return LineDensity(file, x2, y2, x1, y1);
+  
+  dx = x2 - x1;
+  dy = y2 - y1;
+
+  if (dy < 0) {            
+    slope = -1;
+    dy = -dy;
+  }
+  else {            
+    slope = 1;
+  }
+
+  incE = 2 * dy;
+  incNE = 2 * dy - 2 * dx;
+  d = 2 * dy - dx;
+  y = y1;       
+  for (x = x1; x <= x2; x++) {
+    if(IsPixelFilled(file, y, x))
+      counter++;
+
+    if (d <= 0) {
+      d += incE;
+    }
+    else {
+      d += incNE;
+      y += slope;
+    }
+  }
+
+  return (double) counter / (double) (x2 - x1 + 1);
 }

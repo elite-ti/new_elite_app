@@ -37,7 +37,7 @@ void ProcessZone(File *, Zone);
 void ProcessGroup(File *, Zone, int);
 void ProcessQuestion(File *, Zone, int, int);
 double ProcessOption(File, int, int, int, int);
-int IsFilled(File, int, int);
+int IsPixelFilled(File, int, int);
 int FindRasterIndex(File, int, int);
 void PrintAnswers(File);
 
@@ -174,7 +174,7 @@ double ProcessOption(File file, int start_x, int start_y, int width, int height)
   for(y = start_y; y <= height + start_y; y++) {
     int x;
     for(x = start_x; x <= width + start_x; x++) {
-      if(IsFilled(file, x, y))
+      if(IsPixelFilled(file, x, y))
         match++;
     }
   }
@@ -182,7 +182,7 @@ double ProcessOption(File file, int start_x, int start_y, int width, int height)
   return (double)match / (double)(width*height);
 }
 
-int IsFilled(File file, int x, int y) {
+int IsPixelFilled(File file, int x, int y) {
   int i = FindRasterIndex(file, x, y);
   int a = (int) TIFFGetA(file.raster[i]);
   int r = (int) TIFFGetR(file.raster[i]);
