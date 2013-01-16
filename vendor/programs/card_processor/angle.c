@@ -100,7 +100,7 @@ double GetAngle(File file) {
     bottom++;
   }
 
-  return atan((double)(bottom - xxx - 5) / (double)(yy + 3000 - yy))*180.0/PI;
+  return (double)(bottom - xxx - 5) / (double)(yy + 3000 - yy);
 }
 
 void FindFirstPivot(File file) {

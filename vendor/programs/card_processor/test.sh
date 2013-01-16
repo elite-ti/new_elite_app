@@ -97,7 +97,7 @@ mark_height='40'
 
 result=$(./$execute $path $mark_width $mark_height)
 
-expected='0.362868'
+expected='0.006333'
 if [ "$result" == "$expected" ]
 then
   echo "=> Success!"
@@ -110,11 +110,12 @@ fi
 
 echo -e "\n=> Testing png"
 execute='png'
-rm $execute
-gcc $execute.c lodepng.c -ltiff -o $execute
+# rm $execute
+# gcc $execute.c lodepng.c -ltiff -o $execute
 
 echo "=> New answer card"
 path='/home/charlie/Desktop/new_answer_card.tif'
 destination_path='/home/charlie/Desktop/new_answer_card.png'
+tg='0.006333'
 
-./$execute $path $destination_path
+./$execute $path $destination_path $tg
