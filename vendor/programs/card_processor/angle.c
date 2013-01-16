@@ -94,17 +94,11 @@ double GetAngle(File file) {
       min = density;
       x_min = bottom;
     } else {
-      if(min < 0.1) {
+      if(min < 0.1)
         boolean = 0;
-      } else {
-        // do nothing
-      }
     }
-    // printf("Density: %lf\n", density);
-    // printf("x0: %d, y0: %d, x1: %d, y1: %d\n", xxx, yy, bottom, yy + 3000);
     bottom++;
   }
-  // printf("x: %d, y:%d\n", bottom, yy+3000);
 
   return atan((double)(bottom - xxx - 5) / (double)(yy + 3000 - yy))*180.0/PI;
 }

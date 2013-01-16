@@ -95,16 +95,26 @@ path='/home/charlie/Desktop/new_answer_card.tif'
 mark_width='68'
 mark_height='40'
 
-./$execute $path $mark_width $mark_height
+result=$(./$execute $path $mark_width $mark_height)
 
-# result=$(./$execute $path $mark_width $mark_height)
+expected='0.362868'
+if [ "$result" == "$expected" ]
+then
+  echo "=> Success!"
+else
+  echo "=> Error"
+  echo "Result: $result"
+  echo "Expected: $expected"
+fi
 
-# expected='0.3223141381'
-# if [ "$result" == "$expected" ]
-# then
-#   echo "=> Success!"
-# else
-#   echo "=> Error"
-#   echo "Result: $result"
-#   echo "Expected: $expected"
-# fi
+
+echo -e "\n=> Testing png"
+execute='png'
+rm $execute
+gcc $execute.c lodepng.c -ltiff -o $execute
+
+echo "=> New answer card"
+path='/home/charlie/Desktop/new_answer_card.tif'
+destination_path='/home/charlie/Desktop/new_answer_card.png'
+
+./$execute $path $destination_path
