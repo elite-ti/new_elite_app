@@ -17,6 +17,31 @@
 #define MARK_HEIGHT 40
 
 typedef struct {
+  int number_of_groups;
+  int space_between_groups;
+  int questions_per_group;
+  char alternatives[20];
+  int marks_horizontal_diameter;
+  int marks_vertical_diameter;
+  int group_horizontal_position;
+  int group_vertical_position;
+  double horizontal_space_between_marks;
+  double vertical_space_between_marks;
+} Zone;
+
+typedef struct {
+  char source_path[200];
+  char destination_path[200];
+
+  int number_of_zones;
+  double threshold;
+  Zone zones[10];
+} Configuration;
+
+typedef struct {
+  int number_of_questions;
+  char answers[200];
+
   uint32 *raster;
   int height;
   int width;
@@ -24,15 +49,11 @@ typedef struct {
 } File;
 
 typedef struct {
-  char source_path[200];
-  char destination_path[200];
-} Configuration;
-
-typedef struct {
   int x;
   int y;
 } Pixel;
 
+void ReadConfiguration();
 File ReadFile();
 File Rotate(File);
 File Move(File);
@@ -48,6 +69,13 @@ int GetPngRasterIndex(File, int, int);
 int IsPixelInFile(File, int, int);
 int IsPixelFilled(File, int, int);
 
+void ProcessFile(File *);
+void ProcessZone(File *, Zone);
+void ProcessGroup(File *, Zone, int);
+void ProcessQuestion(File *, Zone, int, int);
+double ProcessOption(File, int, int, int, int);
+void PrintAnswers(File);
+
 Configuration conf;
 int xx = 0, yy = 0, xxx = 0;
 
@@ -59,12 +87,72 @@ int main(int argc, char* argv[]) {
   strcpy(conf.source_path, argv[1]);
   strcpy(conf.destination_path, argv[2]);
 
+  ReadConfiguration();
   File file = ReadFile();
   File rotated_file = Rotate(file);
   File moved_file = Move(rotated_file);
+
+  ProcessFile(&moved_file);
+  PrintAnswers(moved_file);
   WritePng(moved_file);
 
   return 0;
+}
+
+void ReadConfiguration() {
+  // char parameters[] = "0.4 2 1 0 7 0123456789 80 43 281 914 969 528 2 600 50 ABCDE 88 43 183 1050 495 3471";
+
+  conf.threshold = 0.4;
+  conf.number_of_zones = 2;
+
+  Zone zone1, zone2;
+  int number_of_options, horizontal_group_size, number_of_questions, vertical_group_size;
+
+  zone1.number_of_groups = 1;
+  zone1.space_between_groups = 0;
+  zone1.questions_per_group = 7;
+  strcpy(zone1.alternatives, "0123456789");
+  zone1.marks_horizontal_diameter = 79;
+  zone1.marks_vertical_diameter = 38;
+  zone1.group_horizontal_position = 271;
+  zone1.group_vertical_position = 540;
+
+  number_of_options = strlen(zone1.alternatives);
+  horizontal_group_size = 964;
+  zone1.horizontal_space_between_marks = 
+    (double)(horizontal_group_size - zone1.marks_horizontal_diameter*number_of_options)/
+    (double)(number_of_options - 1);
+
+  number_of_questions = zone1.questions_per_group;
+  vertical_group_size = 453;
+  zone1.vertical_space_between_marks = 
+    (double)(vertical_group_size - zone1.marks_vertical_diameter*number_of_questions)/
+    (double)(number_of_questions - 1);
+
+  conf.zones[0] = zone1;
+
+  zone2.number_of_groups = 2;
+  zone2.space_between_groups = 600;
+  zone2.questions_per_group = 50;
+  strcpy(zone2.alternatives, "ABCDE");
+  zone2.marks_horizontal_diameter = 77;
+  zone2.marks_vertical_diameter = 38;
+  zone2.group_horizontal_position = 170;
+  zone2.group_vertical_position = 1054;
+
+  number_of_options = strlen(zone2.alternatives);
+  horizontal_group_size = 473;
+  zone2.horizontal_space_between_marks = 
+    (double)(horizontal_group_size - zone2.marks_horizontal_diameter*number_of_options)/
+    (double)(number_of_options - 1);
+
+  number_of_questions = zone2.questions_per_group;
+  vertical_group_size = 3454;
+  zone2.vertical_space_between_marks = 
+    (double)(vertical_group_size - zone2.marks_vertical_diameter*number_of_questions)/
+    (double)(number_of_questions - 1);
+
+  conf.zones[1] = zone2;
 }
 
 File ReadFile() {
@@ -157,10 +245,10 @@ File CreateEmptyFile(int height, int width) {
 }
 
 void WritePng(File file) {
-  unsigned char* image = (unsigned char*) malloc(4 * file.size * sizeof(unsigned char*));
+  unsigned char* png = (unsigned char*) malloc(4 * file.size * sizeof(unsigned char*));
   int i;
   for(i = 0; i < file.size * 4; i++)
-    image[i] = 0;
+    png[i] = 0;
 
   int x;
   for(x = 0; x < file.width; x++) {
@@ -169,18 +257,19 @@ void WritePng(File file) {
       int i = GetTifRasterIndex(file, x, y);
       int j = GetPngRasterIndex(file, x, y);
 
-      image[4*j] = (char) TIFFGetR(file.raster[i]);
-      image[4*j+1] = (char) TIFFGetG(file.raster[i]);
-      image[4*j+2] = (char) TIFFGetB(file.raster[i]);
-      image[4*j+3] = (char) TIFFGetA(file.raster[i]);
+      png[4*j] = (char) TIFFGetR(file.raster[i]);
+      png[4*j+1] = (char) TIFFGetG(file.raster[i]);
+      png[4*j+2] = (char) TIFFGetB(file.raster[i]);
+      png[4*j+3] = (char) TIFFGetA(file.raster[i]);
     }
   }
   free(file.raster);
 
-  unsigned error = lodepng_encode32_file(conf.destination_path, image, file.width, file.height);
+  unsigned error = lodepng_encode32_file(conf.destination_path, png, file.width, file.height);
   if(error) 
-    perror(lodepng_error_text(error));
-  free(image);
+    perror("Error writing png!");
+    // perror(lodepng_error_text(error));
+  free(png);
 }
 
 double GetTangent(File file) {
@@ -295,4 +384,69 @@ int IsAproximatelly(int actual, int expected) {
   float actual_float = (float) actual;
 
   return actual_float < expected_top && actual_float > expected_bottom;
+}
+
+void ProcessFile(File *file) {
+  file->number_of_questions = 0;
+  int zone_number;
+  for(zone_number = 0; zone_number < conf.number_of_zones; zone_number++)
+    ProcessZone(file, conf.zones[zone_number]);
+}
+
+void ProcessZone(File *file, Zone zone) {
+  int group_number;
+  for(group_number = 0; group_number < zone.number_of_groups; group_number++)
+    ProcessGroup(file, zone, group_number);
+}
+
+void ProcessGroup(File *file, Zone zone, int group_number)  {
+  int question_number;
+  for(question_number = 0; question_number < zone.questions_per_group; question_number++)
+    ProcessQuestion(file, zone, group_number, question_number);
+}
+
+void ProcessQuestion(File *file, Zone zone, int group_number, int question_number) {
+  char answer = 'Z';
+
+  int option_number;
+  for(option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
+    int start_x = zone.group_horizontal_position + 
+      option_number * (zone.marks_horizontal_diameter + zone.horizontal_space_between_marks) + 
+      group_number * zone.space_between_groups;
+    int start_y = zone.group_vertical_position + 
+      question_number * (zone.marks_vertical_diameter + zone.vertical_space_between_marks);
+    int width = zone.marks_horizontal_diameter;
+    int height = zone.marks_vertical_diameter;
+
+    if(ProcessOption(*file, start_x, start_y, width, height) > conf.threshold) {
+      if(answer == 'Z')
+          answer = zone.alternatives[option_number];
+      else
+          answer = 'W';
+    }
+  }
+
+  file->answers[file->number_of_questions] = answer;
+  file->number_of_questions++;
+}
+
+double ProcessOption(File file, int start_x, int start_y, int width, int height) {
+  int match = 0;
+
+  int y;
+  for(y = start_y; y < height + start_y; y++) {
+    int x;
+    for(x = start_x; x < width + start_x; x++) {
+      if(IsPixelFilled(file, x, y))
+        match++;
+    }
+  }
+
+  return (double)match / (double)(width*height);
+}
+
+void PrintAnswers(File file) {
+  int i;
+  for(i = 0; i < file.number_of_questions; i++)
+    printf("%c", file.answers[i]);
 }
