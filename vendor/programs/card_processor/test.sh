@@ -86,18 +86,15 @@ fi
 # fi
 
 
-echo -e "\n=> Testing processor"
-execute='processor'
+echo -e "\n=> Testing b_type"
+execute='b_type'
 rm $execute
 gcc $execute.c lodepng.c -ltiff -o $execute
 
-echo "=> New answer card"
-path='/home/charlie/Desktop/new_answer_card.tif'
+source_path='/home/charlie/Desktop/new_answer_card.tif'
 destination_path='/home/charlie/Desktop/new_answer_card.png'
-mark_width='68'
-mark_height='40'
 
-./$execute $path $destination_path $mark_width $mark_height
+./$execute $source_path $destination_path
 
 if cmp -s $destination_path '/home/charlie/Desktop/after_processing.png' 
 then
