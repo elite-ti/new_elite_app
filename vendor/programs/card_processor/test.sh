@@ -85,37 +85,23 @@ fi
 #   echo "Expected: $expected"
 # fi
 
-echo -e "\n=> Testing angle"
-execute='angle'
+
+echo -e "\n=> Testing processor"
+execute='processor'
 rm $execute
-gcc -o $execute $execute.c -ltiff
-
-echo "=> New answer card"
-path='/home/charlie/Desktop/new_answer_card.tif'
-mark_width='68'
-mark_height='40'
-
-result=$(./$execute $path $mark_width $mark_height)
-
-expected='0.006333'
-if [ "$result" == "$expected" ]
-then
-  echo "=> Success!"
-else
-  echo "=> Error"
-  echo "Result: $result"
-  echo "Expected: $expected"
-fi
-
-
-echo -e "\n=> Testing png"
-execute='png'
-# rm $execute
-# gcc $execute.c lodepng.c -ltiff -o $execute
+gcc $execute.c lodepng.c -ltiff -o $execute
 
 echo "=> New answer card"
 path='/home/charlie/Desktop/new_answer_card.tif'
 destination_path='/home/charlie/Desktop/new_answer_card.png'
-tg='0.006333'
+mark_width='68'
+mark_height='40'
 
-./$execute $path $destination_path $tg
+./$execute $path $destination_path $mark_width $mark_height
+
+if cmp -s $destination_path '/home/charlie/Desktop/after_processing.png' 
+then
+  echo "=> Success!"
+else
+  echo "=> Error: Files are different"
+fi
