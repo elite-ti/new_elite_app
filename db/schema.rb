@@ -29,6 +29,19 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   add_index "admins", ["employee_id"], :name => "index_admins_on_employee_id", :unique => true
 
+  create_table "addresses", :force => true do |t|
+    t.string   "complement"
+    t.string   "number"
+    t.string   "street"
+    t.string   "suburb"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "cep"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "answer_card_types", :force => true do |t|
     t.string   "name",       :null => false
     t.string   "parameters", :null => false
@@ -38,6 +51,22 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   end
 
   add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
+
+  create_table "applicants", :force => true do |t|
+    t.string   "number"
+    t.string   "bolsao_id"
+    t.datetime "subscription_datetime"
+    t.datetime "exam_datetime"
+    t.integer  "exam_campus_id"
+    t.integer  "student_id",           :null => false
+    t.integer  "year_id",              :null => false
+    t.integer  "intended_campus_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "applicants", ["number", "bolsao_id"], :name => "index_applicants_on_number_and_bolsao_id", :unique => true
+  add_index "applicants", ["year_id", "student_id"], :name => "index_applicants_on_year_id_and_student_id", :unique => true
 
   create_table "campus_head_teacher_campuses", :force => true do |t|
     t.integer  "campus_head_teacher_id", :null => false
@@ -378,12 +407,25 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   add_index "student_exams", ["exam_id", "student_id"], :name => "index_student_exams_on_exam_id_and_student_id", :unique => true
 
   create_table "students", :force => true do |t|
-    t.string   "name",            :null => false
+    t.string   "name",               :null => false
+    t.string   "ra"
     t.string   "email"
     t.string   "password_digest"
-    t.string   "ra",              :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "cpf"
+    t.string   "own_cpf"
+    t.string   "rg"
+    t.string   "rg_expeditor"
+    t.string   "gender"
+    t.string   "date_of_birth"
+    t.string   "number_of_children"
+    t.string   "mother_name"
+    t.string   "father_name"
+    t.integer  "address_id"
+    t.string   "telephone"
+    t.string   "cellphone"
+    t.string   "old_school"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "students", ["email"], :name => "index_students_on_email", :unique => true
@@ -515,12 +557,13 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
   create_table "years", :force => true do |t|
-    t.string   "name",       :null => false
-    t.integer  "product_id", :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",        :null => false
+    t.string   "year_number", :null => false
+    t.integer  "product_id",  :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "years", ["name", "product_id"], :name => "index_years_on_name_and_product_id", :unique => true
-
+  add_index "years", ["year_number", "product_id"], :name => "index_years_on_year_number_and_product_id", :unique => true
 end

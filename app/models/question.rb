@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  has_paper_trail
+  
   attr_accessible :name
 
   has_many :exam_questions, dependent: :destroy

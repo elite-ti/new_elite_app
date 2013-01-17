@@ -1,6 +1,8 @@
 class StudentExam < ActiveRecord::Base
+  has_paper_trail
+  
   attr_accessible :card, :exam_id, :answer_card_type_id
-  attr_accessor :answers
+  attr_reader :answers
 
   belongs_to :exam
   belongs_to :student
@@ -10,11 +12,11 @@ class StudentExam < ActiveRecord::Base
   validates :card, :exam_id, :student_id, presence: true
   validates :exam_id, uniqueness: { scope: :student_id }
 
-  mount_uploader :card, AnswerCardUploader
+  mount_uploader :card, StudentExamCardUploader
 
   before_save :build_exam_answers
 
-  def scan_card(temp_card_url)
+  def answers=(all_answers)
     self.student_id = Student.first.try(:id) || Student.create(name: 'Student', ra: '1').id
     self.answers = RunProgram.card_scanner(temp_card_url)
   end

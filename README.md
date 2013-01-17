@@ -2,9 +2,6 @@
 
 ## Todo
 
-* Extract raster calculation to main function
-* Print squares in file to test parameters
-
 
 ## Setup
 

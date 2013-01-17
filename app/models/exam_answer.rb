@@ -1,4 +1,6 @@
 class ExamAnswer < ActiveRecord::Base
+  has_paper_trail
+  
   attr_accessible :answer, :exam_question_id, :student_exam_id
 
   belongs_to :exam_question

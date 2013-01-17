@@ -1,7 +1,7 @@
 class Year < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :name, :product_id
+  attr_accessible :name, :product_id, :year_number
 
   belongs_to :product
   has_many :klazzes, dependent: :destroy

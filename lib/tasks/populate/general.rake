@@ -6,7 +6,7 @@ namespace :db do
       CSV.read File.join(ASSETS_PATH, file_name + '.csv')
     end
     
-    task all: [
+    task general: [
       'db:schema:load',
       :product_types, :product_groups, :products, :years, :campuses, :klazzes, 
       :subjects, :klazz_types, :majors, :school_roles, :elite_roles, :absence_reasons, 
@@ -34,11 +34,11 @@ namespace :db do
     task products: :environment do
       p 'Populating products'
       products = []
-      read_csv('products').each do |product_name, product_type_name, product_group_name|
+      read_csv('products').each do |product_name, product_type_name|
         products << {
           name: product_name, 
           product_type_id: ProductType.find_by_name!(product_type_name).id,
-          product_group_id: ProductGroup.find_by_name(product_group_name).try(:id)
+          # product_group_id: ProductGroup.find_by_name(product_group_name).try(:id)
         }
       end
       ActiveRecord::Base.transaction { Product.create!(products) }
@@ -46,9 +46,14 @@ namespace :db do
 
     task years: :environment do
       p 'Populating years'
+      year_number = '2013'
       years = []
-      read_csv('years').each do |year_name, product_name|
-        years << {name: year_name, product_id: Product.find_by_name!(product_name).id}
+      read_csv('products').each do |product_name, product_type_name|
+        years << {
+          name: product_name + ' - ' + year_number, 
+          product_id: Product.find_by_name!(product_name).id, 
+          year_number: year_number
+        }
       end
       ActiveRecord::Base.transaction { Year.create!(years) }
     end

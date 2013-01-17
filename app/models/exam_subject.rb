@@ -1,4 +1,6 @@
 class ExamSubject < ActiveRecord::Base
+  has_paper_trail
+  
   attr_accessible :exam_id, :subject_id
 
   belongs_to :exam

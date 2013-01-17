@@ -1,4 +1,6 @@
 class Exam < ActiveRecord::Base
+  has_paper_trail
+  
   attr_accessible :date, :exam_cycle_id, :name, :subject_ids, :question_ids
   attr_accessor :skipped_subject_ids, :skipped_question_ids
 
