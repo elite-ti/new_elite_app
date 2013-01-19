@@ -38,10 +38,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.include(MailerMacros)
-  config.before(:each) { reset_email }
-
   config.include FactoryGirl::Syntax::Methods
 
   config.include(LoginMacros)
+  
+  config.include(MailerMacros)
+  config.before(:each) { reset_email }
 end

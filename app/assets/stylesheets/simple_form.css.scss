@@ -44,4 +44,20 @@
     color: #555;
     font-style: italic;
   }
+  img {
+    margin-left: $indent;
+  }
+  .radio-buttons {
+    height: 50px;
+    margin-left: $indent;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    span {  
+      width: 20px;
+      input[type="radio"], label { float:left; }
+      input { width: 15px; }
+      label { width: 15px; }
+    }
+  }
 }

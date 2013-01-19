@@ -1,1 +1,29 @@
 <%= title 'Edit Student Exam' %>
+
+<%= simple_form_for(@student_exam, html: { multipart: true }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <% if @student_exam.no_student? %>
+      <h2>Student was not found</h2>
+      <%= image_tag @student_exam.student_name_png_url %>
+      <%= f.association :student, :collection => @student_exam.possible_students, 
+        input_html: { class: 'is-chosen' } %>
+    <% end %>
+
+    <% if @student_exam.any_answer_needs_check? %>
+      <h2>Some answers were zero or wrong</h2>
+      <% @student_exam.answers_needing_check.each do |exam_answer| %>
+        <%= image_tag exam_answer.png_url %>
+        <div class='radio-buttons'>
+          <%= f.collection_radio_buttons :exam_answer_values, 
+            ExamAnswer::ANSWERS.map{|x| [x, x]}, :first, :last %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

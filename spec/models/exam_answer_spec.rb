@@ -25,7 +25,7 @@ describe 'ExamAnswer' do
   #   answer_card_type = create :answer_card_type
   #   exam_question = create :exam_question, exam_id: exam.id
   #   student_exam = StudentExam.new(
-  #     exam_id: exam.id, card: File.open(CARD_PATH), 
+  #     exam_id: exam.id, card: File.open(B_TYPE_CARD_PATH), 
   #     answer_card_type_id: answer_card_type.id)
   #   ExamAnswer.new(
   #     answer: 'A', exam_question_id: exam_question.id, 

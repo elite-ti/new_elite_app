@@ -1,11 +1,9 @@
 #include "lodepng.h"
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <tiffio.h>
 
-#define TIFF_WHITE_PIXEL 4294967295
 #define SHIFT_X 5
 #define DELTA_Y 3400
 #define MINIMUM_DENSITY 0.1
@@ -42,10 +40,9 @@ typedef struct {
   int number_of_questions;
   char answers[200];
 
-  uint32 *raster;
+  unsigned char *raster;
   int height;
   int width;
-  int size;
 } File;
 
 typedef struct {
@@ -157,27 +154,11 @@ void ReadConfiguration() {
 
 File ReadFile() {
   File file;
-  TIFF* tif = TIFFOpen(conf.source_path, "r");
-  if(tif) {
-    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &file.width);
-    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &file.height);
- 
-    if((file.width > 0) && (file.height > 0)) {
-      file.size = file.width * file.height;
-      uint32 *raster = (uint32*) malloc(file.size * sizeof(uint32));
-      if (raster) { 
-        if (TIFFReadRGBAImage(tif, file.width, file.height, raster, 0))
-          file.raster = raster;
-        else 
-          perror("Couldn't open file.");
-      }
-      else 
-        perror("Couldn't open file.");
-    }
-    else 
-      perror("Couldn't open file.");
-  }
-  TIFFClose(tif);
+
+  unsigned error = lodepng_decode32_file(&file.raster, &file.width, &file.height, conf.source_path);
+  if(error) 
+    perror("Error reading file.");
+
   return file;
 }
 
@@ -199,8 +180,14 @@ File Rotate(File file) {
     for(y = 0; y < file.height; y++) {
       int new_x = (int) floor(c*x - s*y);
       int new_y = (int) floor(s*x + c*y);
-      if(IsPixelInFile(file, new_x, new_y))
-        rotated_file.raster[GetTifRasterIndex(file, new_x, new_y)] = file.raster[GetTifRasterIndex(file, x, y)];
+      if(IsPixelInFile(file, new_x, new_y)) {
+        int new_index = GetRasterIndex(file, new_x, new_y);
+        int old_index = GetRasterIndex(file, x, y);
+        rotated_file.raster[new_index] = file.raster[old_index];
+        rotated_file.raster[new_index + 1] = file.raster[old_index + 1];
+        rotated_file.raster[new_index + 2] = file.raster[old_index + 2];
+        rotated_file.raster[new_index + 3] = file.raster[old_index + 3];
+      }
     }
   }
   free(file.raster);
@@ -222,8 +209,14 @@ File Move(File file) {
     for(y = 0; y < file.height; y++) {
       int new_x = x + delta_x;
       int new_y = y + delta_y;
-      if(IsPixelInFile(file, new_x, new_y))
-        moved_file.raster[GetTifRasterIndex(file, new_x, new_y)] = file.raster[GetTifRasterIndex(file, x, y)];
+      if(IsPixelInFile(file, new_x, new_y)) {
+        int new_index = GetRasterIndex(file, new_x, new_y);
+        int old_index = GetRasterIndex(file, x, y);
+        moved_file.raster[new_index] = file.raster[old_index];
+        moved_file.raster[new_index + 1] = file.raster[old_index + 1];
+        moved_file.raster[new_index + 2] = file.raster[old_index + 2];
+        moved_file.raster[new_index + 3] = file.raster[old_index + 3];
+      }
     }
   }
   free(file.raster);
@@ -234,42 +227,20 @@ File CreateEmptyFile(int height, int width) {
   File file;
   file.height = height;
   file.width = width;
-  file.size = height * width;
-  file.raster = (uint32*) malloc(file.size * sizeof(uint32));
+  file.raster = (unsigned char*) malloc(4 * height * width * sizeof(unsigned char));
 
   int i;
-  for(i = 0; i < file.size; i++) 
-    file.raster[i] = TIFF_WHITE_PIXEL;
+  for(i = 0; i < 4 * height * width; i++) 
+    file.raster[i] = 255;
 
   return file;
 }
 
 void WritePng(File file) {
-  unsigned char* png = (unsigned char*) malloc(4 * file.size * sizeof(unsigned char*));
-  int i;
-  for(i = 0; i < file.size * 4; i++)
-    png[i] = 0;
-
-  int x;
-  for(x = 0; x < file.width; x++) {
-    int y;
-    for(y = 0; y < file.height; y++) {
-      int i = GetTifRasterIndex(file, x, y);
-      int j = GetPngRasterIndex(file, x, y);
-
-      png[4*j] = (char) TIFFGetR(file.raster[i]);
-      png[4*j+1] = (char) TIFFGetG(file.raster[i]);
-      png[4*j+2] = (char) TIFFGetB(file.raster[i]);
-      png[4*j+3] = (char) TIFFGetA(file.raster[i]);
-    }
-  }
-  free(file.raster);
-
-  unsigned error = lodepng_encode32_file(conf.destination_path, png, file.width, file.height);
+  unsigned error = lodepng_encode32_file(conf.destination_path, file.raster, file.width, file.height);
   if(error) 
-    perror("Error writing png!");
-    // perror(lodepng_error_text(error));
-  free(png);
+    perror("Error writing png.");
+  free(file.raster);
 }
 
 double GetTangent(File file) {
@@ -314,7 +285,7 @@ Pixel GetPivot(File file) {
       }
     }
   }
-  perror("File is blank");
+  perror("File is blank.");
 }
 
 double LineDensity(File file, int x1, int y1, int x2, int y2) {
@@ -357,11 +328,11 @@ double LineDensity(File file, int x1, int y1, int x2, int y2) {
 }
 
 int IsPixelFilled(File file, int x, int y) {
-  int i = GetTifRasterIndex(file, x, y);
-  int a = (int) TIFFGetA(file.raster[i]);
-  int r = (int) TIFFGetR(file.raster[i]);
-  int g = (int) TIFFGetG(file.raster[i]);
-  int b = (int) TIFFGetB(file.raster[i]);
+  int i = GetRasterIndex(file, x, y);
+  int r = file.raster[i];
+  int g = file.raster[i + 1];
+  int b = file.raster[i + 2];
+  int a = file.raster[i + 3];
 
   return a == 255 && r + g + b == 0;
 }
@@ -370,12 +341,8 @@ int IsPixelInFile(File file, int x, int y) {
   return x > 0 && x < file.width && y > 0 && y < file.height;
 }
 
-int GetTifRasterIndex(File file, int x, int y) {
-  return (file.height - y - 1) * file.width + x;
-}
-
-int GetPngRasterIndex(File file, int x, int y) {
-  return y * file.width + x;
+int GetRasterIndex(File file, int x, int y) {
+  return (y * file.width + x)*4;
 }
 
 int IsAproximatelly(int actual, int expected) {

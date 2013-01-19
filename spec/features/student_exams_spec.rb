@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'StudentExams' do
   CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
-
   before(:each) { log_admin_in }
 
   it 'creates a student exam without errors' do

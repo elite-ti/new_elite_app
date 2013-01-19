@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'StudentExam' do
   CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
-
+  
   it 'creates a student exam' do
     exam = create :exam
     answer_card_type = create :answer_card_type
