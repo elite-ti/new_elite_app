@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Year Number</th>
       <th>Product</th>
       <th>Product Type</th>
     </tr>
@@ -16,6 +17,7 @@
         <%= year.name %>
         <%= link_to 'Edit', edit_year_path(year), class: 'float-right' %>
       </td>
+      <td><%= year.year_number %></td>
       <td><%= year.product.name %></td>
       <td><%= year.product.product_type.name %></td>
     </tr>

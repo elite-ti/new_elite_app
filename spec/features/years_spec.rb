@@ -19,6 +19,7 @@ describe 'Years' do
     click_link 'New Year'
     fill_in 'Name', with: 'Year'
     select 'Product', from: 'Product'
+    fill_in 'Year number', with: '2013'
     click_button 'Create'
 
     page.should have_content 'Year was successfully created.'

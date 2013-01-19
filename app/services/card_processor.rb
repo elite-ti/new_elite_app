@@ -6,8 +6,7 @@ class CardProcessor
   end
 
   def self.scan(tif_path)
-    png_path = tif_path.
     b_type = File.join(CARD_PROCESSOR_PATH, 'b_type')
-    `./#{b_type} #{tif_path} #{}`
+    `#{b_type} #{tif_path} /home/charlie/Desktop/out.png`
   end
 end

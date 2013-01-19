@@ -43,11 +43,12 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   end
 
   create_table "answer_card_types", :force => true do |t|
-    t.string   "name",       :null => false
-    t.string   "parameters", :null => false
-    t.string   "card",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",                  :null => false
+    t.string   "parameters",            :null => false
+    t.string   "card",                  :null => false
+    t.integer  "student_number_length", :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
@@ -183,6 +184,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "student_exam_id",  :null => false
     t.integer  "exam_question_id", :null => false
     t.string   "answer",           :null => false
+    t.boolean  "needs_check",      :default => true
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
@@ -191,6 +193,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
+    t.boolean  "is_bolsao",  :null => false, :default => false
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "year_id"
@@ -397,7 +400,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   create_table "student_exams", :force => true do |t|
     t.integer  "exam_id",             :null => false
-    t.integer  "student_id",          :null => false
+    t.integer  "student_id"
     t.string   "card",                :null => false
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false

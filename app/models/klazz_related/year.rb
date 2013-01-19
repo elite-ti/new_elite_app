@@ -8,6 +8,6 @@ class Year < ActiveRecord::Base
   has_many :exam_cycles, dependent: :destroy
   has_many :subject_threads, dependent: :destroy
   
-  validates :product_id, :name, presence: true
+  validates :product_id, :name, :year_number, presence: true
   validates :name, uniqueness: { scope: :product_id }
 end

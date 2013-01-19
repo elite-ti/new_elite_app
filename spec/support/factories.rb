@@ -11,6 +11,14 @@ FactoryGirl.define do
     email { "student#{ra}@example.com.br" }
   end
 
+  factory :applicant do
+    student
+    year
+    bolsao_id '1/1/2013'
+    sequence(:number) { |n| "#{n}" }
+  end
+
+
   factory :campus do
     sequence(:name) { |n| "Campus#{n}" }
   end
@@ -30,6 +38,7 @@ FactoryGirl.define do
 
   factory :year do
     product
+    year_number '2013'
     sequence(:name) { |n| "Year#{n}" }
   end
 
@@ -90,6 +99,13 @@ FactoryGirl.define do
   factory :answer_card_type do
     sequence(:name) { |n| "AnswerCardType#{n}" }
     parameters '1 2 3 4 5'
-    card { File.open(File.join(Rails.root, 'spec/support/answer_card.tif')) }
+    student_number_length '7'
+    card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
+  end
+
+  factory :student_exam do
+    card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
+    exam
+    answer_card_type
   end
 end

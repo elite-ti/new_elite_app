@@ -5,11 +5,31 @@ class StudentExamsController < ApplicationController
   end
 
   def create
-    @student_exam.answers = CardProcessor.scan(params[:student_exam][:card].path)
     if @student_exam.save
-      redirect_to root_url, notice: 'Student exam was successfully created.'
+      check_student_exam
     else
-      render 'new'
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @student_exam.update_attributes(params[:student_exam])
+      check_student_exam
+    else
+      render :edit
+    end
+  end
+
+private
+
+  def check_student_exam
+    if @student_exam.needs_check?
+      redirect_to edit_student_exam_path(@student_exam), notice: 'Some errors scanning card.'
+    else
+      redirect_to root_url, notice: 'Student exam was successfully created.'
     end
   end
 

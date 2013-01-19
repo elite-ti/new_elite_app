@@ -17,4 +17,8 @@ class Exam < ActiveRecord::Base
 
   validates :name, :exam_cycle_id, presence: true
   validates :name, uniqueness: { scope: :exam_cycle_id }
+
+  def number_of_questions
+    exam_questions.count
+  end
 end

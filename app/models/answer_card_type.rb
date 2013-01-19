@@ -1,7 +1,7 @@
 class AnswerCardType < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :card, :name, :parameters
+  attr_accessible :card, :name, :parameters, :student_number_length
 
   has_many :student_exams
 

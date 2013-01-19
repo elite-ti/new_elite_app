@@ -9,7 +9,8 @@ class ExamQuestion < ActiveRecord::Base
   validates :number, :exam, :question, presence: true
   validates :question_id, uniqueness: { scope: :exam_id }
 
-  before_validation :set_number
+  before_validation :set_number, on: :create
+  # TODO: create after destroy to renumber every exam questions
 
 private
 

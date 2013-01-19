@@ -13,26 +13,5 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
 
   def filename 
     "original.tif" if original_filename
-  end 
-
-  version :normalized_tif do
-    process :normalize
-
-    def full_filename(for_file = model.logo.file) 
-      "normalized.tif" 
-    end 
-  end
-
-  version :normalized_png do
-    process :normalize
-    process convert: 'png'
-
-    def full_filename(for_file = model.logo.file) 
-      "normalized.png" 
-    end 
-  end
-
-  def normalize
-    # TODO
   end
 end

@@ -16,7 +16,8 @@ describe 'AnswerCardTypes' do
     click_link 'New Answer Card Type'
     fill_in 'Name', with: 'AnwerCardType'
     fill_in 'Parameters', with: '1 2 3 4 5'
-    attach_file 'Card', "#{Rails.root}/spec/support/answer_card.tif"
+    fill_in 'Student number length', with: '7'
+    attach_file 'Card', "#{Rails.root}/spec/support/card_b.tif"
     click_button 'Create'
 
     page.should have_content 'Answer card type was successfully created.'
