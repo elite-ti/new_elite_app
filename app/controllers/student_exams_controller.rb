@@ -5,6 +5,11 @@ class StudentExamsController < ApplicationController
   end
 
   def create
+    if File.extname(params[:student_exam][:card].original_filename) != '.tif'
+      decompress
+      return
+    end
+    
     if @student_exam.save
       check_student_exam
     else
@@ -33,21 +38,21 @@ private
     end
   end
 
-  # def create
-  #   @exam_id = params[:student_exam][:exam_id]
-  #   file = params[:file]
-  #   file_path = File.path file.tempfile
-  #   extension = File.extname(file.original_filename)
-
-  #   if extension == '.tif'
-  #     scan_file(file_path)
-  #   elsif extension.in? Uncompressor.supported_extensions
-  #     uncompressor = Uncompressor.new(file_path)
-  #     uncompressor.get_files.each { |f| scan_file(f) }
-  #     uncompressor.destroy_files
-  #   else
-  #     flash.now[:error] = 'File extension not supported.'
-  #     render :new
-  #   end
-  # end
+  def decompress
+    begin
+      file_path = params[:student_exam][:card].tempfile.path
+      extension = File.extname(params[:student_exam][:card].original_filename)
+      Decompressor.process_files(file_path, extension) do |file|
+        @student_exam = StudentExam.create!(
+          exam_id: params[:student_exam][:exam_id],
+          answer_card_type_id: params[:student_exam][:answer_card_type_id],
+          card: File.open(file)
+        )
+      end
+      redirect_to root_url, notice: 'Student exams were successfully created.'
+    rescue Exception => e
+      flash.now[:error] = e.message
+      render :new
+    end
+  end
 end

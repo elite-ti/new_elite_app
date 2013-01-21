@@ -16,15 +16,13 @@ class ExamAnswer < ActiveRecord::Base
   before_create :set_needs_check
 
   def png_url
-    path = png_path
     create_png unless File.exist?(png_path)
-    path.split(File.join(Rails.root, 'public'))[1]
+    png_path.split(File.join(Rails.root, 'public'))[1]
   end
 
 private
 
   def set_needs_check
-    debugger
     self.needs_check = !valid_answer?
     true
   end
