@@ -13,6 +13,8 @@
 #define PIVOT_DEFAULT_Y 540
 #define MARK_WIDTH 68
 #define MARK_HEIGHT 40
+#define DEFAULT_CARD_HEIGHT 4847
+#define DEFAULT_CARD_WIDTH 1284
 
 typedef struct {
   int number_of_groups;
@@ -58,6 +60,7 @@ File CreateEmptyFile(int, int);
 void WritePng(File);
 
 double GetTangent(File);
+double GetTangent2(File);
 Pixel GetPivot(File);
 double LineDensity(File file, int, int, int, int);
 
@@ -241,6 +244,29 @@ void WritePng(File file) {
   if(error) 
     perror("Error writing png.");
   free(file.raster);
+}
+
+double GetTangent2(File file) {
+  double angle;
+  int blank_line, middle_point_x;
+  
+  //rotation angle absolute value
+  angle = asin(2*(file.height*file.width-DEFAULT_CARD_WIDTH*DEFAULT_CARD_HEIGHT)/(DEFAULT_CARD_HEIGHT*DEFAULT_CARD_HEIGHT+DEFAULT_CARD_WIDTH*DEFAULT_CARD_WIDTH))/2;
+  
+  blank_line = (int)(cos(angle)*DEFAULT_CARD_HEIGHT/2) - 1;
+  middle_point_x = (int)(sin(angle)*DEFAULT_CARD_HEIGHT/2)-1;
+  
+  if(middle_point_x<0)middle_point_x=0;
+  if(blank_line<0)blank_line=0;
+  
+  int y,check;
+  for(y = 0; y < blank_line; y++)
+  {
+    if(IsPixelFilled(file, middle_point_x, y))check++;
+  }
+  if(check>0)angle=-angle;
+  
+  return tan(angle);
 }
 
 double GetTangent(File file) {
