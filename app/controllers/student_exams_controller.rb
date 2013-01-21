@@ -1,6 +1,10 @@
 class StudentExamsController < ApplicationController
   load_and_authorize_resource
 
+  def index
+    @student_exams_needing_check = StudentExam.needing_check
+  end
+
   def new
   end
 
@@ -11,7 +15,7 @@ class StudentExamsController < ApplicationController
     end
     
     if @student_exam.save
-      check_student_exam
+      redirect_to student_exams_path, notice: 'Student exam was successfully created.'
     else
       render :new
     end
@@ -22,7 +26,11 @@ class StudentExamsController < ApplicationController
 
   def update
     if @student_exam.update_attributes(params[:student_exam])
-      check_student_exam
+      if params[:commit] == 'Finish'
+        finish_checking
+      else
+        check_student_exams
+      end
     else
       render :edit
     end
@@ -30,11 +38,11 @@ class StudentExamsController < ApplicationController
 
 private
 
-  def check_student_exam
-    if @student_exam.needs_check?
-      redirect_to edit_student_exam_path(@student_exam), notice: 'Some errors scanning card.'
+  def check_student_exams
+    if StudentExam.any_needs_check?
+      redirect_to edit_student_exam_path(StudentExam.needing_check.first), notice: 'Some fields need to be checked.'
     else
-      redirect_to root_url, notice: 'Student exam was successfully created.'
+      finish_checking
     end
   end
 
@@ -49,10 +57,14 @@ private
           card: File.open(file)
         )
       end
-      redirect_to root_url, notice: 'Student exams were successfully created.'
+      redirect_to student_exams_path, notice: 'Student exams were successfully created.'
     rescue Exception => e
       flash.now[:error] = e.message
       render :new
     end
+  end
+
+  def finish_checking
+    redirect_to student_exams_path, notice: 'Student exam was successfully updated.'
   end
 end

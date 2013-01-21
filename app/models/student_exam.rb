@@ -1,8 +1,8 @@
 class StudentExam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :card, :exam_id, :answer_card_type_id, :student_id, 
-    :exam_answers_attributes
+  attr_accessible :card, :exam_id, :answer_card_type_id, 
+    :student_id, :exam_answers_attributes
 
   belongs_to :exam
   belongs_to :student
@@ -17,8 +17,13 @@ class StudentExam < ActiveRecord::Base
   mount_uploader :card, StudentExamCardUploader
   after_create :set_answers
 
-  def answers_needing_check
-    exam_answers.select { |exam_answer| exam_answer.needs_check? }
+  def self.needing_check
+    includes(:exam, :student, :exam_answers).
+      where("student_id IS NULL OR exam_answers.needs_check = ?", true)
+  end
+
+  def self.any_needs_check?
+    needing_check.any?
   end
 
   def needs_check?
@@ -27,6 +32,10 @@ class StudentExam < ActiveRecord::Base
 
   def no_student?
     student_id.nil?
+  end
+
+  def answers_needing_check
+    exam_answers.select { |exam_answer| exam_answer.needs_check? }
   end
 
   def any_answer_needs_check?
