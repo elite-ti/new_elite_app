@@ -13,11 +13,12 @@
 
     <% if @student_exam.any_answer_needs_check? %>
       <h2>Some answers were zero or wrong</h2>
-      <% @student_exam.answers_needing_check.each do |exam_answer| %>
-        <%= image_tag exam_answer.png_url %>
+      <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
+        <%= image_tag exam_fields.object.png_url %>
         <div class='radio-buttons'>
-          <%= f.collection_radio_buttons :exam_answer_values, 
+          <%= exam_fields.collection_radio_buttons :answer, 
             ExamAnswer::ANSWERS.map{|x| [x, x]}, :first, :last %>
+          <%= exam_fields.hidden_field :needs_check, value: false %>
         </div>
       <% end %>
     <% end %>

@@ -5,7 +5,7 @@ class ExamAnswer < ActiveRecord::Base
   INVALID_ANSWERS = %w[Z W]
   ANSWERS = VALID_ANSWERS + INVALID_ANSWERS
   
-  attr_accessible :answer, :exam_question_id, :student_exam_id
+  attr_accessible :answer, :exam_question_id, :student_exam_id, :needs_check
 
   belongs_to :exam_question
   belongs_to :student_exam
@@ -24,6 +24,7 @@ class ExamAnswer < ActiveRecord::Base
 private
 
   def set_needs_check
+    debugger
     self.needs_check = !valid_answer?
     true
   end
@@ -49,7 +50,7 @@ private
     x = question_number <= 50 ? 66 : 664
     y = 1038 + height*(question_number - 1)
 
-    image.crop "590x70+#{x}+#{y}"
+    image.crop "#{width}x#{height}+#{x}+#{y}"
     image.resize '50%'
     image.write png_path
   end

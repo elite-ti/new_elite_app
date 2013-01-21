@@ -1,14 +1,15 @@
 class StudentExam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :card, :exam_id, :answer_card_type_id, :student_id
-  attr_accessor :exam_answer_values
+  attr_accessible :card, :exam_id, :answer_card_type_id, :student_id, 
+    :exam_answers_attributes
 
   belongs_to :exam
   belongs_to :student
+  belongs_to :answer_card_type
 
   has_many :exam_answers, dependent: :destroy
-  belongs_to :answer_card_type
+  accepts_nested_attributes_for :exam_answers
 
   validates :card, :exam_id, :answer_card_type_id, presence: true
   validates :student_id, uniqueness: { scope: :exam_id }, allow_nil: true
@@ -44,6 +45,7 @@ class StudentExam < ActiveRecord::Base
 
     set_student(all_answers.slice(0, answer_card_type.student_number_length))
     set_exam_answers(all_answers.slice(answer_card_type.student_number_length, exam.number_of_questions))
+    true
   end
 
   def student_name_png_url
