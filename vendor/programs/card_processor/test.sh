@@ -4,9 +4,9 @@ function test {
   filename=$1
   expected=$2
 
-  desktop='/home/charlie/Desktop'
-  source_path=$desktop/$filename.png
-  destination_path=$desktop/normalized_$filename.png
+  folder='/home/charlie/Desktop/samples_png'
+  source_path=$folder/$filename.png
+  destination_path=$folder/normalized_$filename.png
 
   result=$(./b_type $source_path $destination_path)
   if [ "$result" == "$expected" ]
@@ -14,14 +14,17 @@ function test {
     echo "=> Success!"
   else
     echo "=> Error"
-    echo "Result: $result"
-    echo "Expected: $expected"
+    echo "Result:"
+    echo "$result"
+    echo "Expected:"
+    echo "$expected"
+    echo ""
   fi
 }
 
 echo -e "\n=> Testing b_type"
-rm b_type
-gcc b_type.c lodepng.c -lm -o b_type
+rm -f b_type
+gcc -std=c99 b_type.c lodepng.c -lm -o b_type
 
 zeros='ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
 test sample1 0246864AEBDCBDAEDEEEBEEWEEBEEDEEEBEED$zeros

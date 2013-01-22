@@ -11,7 +11,7 @@
 
 #define PIVOT_DEFAULT_X 60
 #define PIVOT_DEFAULT_Y 540
-#define MARK_WIDTH 68
+#define MARK_WIDTH 66
 #define MARK_HEIGHT 40
 #define DEFAULT_CARD_HEIGHT 4847
 #define DEFAULT_CARD_WIDTH 1284
@@ -54,20 +54,22 @@ typedef struct {
 
 void ReadConfiguration();
 File ReadFile();
+File Rotate180(File);
 File Rotate(File);
 File Move(File);
 File CreateEmptyFile(int, int);
 void WritePng(File);
 
+int IsFileUpsideDown(File);
 double GetTangent(File);
 double GetTangent2(File);
 Pixel GetPivot(File);
 double LineDensity(File file, int, int, int, int);
 
-int GetTifRasterIndex(File, int, int);
-int GetPngRasterIndex(File, int, int);
+int GetRasterIndex(File, int, int);
 int IsPixelInFile(File, int, int);
 int IsPixelFilled(File, int, int);
+int IsAproximatelly(int, int);
 
 void ProcessFile(File *);
 void ProcessZone(File *, Zone);
@@ -89,8 +91,10 @@ int main(int argc, char* argv[]) {
 
   ReadConfiguration();
   File file = ReadFile();
-  File rotated_file = Rotate(file);
+  File rotated_180_file = Rotate180(file);
+  File rotated_file = Rotate(rotated_180_file);
   File moved_file = Move(rotated_file);
+  // File moved_file = rotated_file;
 
   ProcessFile(&moved_file);
   PrintAnswers(moved_file);
@@ -165,14 +169,34 @@ File ReadFile() {
   return file;
 }
 
+File Rotate180(File file) {
+  if(! IsFileUpsideDown(file))
+    return file;
+
+  File rotated_180_file = CreateEmptyFile(file.height, file.width);
+
+  int i, j, size = file.height * file.width;
+  for(i = 0; i < size; i++) {
+    j = size - 1 - i;
+    rotated_180_file.raster[4*j] = file.raster[4*i];
+    rotated_180_file.raster[4*j + 1] = file.raster[4*i + 1];
+    rotated_180_file.raster[4*j + 2] = file.raster[4*i + 2];
+    rotated_180_file.raster[4*j + 3] = file.raster[4*i + 3];
+  }
+  free(file.raster);
+  return rotated_180_file;
+}
+
 File Rotate(File file) {
-  double tg = GetTangent(file);
+  double tg = GetTangent2(file);
 
   if(tg == 0)
     return file;
 
   double tg2 = tg*tg;
   double s = sqrt((tg2)/(1.0 + tg2));
+  if(tg < 0)
+    s = -s;
   double c = sqrt(1.0/(1.0 + tg2));
 
   File rotated_file = CreateEmptyFile(file.height, file.width);
@@ -246,27 +270,55 @@ void WritePng(File file) {
   free(file.raster);
 }
 
+int IsFileUpsideDown(File file) {
+  int x;
+  for(x = file.width - 1; x >= file.width/2; x--)
+    if(LineDensity(file, 0, x, file.height - 1, x) > 0.4)
+      return 1;
+  return 0;
+}
+
 double GetTangent2(File file) {
-  double angle;
-  int blank_line, middle_point_x;
-  
-  //rotation angle absolute value
-  angle = asin(2*(file.height*file.width-DEFAULT_CARD_WIDTH*DEFAULT_CARD_HEIGHT)/(DEFAULT_CARD_HEIGHT*DEFAULT_CARD_HEIGHT+DEFAULT_CARD_WIDTH*DEFAULT_CARD_WIDTH))/2;
-  
-  blank_line = (int)(cos(angle)*DEFAULT_CARD_HEIGHT/2) - 1;
-  middle_point_x = (int)(sin(angle)*DEFAULT_CARD_HEIGHT/2)-1;
-  
-  if(middle_point_x<0)middle_point_x=0;
-  if(blank_line<0)blank_line=0;
-  
-  int y,check;
-  for(y = 0; y < blank_line; y++)
-  {
-    if(IsPixelFilled(file, middle_point_x, y))check++;
+  int *xx = (int*) malloc(file.height * sizeof(int));
+  int *yy = (int*) malloc(file.height * sizeof(int));
+  int size = 0;
+  int x, y, counter;
+  double media = 0;
+  for(y = 0; y < file.height; y++) {
+    x = 0;
+    while(IsPixelInFile(file, x, y) && !IsPixelFilled(file, x, y))
+      x++;
+    counter = 0;
+    while(IsPixelInFile(file, x, y) && IsPixelFilled(file, x + counter, y))
+      counter++;
+    if(counter > 50) {
+      xx[size] = x + counter;
+      media += xx[size];
+      yy[size] = y;
+      // printf("x: %d, y: %d\n", xx[size], yy[size]);
+      size++;
+    }
   }
-  if(check>0)angle=-angle;
-  
-  return tan(angle);
+  media = media/size;
+  // printf("\n\nMedia: %lf\n\n", media);
+  int descarte = 0;
+  double SUMx = 0, SUMy = 0, SUMxy = 0, SUMxx = 0;
+  for(int i = 0; i < size; i++) {
+    if(xx[i]>media-40 && xx[i]<media+40){
+      SUMx = SUMx + xx[i];
+      SUMy = SUMy + yy[i];
+      SUMxy = SUMxy + xx[i]*yy[i];
+      SUMxx = SUMxx + xx[i]*xx[i];
+      // printf("x: %d, y: %d\n", xx[i], yy[i]);
+    }else
+      descarte++;  
+  }
+  double slope = (double)(SUMx*SUMy - (size-descarte)*SUMxy) / (double)(SUMx*SUMx - (size-descarte)*SUMxx);
+  // printf("Slope: %lf\n", 1/slope);
+
+  free(xx);
+  free(yy);
+  return 1/slope;
 }
 
 double GetTangent(File file) {
@@ -285,9 +337,11 @@ double GetTangent(File file) {
 
     bottom++;
   }
+  double slope = (double)(bottom - pivot.x - SHIFT_X) / (double)(DELTA_Y);
+  // printf("Angle: %lf\n", slope);
 
   // Improve parameters (maybe substitute bottom by x_current_min)
-  return (double)(bottom - pivot.x - SHIFT_X) / (double)(DELTA_Y);
+  return slope;
 }
 
 Pixel GetPivot(File file) {
@@ -304,8 +358,14 @@ Pixel GetPivot(File file) {
         while(IsPixelFilled(file, pivot.x + counter, pivot.y))
           counter++;
 
-        if(IsAproximatelly(counter, MARK_WIDTH)) {
+        if(IsAproximatelly(counter, MARK_WIDTH) && 
+            LineDensity(file, 0, pivot.x, file.height-1, pivot.x) > 0.4) {
+          // printf("x: %d, y: %d\n", pivot.x, pivot.y);
           pivot.x = pivot.x + counter;
+
+          // double density = ;
+          // if(density > 0)
+            // printf("Density: %lf\n", density);
           return pivot;
         }
       }
@@ -364,7 +424,7 @@ int IsPixelFilled(File file, int x, int y) {
 }
 
 int IsPixelInFile(File file, int x, int y) {
-  return x > 0 && x < file.width && y > 0 && y < file.height;
+  return x >= 0 && x < file.width && y >= 0 && y < file.height;
 }
 
 int GetRasterIndex(File file, int x, int y) {
