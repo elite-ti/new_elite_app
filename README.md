@@ -2,8 +2,6 @@
 
 ## Todo
 
-* Open edit_student_exam and fix form
-* Umcompress files
 
 ## Setup
 

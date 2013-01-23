@@ -16,6 +16,11 @@
 #define DEFAULT_CARD_HEIGHT 4847
 #define DEFAULT_CARD_WIDTH 1284
 
+// TODO
+// * review pivot
+// * load tif instead of png
+// * remove struct configuration
+
 typedef struct {
   int number_of_groups;
   int space_between_groups;
@@ -65,7 +70,9 @@ double GetTangent(File);
 double GetTangent2(File);
 Pixel GetPivot(File);
 double LineDensity(File file, int, int, int, int);
+double ColumnDensity(File, int);
 
+int BelongsToMark(File file, int x, int y);
 int GetRasterIndex(File, int, int);
 int IsPixelInFile(File, int, int);
 int IsPixelFilled(File, int, int);
@@ -346,8 +353,21 @@ double GetTangent(File file) {
 
 Pixel GetPivot(File file) {
   Pixel pivot;
+  double maxdensity = 0, density = 0, last_density = 0;
+  int xx;
+  for(int x = 0; x < file.width; x++) {
+    last_density = density;
+    density = ColumnDensity(file, x);
+    if(density >= maxdensity) {
+      maxdensity = density;
+      xx = x;
+    }
+    if(density < last_density && maxdensity > 0.4) {
+      break;
+    }
+  }
   int x;
-  for(x = 0; x < file.width; x++) {
+  for(x = xx; x < file.width; x++) {
     int y;
     for(y = 0; y < file.height; y++) {
       if(IsPixelFilled(file, x, y)) {
@@ -358,8 +378,7 @@ Pixel GetPivot(File file) {
         while(IsPixelFilled(file, pivot.x + counter, pivot.y))
           counter++;
 
-        if(IsAproximatelly(counter, MARK_WIDTH) && 
-            LineDensity(file, 0, pivot.x, file.height-1, pivot.x) > 0.4) {
+        if(IsAproximatelly(counter, MARK_WIDTH) && ColumnDensity(file, pivot.x) > 0.4) {
           // printf("x: %d, y: %d\n", pivot.x, pivot.y);
           pivot.x = pivot.x + counter;
 
@@ -372,6 +391,37 @@ Pixel GetPivot(File file) {
     }
   }
   perror("File is blank.");
+  exit(1);
+}
+
+int BelongsToMark(File file, int x, int y) {
+  if(!IsPixelInFile(file, x, y))
+    return 0;
+
+  int minx, maxx, miny, maxy;
+  while(IsPixelInFile(file, x, y) && IsPixelFilled(file, x, y))
+    x--;
+  minx = x;
+    
+  while(IsPixelInFile(file, x, y) && IsPixelFilled(file, x, y))
+    y--;
+  miny = y;
+
+  while(IsPixelInFile(file, x, y) && IsPixelFilled(file, x, y))
+    x++;
+  maxx = x;
+  
+  while(IsPixelInFile(file, x, y) && IsPixelFilled(file, x, y))
+    y++;
+  maxy = y;
+  
+  if(ProcessOption(file, minx, miny, (maxx-minx), (maxy-miny)) > 0.4)
+    return 1;
+  return 0;
+}
+
+double ColumnDensity(File file, int x) {
+  return LineDensity(file, 0, x, file.height-1, x); 
 }
 
 double LineDensity(File file, int x1, int y1, int x2, int y2) {
