@@ -1,6 +1,6 @@
 namespace :db do
   namespace :populate do
-    ASSETS_PATH = File.join(Rails.root, 'lib/assets/populate')
+    ASSETS_PATH = File.join(Rails.root, 'lib/tasks/csvs')
 
     def read_csv(file_name)
       CSV.read File.join(ASSETS_PATH, file_name + '.csv')

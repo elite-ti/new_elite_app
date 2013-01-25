@@ -1,18 +1,11 @@
 namespace :db do
   namespace :populate do
-    ASSETS_PATH = File.join(Rails.root, 'lib/assets/populate')
+    ASSETS_PATH = File.join(Rails.root, 'lib/tasks/csvs')
 
     def read_csv(file_name)
       CSV.read File.join(ASSETS_PATH, file_name + '.csv')
     end
     
-    task general: [
-      'db:schema:load',
-      :product_types, :product_groups, :products, :years, :campuses, :klazzes, 
-      :subjects, :klazz_types, :majors, :school_roles, :elite_roles, :absence_reasons, 
-      :employees, :teachers, :admins, :poll_question_types, :poll_question_categories
-    ]
-
     task product_types: :environment do
       p 'Populating product_types'
       product_types = []

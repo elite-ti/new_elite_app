@@ -3,8 +3,6 @@ namespace :db do
     CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
     CARD_PARAMETERS = '0.4 2 1 0 7 0123456789 80 43 281 914 969 528 2 600 50 ABCDE 88 43 183 1050 495 3471'
 
-    task exam_related: [:answer_card_type, :exam_cycle, :questions, :exam]
-
     task answer_card_type: :environment do
       AnswerCardType.create(
         card: File.open(CARD_PATH), 
