@@ -18,3 +18,4 @@
 /config/initializers/omni_auth.rb
 /public/uploads
 /lib/assets/images
+*.swp
