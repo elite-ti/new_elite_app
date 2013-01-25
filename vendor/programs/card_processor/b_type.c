@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ERROR 0.8
+#define ERROR 0.7
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Wrong number of arguments."
 #define ERROR_READING_FILE "Error reading file."
@@ -13,7 +13,7 @@
 
 #define PIVOT_DEFAULT_X 60
 #define PIVOT_DEFAULT_Y 540
-#define MARK_WIDTH 66
+#define MARK_WIDTH 80
 #define MARK_HEIGHT 40
 #define DEFAULT_CARD_HEIGHT 4847
 #define DEFAULT_CARD_WIDTH 1284
@@ -75,7 +75,7 @@ File move(File);
 
 void process_file(File *);
 void print_answers(File);
-void write_png(File);
+void write_png(File *);
 
 File create_empty_file(int, int);
 void copy_pixel(File *, int, int, File *, int, int);
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
 
   process_file(&moved_file);
   print_answers(moved_file);
-  write_png(moved_file);
+  write_png(&moved_file);
 
   return 0;
 }
@@ -264,13 +264,15 @@ void copy_pixel(File *from, int from_x, int from_y, File *to, int to_x, int to_y
   }
 }  
 
-void write_png(File file) {
-  unsigned error = lodepng_encode32_file(conf.destination_path, file.raster, file.width, file.height);
+void write_png(File *file) {
+  file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y)] = 255;
+  file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y) + 1] = 255;
+  unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
   if(error) {
     perror(ERROR_WRITING_FILE);
     exit(3);
   }
-  free(file.raster);
+  free(file->raster);
 }
 
 int is_upside_down(File file) {
@@ -335,7 +337,7 @@ Pixel get_pivot(File file) {
   }
   target_x = (target_x + target_xx)/2;
 
-  for(int y = 0; y < file.height; y++) {
+  for(int y = 0; y < file.height/2; y++) {
     if(is_pixel_filled(file, target_x, y) && is_in_mark(file, target_x, y)) {
       while(is_pixel_filled(file, target_x, y))
         target_x++;
