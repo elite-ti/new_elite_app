@@ -4,21 +4,22 @@
   <%= f.error_notification %>
 
   <div class='form-inputs'>
-    <% if @student_exam.no_student? %>
+    <% if @student_exam.student.nil? %>
       <h2>Student was not found</h2>
-      <%= image_tag @student_exam.student_name_png_url %>
+      <%= image_tag @student_exam.card.student_name_url %>
       <%= f.association :student, :collection => @student_exam.possible_students, 
         input_html: { class: 'is-chosen' } %>
+      <%= f.hidden_field :checked, value: true %>
     <% end %>
 
-    <% if @student_exam.any_answer_needs_check? %>
+    <% if @student_exam.answers_needing_check.any? %>
       <h2>Some answers were zero or wrong</h2>
       <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
-        <%= image_tag exam_fields.object.png_url %>
+        <%= image_tag exam_fields.object.image_url %>
         <div class='radio-buttons'>
           <%= exam_fields.collection_radio_buttons :answer, 
             ExamAnswer::ANSWERS.map{|x| [x, x]}, :first, :last %>
-          <%= exam_fields.hidden_field :needs_check, value: false %>
+          <%= exam_fields.hidden_field :status, value: ExamAnswer::CHECKED_STATUS %>
         </div>
       <% end %>
     <% end %>

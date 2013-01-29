@@ -1,13 +1,10 @@
+require 'sidekiq/web'
+
 EliteApp::Application.routes.draw do
-  resources :answer_card_types
-
-
+  resources :card_types
   resources :student_exams
-
   resources :exam_answers
-  resources :exams do
-    post 'upload_answers', on: :member
-  end
+  resources :exams
   resources :questions
   resources :exam_cycles
   resources :students
@@ -56,4 +53,6 @@ EliteApp::Application.routes.draw do
 
   get 'home', to: 'home#index', as: 'home'
   root to: 'home#index'
+
+  mount Sidekiq::Web, at: '/sidekiq'
 end

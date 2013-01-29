@@ -1,19 +1,17 @@
 def test(folder_path, filename, expected)
   tif_path = File.join(folder_path, filename)
-  png_filename = File.basename(filename, '.tif') + '.png'
-  png_path = File.join(folder_path, png_filename) 
-  normalized_path = File.join(folder_path, 'normalized_' + png_filename)
+  filename = File.basename(filename, '.tif')
+  normalized_path = File.join(folder_path, 'normalized_' + filename + '.png')
 
   if expected.size < 107
     expected = expected + 'Z'*(107-expected.size)
   end
   
-  `convert #{tif_path} #{png_path}`
-  result = `./b_type #{png_path} #{normalized_path}`
+  result = `./b_type #{tif_path} #{normalized_path}`
   if result == expected
     p '=> Success!'
   else
-    p '=> Error in file -> ' + png_filename
+    p '=> Error in file -> ' + tif_path
     p 'Result: ' + result
     p 'Expected: ' + expected
   end
@@ -21,7 +19,7 @@ end
 
 p 'Testing files'
 `rm -f b_type`
-`gcc -std=c99 b_type.c lodepng.c -lm -o b_type`
+`gcc -std=c99 b_type.c lodepng.c -lm -ltiff -o b_type`
 
 folder_path = '/home/charlie/Desktop/errors' 
 

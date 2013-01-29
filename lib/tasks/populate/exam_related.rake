@@ -3,8 +3,9 @@ namespace :db do
     CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
     CARD_PARAMETERS = '0.4 2 1 0 7 0123456789 80 43 281 914 969 528 2 600 50 ABCDE 88 43 183 1050 495 3471'
 
-    task answer_card_type: :environment do
-      AnswerCardType.create(
+    task card_type: :environment do
+      p 'Populating card types'
+      CardType.create(
         card: File.open(CARD_PATH), 
         name: 'Type B', 
         parameters: CARD_PARAMETERS, 
@@ -13,6 +14,7 @@ namespace :db do
     end
 
     task exam_cycle: :environment do
+      p 'Populating exam cycles'
       ExamCycle.create(
         end_date: Time.now + 1.week, 
         name: 'Bolsao', 
@@ -23,10 +25,12 @@ namespace :db do
     end
 
     task questions: :environment do
+      p 'Populating questions'
       35.times { Question.create(name: "Question#{Question.count}") }
     end
 
     task exam: :environment do
+      p 'Populating exams'
       exam = Exam.create(
         date: Time.now, 
         exam_cycle_id: ExamCycle.first.id, 

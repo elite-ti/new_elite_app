@@ -1,66 +1,44 @@
 class StudentExam < ActiveRecord::Base
   has_paper_trail
+
+  BEING_PROCESSED_STATUS = 'Being processed'
+  ERROR_STATUS = 'Error'
+  VALID_STATUS = 'Valid'
+  INVALID_STATUS = 'Invalid'
+  CHECKED_STATUS = 'Checked'
   
-  attr_accessible :card, :exam_id, :answer_card_type_id, 
-    :student_id, :exam_answers_attributes
+  attr_accessible :card, :exam_id, :card_type_id, :student_id, 
+    :process_result, :exam_answers_attributes, :status, :checked
+  attr_reader :checked
 
   belongs_to :exam
   belongs_to :student
-  belongs_to :answer_card_type
-
+  belongs_to :card_type
   has_many :exam_answers, dependent: :destroy
   accepts_nested_attributes_for :exam_answers
 
-  validates :card, :exam_id, :answer_card_type_id, presence: true
+  validates :card, :exam_id, :card_type_id, presence: true
   validates :student_id, uniqueness: { scope: :exam_id }, allow_nil: true
 
   mount_uploader :card, StudentExamCardUploader
-  after_create :set_answers
 
   def self.needing_check
-    includes(:exam, :student, :exam_answers).
-      where("student_id IS NULL OR exam_answers.needs_check = ?", true)
+    where(status: 'Invalid')
   end
 
-  def self.any_needs_check?
-    needing_check.any?
-  end
-
-  def needs_check?
-    no_student? or any_answer_needs_check?
-  end
-
-  def no_student?
-    student_id.nil?
-  end
-
-  def answers_needing_check
-    exam_answers.select { |exam_answer| exam_answer.needs_check? }
-  end
-
-  def any_answer_needs_check?
-    not answers_needing_check.empty?
-  end
-
-  def set_answers
-    b_type = File.join(Rails.root, 'vendor/programs/card_processor/b_type')
-    png_path = card.png.current_path
-    all_answers = `#{b_type} #{png_path} #{png_path}`
-
-    if all_answers.blank?
-      errors.add(:card, 'Error scanning card.')
-      return false
+  def process_result=(process_result)
+    if card_type.is_valid_result?(process_result)
+      set_student(process_result[0, card_type.student_number_length])
+      set_exam_answers(process_result[card_type.student_number_length, 
+        process_result.length - card_type.student_number_length])
+      set_status
+    else
+      self.status = ERROR_STATUS
     end
-
-    set_student(all_answers.slice(0, answer_card_type.student_number_length))
-    set_exam_answers(all_answers.slice(answer_card_type.student_number_length, exam.number_of_questions))
-    true
   end
 
-  def student_name_png_url
-    path = File.join(File.dirname(card.current_path), 'student_name.png')
-    create_student_name_png unless File.exist?(path)
-    path.split(File.join(Rails.root, 'public'))[1]
+  def checked=(_checked)
+    set_status if _checked
   end
 
   def possible_students
@@ -72,10 +50,14 @@ class StudentExam < ActiveRecord::Base
     end
   end
 
+  def answers_needing_check
+    exam_answers.select{ |ea| ea.invalid? }
+  end
+
 private
 
   def set_student(student_number)
-    if(exam.exam_cycle.is_bolsao?)
+    if exam.exam_cycle.is_bolsao?
       self.student_id = Applicant.where(number: student_number).first.try(:student).try(:id)
     else
       self.student_id = Student.where(ra: student_number).first.try(:id)
@@ -84,15 +66,16 @@ private
 
   def set_exam_answers(answers)
     exam_questions = exam.exam_questions.order(:number)
-    for i in 0..(answers.size-1)
-      exam_answers.create!(answer: answers[i], exam_question_id: exam_questions[i].id)
+    (0..(exam_questions.size - 1)).each do |i|
+      exam_answers.build(answer: answers[i], exam_question_id: exam_questions[i].id)
     end
   end
 
-  def create_student_name_png
-    image = MiniMagick::Image.open(card.png.current_path)
-    image.crop '845x280+398+35'
-    image.resize '50%'
-    image.write File.join(File.dirname(card.png.current_path), 'student_name.png')
+  def set_status
+    if student_id.nil? || exam_answers.select{ |ea| ea.invalid? }.any?
+      self.status = INVALID_STATUS
+    else
+      self.status = VALID_STATUS
+    end
   end
 end

@@ -42,16 +42,16 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "answer_card_types", :force => true do |t|
+  create_table "card_types", :force => true do |t|
     t.string   "name",                  :null => false
     t.string   "parameters",            :null => false
-    t.string   "card",                  :null => false
+    t.string   "card",             :null => false
     t.integer  "student_number_length", :null => false
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
   end
 
-  add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
+  add_index "card_types", ["name"], :name => "index_card_types_on_name", :unique => true
 
   create_table "applicants", :force => true do |t|
     t.string   "number"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "student_exam_id",  :null => false
     t.integer  "exam_question_id", :null => false
     t.string   "answer",           :null => false
-    t.boolean  "needs_check",      :default => true
+    t.string   "status",           :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
@@ -400,11 +400,12 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   create_table "student_exams", :force => true do |t|
     t.integer  "exam_id",             :null => false
-    t.integer  "student_id"
     t.string   "card",                :null => false
+    t.integer  "student_id"
+    t.string   "status"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.integer  "answer_card_type_id", :null => false
+    t.integer  "card_type_id",        :null => false
   end
 
   add_index "student_exams", ["exam_id", "student_id"], :name => "index_student_exams_on_exam_id_and_student_id", :unique => true

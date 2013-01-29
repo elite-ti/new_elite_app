@@ -96,8 +96,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Question#{n}" }
   end
 
-  factory :answer_card_type do
-    sequence(:name) { |n| "AnswerCardType#{n}" }
+  factory :card_type do
+    sequence(:name) { |n| "CardType#{n}" }
     parameters '1 2 3 4 5'
     student_number_length '7'
     card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
@@ -106,6 +106,6 @@ FactoryGirl.define do
   factory :student_exam do
     card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
     exam
-    answer_card_type
+    card_type
   end
 end

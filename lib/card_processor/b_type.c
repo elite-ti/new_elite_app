@@ -1,4 +1,5 @@
 #include "lodepng.h"
+#include <tiffio.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -6,10 +7,10 @@
 
 #define ERROR 0.7
 
-#define WRONG_NUMBER_OF_ARGUMENTS "Wrong number of arguments."
-#define ERROR_READING_FILE "Error reading file."
-#define ERROR_WRITING_FILE "Error writing png."
-#define PIVOT_NOT_FOUND "Pivot not found."
+#define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
+#define ERROR_READING_FILE "Error: could not read file."
+#define ERROR_WRITING_FILE "Error: could not write png."
+#define PIVOT_NOT_FOUND "Error: pivot not found."
 
 #define PIVOT_DEFAULT_X 60
 #define PIVOT_DEFAULT_Y 540
@@ -18,18 +19,16 @@
 #define DEFAULT_CARD_HEIGHT 4847
 #define DEFAULT_CARD_WIDTH 1284
 
-#define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
-#define is_black(file, i) ((file).raster[(i)+3] == 255 && (file).raster[(i)] + (file).raster[(i)+1] + (file).raster[(i)+2] == 0)
-#define is_approximately(a, b) ((float)(a) <= (float)((b)/ERROR) && (float)(a) >= (float)((b)*ERROR))
 
 #define get_index(file, x, y) (((y) * (file).width + (x))*4)
-#define get_column_density(file, x) get_line_density((file), 0, (x), (file).height-1, (x))
+#define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
+#define is_pixel_filled(file, x, y) ((file).raster[(get_index((file), (x), (y)))] == 0)
+#define is_approximately(a, b) ((float)(a) <= (float)((b)/ERROR) && (float)(a) >= (float)((b)*ERROR))
+
 
 // TODO
-// * load tif instead of png
 // * remove struct configuration
 // * load whole directory
-// * extract function is_pixel_filled to macro
 
 typedef struct {
   int number_of_groups;
@@ -67,29 +66,35 @@ typedef struct {
   int y;
 } Pixel;
 
+void stop(int, const char*);
 void read_configuration(int, char**);
+
 File read_file();
+int has_format(const char*);
+File read_png();
+File read_tif();
+
 File rotate180(File);
+int is_upside_down(File);
+
 File rotate(File);
+double get_tangent(File);
+
 File move(File);
+Pixel get_pivot(File);
+int is_in_mark(File, int, int);
 
 void process_file(File *);
+void process_question(File *, Zone, int, int);
+double process_option(File, int, int, int, int);
+
 void print_answers(File);
 void write_png(File *);
 
 File create_empty_file(int, int);
 void copy_pixel(File *, int, int, File *, int, int);
+double get_column_density(File, int);
 
-Pixel get_pivot(File);
-int is_in_mark(File, int, int);
-double get_tangent(File);
-double get_line_density(File file, int, int, int, int);
-
-int is_upside_down(File);
-int is_pixel_filled(File, int, int);
-
-void process_question(File *, Zone, int, int);
-double process_option(File, int, int, int, int);
 
 Configuration conf;
 
@@ -109,10 +114,9 @@ int main(int argc, char* argv[]) {
 }
 
 void read_configuration(int argc, char* argv[]) {
-  if(argc != 3) {
-    perror(WRONG_NUMBER_OF_ARGUMENTS);
-    exit(1);
-  }
+  if(argc != 3) 
+    stop(1, WRONG_NUMBER_OF_ARGUMENTS);
+  
   strcpy(conf.source_path, argv[1]);
   strcpy(conf.destination_path, argv[2]);
   // char parameters[] = "0.4 2 1 0 7 0123456789 80 43 281 914 969 528 2 600 50 ABCDE 88 43 183 1050 495 3471";
@@ -171,13 +175,60 @@ void read_configuration(int argc, char* argv[]) {
 }
 
 File read_file() {
+  if(has_format("png"))
+    return read_png();
+  else if(has_format("tif"))
+    return read_tif();
+  stop(2, ERROR_READING_FILE);
+}
+
+int has_format(const char* format) {
+  int path_length = strlen(conf.source_path);
+  int format_length = strlen(format);
+  for(int i = 0; i < format_length; i++)
+    if(conf.source_path[path_length - format_length + i] != format[i])
+      return 0;
+  return 1;
+}
+
+File read_png() {
   File file;
   unsigned error = lodepng_decode32_file(&file.raster, &file.width, &file.height, conf.source_path);
-  if(error) {
-    perror(ERROR_READING_FILE);
-    exit(2);
-  }
+  if(error) 
+    stop(2, ERROR_READING_FILE);
+
   return file;
+}
+
+File read_tif() {
+  int width, height;
+  TIFF *tif = TIFFOpen(conf.source_path, "r");
+  if(tif) {
+    TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
+    TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+ 
+    if((width > 0) && (height > 0)) {
+      uint32 *raster = (uint32*) _TIFFmalloc(width * height * sizeof (uint32));
+      if (raster) { 
+        if (TIFFReadRGBAImage(tif, width, height, raster, 0)) {
+          File file = create_empty_file(height, width);
+          for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) { 
+              int j = get_index(file, x, y);
+              int i = (height - y - 1) * width + x;
+              file.raster[j] = (char) TIFFGetR(raster[i]);
+              file.raster[j+1] = (char) TIFFGetG(raster[i]);
+              file.raster[j+2] = (char) TIFFGetB(raster[i]);
+              file.raster[j+3] = (char) TIFFGetA(raster[i]);
+            }
+          } 
+          TIFFClose(tif);
+          return file;
+        }
+      }
+    }
+  }
+  stop(2, ERROR_READING_FILE);
 }
 
 File rotate180(File file) {
@@ -268,16 +319,15 @@ void write_png(File *file) {
   file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y)] = 255;
   file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y) + 1] = 255;
   unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
-  if(error) {
-    perror(ERROR_WRITING_FILE);
-    exit(3);
-  }
+  if(error) 
+    stop(3, ERROR_WRITING_FILE);
+  
   free(file->raster);
 }
 
 int is_upside_down(File file) {
   for(int x = file.width - 1; x >= file.width/4; x--)
-    if(get_line_density(file, 0, x, file.height - 1, x) > 0.4)
+    if(get_column_density(file, x) > 0.4)
       return 1;
   return 0;
 }
@@ -346,8 +396,7 @@ Pixel get_pivot(File file) {
       return pivot;
     }
   }
-  perror(PIVOT_NOT_FOUND);
-  exit(4);
+  stop(4, PIVOT_NOT_FOUND);
 }
 
 int is_in_mark(File file, int x, int y) {
@@ -376,49 +425,14 @@ int is_in_mark(File file, int x, int y) {
   return 0;
 }
 
-double get_line_density(File file, int x1, int y1, int x2, int y2) {
-  int counter = 0;
-  int slope;
-  int dx, dy, incE, incNE, d, x, y;
-
-  if (x1 > x2)
-    return get_line_density(file, x2, y2, x1, y1);
-  
-  dx = x2 - x1;
-  dy = y2 - y1;
-
-  if (dy < 0) {            
-    slope = -1;
-    dy = -dy;
-  }
-  else {            
-    slope = 1;
-  }
-
-  incE = 2 * dy;
-  incNE = 2 * dy - 2 * dx;
-  d = 2 * dy - dx;
-  y = y1;       
-  for (x = x1; x <= x2; x++) {
-    if(is_pixel_filled(file, y, x))
-      counter++;
-
-    if (d <= 0) {
-      d += incE;
-    }
-    else {
-      d += incNE;
-      y += slope;
-    }
-  }
-
-  return (double)counter / (double)(x2 - x1 + 1);
+double get_column_density(File file, int x) {
+  int match = 0;
+  for(int y = 0; y < file.height; y++) 
+    if(is_pixel_filled(file, x, y))
+        match++;
+  return (double)match / (double)file.height;
 }
 
-int is_pixel_filled(File file, int x, int y) {
-  int i = get_index(file, x, y);
-  return is_in_file(file, x, y) && is_black(file, i); 
-}
 
 void process_file(File *file) {
   file->number_of_questions = 0;
@@ -469,4 +483,9 @@ double process_option(File file, int start_x, int start_y, int width, int height
 void print_answers(File file) {
   for(int i = 0; i < file.number_of_questions; i++)
     printf("%c", file.answers[i]);
+}
+
+void stop(int code, const char* message) {
+  printf("%s", message);
+  exit(code);
 }

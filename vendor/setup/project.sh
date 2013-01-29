@@ -30,7 +30,8 @@ clear
 echo "=> Creating and populating database"
 cp config/database.yml.example config/database.yml
 rake db:create:all
-rake db:populate:all
+rake db:schema:load
+rake db:populate:general
 
 clear
 echo "=> Project setup complete!"

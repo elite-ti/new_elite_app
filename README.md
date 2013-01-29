@@ -10,7 +10,7 @@ Check the vendor/setup/readme file.
 
 ## Dependencies
 
-* unrar unzip imagemagick libtiff-tools
+* unrar unzip imagemagick libtiff-tools redis
 
 
 ## Database

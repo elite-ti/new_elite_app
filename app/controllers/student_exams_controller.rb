@@ -9,16 +9,14 @@ class StudentExamsController < ApplicationController
   end
 
   def create
-    if File.extname(params[:student_exam][:card].original_filename) != '.tif'
-      decompress
-      return
-    end
-    
-    if @student_exam.save
-      redirect_to student_exams_path, notice: 'Student exam was successfully created.'
-    else
-      render :new
-    end
+    begin
+      p = params[:student_exam]
+      CardProcessor.run(p[:card], p[:exam_id], p[:card_type_id])
+      notice = 'Files are now being processed.' 
+    rescue Exceptions::DecompressorError => e
+      notice = e.message 
+    end          
+    redirect_to student_exams_path, notice: notice
   end
 
   def edit
@@ -27,7 +25,7 @@ class StudentExamsController < ApplicationController
   def update
     if @student_exam.update_attributes(params[:student_exam])
       if params[:commit] == 'Finish'
-        finish_checking
+        redirect_to student_exams_path, notice: 'Changes applied!'
       else
         check_student_exams
       end
@@ -40,31 +38,10 @@ private
 
   def check_student_exams
     if StudentExam.any_needs_check?
-      redirect_to edit_student_exam_path(StudentExam.needing_check.first), notice: 'Some fields need to be checked.'
+      redirect_to edit_student_exam_path(StudentExam.needing_check.first), 
+        notice: 'Some fields need to be checked.'
     else
-      finish_checking
+      redirect_to student_exams_path, notice: 'All cards revised!'
     end
-  end
-
-  def decompress
-    begin
-      file_path = params[:student_exam][:card].tempfile.path
-      extension = File.extname(params[:student_exam][:card].original_filename)
-      Decompressor.process_files(file_path, extension) do |file|
-        @student_exam = StudentExam.create!(
-          exam_id: params[:student_exam][:exam_id],
-          answer_card_type_id: params[:student_exam][:answer_card_type_id],
-          card: File.open(file)
-        )
-      end
-      redirect_to student_exams_path, notice: 'Student exams were successfully created.'
-    rescue Exception => e
-      flash.now[:error] = e.message
-      render :new
-    end
-  end
-
-  def finish_checking
-    redirect_to student_exams_path, notice: 'Student exam was successfully updated.'
   end
 end

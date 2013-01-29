@@ -1,5 +1,5 @@
 jQuery ->
-  $('#flash').delay(3000).fadeOut()
+  # $('#flash').delay(3000).fadeOut()
 
   $('#select_roles').change ->
     location.href = 'change_role/' + $(this).val()

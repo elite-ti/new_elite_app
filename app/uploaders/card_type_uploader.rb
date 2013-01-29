@@ -1,4 +1,4 @@
-class AnswerCardTypeUploader < CarrierWave::Uploader::Base
+class CardTypeUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::MiniMagick
   storage :file

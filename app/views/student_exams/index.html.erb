@@ -1,28 +1,27 @@
 <%= title 'Student Exams', link_to('New', new_student_exam_path) %>
 
-<% if @student_exams_needing_check.any? %>
-  <table id='student_exam_checks' class='display is-datatable'>
-    <thead>
-      <tr>
-        <th>Exam</th>
-        <th>Student</th>
-        <th>Answers needing check</th>
-      </tr>
-    </thead>
+<table id='student_exam_checks' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Exam</th>
+      <th>Student</th>
+    </tr>
+  </thead>
 
-    <tbody>
-    <% @student_exams_needing_check.each do |student_exam| %>
-      <tr>
-        <td><%= student_exam.exam.name %></td>
-        <td>
-          <%= student_exam.student.try(:name) || 'No student' %>
-        </td>
-        <td><%= student_exam.answers_needing_check.count %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <tbody>
+  <% @student_exams.each do |student_exam| %>
+    <tr>
+      <td><%= student_exam.status %></td> 
+      <td><%= student_exam.exam.name %></td>
+      <td>
+        <%= student_exam.student.try(:name) || 'No student' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% if @student_exams_needing_check.any? %>
   <p>Click <%= link_to 'here', edit_student_exam_path(@student_exams_needing_check.first) %> to correct all of them.</p>
-<% else %>
-  <p>All student exams were checked!</p>
-<% end %>
+<% end %> 

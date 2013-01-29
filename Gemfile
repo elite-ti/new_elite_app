@@ -5,7 +5,7 @@ gem 'debugger'
 
 gem 'pg'
 gem 'thin', group: :development
-gem 'composite_primary_keys'
+gem 'better_errors'
 
 gem 'capistrano'
 gem 'unicorn'
@@ -24,6 +24,10 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'prawn', git: 'git://github.com/prawnpdf/prawn', branch: 'master'
 gem 'rubyzip'
+
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 group :assets do
   gem 'sass-rails'

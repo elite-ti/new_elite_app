@@ -1,11 +1,5 @@
 namespace :db do
   namespace :populate do
-    ASSETS_PATH = File.join(Rails.root, 'lib/tasks/csvs')
-
-    def read_csv(file_name)
-      CSV.read File.join(ASSETS_PATH, file_name + '.csv')
-    end
-    
     task product_types: :environment do
       p 'Populating product_types'
       product_types = []
