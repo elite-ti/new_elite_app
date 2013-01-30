@@ -12,6 +12,7 @@ namespace :db do
       CardType.create!(
         card: File.open(CARD_PATH), 
         name: 'Type B', 
+        command: 'type_b',
         parameters: CARD_PARAMETERS,
         student_coordinates: CARD_STUDENT_COORDINATES 
       )

@@ -22,6 +22,6 @@ namespace :db do
 
     # Junk
 
-    task all: [:clean_uploads, 'db:schema:load', :general, :exam_related]
+    task all: ['db:schema:load', :clean_uploads, :general, :exam_related]
   end
 end

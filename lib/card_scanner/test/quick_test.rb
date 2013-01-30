@@ -7,9 +7,10 @@ def test(folder_path, filename, expected)
     expected = expected + 'Z'*(107-expected.size)
   end
 
-  parameters = '0.4 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
-  
-  result = `./b_type #{tif_path} #{normalized_path} #{parameters}`
+  parameters = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+  # parameters = '0.4 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+   
+  result = `../type_b #{tif_path} #{normalized_path} #{parameters}`
   if result == expected
     p '=> Success!'
   else
@@ -20,10 +21,10 @@ def test(folder_path, filename, expected)
 end
 
 p 'Testing files'
-`rm -f b_type`
-`gcc -std=c99 b_type.c lodepng.c -lm -ltiff -o b_type`
+`rm -f type_b`
+`gcc -std=c99 ../type_b.c ../lodepng.c -lm -ltiff -o ../type_b`
 
-folder_path = '/home/charlie/Desktop/errors' 
+folder_path = '/home/charlie/Desktop/quick_test' 
 
 test folder_path, '11012013180610.tif', '0047315BBCEDDEEBABEEECEDDBBAEABEACCDEDBBABCECEB'
 test folder_path, '11012013180612.tif', '004Z312BBBACCBCDBBCEEABDDEBBACCCECDDEBABCEAECDA'

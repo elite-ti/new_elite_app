@@ -12,14 +12,6 @@
 #define ERROR_WRITING_FILE "Error: could not write png."
 #define PIVOT_NOT_FOUND "Error: pivot not found."
 
-#define PIVOT_DEFAULT_X 60
-#define PIVOT_DEFAULT_Y 540
-#define MARK_WIDTH 80
-#define MARK_HEIGHT 40
-#define DEFAULT_CARD_HEIGHT 4847
-#define DEFAULT_CARD_WIDTH 1284
-
-
 #define get_index(file, x, y) (((y) * (file).width + (x))*4)
 #define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
 #define is_pixel_filled(file, x, y) ((file).raster[(get_index((file), (x), (y)))] == 0)
@@ -42,6 +34,14 @@ typedef struct {
   char source_path[200];
   char destination_path[200];
   double threshold;
+
+  int pivot_default_x;
+  int pivot_default_y;
+  int mark_width;
+  int mark_height;
+  int default_card_width;
+  int default_card_height;
+
   Zone student_zone;
   Zone questions_zone;
 } Configuration;
@@ -109,53 +109,60 @@ int main(int argc, char* argv[]) {
 }
 
 void read_configuration(int argc, char* argv[]) {
-  if(argc != 24) 
+  if(argc != 30) 
     stop(1, WRONG_NUMBER_OF_ARGUMENTS);
   
   strcpy(conf.source_path, argv[1]);
   strcpy(conf.destination_path, argv[2]);
   sscanf(argv[3], "%lf", &conf.threshold);
 
+  sscanf(argv[4], "%d", &conf.pivot_default_x);
+  sscanf(argv[5], "%d", &conf.pivot_default_y);
+  sscanf(argv[6], "%d", &conf.mark_width);
+  sscanf(argv[7], "%d", &conf.mark_height);
+  sscanf(argv[8], "%d", &conf.default_card_width);
+  sscanf(argv[9], "%d", &conf.default_card_height);
+
   int number_of_options, horizontal_group_size, number_of_questions, vertical_group_size;
 
-  sscanf(argv[4], "%d", &conf.student_zone.number_of_groups);
-  sscanf(argv[5], "%d", &conf.student_zone.space_between_groups);
-  sscanf(argv[6], "%d", &conf.student_zone.questions_per_group);
-  strcpy(conf.student_zone.alternatives, argv[7]);
-  sscanf(argv[8], "%d", &conf.student_zone.option_width);
-  sscanf(argv[9], "%d", &conf.student_zone.option_height);
-  sscanf(argv[10], "%d", &conf.student_zone.group_x);
-  sscanf(argv[11], "%d", &conf.student_zone.group_y);
+  sscanf(argv[10], "%d", &conf.student_zone.number_of_groups);
+  sscanf(argv[11], "%d", &conf.student_zone.space_between_groups);
+  sscanf(argv[12], "%d", &conf.student_zone.questions_per_group);
+  strcpy(conf.student_zone.alternatives, argv[13]);
+  sscanf(argv[14], "%d", &conf.student_zone.option_width);
+  sscanf(argv[15], "%d", &conf.student_zone.option_height);
+  sscanf(argv[16], "%d", &conf.student_zone.group_x);
+  sscanf(argv[17], "%d", &conf.student_zone.group_y);
 
   number_of_options = strlen(conf.student_zone.alternatives);
-  sscanf(argv[12], "%d", &horizontal_group_size);
+  sscanf(argv[18], "%d", &horizontal_group_size);
   conf.student_zone.horizontal_space_between_options = 
     (double)(horizontal_group_size - conf.student_zone.option_width*number_of_options)/
     (double)(number_of_options - 1);
 
   number_of_questions = conf.student_zone.questions_per_group;
-  sscanf(argv[13], "%d", &vertical_group_size);
+  sscanf(argv[19], "%d", &vertical_group_size);
   conf.student_zone.vertical_space_between_options = 
     (double)(vertical_group_size - conf.student_zone.option_height*number_of_questions)/
     (double)(number_of_questions - 1);
 
-  sscanf(argv[14], "%d", &conf.questions_zone.number_of_groups);
-  sscanf(argv[15], "%d", &conf.questions_zone.space_between_groups);
-  sscanf(argv[16], "%d", &conf.questions_zone.questions_per_group);
-  strcpy(conf.questions_zone.alternatives, argv[17]);
-  sscanf(argv[18], "%d", &conf.questions_zone.option_width);
-  sscanf(argv[19], "%d", &conf.questions_zone.option_height);
-  sscanf(argv[20], "%d", &conf.questions_zone.group_x);
-  sscanf(argv[21], "%d", &conf.questions_zone.group_y);
+  sscanf(argv[20], "%d", &conf.questions_zone.number_of_groups);
+  sscanf(argv[21], "%d", &conf.questions_zone.space_between_groups);
+  sscanf(argv[22], "%d", &conf.questions_zone.questions_per_group);
+  strcpy(conf.questions_zone.alternatives, argv[23]);
+  sscanf(argv[24], "%d", &conf.questions_zone.option_width);
+  sscanf(argv[25], "%d", &conf.questions_zone.option_height);
+  sscanf(argv[26], "%d", &conf.questions_zone.group_x);
+  sscanf(argv[27], "%d", &conf.questions_zone.group_y);
 
   number_of_options = strlen(conf.questions_zone.alternatives);
-  sscanf(argv[22], "%d", &horizontal_group_size);
+  sscanf(argv[28], "%d", &horizontal_group_size);
   conf.questions_zone.horizontal_space_between_options = 
     (double)(horizontal_group_size - conf.questions_zone.option_width*number_of_options)/
     (double)(number_of_options - 1);
 
   number_of_questions = conf.questions_zone.questions_per_group;
-  sscanf(argv[23], "%d", &vertical_group_size);
+  sscanf(argv[29], "%d", &vertical_group_size);
   conf.questions_zone.vertical_space_between_options = 
     (double)(vertical_group_size - conf.questions_zone.option_height*number_of_questions)/
     (double)(number_of_questions - 1);
@@ -260,13 +267,13 @@ File rotate(File file) {
 
 File move(File file) {
   Pixel pivot = get_pivot(file);
-  int delta_x = PIVOT_DEFAULT_X - pivot.x;
-  int delta_y = PIVOT_DEFAULT_Y - pivot.y;
+  int delta_x = conf.pivot_default_x - pivot.x;
+  int delta_y = conf.pivot_default_y - pivot.y;
 
   if(delta_x == 0 && delta_y == 0)
     return file;
 
-  File moved_file = create_empty_file(DEFAULT_CARD_HEIGHT, DEFAULT_CARD_WIDTH);
+  File moved_file = create_empty_file(conf.default_card_height, conf.default_card_width);
   for(int x = 0; x < file.width; x++) {
     for(int y = 0; y < file.height; y++) {
       int new_x = x + delta_x;
@@ -303,8 +310,8 @@ void copy_pixel(File *from, int from_x, int from_y, File *to, int to_x, int to_y
 }  
 
 void write_png(File *file) {
-  file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y)] = 255;
-  file->raster[get_index(*file, PIVOT_DEFAULT_X, PIVOT_DEFAULT_Y) + 1] = 255;
+  file->raster[get_index(*file, conf.pivot_default_x, conf.pivot_default_y)] = 255;
+  file->raster[get_index(*file, conf.pivot_default_x, conf.pivot_default_y) + 1] = 255;
   unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
   if(error) 
     stop(3, ERROR_WRITING_FILE);
@@ -399,7 +406,7 @@ int is_in_mark(File file, int x, int y) {
       max_x++;
     max_x--;
 
-    if(!is_approximately(max_x-min_x, MARK_WIDTH)) {
+    if(!is_approximately(max_x-min_x, conf.mark_width)) {
       if(max_y == y)
         return 0;
       break;
@@ -407,7 +414,7 @@ int is_in_mark(File file, int x, int y) {
 
     max_y++;
   }
-  if(is_approximately(max_y - y, MARK_HEIGHT))
+  if(is_approximately(max_y - y, conf.mark_height))
     return 1;
   return 0;
 }
