@@ -5,10 +5,8 @@ class ExamAnswer < ActiveRecord::Base
   CHECKED_STATUS = 'Checked'
   INVALID_STATUS = 'Invalid'
 
-  VALID_ANSWERS = %w[A B C D E]
-  INVALID_ANSWERS = %w[Z W]
-  ANSWERS = VALID_ANSWERS + INVALID_ANSWERS
-  
+  ANSWERS_TO_BE_CHECKED = %w[W Z]
+
   attr_accessible :answer, :exam_question_id, :student_exam_id, :status
   belongs_to :exam_question
   belongs_to :student_exam
@@ -28,16 +26,15 @@ class ExamAnswer < ActiveRecord::Base
 
 private
 
-  # status: 'Valid', 'Invalid', 'Checked'
   def set_status
-    if valid_answer?
-      self.status = VALID_STATUS
-    else
+    if needs_to_be_checked?
       self.status = INVALID_STATUS
+    else
+      self.status = VALID_STATUS
     end
   end
 
-  def valid_answer?
-    VALID_ANSWERS.include?(answer) and not INVALID_ANSWERS.include?(answer)
+  def needs_to_be_checked?
+    ANSWERS_TO_BE_CHECKED.include?(answer)
   end
 end

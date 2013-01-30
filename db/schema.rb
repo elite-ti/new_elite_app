@@ -408,8 +408,6 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "card_type_id",        :null => false
   end
 
-  add_index "student_exams", ["exam_id", "student_id"], :name => "index_student_exams_on_exam_id_and_student_id", :unique => true
-
   create_table "students", :force => true do |t|
     t.string   "name",               :null => false
     t.string   "ra"

@@ -27,11 +27,13 @@ private
 
   def process
     Find.find(@folder_path) do |path|
-      next if File.directory?(path) 
+      next if File.directory?(path) || File.extname(path) != '.tif' 
 
-      student_exam = StudentExam.new(exam_id: @exam_id, card_type_id: @card_type_id, 
-        card: File.open(path), status: 'Being processed')
-      student_exam.save!
+      student_exam = StudentExam.create!(
+        exam_id: @exam_id, 
+        card_type_id: @card_type_id, 
+        card: File.open(path)
+      )
       CardProcessorWorker.perform_async(student_exam.id)
     end
   end

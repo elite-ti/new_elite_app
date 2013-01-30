@@ -22,7 +22,8 @@ class StudentExamsController < ApplicationController
   end
 
   def update
-    if @student_exam.update_attributes(params[:student_exam])
+    p = params[:student_exam]
+    if @student_exam.set_user_modifications(p[:student_id], p[:exam_answers_attributes])
       if params[:commit] == 'Finish'
         redirect_to student_exams_path, notice: 'Changes applied!'
       else
@@ -40,7 +41,7 @@ private
       redirect_to edit_student_exam_path(StudentExam.needing_check.first), 
         notice: 'Some fields need to be checked.'
     else
-      redirect_to student_exams_path, notice: 'All cards revised!'
+      redirect_to student_exams_path, notice: 'All cards were checked!'
     end
   end
 end

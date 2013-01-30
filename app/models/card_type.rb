@@ -33,6 +33,10 @@ class CardType < ActiveRecord::Base
     configuration.is_valid_result?(result)
   end
 
+  def question_alternatives
+    configuration.questions_zone.alternatives
+  end
+
 private
 
   def parameters_valid?

@@ -6,10 +6,9 @@ class StudentExam < ActiveRecord::Base
   VALID_STATUS = 'Valid'
   INVALID_STATUS = 'Invalid'
   CHECKED_STATUS = 'Checked'
+  DOUBLED_STATUS = 'Doubled'
   
-  attr_accessible :card, :exam_id, :card_type_id, :student_id, 
-    :process_result, :exam_answers_attributes, :status, :checked
-  attr_reader :checked
+  attr_accessible :card, :exam_id, :card_type_id, :student_id
 
   belongs_to :exam
   belongs_to :student
@@ -18,20 +17,16 @@ class StudentExam < ActiveRecord::Base
   accepts_nested_attributes_for :exam_answers
 
   validates :card, :exam_id, :card_type_id, presence: true
-  validates :student_id, uniqueness: { scope: :exam_id }, allow_nil: true
 
+  before_validation :set_status_to_being_processed, on: :create
   mount_uploader :card, StudentExamCardUploader
 
   def self.needing_check
-    where(status: 'Invalid')
+    where(status: INVALID_STATUS)
   end
 
   def needs_check?
-    status == INVALID_STATUS
-  end
-
-  def checked=(_checked)
-    set_status if _checked
+    INVALID_STATUS == status
   end
 
   def possible_students
@@ -47,15 +42,23 @@ class StudentExam < ActiveRecord::Base
     exam_answers.select{ |ea| ea.invalid? }
   end
 
-  def process_result=(process_result)
+  def set_process_result(process_result)
     if card_type.is_valid_result?(process_result)
       set_student(process_result[0, card_type.student_number_length])
       set_exam_answers(process_result[card_type.student_number_length, 
         process_result.length - card_type.student_number_length])
-      set_status
+      save!
+      set_status_after_processing
     else
-      self.status = ERROR_STATUS
+      set_status_to_error
     end
+  end
+
+  def set_user_modifications(student_id, exam_answers_attributes)
+    self.student_id = student_id
+    self.exam_answers_attributes = exam_answers_attributes || []
+    save!
+    set_status_after_user_modifications
   end
 
 private
@@ -75,11 +78,34 @@ private
     end
   end
 
-  def set_status
-    if student_id.nil? || exam_answers.select{ |ea| ea.invalid? }.any?
+  def set_status_to_being_processed
+    self.status = BEING_PROCESSED_STATUS
+  end
+
+  def set_status_to_error
+    self.status = ERROR_STATUS
+    save!
+  end
+
+  def set_status_after_processing
+    if student.nil? || exam_answers.select{ |ea| ea.invalid? }.any?
       self.status = INVALID_STATUS
     else
       self.status = VALID_STATUS
     end
+    save!
+  end
+
+  def set_status_after_user_modifications
+    if student.nil?
+      self.status = INVALID_STATUS
+    else
+      if StudentExam.where(student_id: student.id, exam_id: exam.id).count > 1
+        self.status = DOUBLED_STATUS
+      else
+        self.status = VALID_STATUS
+      end
+    end
+    save!
   end
 end

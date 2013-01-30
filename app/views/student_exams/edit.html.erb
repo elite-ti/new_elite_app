@@ -18,7 +18,7 @@
         <%= image_tag exam_fields.object.image_url %>
         <div class='radio-buttons'>
           <%= exam_fields.collection_radio_buttons :answer, 
-            ExamAnswer::ANSWERS.map{|x| [x, x]}, :first, :last %>
+            exam_fields.object.student_exam.card_type.question_alternatives.map{|x| [x, x]}, :first, :last %>
           <%= exam_fields.hidden_field :status, value: ExamAnswer::CHECKED_STATUS %>
         </div>
       <% end %>

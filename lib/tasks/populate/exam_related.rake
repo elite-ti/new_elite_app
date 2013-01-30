@@ -6,7 +6,7 @@ namespace :db do
 
     task exam_related: :environment do
       p 'Creating questions'
-      35.times { Question.create!(name: "Question#{Question.count}") }
+      30.times { Question.create!(name: "Question#{Question.count}") }
 
       p 'Creating card type'
       CardType.create!(

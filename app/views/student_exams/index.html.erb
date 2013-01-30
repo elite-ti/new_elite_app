@@ -14,9 +14,12 @@
     <tr>
       <td>
         <%= student_exam.status %>
-        <% if student_exam.needs_check? %>
-          <%= link_to 'Check', edit_student_exam_path(student_exam), class: 'float-right' %>
-        <% end %>
+        <span class='float-right'>
+          <%= link_to 'Show', student_exam %>
+          <% if student_exam.needs_check? %>
+            | <%= link_to 'Check', edit_student_exam_path(student_exam) %>
+          <% end %>
+        </span>
       </td> 
       <td><%= student_exam.exam.name %></td>
       <td>

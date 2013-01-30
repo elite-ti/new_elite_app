@@ -1,6 +1,8 @@
 class CardZone
   DEFAULT_CHARACTERS = %w[W Z]
 
+  attr_reader :alternatives
+
   def initialize(parameters)
     parse(parameters) 
   end

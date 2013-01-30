@@ -4,7 +4,8 @@
 
 * Extract parameters to card type - OK
 * Call c program using parameters
-* Fix student exam check form
+* Fix student exam check form - OK
+* Fix doubled and error cards
 * Create views
 
 

@@ -10,6 +10,6 @@ class CardProcessorWorker
     destination_path = File.join(File.dirname(card_path), 'normalized.png')
 
     process_result = `#{C_CARD_PROCESSOR_PATH} #{card_path} #{destination_path}`
-    student_exam.update_attributes(process_result: process_result)
+    student_exam.set_process_result(process_result)
   end
 end
