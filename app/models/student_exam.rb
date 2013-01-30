@@ -26,15 +26,8 @@ class StudentExam < ActiveRecord::Base
     where(status: 'Invalid')
   end
 
-  def process_result=(process_result)
-    if card_type.is_valid_result?(process_result)
-      set_student(process_result[0, card_type.student_number_length])
-      set_exam_answers(process_result[card_type.student_number_length, 
-        process_result.length - card_type.student_number_length])
-      set_status
-    else
-      self.status = ERROR_STATUS
-    end
+  def needs_check?
+    status == INVALID_STATUS
   end
 
   def checked=(_checked)
@@ -52,6 +45,17 @@ class StudentExam < ActiveRecord::Base
 
   def answers_needing_check
     exam_answers.select{ |ea| ea.invalid? }
+  end
+
+  def process_result=(process_result)
+    if card_type.is_valid_result?(process_result)
+      set_student(process_result[0, card_type.student_number_length])
+      set_exam_answers(process_result[card_type.student_number_length, 
+        process_result.length - card_type.student_number_length])
+      set_status
+    else
+      self.status = ERROR_STATUS
+    end
   end
 
 private

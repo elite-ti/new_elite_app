@@ -2,6 +2,11 @@
 
 ## Todo
 
+* Extract parameters to card type - OK
+* Call c program using parameters
+* Fix student exam check form
+* Create views
+
 
 ## Setup
 
@@ -15,7 +20,7 @@ Check the vendor/setup/readme file.
 
 ## Database
 
-* Postgresql (written in ruby) - db/schema.rb
+* Postgresql -db/schema.rb (written in ruby)
 * MySQL Workbench - db/schema.mwb
 
 
@@ -36,4 +41,4 @@ Check the vendor/setup/readme file.
 
 * Linux - http://nixsrv.com/llthw
 * Sublime Text - https://tutsplus.com/course/improve-workflow-in-sublime-text-2/
-* railscasts.com, railstutorial.com
+* railscasts.com, railstutorial.com, destroyallsoftware.com

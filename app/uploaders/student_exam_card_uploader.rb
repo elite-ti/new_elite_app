@@ -27,13 +27,13 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
     path_to_url(normalized_path)
   end
 
-  def student_name_url
-    create_student_name_png unless File.exist?(student_name_path)
-    path_to_url(student_name_path)
+  def student_url
+    create_student_png unless File.exist?(student_path)
+    path_to_url(student_path)
   end
 
   def question_url(number)
-    create_png(number) unless File.exist?(question_path(number))
+    create_question_png(number) unless File.exist?(question_path(number))
     path_to_url(question_path(number))
   end
 
@@ -55,30 +55,24 @@ private
     File.join(folder_path, 'normalized.png')
   end
 
-  def student_name_path
-    File.join(folder_path, 'student_name.png')
+  def student_path
+    File.join(folder_path, 'student_data.png')
   end
 
   def question_path(number)
     File.join(folder_path, 'question_' + number.to_s + '.png')
   end
 
-  def create_student_name_png
+  def create_student_png
     image = MiniMagick::Image.open(normalized_path)
-    image.crop '845x280+398+35'
+    image.crop model.card_type.student_coordinates
     image.resize '50%'
-    image.write student_name_path
+    image.write student_path
   end
 
-  def create_png(number)
+  def create_question_png(number)
     image = MiniMagick::Image.open(normalized_path)
-
-    width = 590
-    height = 70
-    x = number <= 50 ? 66 : 664
-    y = 1038 + height*(number - 1)
-
-    image.crop "#{width}x#{height}+#{x}+#{y}"
+    image.crop model.card_type.question_coordinates(number)
     image.resize '50%'
     image.write question_path(number)
   end

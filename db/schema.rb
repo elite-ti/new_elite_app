@@ -42,17 +42,6 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "card_types", :force => true do |t|
-    t.string   "name",                  :null => false
-    t.string   "parameters",            :null => false
-    t.string   "card",             :null => false
-    t.integer  "student_number_length", :null => false
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
-  add_index "card_types", ["name"], :name => "index_card_types_on_name", :unique => true
-
   create_table "applicants", :force => true do |t|
     t.string   "number"
     t.string   "bolsao_id"
@@ -120,6 +109,17 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   end
 
   add_index "campuses", ["name"], :name => "index_campuses_on_name", :unique => true
+
+  create_table "card_types", :force => true do |t|
+    t.string   "name",                :null => false
+    t.string   "parameters",          :null => false
+    t.string   "card",                :null => false
+    t.string   "student_coordinates", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "card_types", ["name"], :name => "index_card_types_on_name", :unique => true
 
   create_table "elite_roles", :force => true do |t|
     t.string   "name",           :null => false

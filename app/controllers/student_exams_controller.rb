@@ -2,7 +2,6 @@ class StudentExamsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @student_exams_needing_check = StudentExam.needing_check
   end
 
   def new
@@ -37,7 +36,7 @@ class StudentExamsController < ApplicationController
 private
 
   def check_student_exams
-    if StudentExam.any_needs_check?
+    if StudentExam.needing_check.any?
       redirect_to edit_student_exam_path(StudentExam.needing_check.first), 
         notice: 'Some fields need to be checked.'
     else

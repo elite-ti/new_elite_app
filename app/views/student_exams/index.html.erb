@@ -12,7 +12,12 @@
   <tbody>
   <% @student_exams.each do |student_exam| %>
     <tr>
-      <td><%= student_exam.status %></td> 
+      <td>
+        <%= student_exam.status %>
+        <% if student_exam.needs_check? %>
+          <%= link_to 'Check', edit_student_exam_path(student_exam), class: 'float-right' %>
+        <% end %>
+      </td> 
       <td><%= student_exam.exam.name %></td>
       <td>
         <%= student_exam.student.try(:name) || 'No student' %>
@@ -22,6 +27,6 @@
   </tbody>
 </table>
 
-<% if @student_exams_needing_check.any? %>
-  <p>Click <%= link_to 'here', edit_student_exam_path(@student_exams_needing_check.first) %> to correct all of them.</p>
+<% if StudentExam.needing_check.any? %>
+  <p>Click <%= link_to 'here', edit_student_exam_path(StudentExam.needing_check.first) %> to correct errors.</p>
 <% end %> 

@@ -14,30 +14,14 @@ namespace :db do
       :poll_question_types, :poll_question_categories
     ]
 
-    task exam_related: [:card_type, :exam_cycle, :questions, :exam]
-
     task go_grab_a_coffee: [:time_tables, :teacher_photos]
 
     task clean_uploads: :environment do
-      FileUtils.rm_r(File.join(Rails.root, 'public/uploads'))
-    end
-
-    task testing_card_processor: [:clean_uploads, 'db:schema:load', :general, :exam_related]
-
-    task :testing_card_upload do
-      p 'Erasing uploads'
       FileUtils.rm_rf(File.join(Rails.root, 'public/uploads'))
-
-      p 'Erasing db'
-      `sudo -u postgres dropdb elite_app_development`
-      `sudo -u postgres createdb elite_app_development -O new_elite_app`
-
-      p 'Restoting db'
-      `sudo -u postgres psql elite_app_development < ~/Desktop/task/dump.sql`
-
-      p 'Restoting uploads'
-      `cp -r ~/Desktop/task/uploads ~/code/new_elite_app/public/`
     end
 
+    # Junk
+
+    task my_all: [:clean_uploads, 'db:schema:load', :general, :exam_related]
   end
 end

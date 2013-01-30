@@ -18,6 +18,7 @@ private
   def pipe
     preprocess
     process
+    postprocess
   end
 
   def preprocess

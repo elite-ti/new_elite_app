@@ -5,6 +5,7 @@
     <tr>
       <th>Name</th>
       <th>Parameters</th>
+      <th>Student Coordinates</th>
       <th>Card</th>
     </tr>
   </thead>
@@ -14,11 +15,10 @@
     <tr>
       <td>
         <%= card_type.name %>
-        <span class='float-right'>
-          <%= link_to 'Edit', edit_card_type_path(card_type) %>
-        </span>
+        <%= link_to 'Edit', edit_card_type_path(card_type), class: 'float-right' %>
       </td>
       <td><%= card_type.parameters %></td>
+      <td><%= card_type.student_coordinates %></td>
       <td><%= card_type.card %></td>
     </tr>
   <% end %>

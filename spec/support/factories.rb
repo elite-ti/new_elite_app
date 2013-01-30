@@ -98,8 +98,8 @@ FactoryGirl.define do
 
   factory :card_type do
     sequence(:name) { |n| "CardType#{n}" }
-    parameters '1 2 3 4 5'
-    student_number_length '7'
+    parameters '0.4 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+    student_coordinates '1x2+3+4'
     card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
   end
 

@@ -12,12 +12,14 @@ describe 'CardTypes' do
   end
 
   it 'creates an card type' do
+    card_type = build :card_type
+
     visit card_types_url
     click_link 'New Card Type'
-    fill_in 'Name', with: 'AnwerCardType'
-    fill_in 'Parameters', with: '1 2 3 4 5'
-    fill_in 'Student number length', with: '7'
-    attach_file 'Card', "#{Rails.root}/spec/support/card_b.tif"
+    fill_in 'Name', with: card_type.name
+    fill_in 'Parameters', with: card_type.parameters
+    fill_in 'Student coordinates', with: card_type.student_coordinates
+    attach_file 'Card', card_type.card.path
     click_button 'Create'
 
     page.should have_content 'Card type was successfully created.'

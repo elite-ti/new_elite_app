@@ -119,7 +119,7 @@ void read_configuration(int argc, char* argv[]) {
   
   strcpy(conf.source_path, argv[1]);
   strcpy(conf.destination_path, argv[2]);
-  // char parameters[] = "0.4 2 1 0 7 0123456789 80 43 281 914 969 528 2 600 50 ABCDE 88 43 183 1050 495 3471";
+  // char parameters[] = "0.4 2 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454";
 
   conf.threshold = 0.4;
   conf.number_of_zones = 2;

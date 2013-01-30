@@ -1,0 +1,30 @@
+require 'mustard'
+require_relative '../../app/value_objects/card_zone.rb'
+
+describe 'CardZone' do
+  valid_parameters = %w[1 0 7 0123456789 79 38 271 540 964 453]
+  valid_results = ['1234567', '1111111', 'ZW1234Z']
+  invalid_results = ['12', '1', 'A123456']
+
+  context 'valid' do 
+    let(:card_zone) { CardZone.new(valid_parameters) }
+
+    it 'checks valid answers' do
+      valid_results.each do |valid_answer|
+        card_zone.is_valid_result?(valid_answer).must.equal true
+      end
+    end
+
+    it 'checks invalid answers' do 
+      invalid_results.each do |valid_answer|
+        card_zone.is_valid_result?(valid_answer).must.equal false
+      end
+    end
+  end
+
+  context 'invalid' do
+    it 'raises exception for invalid parameters' do
+      expect { CardZone.new('anything') }.to raise_error
+    end
+  end
+end
