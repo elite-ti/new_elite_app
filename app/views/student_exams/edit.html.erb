@@ -9,7 +9,6 @@
       <%= image_tag @student_exam.card.student_url %>
       <%= f.association :student, :collection => @student_exam.possible_students, 
         input_html: { class: 'is-chosen' } %>
-      <%= f.hidden_field :checked, value: true %>
     <% end %>
 
     <% if @student_exam.answers_needing_check.any? %>
@@ -19,7 +18,6 @@
         <div class='radio-buttons'>
           <%= exam_fields.collection_radio_buttons :answer, 
             exam_fields.object.options.map{|x| [x, x]}, :first, :last %>
-          <%= exam_fields.hidden_field :status, value: ExamAnswer::CHECKED_STATUS %>
         </div>
       <% end %>
     <% end %>

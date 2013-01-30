@@ -1,5 +1,4 @@
 require 'mustard'
-require_relative '../../lib/exceptions.rb'
 require_relative '../../app/services/card_processor.rb'
 require_relative '../../app/services/decompressor.rb'
 

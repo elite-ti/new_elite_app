@@ -21,8 +21,8 @@ class CardZone
     question_width = @group_width + delta
     question_height = @group_height/@questions_per_group
 
-    question_x = @x + (number/@questions_per_group)*@space_between_groups - delta
-    question_y = @y + (@group_height/@questions_per_group)*(number - 1)
+    question_x = @group_x + (number/@questions_per_group)*@space_between_groups - delta
+    question_y = @group_y + (@group_height/@questions_per_group)*(number - 1)
 
     "#{question_width}x#{question_height}+#{question_x}+#{question_y}"
   end
@@ -30,7 +30,7 @@ class CardZone
 private
 
   def parse(parameters)
-    raise 'Invalid parameters' if parameters.size != 10
+    raise MalformedParameters.new if parameters.size != 10
 
     @number_of_groups = parameters[0].to_i
     @space_between_groups = parameters[1].to_i
@@ -38,8 +38,8 @@ private
     @alternatives = parameters[3].split(//)
     @option_width = parameters[4].to_i
     @option_height = parameters[5].to_i
-    @x = parameters[6].to_i
-    @y = parameters[7].to_i
+    @group_x = parameters[6].to_i
+    @group_y = parameters[7].to_i
     @group_width = parameters[8].to_i
     @group_height = parameters[9].to_i
   end

@@ -5,8 +5,6 @@ class StudentExam < ActiveRecord::Base
   ERROR_STATUS = 'Error'
   VALID_STATUS = 'Valid'
   INVALID_STATUS = 'Invalid'
-  CHECKED_STATUS = 'Checked'
-  DOUBLED_STATUS = 'Doubled'
   
   attr_accessible :card, :exam_id, :card_type_id, :student_id
 
@@ -18,7 +16,6 @@ class StudentExam < ActiveRecord::Base
 
   validates :card, :exam_id, :card_type_id, presence: true
 
-  before_validation :set_status_to_being_processed, on: :create
   mount_uploader :card, StudentExamCardUploader
 
   def self.needing_check
@@ -39,18 +36,28 @@ class StudentExam < ActiveRecord::Base
   end
 
   def answers_needing_check
-    exam_answers.select{ |ea| ea.invalid? }
+    exam_answers.select{ |ea| ea.need_to_be_checked? }
   end
 
-  def set_process_result(process_result)
-    if card_type.is_valid_result?(process_result)
-      set_student(process_result[0, card_type.student_number_length])
-      set_exam_answers(process_result[card_type.student_number_length, 
-        process_result.length - card_type.student_number_length])
+  def self.create_to_be_processed!(exam_id, card_type_id, card)
+    student_exam = create! do
+      self.exam_id = exam_id
+      self.card_type_id = card_type_id
+      self.card = card
+      self.status = BEING_PROCESSED_STATUS
+    end
+  end
+
+  def scan
+    begin
+      student_number, answers = card_type.scan(card.path, card.normalized_path)
+      set_student(student_number)
+      set_exam_answers(answers)
       save!
-      set_status_after_processing
-    else
-      set_status_to_error
+      set_status_after_scanning
+    rescue
+      self.status = ERROR_STATUS
+      save!
     end
   end
 
@@ -78,19 +85,11 @@ private
     end
   end
 
-  def set_status_to_being_processed
-    self.status = BEING_PROCESSED_STATUS
-  end
-
-  def set_status_to_error
-    self.status = ERROR_STATUS
-    save!
-  end
-
-  def set_status_after_processing
+  def set_status_after_scanning
     if student.nil? || exam_answers.select{ |ea| ea.invalid? }.any?
       self.status = INVALID_STATUS
     else
+      destroy_conflicts!
       self.status = VALID_STATUS
     end
     save!
@@ -100,12 +99,15 @@ private
     if student.nil?
       self.status = INVALID_STATUS
     else
-      if StudentExam.where(student_id: student.id, exam_id: exam.id).count > 1
-        self.status = DOUBLED_STATUS
-      else
-        self.status = VALID_STATUS
-      end
+      destroy_conflicts!
+      self.status = VALID_STATUS
     end
     save!
+  end
+
+  def destroy_conflicts!
+    StudentExam.where(student_id: student.id, exam_id: exam.id).each do |student_exam|
+      student_exam.destroy if student_exam.id != self.id
+    end
   end
 end

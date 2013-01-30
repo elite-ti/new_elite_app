@@ -1,32 +1,29 @@
 class CardConfiguration
-  attr_reader :threshold, :student_zone, :questions_zone
+  class MalformedParameters < RuntimeError; end
+  class MalformedResult < RuntimeError; end
 
-  def self.valid?(parameters)
-    begin
-      CardConfiguration.new(parameters)
-    rescue
-      return false
-    end
-    true
-  end
+  attr_reader :threshold, :student_zone, :questions_zone
 
   def initialize(parameters)
     parse(parameters.split(/\s+/))
   end
 
-  def is_valid_result?(result)
-    return false if result.size != number_of_questions
+  def parse_result(result)
+    raise MalformedResult.new if result.size != number_of_questions
 
     student_result = result[0, student_zone.number_of_questions]
-    questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
+    raise MalformedResult.new unless student_zone.is_valid_result?(student_result)
 
-    student_zone.is_valid_result?(student_result) && questions_zone.is_valid_result?(questions_result)
+    questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
+    raise MalformedResult.new unless questions_zone.is_valid_result?(questions_result)
+
+    return [student_result, questions_result]    
   end
 
 private
 
   def parse(parameters)
-    raise 'Invalid parameters' if parameters.size != 21
+    raise MalformedParameters.new if parameters.size != 21
 
     @threshold = parameters[0]
     @student_zone = CardZone.new(parameters[1, 10])

@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.string   "parameters",          :null => false
     t.string   "card",                :null => false
     t.string   "student_coordinates", :null => false
+    t.string   "command",             :null => false
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
@@ -184,7 +185,6 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "student_exam_id",  :null => false
     t.integer  "exam_question_id", :null => false
     t.string   "answer",           :null => false
-    t.string   "status",           :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end

@@ -19,6 +19,7 @@ describe 'CardTypes' do
     fill_in 'Name', with: card_type.name
     fill_in 'Parameters', with: card_type.parameters
     fill_in 'Student coordinates', with: card_type.student_coordinates
+    fill_in 'Command', with: card_type.command
     attach_file 'Card', card_type.card.path
     click_button 'Create'
 

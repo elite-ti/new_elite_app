@@ -1,14 +1,17 @@
 class CardType < ActiveRecord::Base
   has_paper_trail
+
+  CARD_SCANNER_PATH = File.join(Rails.root, 'lib', 'card_scanner')
   
-  attr_accessible :card, :name, :parameters, :student_coordinates
+  attr_accessible :card, :name, :parameters, :student_coordinates, :command
 
   has_many :student_exams
 
-  validates :card, :name, :parameters, :student_coordinates, presence: true
+  validates :card, :name, :parameters, :student_coordinates, :command, presence: true
   validates :name, uniqueness: true
   validate :parameters_valid?
   validate :student_coordinates_valid?
+  validate :command_valid?
 
   mount_uploader :card, CardTypeUploader
 
@@ -37,13 +40,30 @@ class CardType < ActiveRecord::Base
     configuration.questions_zone.alternatives
   end
 
+  def scan(origin_path, destination_path)
+    scan_result = `#{scanner_path} #{origin_path} #{destination_path} #{parameters}`
+    configuration.parse_result(scan_result)
+  end
+
 private
 
   def parameters_valid?
-    errors.add(:parameters, 'Not valid.') unless CardConfiguration.valid?(parameters) 
+    begin
+      configuration
+    rescue CardConfiguration::MalformedParameters
+      errors.add(:parameters, 'Not valid.')
+    end
   end
 
   def student_coordinates_valid?
     errors.add(:student_coordinates, 'Not valid.') unless student_coordinates.match(/\d+x\d+\+\d+\+\d/)
+  end
+
+  def command_valid?
+    errors.add(:command, 'Not valid.') unless File.exist?(scanner_path)
+  end
+
+  def scanner_path
+    File.join(CARD_SCANNER_PATH, command)
   end
 end

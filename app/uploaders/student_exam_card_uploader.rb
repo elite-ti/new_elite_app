@@ -27,14 +27,26 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
     path_to_url(normalized_path)
   end
 
+  def normalized_path
+    File.join(folder_path, 'normalized.png')
+  end
+
   def student_url
     create_student_png unless File.exist?(student_path)
     path_to_url(student_path)
   end
 
+  def student_path
+    File.join(folder_path, 'student_data.png')
+  end
+
   def question_url(number)
     create_question_png(number) unless File.exist?(question_path(number))
     path_to_url(question_path(number))
+  end
+
+  def question_path(number)
+    File.join(folder_path, 'question_' + number.to_s + '.png')
   end
 
 private
@@ -49,18 +61,6 @@ private
 
   def folder_path
     File.dirname(current_path)
-  end
-
-  def normalized_path
-    File.join(folder_path, 'normalized.png')
-  end
-
-  def student_path
-    File.join(folder_path, 'student_data.png')
-  end
-
-  def question_path(number)
-    File.join(folder_path, 'question_' + number.to_s + '.png')
   end
 
   def create_student_png

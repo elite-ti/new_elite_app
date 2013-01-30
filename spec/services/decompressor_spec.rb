@@ -1,6 +1,5 @@
 require 'find'
 require 'mustard'
-require_relative '../../lib/exceptions.rb'
 require_relative '../../app/services/decompressor.rb'
 
 describe 'Decompressor' do
@@ -31,13 +30,13 @@ describe 'Decompressor' do
   it 'raises not supported error' do
     path, file_name = path_and_filename(not_supported_file_path)
     expect { Decompressor.decompress(path, file_name) }.
-      to raise_error(Exceptions::DecompressorError, Decompressor::NOT_SUPPORTED_MESSAGE)
+      to raise_error(Decompressor::DecompressorError, Decompressor::NOT_SUPPORTED_MESSAGE)
   end
 
   it 'raises decompressing file error for inexistent file' do
     path, file_name = path_and_filename(inexistent_file_path)
     expect { Decompressor.decompress(path, file_name) }.
-      to raise_error(Exceptions::DecompressorError, Decompressor::ERROR_DECOMPRESSING_FILE_MESSAGE)
+      to raise_error(Decompressor::DecompressorError, Decompressor::ERROR_DECOMPRESSING_FILE_MESSAGE)
   end
 
   def path_and_filename(path)
