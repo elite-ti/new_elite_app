@@ -1,0 +1,31 @@
+<%= title 'Student Exam' %>
+
+<div class='tabs'>
+  <ul>
+    <li><a href='#info'>Info</a></li>
+    <li><a href='#card'>Card</a></li>
+    <li><a href='#answers'>Answers</a></li>
+  </ul>
+
+  <div id='info'>
+    <div class='resource'>
+      <%= show_group nil, 
+        {
+          'Student' => @student_exam.student.name,
+          'Exam' => @student_exam.exam.name,
+          'Exam Cycle' => @student_exam.exam.exam_cycle.name,
+          'Year' => @student_exam.exam.exam_cycle.year.name,
+          'Product' => @student_exam.exam.exam_cycle.year.product.name,
+          'Product Type' => @student_exam.exam.exam_cycle.year.product.product_type.name
+        }
+      %>
+    </div>
+  </div>
+
+  <div id='card'>
+    <%= image_tag @student_exam.card.normalized_url, width: '500' %>
+  </div>
+
+  <div id='answers'>
+  </div>
+</div>

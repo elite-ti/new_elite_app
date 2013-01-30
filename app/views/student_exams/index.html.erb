@@ -4,8 +4,10 @@
   <thead>
     <tr>
       <th>Status</th>
-      <th>Exam</th>
       <th>Student</th>
+      <th>Exam</th>
+      <th>Exam Cycle</th>
+      <th>Year</th>
     </tr>
   </thead>
 
@@ -21,10 +23,10 @@
           <% end %>
         </span>
       </td> 
+      <td><%= student_exam.student.try(:name) || 'No student' %></td>
       <td><%= student_exam.exam.name %></td>
-      <td>
-        <%= student_exam.student.try(:name) || 'No student' %>
-      </td>
+      <td><%= student_exam.exam.exam_cycle.name %></td>
+      <td><%= student_exam.exam.exam_cycle.year.name %></td>
     </tr>
   <% end %>
   </tbody>

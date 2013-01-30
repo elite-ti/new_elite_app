@@ -24,6 +24,10 @@ class ExamAnswer < ActiveRecord::Base
     student_exam.card.question_url(exam_question.number)
   end
 
+  def options
+    student_exam.card_type.question_alternatives + ANSWERS_TO_BE_CHECKED
+  end
+
 private
 
   def set_status

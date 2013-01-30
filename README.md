@@ -3,7 +3,7 @@
 ## Todo
 
 * Extract parameters to card type - OK
-* Call c program using parameters
+* Call c program using parameters - OK
 * Fix student exam check form - OK
 * Fix doubled and error cards
 * Create views

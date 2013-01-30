@@ -3,8 +3,8 @@
 <table id="students" class="display is-datatable">
   <thead>
     <tr>
-      <th>Ra</th>
       <th>Name</th>
+      <th>Ra</th>
       <th>Email</th>
     </tr>
   </thead>
@@ -13,13 +13,13 @@
   <% @students.each do |student| %>
     <tr>
       <td>
-        <%= student.ra %>
+        <%= student.name %>
         <span style='float: right;'>
           <%= link_to 'Show', student_path(student) %> |
           <%= link_to 'Edit', edit_student_path(student) %>
         </span>
       </td>
-      <td><%= student.name %></td>
+      <td><%= student.ra %></td>
       <td><%= student.email %></td>
     </tr>
   <% end %>

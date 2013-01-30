@@ -3,7 +3,8 @@ class Student < ActiveRecord::Base
   
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
-    :mother_name, :father_name, :address_id, :telephone, :cellphone, :old_school
+    :mother_name, :father_name, :address_id, :telephone, :cellphone, :previous_school
+  attr_accessor :previous_school
 
   has_many :enrollments, dependent: :destroy
   has_many :klazz, through: :enrollments

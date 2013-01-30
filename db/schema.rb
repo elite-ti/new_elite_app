@@ -425,7 +425,7 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "address_id"
     t.string   "telephone"
     t.string   "cellphone"
-    t.string   "old_school"
+    t.string   "previous_school"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end

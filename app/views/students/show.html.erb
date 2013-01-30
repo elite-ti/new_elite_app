@@ -1,25 +1,55 @@
-<p id="notice"><%= notice %></p>
+<%= title @student.name + (@student.ra.nil? ? '' : ' - ' + @student.ra), 
+  link_to('Back', students_path) %>
 
-<p>
-  <b>Name:</b>
-  <%= @student.name %>
-</p>
+<div class='tabs'>
+  <ul>
+    <li><a href='#info'>Info</a></li>
+    <li><a href='#exams'>Exams</a></li>
+  </ul>
 
-<p>
-  <b>Email:</b>
-  <%= @student.email %>
-</p>
+  <div id='info'>
+    <div class='resource'>
+      <%= show_group 'Contact',
+        {
+          'Email' => @student.email,
+          'Telephone' => @student.telephone,
+          'Cellphone' => @student.cellphone
+        }
+      %>
+      <%= show_group 'Documents',
+        {
+          'Cpf' => @student.cpf,
+          'Own_cpf' => @student.own_cpf,
+          'RG' => @student.rg,
+          'Expeditor' => @student.rg_expeditor
+        }
+      %>
+      <%= show_group 'Personal',
+        {
+          'Gender' => @student.gender,
+          'Date of birth' => @student.date_of_birth
+        }
+      %>
+      <%= show_group 'Family',
+        {
+          'Number of children' => @student.number_of_children,
+          'Mother' => @student.mother_name,
+          'Father' => @student.father_name
+        }
+      %>
+      <%= show_group 'Address',
+        {
+          'Adress' => @student.address
+        }
+      %>
+      <%= show_group 'General',
+        {
+          'Previous School' => @student.previous_school
+        }
+      %>
+    </div>
+  </div>
 
-<p>
-  <b>Password digest:</b>
-  <%= @student.password_digest %>
-</p>
-
-<p>
-  <b>Ra:</b>
-  <%= @student.ra %>
-</p>
-
-
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
+  <div id='exams'>
+  </div>
+</div>
