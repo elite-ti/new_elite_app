@@ -6,8 +6,10 @@ def test(folder_path, filename, expected)
   if expected.size < 107
     expected = expected + 'Z'*(107-expected.size)
   end
+
+  parameters = '0.4 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
   
-  result = `./b_type #{tif_path} #{normalized_path}`
+  result = `./b_type #{tif_path} #{normalized_path} #{parameters}`
   if result == expected
     p '=> Success!'
   else
