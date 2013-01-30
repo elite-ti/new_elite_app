@@ -6,7 +6,7 @@ class StudentExam < ActiveRecord::Base
   VALID_STATUS = 'Valid'
   INVALID_STATUS = 'Invalid'
   
-  attr_accessible :card, :exam_id, :card_type_id, :student_id
+  attr_accessible :card, :exam_id, :card_type_id, :student_id, :status
 
   belongs_to :exam
   belongs_to :student
@@ -40,12 +40,12 @@ class StudentExam < ActiveRecord::Base
   end
 
   def self.create_to_be_processed!(exam_id, card_type_id, card)
-    student_exam = create! do
-      self.exam_id = exam_id
-      self.card_type_id = card_type_id
-      self.card = card
-      self.status = BEING_PROCESSED_STATUS
-    end
+    student_exam = create!(
+      exam_id: exam_id,
+      card_type_id: card_type_id,
+      card: card,
+      status: BEING_PROCESSED_STATUS
+    )
   end
 
   def scan

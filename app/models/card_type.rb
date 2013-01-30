@@ -32,10 +32,6 @@ class CardType < ActiveRecord::Base
     configuration.questions_zone.questions_coordinates(number)
   end
 
-  def is_valid_result?(result)
-    configuration.is_valid_result?(result)
-  end
-
   def question_alternatives
     configuration.questions_zone.alternatives
   end
@@ -50,17 +46,17 @@ private
   def parameters_valid?
     begin
       configuration
-    rescue CardConfiguration::MalformedParameters
-      errors.add(:parameters, 'Not valid.')
+    rescue CardConfiguration::InvalidParameters
+      errors.add(:parameters, 'not valid.')
     end
   end
 
   def student_coordinates_valid?
-    errors.add(:student_coordinates, 'Not valid.') unless student_coordinates.match(/\d+x\d+\+\d+\+\d/)
+    errors.add(:student_coordinates, 'not valid.') unless student_coordinates.match(/\d+x\d+\+\d+\+\d/)
   end
 
   def command_valid?
-    errors.add(:command, 'Not valid.') unless File.exist?(scanner_path)
+    errors.add(:command, 'not valid.') unless File.exist?(scanner_path)
   end
 
   def scanner_path

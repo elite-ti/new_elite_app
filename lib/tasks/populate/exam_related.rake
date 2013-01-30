@@ -1,7 +1,7 @@
 namespace :db do
   namespace :populate do
     CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
-    CARD_PARAMETERS = '0.4 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+    CARD_PARAMETERS = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
     CARD_STUDENT_COORDINATES = '1280x1000+0+0'
 
     task exam_related: :environment do

@@ -30,7 +30,7 @@ class CardZone
 private
 
   def parse(parameters)
-    raise MalformedParameters.new if parameters.size != 10
+    raise CardConfiguration::InvalidParameters.new if parameters.size != 10
 
     @number_of_groups = parameters[0].to_i
     @space_between_groups = parameters[1].to_i

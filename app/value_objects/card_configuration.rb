@@ -1,6 +1,6 @@
 class CardConfiguration
-  class MalformedParameters < RuntimeError; end
-  class MalformedResult < RuntimeError; end
+  class InvalidParamters < RuntimeError; end
+  class InvalidResult < RuntimeError; end
 
   attr_reader :threshold, :student_zone, :questions_zone
 
@@ -9,13 +9,13 @@ class CardConfiguration
   end
 
   def parse_result(result)
-    raise MalformedResult.new if result.size != number_of_questions
+    raise InvalidResult.new if result.size != number_of_questions
 
     student_result = result[0, student_zone.number_of_questions]
-    raise MalformedResult.new unless student_zone.is_valid_result?(student_result)
+    raise InvalidResult.new unless student_zone.is_valid_result?(student_result)
 
     questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
-    raise MalformedResult.new unless questions_zone.is_valid_result?(questions_result)
+    raise InvalidResult.new unless questions_zone.is_valid_result?(questions_result)
 
     return [student_result, questions_result]    
   end
@@ -23,11 +23,18 @@ class CardConfiguration
 private
 
   def parse(parameters)
-    raise MalformedParameters.new if parameters.size != 21
+    raise InvalidParamters.new if parameters.size != 27
 
     @threshold = parameters[0]
-    @student_zone = CardZone.new(parameters[1, 10])
-    @questions_zone = CardZone.new(parameters[11, 10])
+    @pivot_default_x = parameters[1]
+    @pivot_default_y = parameters[2]
+    @mark_width = parameters[3]
+    @mark_height = parameters[4]
+    @default_card_width = parameters[5]
+    @default_card_height = parameters[6]
+
+    @student_zone = CardZone.new(parameters[7, 10])
+    @questions_zone = CardZone.new(parameters[17, 10])
   end
 
   def number_of_questions
