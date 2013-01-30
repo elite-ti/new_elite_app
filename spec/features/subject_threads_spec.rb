@@ -4,12 +4,10 @@ describe 'SubjectThreads' do
   before(:each) { log_admin_in }
 
   it 'shows all subject threads' do
-    (1..10).each { |i| create :subject_thread, name: "SubjectThread#{i}" }
-
+    5.times { |i| create :subject_thread, name: "SubjectThread#{i}" }
     visit subject_threads_url
-
-    (1..10).each { |i| page.should have_content "SubjectThread#{i}" }
-    SubjectThread.count.must.equal 10
+    5.times { |i| page.should have_content "SubjectThread#{i}" }
+    SubjectThread.count.must.equal 5
   end
 
   it 'creates a subject thread' do

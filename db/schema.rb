@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115031928) do
+ActiveRecord::Schema.define(:version => 20130130185400) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -20,14 +20,6 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   end
 
   add_index "absence_reasons", ["name"], :name => "index_absence_reasons_on_name", :unique => true
-
-  create_table "admins", :force => true do |t|
-    t.integer  "employee_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "admins", ["employee_id"], :name => "index_admins_on_employee_id", :unique => true
 
   create_table "addresses", :force => true do |t|
     t.string   "complement"
@@ -42,17 +34,36 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "admins", :force => true do |t|
+    t.integer  "employee_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "admins", ["employee_id"], :name => "index_admins_on_employee_id", :unique => true
+
+  create_table "answer_card_types", :force => true do |t|
+    t.string   "name",                  :null => false
+    t.string   "parameters",            :null => false
+    t.string   "card",                  :null => false
+    t.integer  "student_number_length", :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
+
   create_table "applicants", :force => true do |t|
     t.string   "number"
     t.string   "bolsao_id"
     t.datetime "subscription_datetime"
     t.datetime "exam_datetime"
     t.integer  "exam_campus_id"
-    t.integer  "student_id",           :null => false
-    t.integer  "year_id",              :null => false
+    t.integer  "student_id",            :null => false
+    t.integer  "year_id",               :null => false
     t.integer  "intended_campus_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   add_index "applicants", ["number", "bolsao_id"], :name => "index_applicants_on_number_and_bolsao_id", :unique => true
@@ -193,12 +204,12 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
-    t.boolean  "is_bolsao",  :null => false, :default => false
+    t.boolean  "is_bolsao",  :default => false, :null => false
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "year_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "exam_cycles", ["name", "year_id"], :name => "index_exam_cycles_on_name_and_year_id", :unique => true
@@ -257,6 +268,13 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   end
 
   add_index "majors", ["name"], :name => "index_majors_on_name", :unique => true
+
+  create_table "names", :force => true do |t|
+    t.text     "itens"
+    t.integer  "subject_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "poll_answers", :force => true do |t|
     t.integer  "poll_question_id", :null => false
@@ -399,13 +417,13 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
   add_index "school_roles", ["name"], :name => "index_school_roles_on_name", :unique => true
 
   create_table "student_exams", :force => true do |t|
-    t.integer  "exam_id",             :null => false
-    t.string   "card",                :null => false
+    t.integer  "exam_id",      :null => false
+    t.string   "card",         :null => false
     t.integer  "student_id"
     t.string   "status"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.integer  "card_type_id",        :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "card_type_id", :null => false
   end
 
   create_table "students", :force => true do |t|
@@ -547,6 +565,14 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
     t.integer  "linked_time_table"
   end
 
+  create_table "topics", :force => true do |t|
+    t.string   "name"
+    t.text     "itens"
+    t.integer  "subject_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false
     t.integer  "item_id",    :null => false
@@ -568,4 +594,5 @@ ActiveRecord::Schema.define(:version => 20130115031928) do
 
   add_index "years", ["name", "product_id"], :name => "index_years_on_name_and_product_id", :unique => true
   add_index "years", ["year_number", "product_id"], :name => "index_years_on_year_number_and_product_id", :unique => true
+
 end

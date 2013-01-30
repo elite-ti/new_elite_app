@@ -109,4 +109,10 @@ FactoryGirl.define do
     exam
     card_type
   end
+
+  factory :topic do
+    sequence(:name) { |n| "Topic#{n}" }
+    itens 'Blah blah blah'
+    subject
+  end
 end

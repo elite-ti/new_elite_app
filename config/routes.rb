@@ -1,6 +1,9 @@
 require 'sidekiq/web'
 
 EliteApp::Application.routes.draw do
+  resources :topics
+
+
   resources :card_types
   resources :student_exams
   resources :exam_answers

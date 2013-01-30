@@ -1,0 +1,26 @@
+<%= title 'Topics', link_to('New Topic', new_topic_path) %>
+
+<table id="topics" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Itens</th>
+      <th>Subject</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @topics.each do |topic| %>
+    <tr>
+      <td>
+        <%= topic.name %>
+        <span class='float-right'>
+          <%= link_to 'Edit', edit_topic_path(topic) %>
+        </span>
+      </td>
+      <td><%= topic.itens %></td>
+      <td><%= topic.subject.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
