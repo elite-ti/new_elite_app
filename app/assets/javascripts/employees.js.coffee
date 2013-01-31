@@ -54,27 +54,7 @@ jQuery ->
   $('#employee_teacher_attributes_post_graduated_comment').keydown ->
     $('#employee_teacher_attributes_post_graduated_true').prop('checked', true)
 
-  # Chosen
-  $('#employee_campus_head_teacher_attributes_campus_ids,
-    #employee_campus_head_teacher_attributes_product_ids,
-    #employee_product_head_teacher_attributes_product_ids,
-    #employee_subject_head_teacher_attributes_product_ids,
-    #employee_subject_head_teacher_attributes_subject_ids,
-    #employee_teacher_attributes_subject_ids,
-    #employee_teacher_attributes_campus_ids,
-    #employee_campus_principal_attributes_campus_id').chosen()
 
-  # Professional experiences actions
-  $('form').on 'click', '.remove_fields', (event) ->
-    $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('fieldset').hide()
-    event.preventDefault()
-
-  $('form').on 'click', '.add_fields', (event) ->
-    time = new Date().getTime()
-    regexp = new RegExp($(this).data('id'), 'g')
-    $(this).parent().before($(this).data('fields').replace(regexp, time))
-    event.preventDefault()
 
   
 

@@ -1,7 +1,7 @@
 class SubjectThread < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :name, :subject_id, :year_id
+  attr_accessible :name, :subject_id, :year_id, :topic_ids
 
   belongs_to :subject
   belongs_to :year

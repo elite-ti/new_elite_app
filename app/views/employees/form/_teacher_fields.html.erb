@@ -11,7 +11,7 @@
 <%= f.simple_fields_for :professional_experiences do |builder| %>
   <%= render 'employees/form/professional_experience_fields', f: builder %>
 <% end %>
-<p class="add_field"><%= link_to_add_fields "Adicionar", f, :professional_experiences %></p>
+<p class="add_field"><%= link_to_add_fields "Adicionar", f, :professional_experiences, 'employees/form/' %></p>
 
 <%= f.input :post_graduated, as: :radio_buttons, wrapper_html: { id: "employee_post_graduated" } %>
 <%= f.input :post_graduated_comment, label: 'Comment' %>

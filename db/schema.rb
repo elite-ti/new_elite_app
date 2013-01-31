@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130185400) do
+ActiveRecord::Schema.define(:version => 20130130200346) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name",       :null => false
@@ -477,10 +477,20 @@ ActiveRecord::Schema.define(:version => 20130130185400) do
 
   add_index "subject_head_teachers", ["employee_id"], :name => "index_subject_head_teachers_on_employee_id", :unique => true
 
+  create_table "subject_thread_topics", :force => true do |t|
+    t.integer  "subject_thread_id", :null => false
+    t.integer  "topic_id",          :null => false
+    t.integer  "weight",            :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "subject_thread_topics", ["subject_thread_id", "topic_id"], :name => "index_subject_thread_topics_on_subject_thread_id_and_topic_id", :unique => true
+
   create_table "subject_threads", :force => true do |t|
-    t.integer  "subject_id"
-    t.integer  "year_id"
-    t.string   "name"
+    t.integer  "subject_id", :null => false
+    t.integer  "year_id",    :null => false
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

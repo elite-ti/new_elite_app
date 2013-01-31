@@ -5,8 +5,8 @@
 
   <div class="form-inputs">
     <%= f.input :card, hint: '.tif, .rar ou .zip' %>
-    <%= f.association :card_type, input_html: { class: 'is-chosen' } %>
-    <%= f.association :exam, input_html: { class: 'is-chosen' } %>
+    <%= f.association :card_type %>
+    <%= f.association :exam %>
   </div>
 
   <div class="form-actions">

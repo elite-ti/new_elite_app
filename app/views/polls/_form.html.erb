@@ -7,7 +7,7 @@
     <div class='input'>
       <label>Classes</label>
       <%= f.select :klazz_ids, Klazz.all.collect {|x| [x.name, x.id]}, {}, 
-        {multiple: true, class: 'is-chosen'} %>
+        { multiple: true } %>
     </div>
   </div> 
 

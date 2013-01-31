@@ -37,6 +37,10 @@ html {
         height: 100%;
         float: left;
 
+        #select_roles {
+          width: auto;
+        }
+
         #flash {
           float: right;
           clear: both;
@@ -204,6 +208,6 @@ ul.ui-autocomplete {
   }
 }
 
-.is-chosen {
+.form-inputs select {
   width: 420px;
 }
