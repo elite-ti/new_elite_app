@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
   create_table "exam_questions", :force => true do |t|
     t.integer  "question_id", :null => false
     t.integer  "exam_id",     :null => false
-    t.integer  "number",      :null => false
+    t.integer  "number"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

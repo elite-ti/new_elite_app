@@ -6,15 +6,17 @@ class ExamQuestion < ActiveRecord::Base
   belongs_to :exam
   belongs_to :question
 
-  validates :number, :exam, :question, presence: true
+  validates :exam, :question, presence: true
   validates :question_id, uniqueness: { scope: :exam_id }
 
-  before_validation :set_number, on: :create
-  # TODO: create after destroy to renumber every exam questions
+  after_save :set_number
+  after_destroy :set_number
 
 private
 
   def set_number
-    self.number = ExamQuestion.where(exam_id: exam_id).count + 1
+    exam.exam_questions.order('number').each_with_index do |exam_question, i|
+      exam_question.update_column :number, i+1
+    end
   end
 end

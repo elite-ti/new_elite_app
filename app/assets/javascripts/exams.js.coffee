@@ -18,7 +18,7 @@ class TopicSelect
 
   update: (selected_subjects) ->
     values = @self().val()
-    @data.replaceWith(@self().html())
+    
     if options = @options(selected_subjects)
       @self().html(options)
       @self().val(values)
