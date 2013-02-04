@@ -6,8 +6,9 @@ class Question < ActiveRecord::Base
   has_many :exam_questions, dependent: :destroy
   has_many :exams, through: :exam_questions
 
-  has_many :question_topics, dependent: :destroy
+  has_many :question_topics, dependent: :destroy, inverse_of: :question
   has_many :topics, through: :question_topics
+  has_many :subjects, through: :topics
 
   has_many :options, dependent: :destroy
   accepts_nested_attributes_for :options,

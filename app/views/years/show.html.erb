@@ -37,6 +37,7 @@
     <tr>
       <th>Subject Thread</th>
       <th>Subject</th>
+      <th>Topics</th>
     </tr>
   </thead>
 
@@ -50,13 +51,8 @@
           <%= link_to 'Edit', edit_subject_thread_path(subject_thread) %>
         </span>
       </td>
-      <td>
-        <%= subject_thread.subject.name %>
-        <span class='float-right'>
-          <%= link_to 'Show', subject_thread.subject %> |
-          <%= link_to 'Edit', edit_subject_path(subject_thread.subject) %>
-        </span>
-      </td>
+      <td><%= subject_thread.subject.name %></td>
+      <td><%= subject_thread.topics.map(&:name).join(', ') %></td>
     </tr>
   <% end %>
   </tbody>

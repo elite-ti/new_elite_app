@@ -14,27 +14,22 @@
 <%= f.input :expeditor, placeholder: 'Orgão Exp.' %>
 <%= f.input :cpf, placeholder: 'Apenas números' %>
 
-<%= f.input :cellphone, placeholder: 'Apenas números',
-  input_html: { class: 'telephone_input' } %>
-<%= f.input :alternative_cellphone, placeholder: 'Apenas números',
-  input_html: { class: 'telephone_input' } %>
-<%= f.input :telephone, placeholder: 'Apenas números',
-  input_html: { class: 'telephone_input' } %>
-  <%= f.input :alternative_telephone, placeholder: 'Apenas números',
-  input_html: { class: 'telephone_input' } %>
-<%= f.input :contact_telephone, placeholder: 'Apenas números',
-  input_html: { class: 'telephone_input' } %>
+
+<%= f.input :cellphone, as: :telephone %>
+<%= f.input :alternative_cellphone, as: :telephone %>
+<%= f.input :telephone, as: :telephone %>
+  <%= f.input :alternative_telephone, as: :telephone %>
+<%= f.input :contact_telephone, as: :telephone %>
 <%= f.input :contact_name, placeholder: 'Ex.: Mãe' %>
 
-<%= f.input :formatted_date_of_birth, input_html: { class: 'date' },
-  label: 'Date of birth' %>
+<%= f.input :date_of_birth %>
 <%= f.input :gender, as: :select, 
   collection: ['Masculino', 'Feminino'] %>
 <%= f.input :marital_status, as: :select,
   collection: ['Solteiro(a)', 'Casado(a)', 'Separado(a)', 'Divorciado(a)', 'Viúvo(a)'] %>
 
-<%= f.input :formatted_date_of_admission, input_html: { class: 'date' },
-  label: 'Date of admission' %>
+<%= f.input :date_of_admission %>
+
 <%= f.association :elite_role %>
 
 <%= f.input :workload, hint: 'Horas por semana.' %>

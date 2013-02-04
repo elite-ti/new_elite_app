@@ -2,10 +2,10 @@ jQuery ->
   $('.form-inputs select').chosen
     allow_single_deselect: true
 
-  $('.form-inputs .datetime').datetimepicker
-    dateFormat: "D, d/m/yy"
+  $('.form-inputs .date_time_picker').datetimepicker
+    dateFormat: "dd/mm/yy"
 
-  $('.form-inputs .date').datepicker
+  $('.form-inputs .date_picker').datepicker
     dateFormat: "dd/mm/yy"
 
   $('form').on 'click', '.remove_fields', (event) ->

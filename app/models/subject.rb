@@ -4,6 +4,8 @@ class Subject < ActiveRecord::Base
   attr_accessible :name, :short_name, :code
 
   has_many :topics, dependent: :destroy
+  has_many :question_topics, through: :topics
+  has_many :questions, through: :question_topics
 
   has_many :subject_threads, dependent: :destroy
   has_many :years, through: :subject_threads

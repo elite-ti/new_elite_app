@@ -1,7 +1,7 @@
 class Exam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :formatted_datetime, :exam_cycle_id, :name, :subject_ids, :question_ids
+  attr_accessible :datetime, :exam_cycle_id, :name, :subject_ids, :question_ids
 
   belongs_to :exam_cycle
 
@@ -16,19 +16,17 @@ class Exam < ActiveRecord::Base
 
   validates :name, :exam_cycle_id, presence: true
   validates :name, uniqueness: { scope: :exam_cycle_id }
+  validate :question_belongs_to_subjects
 
   def number_of_questions
     exam_questions.count
   end
 
-  def formatted_datetime
-    datetime.strftime('%a, %d/%m/%Y %H:%M')
-  end
+private
 
-  def formatted_datetime=(_formatted_datetime)
-    date, time = _formatted_datetime.to_s.split(', ').second.split(' ')
-    day, month, year = date.split('/')
-    hour, minute = time.split(':')
-    self.datetime = Time.zone.parse("#{year}-#{month}-#{day} #{hour}:#{minute}:00")
+  def questions_belong_to_subjects
+    unless (questions.map(&:subjects).uniq - subjects).empty?
+      errors.add(:question_ids, 'questions must belong to subjects')
+    end
   end
 end

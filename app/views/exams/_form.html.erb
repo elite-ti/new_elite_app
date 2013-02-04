@@ -3,10 +3,20 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :formatted_datetime, input_html: { class: 'datetime' } %>
+    <%= f.input :datetime %>
     <%= f.association :exam_cycle %>
-    <%= f.association :subjects %>
-    <%= f.association :questions, label_method: :stem %>
+
+    <div class='input'>
+      <%= f.label :subject_ids, 'Subjects' %>
+      <%= f.collection_select :subject_ids, Subject.order(:name), :id, :name, 
+        { include_blank: true }, { multiple: true } %>
+    </div>
+
+    <div class='input'>
+      <%= f.label :question_ids, 'Questions' %>
+      <%= f.grouped_collection_select :question_ids, Subject.order(:name), :questions, :name, :id, :stem, 
+        { include_blank: true }, { multiple: true } %>
+    </div>
   </div>
 
   <div class="form-actions">

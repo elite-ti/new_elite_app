@@ -15,4 +15,14 @@ class SubjectThread < ActiveRecord::Base
 
   validates :name, :subject_id, :year_id, presence: true
   validates :name, uniqueness: { scope: [:subject_id, :year_id] }
+  validate :topics_belong_to_subject
+
+private
+
+  def topics_belong_to_subject
+    topics_subjects = topics.map(&:subject).uniq
+    unless topics_subjects.size == 1 and topics_subjects.first == subject
+      errors.add(:topic_ids, 'topics must belong to subject')
+    end
+  end
 end
