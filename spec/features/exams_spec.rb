@@ -14,14 +14,15 @@ describe 'Exams' do
 
   it 'creates a exam' do
     create :exam_cycle, name: 'ExamCycle'
-    3.times { |i| create :subject, name: "Subject#{i}" }
-    5.times { |i| create :question, stem: "Question#{i}" }
+    subject = create :subject, name: "Subject"
+    topic = create :topic, subject_id: subject.id
+    5.times { |i| create :question, stem: "Question#{i}", topic_ids: [topic.id] }
 
     visit exams_url
     click_link 'New Exam'
     fill_in 'Name', with: 'Exam'
     select 'ExamCycle', from: 'Exam cycle'
-    3.times { |i| select "Subject#{i}", from: 'Subject' }
+    select "Subject", from: 'Subject' 
     5.times { |i| select "Question#{i}", from: 'Questions' }
     click_button 'Create'
 

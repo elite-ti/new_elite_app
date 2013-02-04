@@ -2,7 +2,6 @@
 
 ## Todo
 
-* Fix bug: saving wrong timezone
 * Fix bug of numbering exam_questions and question options
 
 

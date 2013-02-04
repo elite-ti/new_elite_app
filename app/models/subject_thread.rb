@@ -20,9 +20,8 @@ class SubjectThread < ActiveRecord::Base
 private
 
   def topics_belong_to_subject
-    topics_subjects = topics.map(&:subject).uniq
-    unless topics_subjects.size == 1 and topics_subjects.first == subject
-      errors.add(:topic_ids, 'topics must belong to subject')
+    if (topics.map(&:subject).uniq - [subject]).any?
+      errors.add(:topic_ids, 'must belong to subject')
     end
   end
 end

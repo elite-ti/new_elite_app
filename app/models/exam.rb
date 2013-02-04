@@ -16,7 +16,7 @@ class Exam < ActiveRecord::Base
 
   validates :name, :exam_cycle_id, presence: true
   validates :name, uniqueness: { scope: :exam_cycle_id }
-  validate :question_belongs_to_subjects
+  validate :questions_belong_to_subjects
 
   def number_of_questions
     exam_questions.count
@@ -25,7 +25,7 @@ class Exam < ActiveRecord::Base
 private
 
   def questions_belong_to_subjects
-    unless (questions.map(&:subjects).uniq - subjects).empty?
+    if (questions.map(&:subjects).flatten.uniq - subjects).any?
       errors.add(:question_ids, 'questions must belong to subjects')
     end
   end
