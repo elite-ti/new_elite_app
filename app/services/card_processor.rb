@@ -29,7 +29,7 @@ private
       next if File.directory?(path) || File.extname(path) != '.tif' 
 
       student_exam = StudentExam.create_to_be_processed!(
-        @exam_id, @card_type_id, File.open(path))
+        @exam_id, @card_type_id, path)
       CardProcessorWorker.perform_async(student_exam.id)
     end
   end

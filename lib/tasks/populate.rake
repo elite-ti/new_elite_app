@@ -22,6 +22,19 @@ namespace :db do
 
     # Junk
 
-    task all: ['db:schema:load', :clean_uploads, :general, :exam_related]
+    task all: ['db:schema:load', :clean_uploads, :general, :exam_related, :topics]
+
+    task topics: :environment do
+      p 'Populating topics...'
+      Subject.all.each do |subject|
+        %w[I II III IV].each do |number|
+          Topic.create!(
+            name: "#{subject.name} #{number}",
+            subject_id: subject.id,
+            itens: "Various itens"
+          )
+        end
+      end
+    end
   end
 end

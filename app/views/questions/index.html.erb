@@ -3,7 +3,8 @@
 <table id="questions" class="display is-datatable">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Stem</th>
+      <th>Model Answer</th>
     </tr>
   </thead>
 
@@ -11,9 +12,10 @@
   <% @questions.each do |question| %>
     <tr>
       <td>
-        <%= question.name %>
+        <%= question.stem %>
         <%= link_to 'Edit', edit_question_path(question), class: 'float-right' %>
       </td>
+      <td><%= question.model_answer %></td>
     </tr>
   <% end %>
   </tbody>

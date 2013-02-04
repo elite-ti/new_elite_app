@@ -25,9 +25,9 @@ private
   helper_method :current_ability
 
   def current_employee
-    @current_employee ||= Employee.find(session[:user_id]) if session[:user_id]
+    # @current_employee ||= Employee.find(session[:user_id]) if session[:user_id]
     # To skip google authentication just set your email
-    # @current_employee ||= Employee.find_by_email!("")
+    @current_employee ||= Employee.find_by_email!("gustavo.schmidt@sistemaeliterio.com.br")
   end
   helper_method :current_employee
 

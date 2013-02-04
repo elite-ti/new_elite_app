@@ -1,15 +1,16 @@
-require 'spec_helper'
-require 'sidekiq/testing'
+require 'sidekiq'
+require_relative '../../app/workers/card_processor_worker.rb'
+
+class StudentExam; end
 
 describe 'CardProcessorWorker' do  
   it 'performs task' do
-    exam = create :exam
-    card_type = create :card_type
-    30.times { create :exam_question, exam_id: exam.id }
-    student_exam = create :student_exam, exam_id: exam.id, card_type_id: card_type.id
+    student_exam = stub(:scan)
+    StudentExam.stub(:find) { student_exam }
+
+    student_exam.should_receive(:scan).once
 
     worker = CardProcessorWorker.new
-    worker.perform(student_exam.id)
-    ExamAnswer.count.must.equal 30   
+    worker.perform(nil)
   end
 end

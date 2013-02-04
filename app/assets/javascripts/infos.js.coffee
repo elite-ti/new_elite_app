@@ -11,9 +11,6 @@ toggle_post_graduated_fields = () ->
   toggle_fields($('#teacher_post_graduated_false'), $('#teacher_post_graduated_comment'))
 
 jQuery ->
-  # Chosen
-  $('#teacher_subject_ids').chosen()
-
   # Toggle fields
   toggle_graduated_fields()
   $('#teacher_graduated').click -> toggle_graduated_fields()

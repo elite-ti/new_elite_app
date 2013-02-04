@@ -15,7 +15,10 @@
     <tr>
       <td>
         <%= year.name %>
-        <%= link_to 'Edit', edit_year_path(year), class: 'float-right' %>
+        <span class='float-right'>
+          <%= link_to 'Show', year %> |
+          <%= link_to 'Edit', edit_year_path(year) %>
+        </span>
       </td>
       <td><%= year.year_number %></td>
       <td><%= year.product.name %></td>

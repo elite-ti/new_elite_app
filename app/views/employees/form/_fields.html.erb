@@ -1,37 +1,40 @@
 <%= f.input :elite_id, label: 'Elite ID' %>
 <%= f.input :email %>
 
-<%= f.input :name, placeholder: "Nome completo, sem abreviações" %>
+<%= f.input :name, placeholder: 'Nome completo, sem abreviações' %>
 
-<%= f.input :address, :as => :string, placeholder: "Coloque seu endereço aqui" %>
-<%= f.input :suburb, placeholder: "Coloque seu bairro aqui" %>
-<%= f.input :city, placeholder: "Coloque sua cidade aqui" %>
+<%= f.input :address, :as => :string, placeholder: 'Coloque seu endereço aqui' %>
+<%= f.input :suburb, placeholder: 'Coloque seu bairro aqui' %>
+<%= f.input :city, placeholder: 'Coloque sua cidade aqui' %>
 <%= f.input :state, as: :select, collection: Employee::STATES %>
 
-<%= f.input :personal_email, placeholder: "Coloque seu email pessoal aqui" %>
+<%= f.input :personal_email, placeholder: 'Coloque seu email pessoal aqui' %>
 
-<%= f.input :identification, placeholder: "Número do RG" %>
-<%= f.input :expeditor, placeholder: "Orgão Exp." %>
-<%= f.input :cpf, placeholder: "Apenas números" %>
+<%= f.input :identification, placeholder: 'Número do RG' %>
+<%= f.input :expeditor, placeholder: 'Orgão Exp.' %>
+<%= f.input :cpf, placeholder: 'Apenas números' %>
 
-<%= f.input :cellphone, placeholder: "Apenas números",
-  input_html: { class: "telephone_input" } %>
-<%= f.input :alternative_cellphone, placeholder: "Apenas números",
-  input_html: { class: "telephone_input" } %>
-<%= f.input :telephone, placeholder: "Apenas números",
-  input_html: { class: "telephone_input" } %>
-  <%= f.input :alternative_telephone, placeholder: "Apenas números",
-  input_html: { class: "telephone_input" } %>
-<%= f.input :contact_telephone, placeholder: "Apenas números",
-  input_html: { class: "telephone_input" } %>
-<%= f.input :contact_name, placeholder: "Ex.: Mãe" %>
+<%= f.input :cellphone, placeholder: 'Apenas números',
+  input_html: { class: 'telephone_input' } %>
+<%= f.input :alternative_cellphone, placeholder: 'Apenas números',
+  input_html: { class: 'telephone_input' } %>
+<%= f.input :telephone, placeholder: 'Apenas números',
+  input_html: { class: 'telephone_input' } %>
+  <%= f.input :alternative_telephone, placeholder: 'Apenas números',
+  input_html: { class: 'telephone_input' } %>
+<%= f.input :contact_telephone, placeholder: 'Apenas números',
+  input_html: { class: 'telephone_input' } %>
+<%= f.input :contact_name, placeholder: 'Ex.: Mãe' %>
 
-<%= f.input :date_of_birth, :start_year => Date.today.year - 90, :end_year => Date.today.year - 12 %>
-<%= f.input :gender, as: :select, collection: ["Masculino", "Feminino"] %>
+<%= f.input :formatted_date_of_birth, input_html: { class: 'date' },
+  label: 'Date of birth' %>
+<%= f.input :gender, as: :select, 
+  collection: ['Masculino', 'Feminino'] %>
 <%= f.input :marital_status, as: :select,
-  collection: ["Solteiro(a)", "Casado(a)", "Separado(a)", "Divorciado(a)", "Viúvo(a)"] %>
+  collection: ['Solteiro(a)', 'Casado(a)', 'Separado(a)', 'Divorciado(a)', 'Viúvo(a)'] %>
 
-<%= f.input :date_of_admission, :start_year => Date.today.year - 40, :end_year => Date.today.year %>
+<%= f.input :formatted_date_of_admission, input_html: { class: 'date' },
+  label: 'Date of admission' %>
 <%= f.association :elite_role %>
 
 <%= f.input :workload, hint: 'Horas por semana.' %>
@@ -41,10 +44,10 @@
 <%= f.input :pis_pasep %>
 <%= f.input :working_paper_number %>
 
-<div id="image">
+<div id='image'>
   <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
-  <%= f.input :photo, wrapper_html: { id: "photo_wrapper" } %>
+  <%= f.input :photo, wrapper_html: { id: 'photo_wrapper' } %>
   <% if @employee.photo? %>
-    <label id="remove_label"><%= f.check_box :remove_photo %><%= t(:remove) %></label>
+    <label id='remove_label'><%= f.check_box :remove_photo %><%= t(:remove) %></label>
   <% end %>
 </div>

@@ -234,9 +234,9 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
   add_index "exam_subjects", ["subject_id", "exam_id"], :name => "index_exam_subjects_on_subject_id_and_exam_id", :unique => true
 
   create_table "exams", :force => true do |t|
-    t.datetime "date"
-    t.integer  "exam_cycle_id"
-    t.string   "name"
+    t.datetime "datetime"
+    t.integer  "exam_cycle_id", :null => false
+    t.string   "name",          :null => false
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
@@ -400,13 +400,31 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
     t.integer  "teacher_id",     :null => false
   end
 
-  create_table "questions", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "options", :force => true do |t|
+    t.integer  "question_id", :null => false
+    t.text     "answer",      :null => false
+    t.boolean  "correct",     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "questions", ["name"], :name => "index_questions_on_name", :unique => true
+  add_index "options", ["answer", "question_id"], :name => "index_options_on_question_id_and_answer", :unique => true
+
+  create_table "question_topics", :force => true do |t|
+    t.integer  "question_id", :null => false
+    t.integer  "topic_id",    :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "question_topics", ["question_id", "topic_id"], :name => "index_question_topics_on_question_id_and_topic_id", :unique => true
+
+  create_table "questions", :force => true do |t|
+    t.text     "stem",         :null => false
+    t.text     "model_answer", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "school_roles", :force => true do |t|
     t.string   "name",       :null => false
@@ -480,7 +498,7 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
   create_table "subject_thread_topics", :force => true do |t|
     t.integer  "subject_thread_id", :null => false
     t.integer  "topic_id",          :null => false
-    t.integer  "weight",            :null => false
+    t.integer  "number_of_periods"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end

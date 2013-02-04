@@ -2,9 +2,11 @@
  *= require_self
  *= require jquery.ui.core
  *= require jquery.ui.theme
+ *= require jquery.ui.tabs
+ *= require jquery.ui.datepicker
+ *= require jquery.ui.slider
+ *= require datetime_picker/jquery-ui-timepicker-addon
  *= require dataTables/src/demo_table_jui
  *= require chosen
- *= require jquery.ui.datepicker
-  *= require jquery.ui.tabs
  *= require_tree .
  */ 

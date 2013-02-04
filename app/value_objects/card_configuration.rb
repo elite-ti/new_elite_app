@@ -1,5 +1,5 @@
 class CardConfiguration
-  class InvalidParamters < RuntimeError; end
+  class InvalidParameters < RuntimeError; end
   class InvalidResult < RuntimeError; end
 
   attr_reader :threshold, :student_zone, :questions_zone
@@ -23,7 +23,7 @@ class CardConfiguration
 private
 
   def parse(parameters)
-    raise InvalidParamters.new if parameters.size != 27
+    raise InvalidParameters.new if parameters.size != 27
 
     @threshold = parameters[0]
     @pivot_default_x = parameters[1]

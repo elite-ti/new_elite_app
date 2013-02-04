@@ -39,11 +39,11 @@ class StudentExam < ActiveRecord::Base
     exam_answers.select{ |ea| ea.need_to_be_checked? }
   end
 
-  def self.create_to_be_processed!(exam_id, card_type_id, card)
+  def self.create_to_be_processed!(exam_id, card_type_id, card_path)
     student_exam = create!(
       exam_id: exam_id,
       card_type_id: card_type_id,
-      card: card,
+      card: File.open(card_path),
       status: BEING_PROCESSED_STATUS
     )
   end

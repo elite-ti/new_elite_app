@@ -3,7 +3,12 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.association :year %>
+
+    <div class='input'>
+      <%= f.label :year_id %>
+      <%= f.collection_select :year_id, Year.order(:name), :id, :name, include_blank: true %>
+    </div>
+
     <div class='input'>
       <%= f.label :subject_id %>
       <%= f.collection_select :subject_id, Subject.order(:name), :id, :name, include_blank: true %>
@@ -14,16 +19,6 @@
       <%= f.grouped_collection_select :topic_ids, Subject.order(:name), :topics, :name, :id, :name, 
         { include_blank: true }, { multiple: true } %>
     </div>
-
-    <% if false %>
-      <h2>Topics</h2>
-      <%= f.simple_fields_for :subject_thread_topics do |builder| %>
-        <%= render 'subject_thread_topic_fields', f: builder %>
-      <% end %>
-      <p class="add_field">
-        <%= link_to_add_fields "New", f, :subject_thread_topics %>
-      </p>
-    <% end %>
   </div>
 
   <div class="form-actions">

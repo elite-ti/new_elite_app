@@ -1,8 +1,7 @@
 require 'find'
-require 'mustard'
 require_relative '../../app/services/decompressor.rb'
 
-describe 'Decompressor' do
+describe Decompressor do
   assets_path = File.join(File.expand_path(File.dirname(__FILE__)), 'decompressor_assets')
   zip_file_path = File.join(assets_path, 'sample.zip')
   rar_file_path = File.join(assets_path, 'sample.rar')
@@ -15,7 +14,7 @@ describe 'Decompressor' do
     path, file_name = path_and_filename(zip_file_path)
     folder_path = Decompressor.decompress(path, file_name)
     filenames = Find.find(folder_path).select{|f| File.file?(f)}.map{|f| File.basename(f)}
-    filenames.sort.must.equal FILENAMES
+    filenames.sort.should == FILENAMES
     FileUtils.rm_r(folder_path)
   end
 
@@ -23,7 +22,7 @@ describe 'Decompressor' do
     path, file_name = path_and_filename(rar_file_path)
     folder_path = Decompressor.decompress(path, file_name)
     filenames = Find.find(folder_path).select{|f| File.file?(f)}.map{|f| File.basename(f)}
-    filenames.sort.must.equal FILENAMES
+    filenames.sort.should == FILENAMES
     FileUtils.rm_r(folder_path)
   end
 

@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Subject</th>
       <th>Year</th>
+      <th>Topics</th>
     </tr>
   </thead>
 
@@ -16,8 +17,9 @@
         <%= subject_thread.name %>
         <%= link_to 'Edit', edit_subject_thread_path(subject_thread), class: 'float-right' %>
       </td>
-      <td><%= subject_thread.subject_id %></td>
-      <td><%= subject_thread.year_id %></td>
+      <td><%= subject_thread.subject.name %></td>
+      <td><%= subject_thread.year.name %></td>
+      <td><%= subject_thread.topics.map(&:name).join(', ') %></td>
     </tr>
   <% end %>
   </tbody>

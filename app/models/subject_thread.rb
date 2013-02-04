@@ -9,7 +9,7 @@ class SubjectThread < ActiveRecord::Base
   has_many :teaching_assignements
   has_many :klazzes, through: :teaching_assignments
 
-  has_many :subject_thread_topics, dependent: :destroy
+  has_many :subject_thread_topics, dependent: :destroy, inverse_of: :subject_thread
   has_many :topics, through: :subject_thread_topics
 
 

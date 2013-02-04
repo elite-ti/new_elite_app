@@ -7,8 +7,8 @@ class Employee < ActiveRecord::Base
     :name, :employee_id, :address, :suburb, :city, :state, :personal_email, 
     :identification, :expeditor, :cpf, :cellphone, :alternative_cellphone, :telephone, 
     :alternative_telephone, :contact_telephone, :contact_name, :photo, :remove_photo,
-    :roles, :employee_attributes, :date_of_birth, :gender, :marital_status,
-    :date_of_admission, :elite_role_id, :contract_type, :workload, 
+    :roles, :employee_attributes, :formatted_date_of_birth, :gender, :marital_status,
+    :formatted_date_of_admission, :elite_role_id, :contract_type, :workload, 
     :cost_per_hour, :pis_pasep, :working_paper_number,
     :teacher_attributes, 
     :product_head_teacher_attributes, 
@@ -71,6 +71,17 @@ class Employee < ActiveRecord::Base
       update_column :uid, _uid
     else
       logger.info "Uid from employee number #{id} changed" if _uid != uid
+    end
+  end
+
+  %w[date_of_birth date_of_admission].each do |date_attribute|
+    define_method "formatted_#{date_attribute}" do
+      date_value = send(date_attribute)
+      date_value.strftime('%d/%m/%Y') if date_value
+    end
+
+    define_method "formatted_#{date_attribute}=" do |value|
+      self.send("#{date_attribute}=", value) if value
     end
   end
 end

@@ -5,7 +5,6 @@ class TeachingAssignment < ActiveRecord::Base
 
   belongs_to :klazz
   belongs_to :subject
-  # belongs_to :schedule
   belongs_to :teacher
   has_many :time_tables, dependent: :destroy
 

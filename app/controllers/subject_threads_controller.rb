@@ -11,7 +11,6 @@ class SubjectThreadsController < ApplicationController
   end
 
   def create
-    debugger
     if @subject_thread.save
       redirect_to subject_threads_url, notice: 'Subject thread was successfully created.'
     else

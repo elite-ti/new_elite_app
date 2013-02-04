@@ -1,9 +1,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require dataTables/jquery.dataTables
-//= require chosen-jquery
-//= require jquery.ui.datepicker
 //= require jquery.ui.tabs
 //= require jquery.maskedinput
+//= require jquery.ui.datepicker
+//= require jquery.ui.slider
+//= require datetime_picker/jquery-ui-timepicker-addon
+//= require dataTables/jquery.dataTables
+//= require chosen-jquery
 //= require_tree .

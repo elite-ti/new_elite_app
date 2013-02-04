@@ -1,7 +1,7 @@
 <%= simple_form_for(@employee, html: { multipart: true }) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class='form-inputs'>
     <%= render 'employees/form/fields', f: f %>
 
     <h2>Roles</h2>
@@ -45,7 +45,7 @@
 
   </div>
 
-  <div class="form-actions">
+  <div class='form-actions'>
     <%= f.button :submit %>
   </div>
 <% end %>

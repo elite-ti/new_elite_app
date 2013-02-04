@@ -2,6 +2,7 @@
 
 ## Todo
 
+* Fix bug of numbering exam_questions and question options
 
 ## Setup
 

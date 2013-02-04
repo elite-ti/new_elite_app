@@ -83,7 +83,7 @@ FactoryGirl.define do
 
   factory :exam do
     sequence(:name) { |n| "Exam#{n}" }
-    date { Time.now }
+    datetime { Time.zone.now }
     exam_cycle
   end
 
@@ -93,7 +93,8 @@ FactoryGirl.define do
   end
 
   factory :question do
-    sequence(:name) { |n| "Question#{n}" }
+    sequence(:stem) { |n| "QuestionStem#{n}" }
+    model_answer 'ModelAnswer'
   end
 
   factory :card_type do

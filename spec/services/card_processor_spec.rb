@@ -1,14 +1,29 @@
-require 'mustard'
 require_relative '../../app/services/card_processor.rb'
-require_relative '../../app/services/decompressor.rb'
+
+class Decompressor; end
+class CardProcessorWorker; end
+class StudentExam; end
 
 describe 'CardProcessor' do
-  assets_file_path = File.join(File.expand_path(File.dirname(__FILE__)), 'decompressor_assets')
-  zip_file_path = File.join(assets_file_path, 'sample.zip')
-  rar_file_path = File.join(assets_file_path, 'sample.rar')
-  number_of_files = 9
-  filenames = %w[1.tif 2.tif 3.tif 4.tif 5.tif 6.tif 7.tif 8.tif 9.tif]
+  it 'creates card processor jobs based on zip file' do
+    file = stub(:path => 'path', 
+        :original_filename => 'filename.zip')
+    Decompressor.stub(:decompress) { stub }
+    
+    Find.stub(:find).
+        and_yield('one.tif').
+        and_yield('two.tif').
+        and_yield('dir')
 
-  it 'creates card processor jobs for based on zip file' do
+    File.stub(:directory?).and_return(false, false, true)
+    File.stub(:extname).and_return('.tif', '.tif', '')
+
+    student_exam = stub(:id => 'anything')
+    StudentExam.stub(:create_to_be_processed!) { student_exam }
+
+    FileUtils.stub(:rm_r)
+
+    CardProcessorWorker.should_receive(:perform_async).twice
+    CardProcessor.run(file, nil, nil)
   end
 end

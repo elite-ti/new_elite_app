@@ -71,7 +71,6 @@ class Teacher < ActiveRecord::Base
   def find_monthly_time_tables_as_substitute(date)
     start_date, end_date = set_active_month_interval(date)
     return [] if start_date.nil? or end_date.nil?
-    # teacher_absences.includes(:time_table).where(time_tables: {date: start_date..end_date})
     TimeTable.joins(:teacher_absence).where(date: start_date..end_date, teacher_absences: {teacher_id: id})
   end
 

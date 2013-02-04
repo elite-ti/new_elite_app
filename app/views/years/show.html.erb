@@ -1,0 +1,63 @@
+<%= title 'Year - ' + @year.name, 
+  link_to('Back | ', years_path),
+  link_to('Edit', edit_year_path(@year)) %>
+
+<div class='resource'>
+  <%= show_field 'Product Group', @year.product.product_group.try(:name) %>
+  <%= show_field 'Product Type', @year.product.product_type.name %>
+  <%= show_field 'Product', @year.product.name %>
+</div>
+
+<h2>Year Klazzes</h2>
+<table id='year_klazzes' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Klazz</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @year.klazzes.each do |klazzes| %>
+    <tr>
+      <td>
+        <%= klazz.name %>
+        <span class='float-right'>
+          <%= link_to 'Show', klazz %> |
+          <%= link_to 'Edit', edit_klazz_path(klazz) %>
+        </span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h2>Year Subject Threads</h2>
+<table id='year_subject_threads' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Subject Thread</th>
+      <th>Subject</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @year.subject_threads.each do |subject_thread| %>
+    <tr>
+      <td>
+        <%= subject_thread.name %>
+        <span class='float-right'>
+          <%= link_to 'Show', subject_thread %> |
+          <%= link_to 'Edit', edit_subject_thread_path(subject_thread) %>
+        </span>
+      </td>
+      <td>
+        <%= subject_thread.subject.name %>
+        <span class='float-right'>
+          <%= link_to 'Show', subject_thread.subject %> |
+          <%= link_to 'Edit', edit_subject_path(subject_thread.subject) %>
+        </span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

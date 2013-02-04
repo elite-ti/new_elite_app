@@ -6,7 +6,7 @@ namespace :db do
 
     task exam_related: :environment do
       p 'Creating questions'
-      30.times { Question.create!(name: "Question#{Question.count}") }
+      30.times { Question.create!(stem: "QuestionStem#{Question.count}", model_answer: 'ModelAnswer') }
 
       p 'Creating card type'
       CardType.create!(
@@ -61,7 +61,7 @@ namespace :db do
 
       p 'Creating exam'
       exam = Exam.create!(
-        date: Time.now, 
+        datetime: Time.zone.now, 
         exam_cycle_id: ExamCycle.first.id, 
         name: 'Bolsao Fisica', 
         subject_ids: [Subject.first.id],
