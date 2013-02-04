@@ -5,8 +5,8 @@ class SubjectSelect
   self: ->
     $(@id)
 
-  selected: -> 
-    @selected_subjects = ($(selected_subject).text() for selected_subject in @self().find(':selected'))
+  selected_subjects: -> 
+    ($(selected_subject).text() for selected_subject in @self().find(':selected'))
 
 class TopicSelect
   constructor: (id) ->
@@ -17,16 +17,18 @@ class TopicSelect
     $(@id)
 
   update: (selected_subjects) ->
-    options = @available_options(selected_subjects) 
-    if options
+    values = @self().val()
+    @data.replaceWith(@self().html())
+    if options = @options(selected_subjects)
       @self().html(options)
+      @self().val(values)
       @self().parent().show()
       @self().trigger("liszt:updated")
     else
       @self().empty()
       @self().parent().hide()
 
-  available_options: (selected_subjects) ->
+  options: (selected_subjects) ->
     (@filter(selected_subject) for selected_subject in selected_subjects).join('\n')
 
   filter: (selected_subject) ->
@@ -40,10 +42,10 @@ class ExamForm
     @bind_events()
 
   bind_events: ->
-    @topic_select.update(@subject_select.selected())
+    @topic_select.update(@subject_select.selected_subjects())
 
     @subject_select.self().change =>
-      @topic_select.update(@subject_select.selected()) 
+      @topic_select.update(@subject_select.selected_subjects()) 
       
 
 jQuery ->

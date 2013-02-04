@@ -1,43 +1,46 @@
-class Subject
+class SubjectSelect
   constructor: (id) ->
     @id = id
 
-  form_select: ->
+  self: ->
     $(@id)
 
-  selected: -> 
-    @form_select().find(':selected').text()
+  selected_subject: -> 
+    @self().find(':selected').text()
 
-class Topics
+class TopicSelect
   constructor: (id) ->
     @id = id
-    @data = $(@form_select().html())
+    @data = $(@self().html())
 
-  form_select: -> 
+  self: -> 
     $(@id)
 
   update: (selected_subject) ->
-    selected_subject = selected_subject.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1')
-    options = @data.filter("optgroup[label='#{selected_subject}']").html()
+    options = @filter(selected_subject)
     if options
-      @form_select().html(options)
-      @form_select().parent().show()
-      @form_select().trigger("liszt:updated")
+      @self().html(options)
+      @self().parent().show()
+      @self().trigger("liszt:updated")
     else
-      @form_select().empty()
-      @form_select().parent().hide()
+      @self().empty()
+      @self().parent().hide()
+
+  filter: (selected_subject) ->
+    selected_subject = selected_subject.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1')
+    @data.filter("optgroup[label='#{selected_subject}']").html()
 
 class SubjectThread
   constructor: (subject_id, topics_id) ->
-    @subject = new Subject(subject_id)
-    @topics = new Topics(topics_id)
+    @subject_select = new SubjectSelect(subject_id)
+    @topic_select = new TopicSelect(topics_id)
     @bind_events()
 
   bind_events: ->
-    @topics.update(@subject.selected())
+    @topic_select.update(@subject_select.selected_subject())
 
-    @subject.form_select().change =>
-      @topics.update(@subject.selected()) 
+    @subject_select.self().change =>
+      @topic_select.update(@subject_select.selected_subject()) 
       
 
 jQuery ->
