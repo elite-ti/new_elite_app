@@ -1,13 +1,13 @@
 # getters
 
 selected = () -> $('#selected')
-box = () -> $('#time_table_box')
-form = () -> $('#time_table_box').find('form')
+box = () -> $('#klazz_period_box')
+form = () -> $('#klazz_period_box').find('form')
 chosen_fields = () -> 
-  $('#time_table_teacher_id, 
-    #time_table_subject_id, 
-    #time_table_teacher_absence_attributes_teacher_id, 
-    #time_table_teacher_absence_attributes_subject_id')
+  $('#klazz_period_teacher_id, 
+    #klazz_period_subject_id, 
+    #klazz_period_teacher_absence_attributes_teacher_id, 
+    #klazz_period_teacher_absence_attributes_subject_id')
 optional_fields = () -> $('#teacher_absence_fields')
 
 # helpers
@@ -16,9 +16,9 @@ set_chosen = (type) ->
   chosen_fields().chosen
     allow_single_deselect: true
     no_results_text: "No results matched"
-  for field in $('#time_table_teacher_absence_attributes_absence_reason_id,
-    #time_table_teacher_absence_attributes_teacher_id,
-    #time_table_teacher_absence_attributes_subject_id')
+  for field in $('#klazz_period_teacher_absence_attributes_absence_reason_id,
+    #klazz_period_teacher_absence_attributes_teacher_id,
+    #klazz_period_teacher_absence_attributes_subject_id')
     if $(field).val() != ''
       $('#teacher_absence_fields_check_box').prop('checked', true)
   toggle_optional_fields($('#teacher_absence_fields_check_box')[0], $('#teacher_absence_fields'))
@@ -31,21 +31,21 @@ submit = (type) ->
     dataType: 'script'
     type: type
   request.done ->
-    set_time_tables_size()
+    set_klazz_periods_size()
     unselect()
     # set_box_position()
     # set_chosen type
 
-set_time_tables_size = (cells = $('.cell')) ->
+set_klazz_periods_size = (cells = $('.cell')) ->
   for cell in cells
-    time_tables = $(cell).find('.time_table')
-    length = time_tables.length
+    klazz_periods = $(cell).find('.klazz_period')
+    length = klazz_periods.length
     if length > 1
-      for time_table in time_tables
-        $(time_table).width 130/(length-1)-1
-      time_tables.last().width 20
+      for klazz_period in klazz_periods
+        $(klazz_period).width 130/(length-1)-1
+      klazz_periods.last().width 20
     else
-      time_tables.first().width 150
+      klazz_periods.first().width 150
 
 set_box_position = () ->
   box().css('top', selected().position().top + selected().outerHeight())
@@ -61,28 +61,28 @@ unselect = () ->
   selected().removeAttr('id')
   box().hide()
 
-select = (time_table) ->
+select = (klazz_period) ->
   unselect()
-  time_table.attr('id', 'selected')
+  klazz_period.attr('id', 'selected')
   set_box_position()
 
-new_time_table = () ->
+new_klazz_period = () ->
   position = selected().closest('tr').find('td').first().attr('data-position')
   index = selected().closest('tr').find('td').index(selected().closest('td'))
   date = $($('tr').first().children('td').get(index)).attr('data-date')
   klazz_id = $($('tr').first().children('td').first()).attr('data-klazz-id')
-  request = $.getScript '/time_tables/new?position=' + position + '&date=' + date + '&klazz_id=' + klazz_id
+  request = $.getScript '/klazz_periods/new?position=' + position + '&date=' + date + '&klazz_id=' + klazz_id
   request.done -> 
     set_chosen 'POST'
     scroll()
 
-edit_time_table = () ->
-  request = $.getScript '/time_tables/' + selected().find('.time_table_id').text() + '/edit'
+edit_klazz_period = () ->
+  request = $.getScript '/klazz_periods/' + selected().find('.klazz_period_id').text() + '/edit'
   request.done -> 
     set_chosen 'PUT'
     scroll()
 
-delete_time_table = (url) ->
+delete_klazz_period = (url) ->
   if confirm "Are you sure?"
     request = $.ajax
       url: url
@@ -91,7 +91,7 @@ delete_time_table = (url) ->
     request.done ->
       selected().parent().remove()
       box().hide()
-      set_time_tables_size()
+      set_klazz_periods_size()
 
 toggle_optional_fields = (checkbox, fields) ->
   if fields.length > 0
@@ -99,7 +99,7 @@ toggle_optional_fields = (checkbox, fields) ->
 
 jQuery ->
 
-  set_time_tables_size()
+  set_klazz_periods_size()
   box().hide()
 
   $('#date').datepicker
@@ -111,16 +111,16 @@ jQuery ->
 
   $(document).on 'click', '#teacher_absence_fields_check_box', ->
       toggle_optional_fields(this, $('#teacher_absence_fields'))
-      $('#time_table_teacher_absence_attributes__destroy').attr('value', if this.checked then false else true)
+      $('#klazz_period_teacher_absence_attributes__destroy').attr('value', if this.checked then false else true)
 
   $(document).on 'click', '.new', ->
-    select($(this).children('.time_table'))
-    new_time_table()
+    select($(this).children('.klazz_period'))
+    new_klazz_period()
     return false
 
   $(document).on 'click', '.new_from_form', ->
-    select(selected().parent().siblings().last().find('.time_table'))
-    new_time_table()
+    select(selected().parent().siblings().last().find('.klazz_period'))
+    new_klazz_period()
     return false
 
   $(document).on 'click', '.create', ->
@@ -128,8 +128,8 @@ jQuery ->
     return false
 
   $(document).on 'click', '.edit', ->
-    select($(this).children('.time_table'))
-    edit_time_table()
+    select($(this).children('.klazz_period'))
+    edit_klazz_period()
     return false
 
   $(document).on 'click', '.update', ->
@@ -137,9 +137,9 @@ jQuery ->
     return false
 
   $(document).on 'click', '.destroy', ->
-    delete_time_table(this.href)
+    delete_klazz_period(this.href)
     return false
     
   $(document).on 'click', '.destroy_all', ->
-    delete_time_table(this.href + '?replicate=1')
+    delete_klazz_period(this.href + '?replicate=1')
     return false

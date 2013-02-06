@@ -2,7 +2,7 @@
 
 <%= navigation(@date) %>
 
-<%= search(campus_time_table_path(@campus), @date) %>
+<%= search(campus_klazz_period_path(@campus), @date) %>
 
 <table id='calendar'>
   <tr>
@@ -25,14 +25,14 @@
         <%= content_tag :td, class: 'time_cell', data: {position: i} { @times[i] } %>
         <% @klazzes.each do |klazz| %>
           <td class='cell'>
-            <% klazz.find_time_tables_by_date_and_position(date, i).each do |time_table| %>
-              <div class='time_table'>  
-                <span class='subject_code'><%= time_table.teaching_assignment.teacher.nickname %></span><br />
-                <span class='subject_code'><%= time_table.teaching_assignment.subject.code %></span><br />
-                <span class='time_table_id' style='display: none;'><%= time_table.id %></span>
+            <% klazz.find_klazz_periods_by_date_and_position(date, i).each do |klazz_period| %>
+              <div class='klazz_period'>  
+                <span class='subject_code'><%= klazz_period.teaching_assignment.teacher.nickname %></span><br />
+                <span class='subject_code'><%= klazz_period.teaching_assignment.subject.code %></span><br />
+                <span class='klazz_period_id' style='display: none;'><%= klazz_period.id %></span>
               </div>
             <% end %>
-            <div class='empty_time_table'></div>
+            <div class='empty_klazz_period'></div>
           </td>
         <% end %>
       </tr>

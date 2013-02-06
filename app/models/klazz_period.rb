@@ -1,10 +1,10 @@
-class TimeTable < ActiveRecord::Base
+class KlazzPeriod < ActiveRecord::Base
   has_paper_trail
   
   attr_accessible :date, :position, :replicate,
     :klazz_type_id, :teaching_assignment_id, 
     :subject_id, :teacher_id, :klazz_id,
-    :teacher_absence_attributes, :linked_time_table
+    :teacher_absence_attributes, :linked_klazz_period
   attr_writer :subject_id, :teacher_id, :klazz_id
   attr_reader :replicate
 
@@ -53,11 +53,11 @@ class TimeTable < ActiveRecord::Base
   end
 
   def time
-    TimeTable.time_array[position]
+    KlazzPeriod.time_array[position]
   end
 
   def datetime
-    DateTime.parse(date.to_s + 'T' + TimeTable.time_array[position] + ':00-03:00')
+    DateTime.parse(date.to_s + 'T' + KlazzPeriod.time_array[position] + ':00-03:00')
   end
 
   def past?
@@ -75,7 +75,7 @@ class TimeTable < ActiveRecord::Base
 private
 
   def default_values
-    self.linked_time_table ||= (TimeTable.maximum(:linked_time_table) || 0) + 1
+    self.linked_klazz_period ||= (KlazzPeriod.maximum(:linked_klazz_period) || 0) + 1
   end
 
   def set_teaching_assignment
@@ -87,24 +87,24 @@ private
   end
 
   def create_replicas
-    TimeTable.create!(
+    KlazzPeriod.create!(
       date: date + 1.week, 
       teaching_assignment_id: teaching_assignment_id,
       klazz_type_id: klazz_type_id,
       position: position,
-      linked_time_table: linked_time_table,
+      linked_klazz_period: linked_klazz_period,
       replicate: true
     )
   end
 
   def update_replicas
-    TimeTable.update_all(
+    KlazzPeriod.update_all(
       {teaching_assignment_id: teaching_assignment_id, klazz_type_id: klazz_type_id},
-      {linked_time_table: linked_time_table, date: (date..date.end_of_year)}
+      {linked_klazz_period: linked_klazz_period, date: (date..date.end_of_year)}
     )
   end
 
   def destroy_replicas
-    TimeTable.destroy_all(linked_time_table: linked_time_table, date: (date..date.end_of_year))
+    KlazzPeriod.destroy_all(linked_klazz_period: linked_klazz_period, date: (date..date.end_of_year))
   end
 end 

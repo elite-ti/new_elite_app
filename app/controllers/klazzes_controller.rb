@@ -5,6 +5,9 @@ class KlazzesController < ApplicationController
     @klazzes = @klazzes.includes(:campus, year: {product: :product_type})
   end
 
+  def show
+  end
+
   def new
   end
 

@@ -6,7 +6,7 @@ class TeachingAssignment < ActiveRecord::Base
   belongs_to :klazz
   belongs_to :subject
   belongs_to :teacher
-  has_many :time_tables, dependent: :destroy
+  has_many :klazz_periods, dependent: :destroy
 
   validates :klazz_id, :subject_id, :teacher_id, presence: true
 end

@@ -16,11 +16,11 @@
     <tr>
       <td>
         <%= klazz.name %>
-        <%= content_tag :span, class: 'float-right' do 
-          link_to('Time Table', klazz_time_table_path(klazz)) + 
-          ' | ' + 
-          link_to('Edit', edit_klazz_path(klazz))
-        end %>
+        <span class='float-right'>
+          <%= link_to 'Time Table', klazz_klazz_period_path(klazz) %> |
+          <%= link_to 'Show', klazz %> |
+          <%= link_to 'Edit', edit_klazz_path(klazz) %>
+        </span>
       </td>
       <td><%= klazz.campus.name %></td>
       <td><%= klazz.year.name %></td>

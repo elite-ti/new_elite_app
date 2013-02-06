@@ -3,7 +3,7 @@ class KlazzType < ActiveRecord::Base
   
   attr_accessible :name
 
-  has_many :time_tables
+  has_many :klazz_periods
   has_many :teacher_absences
 
   validates :name, presence: true, uniqueness: true

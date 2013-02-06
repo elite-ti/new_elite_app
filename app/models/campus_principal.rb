@@ -18,7 +18,7 @@ class CampusPrincipal < ActiveRecord::Base
   end
 
   def accessible_teacher_absence_ids
-    TeacherAbsence.joins(time_table: :teaching_assignment).
+    TeacherAbsence.joins(klazz_period: :teaching_assignment).
       where(teaching_assignments: {klazz_id:  accessible_klazz_ids}).map(&:id)
   end
 end

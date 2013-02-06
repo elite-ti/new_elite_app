@@ -75,10 +75,10 @@ namespace :db do
         Time.new(year, month, day, hour, minute, 0, "-03:00")
       end
 
-      task time_tables: :environment do
-        p 'Populating time_tables'
+      task klazz_periods: :environment do
+        p 'Populating klazz_periods'
         ActiveRecord::Base.transaction do
-          read_csv('time_tables').each do |elite_id, klazz_name, subject_name, date, klazz_type_name, position|
+          read_csv('klazz_periods').each do |elite_id, klazz_name, subject_name, date, klazz_type_name, position|
             TimeTable.create!(
               teacher_id: Employee.find_by_elite_id!(elite_id).teacher.id,
               klazz_id: Klazz.find_by_name!(klazz_name).id,

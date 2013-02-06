@@ -1,0 +1,9 @@
+<a href='#' class='edit'>
+  <div class='klazz_period <%= color(klazz_period) %>' id='selected'>
+    <p>
+      <span class='teacher_name'><%= klazz_period.teaching_assignment.teacher.nickname %></span><br />
+      <span class='subject_code'><%= klazz_period.teaching_assignment.subject.code %></span>
+      <span class='klazz_period_id' style='display: none;'><%= klazz_period.id %></span>
+    </p>
+  </div>
+</a>

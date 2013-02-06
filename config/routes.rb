@@ -18,10 +18,10 @@ EliteApp::Application.routes.draw do
   resources :teacher_absences
   resources :teacher_reports
 
-  resources :campus_time_tables
-  resources :teacher_time_tables
-  resources :klazz_time_tables
-  resources :time_tables
+  resources :campus_klazz_periods
+  resources :teacher_klazz_periods
+  resources :klazz_klazz_periods
+  resources :klazz_periods
 
   resources :personal_infos
   resources :professional_infos

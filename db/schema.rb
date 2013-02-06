@@ -243,6 +243,16 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
 
   add_index "exams", ["exam_cycle_id", "name"], :name => "index_exams_on_exam_cycle_id_and_name", :unique => true
 
+  create_table "klazz_periods", :force => true do |t|
+    t.integer  "teaching_assignment_id", :null => false
+    t.integer  "klazz_type_id"
+    t.integer  "position",               :null => false
+    t.date     "date",                   :null => false
+    t.integer  "linked_klazz_period"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
   create_table "klazz_types", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
@@ -537,7 +547,7 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
   add_index "teached_subjects", ["teacher_id", "subject_id"], :name => "index_teached_subjects_on_teacher_id_and_subject_id", :unique => true
 
   create_table "teacher_absences", :force => true do |t|
-    t.integer  "time_table_id",     :null => false
+    t.integer  "klazz_period_id",     :null => false
     t.integer  "teacher_id"
     t.integer  "subject_id"
     t.integer  "klazz_type_id"
@@ -547,7 +557,7 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
     t.datetime "updated_at",        :null => false
   end
 
-  add_index "teacher_absences", ["time_table_id"], :name => "index_teacher_absences_on_time_table_id", :unique => true
+  add_index "teacher_absences", ["klazz_period_id"], :name => "index_teacher_absences_on_klazz_period_id", :unique => true
 
   create_table "teachers", :force => true do |t|
     t.integer  "employee_id",            :null => false
@@ -583,15 +593,14 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "time_tables", :force => true do |t|
-    t.integer  "teaching_assignment_id", :null => false
-    t.integer  "klazz_type_id"
-    t.integer  "position",               :null => false
-    t.date     "date",                   :null => false
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.integer  "linked_time_table"
+  create_table "ticks", :force => true do |t|
+    t.integer  "klazz_period_id",         :null => false
+    t.integer  "subject_thread_topic_id", :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
+
+  add_index "ticks", ["klazz_period_id", "subject_thread_topic_id"], :name => "index_ticks_on_klazz_period_id_and_subject_thread_topic_id", :unique => true
 
   create_table "topics", :force => true do |t|
     t.string   "name"

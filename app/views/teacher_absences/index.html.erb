@@ -16,11 +16,11 @@
   <% @teacher_absences.each do |teacher_absence| %>
     <tr>
       <td>
-        <%= link_to teacher_absence.time_table.teaching_assignment.teacher.nickname, 
+        <%= link_to teacher_absence.klazz_period.teaching_assignment.teacher.nickname, 
           edit_teacher_absence_path(teacher_absence) %>
       </td>
-      <td><%= teacher_absence.time_table.date %> <%= teacher_absence.time_table.time %></td>
-      <td><%= teacher_absence.time_table.teaching_assignment.klazz.name %></td>
+      <td><%= teacher_absence.klazz_period.date %> <%= teacher_absence.klazz_period.time %></td>
+      <td><%= teacher_absence.klazz_period.teaching_assignment.klazz.name %></td>
       <td><%= teacher_absence.absence_reason.name %></td>
       <td><%= teacher_absence.justification %></td>
       <td>

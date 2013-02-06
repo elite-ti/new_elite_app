@@ -26,7 +26,7 @@ class Teacher < ActiveRecord::Base
   has_many :teaching_assignments, dependent: :destroy
   has_many :klazzes, through: :teaching_assignments
   has_many :schedules, through: :teaching_assignments
-  has_many :time_tables, through: :teaching_assignments
+  has_many :klazz_periods, through: :teaching_assignments
 
   has_many :teacher_absences, dependent: :destroy
 
@@ -35,15 +35,15 @@ class Teacher < ActiveRecord::Base
 
   validates :employee_id, :nickname, presence: true, on: :update
 
-  def find_time_tables_by_date_and_position(date, position)
-    time_tables_by_date(date).select { |time_table| time_table.position == position }
+  def find_klazz_periods_by_date_and_position(date, position)
+    klazz_periods_by_date(date).select { |klazz_period| klazz_period.position == position }
   end
 
-  def time_tables_by_date(date)
-    @time_tables_by_date ||= Hash.new do |hash, key|
-      hash[key] = get_time_tables_by_date(*key)
+  def klazz_periods_by_date(date)
+    @klazz_periods_by_date ||= Hash.new do |hash, key|
+      hash[key] = get_klazz_periods_by_date(*key)
     end
-    @time_tables_by_date[date]
+    @klazz_periods_by_date[date]
   end
 
   def build_product_group_preferences
@@ -53,22 +53,22 @@ class Teacher < ActiveRecord::Base
     end
   end
 
-  def find_absent_time_tables_by_date(date)
-    time_tables.order(:date).
+  def find_absent_klazz_periods_by_date(date)
+    klazz_periods.order(:date).
       joins(:teacher_absence).
       includes(teaching_assignment: [:teacher, :subject, :klazz]).
       where(date: date.beginning_of_month..date.end_of_month)
   end
 
-  def find_monthly_time_tables(date)
+  def find_monthly_klazz_periods(date)
     start_date, end_date = set_active_month_interval(date)
     return [] if start_date.nil? or end_date.nil?
-    time_tables.order(:date).
+    klazz_periods.order(:date).
       includes(:teacher_absence, teaching_assignment: [:teacher, :subject, :klazz]).
       where(date: start_date..end_date)
   end
 
-  def find_monthly_time_tables_as_substitute(date)
+  def find_monthly_klazz_periods_as_substitute(date)
     start_date, end_date = set_active_month_interval(date)
     return [] if start_date.nil? or end_date.nil?
     TimeTable.joins(:teacher_absence).where(date: start_date..end_date, teacher_absences: {teacher_id: id})
@@ -76,8 +76,8 @@ class Teacher < ActiveRecord::Base
 
 private
 
-  def get_time_tables_by_date(date)
-    time_tables.includes({teaching_assignment: [:subject, :klazz]}).order('date asc').where(date: date)
+  def get_klazz_periods_by_date(date)
+    klazz_periods.includes({teaching_assignment: [:subject, :klazz]}).order('date asc').where(date: date)
   end
 
   def set_active_month_interval(date)

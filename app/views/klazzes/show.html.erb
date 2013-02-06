@@ -1,0 +1,29 @@
+<%= title @klazz.name, 
+  link_to('Edit', edit_klazz_path(@klazz)),
+  link_to('Back', klazzes_path) %>
+
+<div class='tabs'>
+  <ul>
+    <li><a href='#info'>Info</a></li>
+    <li><a href='#timetable'>Timetable</a></li>
+    <li><a href='#schedule'>Schedule</a></li>
+  </ul>
+
+  <div id='info' class='resource'>
+    <%= show_group 'Data', 
+      {
+        'Campus' => @klazz.campus.name,
+        'Product Type' => @klazz.year.product.product_type.name,
+        'Product' => @klazz.year.product.name, 
+        'Year' => @klazz.year.name,
+      }
+    %>
+  </div>
+
+  <div id='timetable'>
+  </div>
+
+  <div id='schedule'>
+    <%= render 'schedule' %>
+  </div>
+</div>

@@ -12,3 +12,6 @@ jQuery ->
       $(ui.panel).delegate 'a', 'click', (event) ->
         $(ui.panel).load(this.href)
         event.preventDefault()
+
+  $('.is-chosen').chosen
+    allow_single_deselect: true

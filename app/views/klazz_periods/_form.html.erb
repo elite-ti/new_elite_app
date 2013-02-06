@@ -1,4 +1,4 @@
-<%= simple_form_for time_table do |f| %>
+<%= simple_form_for klazz_period do |f| %>
   <%= f.error_notification %>
 
   <div class='form-inputs'>
@@ -27,13 +27,13 @@
       <%= f.check_box :replicate %>
     </div>
 
-    <% if time_table.past? %>
+    <% if klazz_period.past? %>
       <div class='field'>
         <%= label_tag :teacher_absence_fields_check_box, 'Teacher absent' %>
         <%= check_box_tag :teacher_absence_fields_check_box %>
       </div>
       <div id='teacher_absence_fields'>
-        <%= f.simple_fields_for :teacher_absence, time_table.find_or_build_teacher_absence do |builder| %>
+        <%= f.simple_fields_for :teacher_absence, klazz_period.find_or_build_teacher_absence do |builder| %>
           <%= builder.association :absence_reason %>
           <%= builder.association :teacher, label_method: :nickname %>
           <%= builder.association :subject, label_method: :code %>
@@ -47,15 +47,15 @@
 
   </div>
   <div class='form-actions'>
-    <% if time_table.new_record? %>
+    <% if klazz_period.new_record? %>
       <%= f.button :submit, 'Create', class: 'create' %>
     <% else %>
       
       <%= f.button :submit, 'Update', class: 'update' %>
       <span>
         <%= link_to 'New', '#', class: 'new_from_form' %> |
-        <%= link_to 'Destroy', time_table, class: 'destroy' %> |
-        <%= link_to 'Destroy All', time_table, class: 'destroy_all' %>
+        <%= link_to 'Destroy', klazz_period, class: 'destroy' %> |
+        <%= link_to 'Destroy All', klazz_period, class: 'destroy_all' %>
       </span>
     <% end %>
   </div>

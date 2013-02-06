@@ -2,7 +2,7 @@
 
 <%= navigation(@date) %>
 
-<%= search(klazz_time_table_path(@klazz), @date) %>
+<%= search(klazz_klazz_period_path(@klazz), @date) %>
 
 <table id='calendar'>
   <tr>
@@ -19,18 +19,18 @@
       <%= content_tag :td, class: 'time_cell', data: {position: i} { @times[i] } %>
       <% @dates.each do |date| %>
         <td class='cell'>
-          <% @klazz.find_time_tables_by_date_and_position(date, i).each do |time_table| %>
-            <%= render 'time_tables/time_table', time_table: time_table %>
+          <% @klazz.find_klazz_periods_by_date_and_position(date, i).each do |klazz_period| %>
+            <%= render 'klazz_periods/klazz_period', klazz_period: klazz_period %>
           <% end %>
-          <%= render 'time_tables/empty_time_table' %>
+          <%= render 'klazz_periods/empty_klazz_period' %>
         </td>
       <% end %>
     </tr>
   <% end %>
 </table>
 
-<div id='time_table_box'>
+<div id='klazz_period_box'>
   <h2>Time Table</h2>
   <a id='close_form' href='#'>X</a>
-  <%= render 'time_tables/form', time_table: TimeTable.new %>
+  <%= render 'klazz_periods/form', klazz_period: TimeTable.new %>
 </div>

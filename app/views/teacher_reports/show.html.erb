@@ -6,17 +6,17 @@
 <% end %>
 
 <h2>Assigned klazzes</h2>
-<% if @time_tables.empty? %>
+<% if @klazz_periods.empty? %>
   <p>None</p>
 <% else %>
-  <% @time_tables.group_by(&:date).each do |date, time_tables| %>
+  <% @klazz_periods.group_by(&:date).each do |date, klazz_periods| %>
     <p><%= date %></p>
     <p>
-      <% time_tables.each do |time_table| %>
-        <%= time_table.time %> 
-        <%= time_table.teaching_assignment.klazz.name %> 
-        (<%= time_table.teaching_assignment.subject.code %>)
-        <% if time_table.teacher_absence %>
+      <% klazz_periods.each do |klazz_period| %>
+        <%= klazz_period.time %> 
+        <%= klazz_period.teaching_assignment.klazz.name %> 
+        (<%= klazz_period.teaching_assignment.subject.code %>)
+        <% if klazz_period.teacher_absence %>
         - ABSENT
         <% end %>
         <br />
@@ -26,16 +26,16 @@
 <% end %>
 
 <h2>Substitute klazzes</h2>
-<% if @substitute_time_tables.empty? %>
+<% if @substitute_klazz_periods.empty? %>
   <p>None.</p>
 <% else %>
-  <% @substitute_time_tables.group_by(&:date).each do |date, time_tables| %>
+  <% @substitute_klazz_periods.group_by(&:date).each do |date, klazz_periods| %>
     <p><%= date %></p>
     <p>
-      <% time_tables.each do |time_table| %>
-        <%= time_table.time %> 
-        <%= time_table.teaching_assignment.klazz.name %> 
-        (<%= time_table.teacher_absence.subject.code %>)
+      <% klazz_periods.each do |klazz_period| %>
+        <%= klazz_period.time %> 
+        <%= klazz_period.teaching_assignment.klazz.name %> 
+        (<%= klazz_period.teacher_absence.subject.code %>)
         <br />
       <% end %>
     </p>

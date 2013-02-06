@@ -20,7 +20,7 @@
   /*border: 1px black solid;
   border-radius: 10px;*/
 
-  .time_table, tr, th, td { @include naked; }
+  .klazz_period, tr, th, td { @include naked; }
 
   #selected { background-color: #ddd }
 
@@ -43,7 +43,7 @@
     a {
       text-decoration: none;
       color: #666;
-      .time_table {
+      .klazz_period {
         float: left;
         width: 149px;
         height: 63px;
@@ -58,7 +58,7 @@
       .not_empty { background-color: #EDEF85; }
       .loading { background-color: #000000; }
     }
-    .edit > .time_table {
+    .edit > .klazz_period {
       border-right: 1px solid #999;
     }
     .yellow { background-color: #F6FD65; }
@@ -67,7 +67,7 @@
   }
 }
 
-#time_table_box {
+#klazz_period_box {
   position: absolute;
   background-color: white;
   border: 1px solid #999;
@@ -92,8 +92,8 @@
     }
   }
 
-  #time_table_teacher_id, #time_table_subject_id, #time_table_replicate_until,
-    #time_table_teacher_absence_attributes_teacher_id, #time_table_teacher_absence_attributes_subject_id { width: 220px; }
+  #klazz_period_teacher_id, #klazz_period_subject_id, #klazz_period_replicate_until,
+    #klazz_period_teacher_absence_attributes_teacher_id, #klazz_period_teacher_absence_attributes_subject_id { width: 220px; }
   label { width: 120px; }
   .btn { margin-left: 140px; }
   .form-actions span {

@@ -22,13 +22,16 @@ module ApplicationHelper
     content_for(:title) { ' - ' + page_title }
     content_tag :div, id: 'title' do
       content_tag(:h1, page_title) +
-      content_tag(:span, links.reduce(&:+)) +
+      links(links) +
       content_tag(:div, '', id: 'sep_line')
     end
   end
 
-  # def chosen_buttons
-  #   content_tag(:button, 'All', class: 'select_all') +
-  #     content_tag(:button, 'None', class: 'select_none')
-  # end
+  def links(links)
+    content_tag(:span) do
+      links.reduce do |sum, link|
+        sum + ' | ' + link 
+      end
+    end
+  end
 end

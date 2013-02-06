@@ -3,11 +3,11 @@
 <table id='teacher_absence'>
   <tr>
     <th>Teacher</th>
-    <td><%= @teacher_absence.time_table.teaching_assignment.teacher.nickname %></td>
+    <td><%= @teacher_absence.klazz_period.teaching_assignment.teacher.nickname %></td>
   </tr>
   <tr>
     <th>Date and Time</th>
-    <td><%= @teacher_absence.time_table.date %> <%= @teacher_absence.time_table.time %></td>
+    <td><%= @teacher_absence.klazz_period.date %> <%= @teacher_absence.klazz_period.time %></td>
   </tr>
   <tr>
     <th>Absence Reason</th>
@@ -15,15 +15,15 @@
   </tr>
   <tr>
     <th>Campus</th>
-    <td><%= @teacher_absence.time_table.teaching_assignment.klazz.campus.name %></td>
+    <td><%= @teacher_absence.klazz_period.teaching_assignment.klazz.campus.name %></td>
   </tr>
   <tr>
     <th>Subject</th>
-    <td><%= @teacher_absence.time_table.teaching_assignment.subject.name %></td>
+    <td><%= @teacher_absence.klazz_period.teaching_assignment.subject.name %></td>
   </tr>
   <tr>
     <th>Klazz</th>
-    <td><%= @teacher_absence.time_table.teaching_assignment.klazz.name %></td>
+    <td><%= @teacher_absence.klazz_period.teaching_assignment.klazz.name %></td>
   </tr>
   <tr>
     <th>Substitute Teacher</th>

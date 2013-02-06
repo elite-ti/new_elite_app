@@ -13,7 +13,7 @@
       <td>
         <%= campus.name %>
         <%= content_tag :span, class: 'float-right' do 
-          link_to('Time Table', campus_time_table_path(campus)) + 
+          link_to('Time Table', campus_klazz_period_path(campus)) + 
           ' | ' + 
           link_to('Edit', edit_campus_path(campus))
         end %>
