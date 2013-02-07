@@ -22,22 +22,4 @@ class Klazz < ActiveRecord::Base
   validates :name, uniqueness: true
 
   default_scope order('name')
-
-  def find_klazz_periods_by_date_and_position(date, position)
-    klazz_periods_by_date(date).select { |klazz_period| klazz_period.position == position }
-  end
-
-  def klazz_periods_by_date(date)
-    @klazz_periods_by_date ||= Hash.new do |hash, key|
-      hash[key] = find_klazz_periods_by_date(*key)
-    end
-    @klazz_periods_by_date[date]
-  end
-
-private
-
-  def find_klazz_periods_by_date(date)
-    klazz_periods.includes({ teaching_assignment: [:subject, :teacher] }).
-      order('date asc').where(date: date)
-  end
 end

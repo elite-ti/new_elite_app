@@ -1,102 +1,92 @@
 @mixin naked { margin: 0; border: 0; padding: 0; }
 
-.bold { font-weight: bold; }
+#calendar_tab {
+  $font_color: #666;
+  $font_size: 16px;
 
-#month {
-  float:left;
-  a {
-    text-decoration: none;
-    font-weight: bold;
+  $border_width: 1px;
+  $border_color: #999;
+
+  $calendar_width: 900px;
+  $time_cell_width: 60px;
+  $cell_width: 140px;
+  $cell_height: 60px;
+
+  $empty_color: #fff;     // white
+  $past_color: #65FD67;   // green
+  $future_color: #F6FD65; // yellow
+  $absent_color: #FD6565; // red
+  $loading_color: #ddd;   // grey
+  $selected_color: #ddd;  // grey
+
+  color: $font_color;
+  font-size: $font_size;
+  a { text-decoration: none; }
+
+  .navigation {
+    h2 {
+      float:left;
+      a { font-weight: bold; }
+    }
+
+    .search { 
+      float: right; 
+      margin-top: 20px;
+      margin-right: 10px;
+      input { width: 85px; }
+    }
   }
-}
 
-#search_form {
-  float: right;
-}
+  .calendar {
+    width: $calendar_width;
+    border-collapse: collapse;
+    a { color: $font_color; }
+  }
 
-#calendar {
-  width: 960px;
-  border-collapse: collapse;
-  /*border: 1px black solid;
-  border-radius: 10px;*/
-
-  .klazz_period, tr, th, td { @include naked; }
-
-  #selected { background-color: #ddd }
+  tr, th, td { @include naked; }
 
   td {
-    color: #666;
-    font-size: 16px;
-    font-weight: normal;
     vertical-align: middle;
-    background-color: white;
-    border: 1px solid #999;
-    height: 63px;
+    background-color: $empty_color;
+    border: $border_width solid $border_color;
+    height: $cell_height;
+    span { font-weight: bold; }
   }
 
-  .day_cell, .cell { width: 150px; }
-  .time_cell { width: 60px; }
-
+  .time_cell { width: $time_cell_width; }
+  .day_cell, .cell { width: $cell_width; }
   .time_cell, .day_cell { text-align: center; }
 
-  .cell {
-    a {
-      text-decoration: none;
-      color: #666;
-      .klazz_period {
-        float: left;
-        width: 149px;
-        height: 63px;
-        overflow: hidden;
-        span { white-space: nowrap; }
-        p {
-          margin-top: 7px;
-          margin-left: 5px;
-        }
-        .teacher_name { font-weight: bold; }
-      }
-      .not_empty { background-color: #EDEF85; }
-      .loading { background-color: #000000; }
-    }
-    .edit > .klazz_period {
-      border-right: 1px solid #999;
-    }
-    .yellow { background-color: #F6FD65; }
-    .green { background-color: #65FD67; }
-    .red { background-color: #FD6565; }
+  .klazz_period {
+    @include naked;
+    float: left;
+    height: $cell_height;
+    width: $cell_width - $border_width;
+    overflow: hidden;
   }
-}
 
-#klazz_period_box {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #999;
-  padding: 20px;
-  padding-top: 0;
-  width: 400px;
+  .filled {
+    border-right: $border_width solid $border_color;
+    p {
+      margin-top: 7px;
+      margin-left: 5px;
+    }
+  }
 
-  #close_form {
+  .empty {
+    border: none;
+  }
+
+  .selected {
+    background-color: $selected_color;
+  }
+
+  .klazz_period_form {
+    border: $border_width solid $border_color;
+    width: 620px;
+    padding: 20px;
+    padding-top: 0;
     position: absolute;
-    font-size: 12px;
-    top: 10px; right: 15px;
-    line-height: 20px;
-    width: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #999;
-    font-weight:bold;
-
-    &:hover {
-      background-color: #999;
-      color: white;
-    }
-  }
-
-  #klazz_period_teacher_id, #klazz_period_subject_id, #klazz_period_replicate_until,
-    #klazz_period_teacher_absence_attributes_teacher_id, #klazz_period_teacher_absence_attributes_subject_id { width: 220px; }
-  label { width: 120px; }
-  .btn { margin-left: 140px; }
-  .form-actions span {
-    float: right;
+    background-color: white;
   }
 }

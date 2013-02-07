@@ -1,0 +1,46 @@
+<% present @klazz_calendar do |presenter| %>
+  <div class='navigation'> 
+    <h2>
+      <%= link_to '<', presenter.prev_week_url %>
+      <%= @klazz_calendar.monday.strftime(' Week %V - %Y ') %>
+      <%= link_to '>', presenter.next_week_url %>
+    </h2>
+
+    <%= form_tag presenter.base_url, class: 'search' do %>
+      <%= text_field_tag :date, @klazz_calendar.monday.strftime('%d/%m/%Y') %>
+    <% end %>
+  </div>
+
+
+  <table class='calendar'>
+    <tr>
+      <td class='time_cell'></td>
+
+      <% @klazz_calendar.week.each do |date| %>
+        <td class='day_cell'>
+          <span><%= Date::DAYNAMES[date.wday] %></span><br />
+          <%= date.strftime('%d/%m/%Y') %>
+        </td>
+      <% end %>
+    </tr>
+
+    <% KlazzPeriod.time_array.size.times do |position| %>
+      <tr>
+        <td class='time_cell'>
+          <%= KlazzPeriod.time_array[position] %>
+        </td>
+
+        <% @klazz_calendar.week.each do |date| %>
+          <td class='cell'>
+            <% @klazz_calendar.klazz_periods(date, position).each do |klazz_period| %>
+              <%= render 'klazz_period', klazz_period: klazz_period %>
+            <% end %>
+            <%= presenter.empty_klazz_period(date, position) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+  <div class='klazz_period_form' style='display: none;'></div>
+<% end %>

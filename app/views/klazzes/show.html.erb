@@ -4,26 +4,16 @@
 
 <div class='tabs'>
   <ul>
-    <li><a href='#info'>Info</a></li>
-    <li><a href='#timetable'>Timetable</a></li>
-    <li><a href='#schedule'>Schedule</a></li>
+    <li><a href='#info_tab'>Info</a></li>
+    <li><%= link_to 'Calendar', klazz_calendar_path(@klazz), title: 'calendar_tab' %></li>
   </ul>
 
-  <div id='info' class='resource'>
-    <%= show_group 'Data', 
-      {
-        'Campus' => @klazz.campus.name,
-        'Product Type' => @klazz.year.product.product_type.name,
-        'Product' => @klazz.year.product.name, 
-        'Year' => @klazz.year.name,
-      }
-    %>
+  <div id='info_tab' class='resource'>
+    <p><span>Campus: </span><%= @klazz.campus.name %></p>
+    <p><span>Product Type: </span><%= @klazz.year.product.product_type.name %></p>
+    <p><span>Product: </span><%= @klazz.year.product.name %></p>
+    <p><span>Year: </span><%= @klazz.year.name %></p>
   </div>
 
-  <div id='timetable'>
-  </div>
-
-  <div id='schedule'>
-    <%= render 'schedule' %>
-  </div>
+  <div id='calendar_tab'></div>
 </div>

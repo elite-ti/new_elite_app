@@ -27,26 +27,26 @@ class Ability
 
   def product_head_teacher_ability
     can :manage, Klazz, id: employee.product_head_teacher.accessible_klazz_ids
-    can :create, TimeTable
-    can :update, TimeTable, teaching_assignment_id: employee.product_head_teacher.accessible_teaching_assignment_ids
+    can :create, KlazzPeriod
+    can :update, KlazzPeriod, teaching_assignment_id: employee.product_head_teacher.accessible_teaching_assignment_ids
   end
 
   def campus_head_teacher_ability
     can :manage, Klazz, id: employee.campus_head_teacher.accessible_klazz_ids
-    can :create, TimeTable
-    can :update, TimeTable, teaching_assignment_id: employee.campus_head_teacher.accessible_teaching_assignment_ids
+    can :create, KlazzPeriod
+    can :update, KlazzPeriod, teaching_assignment_id: employee.campus_head_teacher.accessible_teaching_assignment_ids
   end
 
   def subject_head_teacher_ability
     can :manage, Klazz, id: employee.subject_head_teacher.accessible_klazz_ids
-    can :create, TimeTable
-    can :update, TimeTable, teaching_assignment_id: employee.subject_head_teacher.accessible_teaching_assignment_ids
+    can :create, KlazzPeriod
+    can :update, KlazzPeriod, teaching_assignment_id: employee.subject_head_teacher.accessible_teaching_assignment_ids
   end
 
   def campus_principal_ability
     can :manage, Klazz, id: employee.campus_principal.accessible_klazz_ids
-    can :create, TimeTable
-    can :update, TimeTable, teaching_assignment_id: employee.campus_principal.accessible_teaching_assignment_ids
+    can :create, KlazzPeriod
+    can :update, KlazzPeriod, teaching_assignment_id: employee.campus_principal.accessible_teaching_assignment_ids
     can :manage, TeacherAbsence, id: employee.campus_principal.accessible_teacher_absence_ids
   end
 end

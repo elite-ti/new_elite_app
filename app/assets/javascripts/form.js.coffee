@@ -1,6 +1,7 @@
 jQuery ->
   $('.form-inputs select').chosen
     allow_single_deselect: true
+    no_results_text: "No results matched"
 
   $('.form-inputs .date_time_picker').datetimepicker
     dateFormat: "dd/mm/yy"

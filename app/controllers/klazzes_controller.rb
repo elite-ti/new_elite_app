@@ -11,15 +11,15 @@ class KlazzesController < ApplicationController
   def new
   end
 
-  def edit
-  end
-
   def create
     if @klazz.save
       redirect_to klazzes_url, notice: 'Klazz was successfully created.'
     else
       render 'new'
     end
+  end
+
+  def edit
   end
 
   def update

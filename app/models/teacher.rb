@@ -71,7 +71,7 @@ class Teacher < ActiveRecord::Base
   def find_monthly_klazz_periods_as_substitute(date)
     start_date, end_date = set_active_month_interval(date)
     return [] if start_date.nil? or end_date.nil?
-    TimeTable.joins(:teacher_absence).where(date: start_date..end_date, teacher_absences: {teacher_id: id})
+    KlazzPeriod.joins(:teacher_absence).where(date: start_date..end_date, teacher_absences: {teacher_id: id})
   end
 
 private

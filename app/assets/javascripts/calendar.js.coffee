@@ -1,145 +1,57 @@
-# getters
+border_width = 1
+default_empty_klazz_period_width = 20
 
-selected = () -> $('#selected')
-box = () -> $('#klazz_period_box')
-form = () -> $('#klazz_period_box').find('form')
-chosen_fields = () -> 
-  $('#klazz_period_teacher_id, 
-    #klazz_period_subject_id, 
-    #klazz_period_teacher_absence_attributes_teacher_id, 
-    #klazz_period_teacher_absence_attributes_subject_id')
-optional_fields = () -> $('#teacher_absence_fields')
+update_calendar_tab = (url) ->
+  $.get url, (data) ->
+    $('#calendar_tab').html(data)
+    fix_size()  
+    bindings()
 
-# helpers
-
-set_chosen = (type) ->
-  chosen_fields().chosen
-    allow_single_deselect: true
-    no_results_text: "No results matched"
-  for field in $('#klazz_period_teacher_absence_attributes_absence_reason_id,
-    #klazz_period_teacher_absence_attributes_teacher_id,
-    #klazz_period_teacher_absence_attributes_subject_id')
-    if $(field).val() != ''
-      $('#teacher_absence_fields_check_box').prop('checked', true)
-  toggle_optional_fields($('#teacher_absence_fields_check_box')[0], $('#teacher_absence_fields'))
-  box().show()
-
-submit = (type) ->
-  request = $.ajax
-    url: form().attr('action')
-    data: form().serialize()
-    dataType: 'script'
-    type: type
-  request.done ->
-    set_klazz_periods_size()
-    unselect()
-    # set_box_position()
-    # set_chosen type
-
-set_klazz_periods_size = (cells = $('.cell')) ->
-  for cell in cells
-    klazz_periods = $(cell).find('.klazz_period')
-    length = klazz_periods.length
-    if length > 1
-      for klazz_period in klazz_periods
-        $(klazz_period).width 130/(length-1)-1
-      klazz_periods.last().width 20
+fix_size = () ->
+  for cell in $('.cell')
+    filled_klazz_periods = $(cell).find('.filled')
+    number_of_filled = filled_klazz_periods.size()
+    if number_of_filled == 0
+      $(cell).find('.empty').width($(cell).width() + border_width)
     else
-      klazz_periods.first().width 150
+      width = ($(cell).width() - default_empty_klazz_period_width)/number_of_filled - border_width
+      $(filled).width(width) for filled in filled_klazz_periods 
+      $(cell).find('.empty').width(default_empty_klazz_period_width + border_width)
 
-set_box_position = () ->
-  box().css('top', selected().position().top + selected().outerHeight())
-  box().css('left', selected().position().left-1)
-  
-scroll = () ->
-  if box().offset().top + box().height() > $(window).height() + $(window).scrollTop()
-    $('html, body').animate
-      scrollTop: selected().offset().top
-      1000
+update_form = (url) ->
+  $.get url, (data) ->
+    $('.klazz_period_form').html(data).show()
+    $('.klazz_period_form select').chosen()
 
-unselect = () ->
-  selected().removeAttr('id')
-  box().hide()
+    offset = $('.selected').offset()
+    $('.klazz_period_form').offset
+      top: offset.top + $('.selected').height()
+      left: offset.left - border_width
 
-select = (klazz_period) ->
-  unselect()
-  klazz_period.attr('id', 'selected')
-  set_box_position()
 
-new_klazz_period = () ->
-  position = selected().closest('tr').find('td').first().attr('data-position')
-  index = selected().closest('tr').find('td').index(selected().closest('td'))
-  date = $($('tr').first().children('td').get(index)).attr('data-date')
-  klazz_id = $($('tr').first().children('td').first()).attr('data-klazz-id')
-  request = $.getScript '/klazz_periods/new?position=' + position + '&date=' + date + '&klazz_id=' + klazz_id
-  request.done -> 
-    set_chosen 'POST'
-    scroll()
+bindings = () ->
+  $('#date').datepicker
+    dateFormat: 'dd/mm/yy'
 
-edit_klazz_period = () ->
-  request = $.getScript '/klazz_periods/' + selected().find('.klazz_period_id').text() + '/edit'
-  request.done -> 
-    set_chosen 'PUT'
-    scroll()
+  $('#date').change ->
+    url = $(this).closest('form').attr('action') + '?date=' + this.value
+    update_calendar_tab(url)
 
-delete_klazz_period = (url) ->
-  if confirm "Are you sure?"
-    request = $.ajax
-      url: url
-      type: 'DELETE'
-      dataType: 'script'
-    request.done ->
-      selected().parent().remove()
-      box().hide()
-      set_klazz_periods_size()
+  $('.navigation a').click ->
+    update_calendar_tab(this.href)
+    return false
 
-toggle_optional_fields = (checkbox, fields) ->
-  if fields.length > 0
-    if checkbox.checked then fields.show() else fields.hide()
+  $('.cell a').click ->
+    $('.selected').removeClass('selected')
+    $(this).find('.klazz_period').addClass('selected')
+    update_form(this.href)
+    return false
+
 
 jQuery ->
-
-  set_klazz_periods_size()
-  box().hide()
-
-  $('#date').datepicker
-    dateFormat: 'yy-mm-dd'
-
-  $('#close_form').click ->
-    unselect()
-    return false
-
-  $(document).on 'click', '#teacher_absence_fields_check_box', ->
-      toggle_optional_fields(this, $('#teacher_absence_fields'))
-      $('#klazz_period_teacher_absence_attributes__destroy').attr('value', if this.checked then false else true)
-
-  $(document).on 'click', '.new', ->
-    select($(this).children('.klazz_period'))
-    new_klazz_period()
-    return false
-
-  $(document).on 'click', '.new_from_form', ->
-    select(selected().parent().siblings().last().find('.klazz_period'))
-    new_klazz_period()
-    return false
-
-  $(document).on 'click', '.create', ->
-    submit('POST')
-    return false
-
-  $(document).on 'click', '.edit', ->
-    select($(this).children('.klazz_period'))
-    edit_klazz_period()
-    return false
-
-  $(document).on 'click', '.update', ->
-    submit('PUT')
-    return false
-
-  $(document).on 'click', '.destroy', ->
-    delete_klazz_period(this.href)
-    return false
-    
-  $(document).on 'click', '.destroy_all', ->
-    delete_klazz_period(this.href + '?replicate=1')
-    return false
+  $('.tabs').tabs
+    beforeLoad: (e, ui) ->
+      # TODO: check if tab is already loaded
+    load: (e, ui) -> 
+      fix_size() 
+      bindings()
