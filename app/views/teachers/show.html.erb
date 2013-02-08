@@ -5,16 +5,16 @@
   <%= submit_tag 'Go' %>
 <% end %>
 
-<% if @klazz_periods.empty? %>
+<% if @periods.empty? %>
   <p>No absences.</p>
 <% else %>
-  <% @klazz_periods.group_by(&:date).each do |date, klazz_periods| %>
+  <% @periods.group_by(&:date).each do |date, periods| %>
     <p><%= date %></p>
     <p>
-      <% klazz_periods.each do |klazz_period| %>
-        <%= klazz_period.time %> 
-        <%= klazz_period.teaching_assignment.klazz.name %> 
-        (<%= klazz_period.teaching_assignment.subject.code %>)
+      <% periods.each do |period| %>
+        <%= period.time %> 
+        <%= period.teaching_assignment.klazz.name %> 
+        (<%= period.teaching_assignment.subject.code %>)
         <br />
       <% end %>
     </p>

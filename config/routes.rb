@@ -35,7 +35,10 @@ EliteApp::Application.routes.draw do
   resources :subjects
   resources :subject_threads
 
-  resources :klazzes
+  resources :klazzes do 
+    resources :periods
+  end
+  
   resources :campuses
   resources :years
   resources :products

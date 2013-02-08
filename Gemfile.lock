@@ -156,7 +156,6 @@ GEM
       subexec (~> 0.2.1)
     multi_json (1.5.0)
     multipart-post (1.1.5)
-    mustard (0.1.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -323,7 +322,6 @@ DEPENDENCIES
   jquery-ui-rails
   libnotify
   mini_magick
-  mustard
   omniauth-google-oauth2
   paper_trail (~> 2)
   pg

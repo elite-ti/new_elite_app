@@ -12,7 +12,7 @@ describe 'StudentExam' do
       card: File.open(CARD_PATH), 
       card_type_id: card_type.id)
 
-    student_exam.must.be :valid? 
+    student_exam.valid?.should be_true 
   end
 
   it 'updates a student exam answers' do
@@ -22,6 +22,6 @@ describe 'StudentExam' do
     student_exam = create :student_exam, exam_id: exam.id, card_type_id: card_type.id
 
     student_exam.scan
-    ExamAnswer.count.must.equal 30
+    ExamAnswer.count.should == 30
   end
 end

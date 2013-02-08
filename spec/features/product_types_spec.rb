@@ -9,7 +9,7 @@ describe 'ProductTypes' do
     visit product_types_url
 
     (1..10).each { |i| page.should have_content "ProductType#{i}" }
-    ProductType.count.must.equal 10
+    ProductType.count.should == 10
   end
 
   it 'creates a product type' do
@@ -19,7 +19,7 @@ describe 'ProductTypes' do
     click_button 'Create'
 
     page.should have_content 'Product type was successfully created.'
-    ProductType.count.must.equal 1
+    ProductType.count.should == 1
   end
 
   it 'updates a product type' do
@@ -31,6 +31,6 @@ describe 'ProductTypes' do
     click_button 'Update'
 
     page.should have_content 'Product type was successfully updated.'
-    ProductType.count.must.equal 1
+    ProductType.count.should == 1
   end
 end

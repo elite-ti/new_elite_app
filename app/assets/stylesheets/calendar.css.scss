@@ -57,7 +57,7 @@
   .day_cell, .cell { width: $cell_width; }
   .time_cell, .day_cell { text-align: center; }
 
-  .klazz_period {
+  .period {
     @include naked;
     float: left;
     height: $cell_height;
@@ -81,11 +81,12 @@
     background-color: $selected_color;
   }
 
-  .klazz_period_form {
+  .period_form {
     border: $border_width solid $border_color;
     width: 620px;
     padding: 20px;
     padding-top: 0;
+    padding-bottom: 30px;
     position: absolute;
     background-color: white;
   }

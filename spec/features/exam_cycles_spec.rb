@@ -21,7 +21,7 @@ describe 'ExamCycles' do
     click_button 'Create'
 
     page.should have_content 'Exam cycle was successfully created.'
-    ExamCycle.count.must.equal 1
+    ExamCycle.count.should == 1
   end
 
   it 'updates a exam cycle' do
@@ -35,6 +35,6 @@ describe 'ExamCycles' do
     click_button 'Update'
 
     page.should have_content 'Exam cycle was successfully updated.'
-    ExamCycle.count.must.equal 1
+    ExamCycle.count.should == 1
   end
 end

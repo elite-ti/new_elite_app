@@ -21,73 +21,12 @@ class Teacher < ActiveRecord::Base
   has_many :product_group_preferences, dependent: :destroy
   accepts_nested_attributes_for :product_group_preferences, 
     reject_if: proc { |attributes| attributes['preference'].blank? }
-  has_many :products, through: :product_group_preferences
+  has_many :product_preferences, through: :product_group_preferences, class_name: :product
 
-  has_many :teaching_assignments, dependent: :destroy
-  has_many :klazzes, through: :teaching_assignments
-  has_many :schedules, through: :teaching_assignments
-  has_many :klazz_periods, through: :teaching_assignments
-
-  has_many :teacher_absences, dependent: :destroy
+  has_many :periods, dependent: :destroy
 
   has_many :professional_experiences, dependent: :destroy
   accepts_nested_attributes_for :professional_experiences, allow_destroy: true, reject_if: :all_blank
 
   validates :employee_id, :nickname, presence: true, on: :update
-
-  def find_klazz_periods_by_date_and_position(date, position)
-    klazz_periods_by_date(date).select { |klazz_period| klazz_period.position == position }
-  end
-
-  def klazz_periods_by_date(date)
-    @klazz_periods_by_date ||= Hash.new do |hash, key|
-      hash[key] = get_klazz_periods_by_date(*key)
-    end
-    @klazz_periods_by_date[date]
-  end
-
-  def build_product_group_preferences
-    ProductGroup.all.each do |product_group|
-      next if product_group_preferences.map(&:product_group).include?(product_group)
-      product_group_preferences.build(product_group_id: product_group.id)
-    end
-  end
-
-  def find_absent_klazz_periods_by_date(date)
-    klazz_periods.order(:date).
-      joins(:teacher_absence).
-      includes(teaching_assignment: [:teacher, :subject, :klazz]).
-      where(date: date.beginning_of_month..date.end_of_month)
-  end
-
-  def find_monthly_klazz_periods(date)
-    start_date, end_date = set_active_month_interval(date)
-    return [] if start_date.nil? or end_date.nil?
-    klazz_periods.order(:date).
-      includes(:teacher_absence, teaching_assignment: [:teacher, :subject, :klazz]).
-      where(date: start_date..end_date)
-  end
-
-  def find_monthly_klazz_periods_as_substitute(date)
-    start_date, end_date = set_active_month_interval(date)
-    return [] if start_date.nil? or end_date.nil?
-    KlazzPeriod.joins(:teacher_absence).where(date: start_date..end_date, teacher_absences: {teacher_id: id})
-  end
-
-private
-
-  def get_klazz_periods_by_date(date)
-    klazz_periods.includes({teaching_assignment: [:subject, :klazz]}).order('date asc').where(date: date)
-  end
-
-  def set_active_month_interval(date)
-    start_date = date.beginning_of_month
-    end_date = date.end_of_month
-    today = Date.today
-
-    return [] if today < start_date
-    end_date = today if today < end_date
-
-    return [start_date, end_date]
-  end
 end

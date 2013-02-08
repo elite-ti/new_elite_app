@@ -13,12 +13,12 @@ describe 'Campuses' do
 
   it 'creates a campus' do
     visit campuses_url
-    click_link 'New Campus'
+    click_link 'New'
     fill_in 'Name', with: 'Campus'
     click_button 'Create'
 
     page.should have_content 'Campus was successfully created.'
-    Campus.count.must.equal 1
+    Campus.count.should == 1
   end
 
   it 'updates a campus' do
@@ -30,6 +30,6 @@ describe 'Campuses' do
     click_button 'Update'
 
     page.should have_content 'Campus was successfully updated.'
-    Campus.count.must.equal 1
+    Campus.count.should == 1
   end
 end

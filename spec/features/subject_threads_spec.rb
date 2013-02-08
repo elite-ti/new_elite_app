@@ -7,7 +7,7 @@ describe 'SubjectThreads' do
     5.times { |i| create :subject_thread, name: "SubjectThread#{i}" }
     visit subject_threads_url
     5.times { |i| page.should have_content "SubjectThread#{i}" }
-    SubjectThread.count.must.equal 5
+    SubjectThread.count.should == 5
   end
 
   it 'creates a subject thread' do
@@ -22,7 +22,7 @@ describe 'SubjectThreads' do
     click_button 'Create'
 
     page.should have_content 'Subject thread was successfully created.'
-    SubjectThread.count.must.equal 1
+    SubjectThread.count.should == 1
   end
 
   it 'updates a subject thread' do
@@ -38,6 +38,6 @@ describe 'SubjectThreads' do
     click_button 'Update'
 
     page.should have_content 'Subject thread was successfully updated.'
-    SubjectThread.count.must.equal 1
+    SubjectThread.count.should == 1
   end
 end

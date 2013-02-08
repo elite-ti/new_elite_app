@@ -12,7 +12,7 @@ describe 'Poll' do
     # poll.klazz_ids = Klazz.all.map(&:id)
     # poll.save!
 
-    # Pdf.count.must.eq 3
+    # Pdf.count.should == 3
   end
 
   def set_poll_question_types_and_categories

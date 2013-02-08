@@ -9,7 +9,7 @@ describe 'Products' do
     visit products_url
 
     (1..10).each { |i| page.should have_content "Product#{i}" }
-    Product.count.must.equal 10
+    Product.count.should == 10
   end
 
   it 'creates a product' do
@@ -22,7 +22,7 @@ describe 'Products' do
     click_button 'Create'
 
     page.should have_content 'Product was successfully created.'
-    Product.count.must.equal 1
+    Product.count.should == 1
   end
 
   it 'updates a product' do
@@ -36,6 +36,6 @@ describe 'Products' do
     click_button 'Update'
 
     page.should have_content 'Product was successfully updated.'
-    Product.count.must.equal 1
+    Product.count.should == 1
   end
 end

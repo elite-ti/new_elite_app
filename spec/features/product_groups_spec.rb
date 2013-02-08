@@ -9,7 +9,7 @@ describe 'ProductGroups' do
     visit product_groups_url
 
     (1..10).each { |i| page.should have_content "ProductGroup#{i}" }
-    ProductGroup.count.must.equal 10
+    ProductGroup.count.should == 10
   end
 
   it 'creates a product group' do
@@ -19,7 +19,7 @@ describe 'ProductGroups' do
     click_button 'Create'
 
     page.should have_content 'Product group was successfully created.'
-    ProductGroup.count.must.equal 1
+    ProductGroup.count.should == 1
   end
 
   it 'updates a product Group' do
@@ -31,6 +31,6 @@ describe 'ProductGroups' do
     click_button 'Update'
 
     page.should have_content 'Product group was successfully updated.'
-    ProductGroup.count.must.equal 1
+    ProductGroup.count.should == 1
   end
 end

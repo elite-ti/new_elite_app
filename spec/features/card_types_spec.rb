@@ -24,7 +24,7 @@ describe 'CardTypes' do
     click_button 'Create'
 
     page.should have_content 'Card type was successfully created.'
-    CardType.count.must.equal 1
+    CardType.count.should == 1
   end
 
   it 'updates an card type' do
@@ -36,6 +36,6 @@ describe 'CardTypes' do
     click_button 'Update'
 
     page.should have_content 'Card type was successfully updated.'
-    CardType.count.must.equal 1
+    CardType.count.should == 1
   end
 end

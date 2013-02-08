@@ -19,7 +19,7 @@ describe 'Questions' do
     click_button 'Create'
 
     page.should have_content 'Question was successfully created.'
-    Question.count.must.equal 1
+    Question.count.should == 1
   end
 
   it 'updates a question' do
@@ -31,6 +31,6 @@ describe 'Questions' do
     click_button 'Update'
 
     page.should have_content 'Question was successfully updated.'
-    Question.count.must.equal 1
+    Question.count.should == 1
   end
 end

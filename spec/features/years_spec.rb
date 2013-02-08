@@ -9,7 +9,7 @@ describe 'Years' do
     visit years_url
 
     (1..10).each { |i| page.should have_content "Year#{i}" }
-    Year.count.must.equal 10
+    Year.count.should == 10
   end
 
   it 'creates a Year' do
@@ -23,7 +23,7 @@ describe 'Years' do
     click_button 'Create'
 
     page.should have_content 'Year was successfully created.'
-    Year.count.must.equal 1
+    Year.count.should == 1
   end
 
   it 'updates a Year' do
@@ -37,6 +37,6 @@ describe 'Years' do
     click_button 'Update'
 
     page.should have_content 'Year was successfully updated.'
-    Year.count.must.equal 1
+    Year.count.should == 1
   end
 end

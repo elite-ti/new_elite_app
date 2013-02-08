@@ -9,7 +9,7 @@ describe 'Klazzes' do
     visit klazzes_url
 
     (1..10).each { |i| page.should have_content "Klazz#{i}" }
-    Klazz.count.must.equal 10
+    Klazz.count.should == 10
   end
 
   it 'creates a klazz' do
@@ -25,7 +25,7 @@ describe 'Klazzes' do
 
     page.should have_content 'Klazz was successfully created.'
     page.should have_content 'Klazzes'
-    Klazz.count.must.equal 1
+    Klazz.count.should == 1
   end
 
   it 'updates a klazz' do
@@ -42,6 +42,6 @@ describe 'Klazzes' do
 
     page.should have_content 'Klazz was successfully updated.'
     page.should have_content 'Klazzes'
-    Klazz.count.must.equal 1
+    Klazz.count.should == 1
   end
 end

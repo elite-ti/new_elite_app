@@ -3,7 +3,7 @@ class TeacherAbsencesController < ApplicationController
 
   def index
   	@teacher_absences = @teacher_absences.includes(
-      klazz_period: {teaching_assignment: [:teacher, :subject, {klazz: :campus}]})
+      period: {teaching_assignment: [:teacher, :subject, {klazz: :campus}]})
   end
 
   def edit

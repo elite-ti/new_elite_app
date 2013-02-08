@@ -6,8 +6,9 @@ class SubjectThread < ActiveRecord::Base
   belongs_to :subject
   belongs_to :year
 
-  has_many :teaching_assignements
+  has_many :periods, dependent: :destroy
   has_many :klazzes, through: :teaching_assignments
+  has_many :teachers, through: :teaching_assignments
 
   has_many :subject_thread_topics, dependent: :destroy, inverse_of: :subject_thread
   has_many :topics, through: :subject_thread_topics

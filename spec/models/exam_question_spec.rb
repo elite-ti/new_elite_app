@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ExamQuestion do
   it 'builds valid an exam question' do
-    build(:exam_question).must.be :valid?
+    build(:exam_question).valid?.should be_true
   end
 
   it 'sets correct number in new question' do

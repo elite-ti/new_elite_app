@@ -1,5 +1,5 @@
 border_width = 1
-default_empty_klazz_period_width = 20
+default_empty_period_width = 20
 
 update_calendar_tab = (url) ->
   $.get url, (data) ->
@@ -9,22 +9,22 @@ update_calendar_tab = (url) ->
 
 fix_size = () ->
   for cell in $('.cell')
-    filled_klazz_periods = $(cell).find('.filled')
-    number_of_filled = filled_klazz_periods.size()
+    filled_periods = $(cell).find('.filled')
+    number_of_filled = filled_periods.size()
     if number_of_filled == 0
       $(cell).find('.empty').width($(cell).width() + border_width)
     else
-      width = ($(cell).width() - default_empty_klazz_period_width)/number_of_filled - border_width
-      $(filled).width(width) for filled in filled_klazz_periods 
-      $(cell).find('.empty').width(default_empty_klazz_period_width + border_width)
+      width = ($(cell).width() - default_empty_period_width)/number_of_filled - border_width
+      $(filled).width(width) for filled in filled_periods 
+      $(cell).find('.empty').width(default_empty_period_width + border_width)
 
 update_form = (url) ->
   $.get url, (data) ->
-    $('.klazz_period_form').html(data).show()
-    $('.klazz_period_form select').chosen()
+    $('.period_form').html(data).show()
+    $('.period_form select').chosen()
 
     offset = $('.selected').offset()
-    $('.klazz_period_form').offset
+    $('.period_form').offset
       top: offset.top + $('.selected').height()
       left: offset.left - border_width
 
@@ -43,7 +43,7 @@ bindings = () ->
 
   $('.cell a').click ->
     $('.selected').removeClass('selected')
-    $(this).find('.klazz_period').addClass('selected')
+    $(this).find('.period').addClass('selected')
     update_form(this.href)
     return false
 
@@ -51,7 +51,8 @@ bindings = () ->
 jQuery ->
   $('.tabs').tabs
     beforeLoad: (e, ui) ->
-      # TODO: check if tab is already loaded
+      if $('.calendar').size() > 0
+        e.preventDefault()
     load: (e, ui) -> 
       fix_size() 
       bindings()

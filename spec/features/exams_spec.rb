@@ -9,7 +9,7 @@ describe 'Exams' do
     visit exams_url
 
     5.times { |i| page.should have_content "Exam#{i}" }
-    Exam.count.must.equal 5 
+    Exam.count.should == 5 
   end
 
   it 'creates a exam' do
@@ -27,7 +27,7 @@ describe 'Exams' do
     click_button 'Create'
 
     page.should have_content 'Exam was successfully created.'
-    Exam.count.must.equal 1
+    Exam.count.should == 1
   end
 
   it 'updates a exam' do
@@ -40,6 +40,6 @@ describe 'Exams' do
     click_button 'Update'
 
     page.should have_content 'Exam was successfully updated.'
-    Exam.count.must.equal 1
+    Exam.count.should == 1
   end
 end

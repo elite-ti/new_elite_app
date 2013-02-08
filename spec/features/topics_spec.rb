@@ -7,7 +7,7 @@ describe 'Topics' do
     5.times { |i| create :topic, name: "Topic#{i}" }
     visit topics_url
     5.times { |i| page.should have_content "Topic#{i}" }
-    Topic.count.must.equal 5 
+    Topic.count.should == 5 
   end
 
   it 'creates a topic' do
@@ -21,7 +21,7 @@ describe 'Topics' do
     click_button 'Create'
 
     page.should have_content 'Topic was successfully created.'
-    Topic.count.must.equal 1
+    Topic.count.should == 1
   end
 
   it 'updates a topic' do
@@ -33,6 +33,6 @@ describe 'Topics' do
     click_button 'Update'
 
     page.should have_content 'Topic was successfully updated.'
-    Topic.count.must.equal 1
+    Topic.count.should == 1
   end
 end

@@ -20,7 +20,7 @@ describe 'Students' do
     click_button 'Create'
 
     page.should have_content 'Student was successfully created.'
-    Student.count.must.equal 1
+    Student.count.should == 1
   end
 
   it 'updates a student' do
@@ -34,6 +34,6 @@ describe 'Students' do
     click_button 'Update'
 
     page.should have_content 'Student was successfully updated.'
-    Student.count.must.equal 1
+    Student.count.should == 1
   end
 end
