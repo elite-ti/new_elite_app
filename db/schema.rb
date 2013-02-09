@@ -285,7 +285,7 @@ ActiveRecord::Schema.define(:version => 20130130200346) do
 
   create_table "periods", :force => true do |t|
     t.integer  "klazz_id",               :null => false
-    t.integer  "subject_thread_id"
+    t.integer  "subject_thread_id",      :null => false
     t.integer  "teacher_id"
     t.integer  "position",               :null => false
     t.date     "date",                   :null => false

@@ -1,8 +1,8 @@
 class Period < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :date, :position, :klazz_id, 
-    :teacher_id, :subject_thread_id, :absence_reason_id
+  attr_accessible :date, :position, :klazz_id, :teacher_id, :subject_thread_id, 
+    :absence_reason_id, :klazz_type_id
 
   belongs_to :teacher
   belongs_to :subject_thread
@@ -10,7 +10,7 @@ class Period < ActiveRecord::Base
   belongs_to :klazz_type
   belongs_to :absence_reason
 
-  validates :date, :position, :klazz_id, presence: true
+  validates :date, :position, :klazz_id, :subject_thread_id, presence: true
 
   def self.time_hash
     {
@@ -22,5 +22,15 @@ class Period < ActiveRecord::Base
 
   def self.time_array
     time_hash.values.flatten
+  end
+
+  # TODO: refine this constraints
+  
+  def available_subject_threads
+    klazz.year.subject_threads
+  end
+
+  def available_teachers
+    Teacher.all
   end
 end 

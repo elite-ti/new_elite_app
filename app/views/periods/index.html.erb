@@ -1,4 +1,4 @@
-<% present(@klazz_calendar, @week) do |presenter| %>
+<% present_calendar(@klazz, @week) do |presenter| %>
   <div class='navigation'> 
     <h2>
       <%= link_to '<', presenter.prev_week_url %>
@@ -31,9 +31,7 @@
 
         <% presenter.week.each do |date| %>
           <td class='cell'>
-            <% presenter.periods(date, position).each do |period| %>
-              <%= render 'period', period: period %>
-            <% end %>
+            <%= render presenter.periods(date, position) %>
             <%= presenter.empty_period(date, position) %>
           </td>
         <% end %>
@@ -41,5 +39,5 @@
     <% end %>
   </table>
 
-  <div class='period_form' style='display: none;'></div>
+  <div class='period_form'></div>
 <% end %>

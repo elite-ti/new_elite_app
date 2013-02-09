@@ -1,0 +1,20 @@
+<%= simple_form_for([@klazz, @period]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <%= f.association :teacher, label_method: :nickname,
+      collection: @period.available_teachers %>
+
+    <%= f.association :subject_thread, 
+      collection: @period.available_subject_threads %>
+
+    <%= f.association :klazz_type %>
+
+    <%= f.hidden_field :date %>
+    <%= f.hidden_field :position %>
+  </div>
+
+  <div class='form-actions'>
+    <%= f.button :submit %>
+  </div>
+<% end %>

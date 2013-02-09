@@ -1,9 +1,8 @@
 class CalendarPresenter
-  delegate :klazz, to: :klazz_calendar
-  attr_reader :klazz_calendar, :week, :monday
+  attr_reader :klazz, :week, :monday
 
-  def initialize(klazz_calendar, week, template)
-    @klazz_calendar = klazz_calendar
+  def initialize(klazz, week, template)
+    @klazz = klazz
     @week = week
     @monday = @week.first
     @template = template
@@ -18,7 +17,7 @@ class CalendarPresenter
   end
 
   def base_url
-    h.klazz_calendar_path(klazz) 
+    h.klazz_periods_path(klazz) 
   end
 
   def time_array
@@ -26,22 +25,26 @@ class CalendarPresenter
   end
 
   def empty_period(date, position)
-    path = h.new_klazz_calendar_path(date: date, position: position, klazz_id: klazz.id)
+    path = h.new_klazz_period_path(
+      klazz_id: klazz.id, 
+      period: { date: date, position: position })
+
     h.link_to(path) do 
       h.tag(:div, class: 'period empty')
     end.html_safe
   end
 
   def periods(date, position)
-    cached_periods_of_week.select do |period|
+    periods_of_week.select do |period|
       period.date == date && period.position == position
     end
   end
 
 private 
 
-  def cached_periods_of_week
-    @cached_periods_of_week ||= klazz_calendar.periods_of_week(week)
+  def periods_of_week
+    @periods_of_week ||= Period.includes(:teacher, :subject_thread).
+      where(klazz_id: klazz.id, date: week)
   end
 
   def dated_url(date)

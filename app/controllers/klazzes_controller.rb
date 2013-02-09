@@ -13,7 +13,7 @@ class KlazzesController < ApplicationController
 
   def create
     if @klazz.save
-      redirect_to klazzes_url, notice: 'Klazz was successfully created.'
+      redirect_to @klazz, notice: 'Klazz was successfully created.'
     else
       render 'new'
     end
@@ -24,7 +24,7 @@ class KlazzesController < ApplicationController
 
   def update
     if @klazz.update_attributes(params[:klazz])
-      redirect_to klazzes_url, notice: 'Klazz was successfully updated.'
+      redirect_to @klazz, notice: 'Klazz was successfully updated.'
     else
       render 'edit'
     end

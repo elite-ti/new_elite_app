@@ -1,33 +1,22 @@
 border_width = 1
-default_empty_period_width = 20
-
-update_calendar_tab = (url) ->
-  $.get url, (data) ->
-    $('#calendar_tab').html(data)
-    fix_size()  
-    bindings()
-
-fix_size = () ->
+empty_period_width = 20
+    
+format_table = () ->
   for cell in $('.cell')
     filled_periods = $(cell).find('.filled')
     number_of_filled = filled_periods.size()
     if number_of_filled == 0
       $(cell).find('.empty').width($(cell).width() + border_width)
     else
-      width = ($(cell).width() - default_empty_period_width)/number_of_filled - border_width
+      width = ($(cell).width() - empty_period_width)/number_of_filled - border_width
       $(filled).width(width) for filled in filled_periods 
-      $(cell).find('.empty').width(default_empty_period_width + border_width)
+      $(cell).find('.empty').width(empty_period_width + border_width)
 
-update_form = (url) ->
+update_calendar_tab = (url) ->
   $.get url, (data) ->
-    $('.period_form').html(data).show()
-    $('.period_form select').chosen()
-
-    offset = $('.selected').offset()
-    $('.period_form').offset
-      top: offset.top + $('.selected').height()
-      left: offset.left - border_width
-
+    $('#calendar_tab').html(data)
+    format_table()  
+    bindings()
 
 bindings = () ->
   $('#date').datepicker
@@ -47,6 +36,36 @@ bindings = () ->
     update_form(this.href)
     return false
 
+update_form = (url) ->
+  $.get url, (data) ->
+    $('.period_form').html(data).show()
+    $('.period_form select').chosen()
+
+    offset = $('.selected').offset()
+    $('.period_form').offset
+      top: offset.top + $('.selected').height()
+      left: offset.left - border_width
+
+    form_bindings()
+
+form_bindings = () ->
+  $('.period_form form').submit ->
+    $.post this.action, $(this).serialize(), (data) ->
+      if $('form', $('<div>' + data + '</div>')).size() > 0
+        $('.period_form').html(data).show()
+        $('.period_form select').chosen()
+        form_bindings()
+      if $('.period', $('<div>' + data + '</div>')).size() > 0
+        if $('.selected').hasClass('empty')
+          $('.selected').closest('.cell').prepend(data)
+          $('.selected').removeClass('selected')
+        else
+          $('.selected').parent().replaceWith(data)
+        format_table()
+        bindings()
+        $('.period_form').hide()
+    return false
+
 
 jQuery ->
   $('.tabs').tabs
@@ -54,5 +73,5 @@ jQuery ->
       if $('.calendar').size() > 0
         e.preventDefault()
     load: (e, ui) -> 
-      fix_size() 
+      format_table() 
       bindings()

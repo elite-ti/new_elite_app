@@ -35,9 +35,8 @@ module ApplicationHelper
     end
   end
 
-  def present(object, *options)
-    klass = "#{object.class}Presenter".constantize
-    presenter = klass.new(object, *options, self)
+  def present_calendar(klazz, week)
+    presenter = CalendarPresenter.new(klazz, week, self)
     yield presenter if block_given?
     presenter
   end

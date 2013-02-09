@@ -1,6 +1,6 @@
 class PeriodsController < ApplicationController
   load_and_authorize_resource :klazz
-  load_and_authorize_resource :period, :through => :klazz
+  load_and_authorize_resource :period, through: :klazz
   
   layout false
 
@@ -13,7 +13,7 @@ class PeriodsController < ApplicationController
 
   def create
     if @period.save
-      render partial: 'period', period: @period
+      render partial: 'period', locals: { period: @period }
     else
       render :new, layout: false
     end
@@ -23,6 +23,11 @@ class PeriodsController < ApplicationController
   end
 
   def update
+    if @period.update_attributes(params[:period])
+      render partial: 'period', locals: { period: @period }
+    else
+      render :edit, layout: false
+    end
   end
 
   def destroy
