@@ -7,12 +7,14 @@ class CalendarPresenter
     @template = template
   end
 
-  def next_week_url
-    dated_url @monday.next_week
-  end
+  def title
+    year = Year.where(number: Date.current.year).first!
+    week_number = @monday.cweek - year.start_date.cweek + 1
+    year_number = year.number.to_s
 
-  def prev_week_url
-    dated_url @monday.prev_week
+    prev_week +
+    " Week #{week_number} - #{year_number} " +
+    next_week
   end
 
   def empty_period(date, position)
@@ -44,6 +46,14 @@ protected
 
   def periods_of_week
     Period.includes(:teacher, :subject, :klazz).where(date: week)
+  end
+
+  def prev_week
+    h.link_to('<', dated_url(@monday.prev_week))
+  end
+
+  def next_week
+    h.link_to('>', dated_url(@monday.next_week))
   end
 
   def dated_url(date)

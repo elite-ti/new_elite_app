@@ -2,11 +2,8 @@
 
 ## Todo
 
-* Create year and year_product tables
-
 * Issues
   * Calendar export button
-  * Calendar numbering
 
 * Product head teachers
   * can upload cards

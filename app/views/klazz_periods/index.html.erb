@@ -1,10 +1,6 @@
 <% present_klazz_calendar(@klazz, @week) do |presenter| %>
   <div class='navigation'> 
-    <h2>
-      <%= link_to '<', presenter.prev_week_url %>
-      <%= presenter.monday.strftime(' Week %V - %Y ') %>
-      <%= link_to '>', presenter.next_week_url %>
-    </h2>
+    <h2><%= presenter.title %></h2>
 
     <%= form_tag presenter.base_url, class: 'search' do %>
       <%= text_field_tag :date, presenter.monday.strftime('%d/%m/%Y') %>

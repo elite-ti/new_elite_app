@@ -24,6 +24,8 @@ class Teacher < ActiveRecord::Base
   has_many :product_preferences, through: :product_group_preferences, class_name: :product
 
   has_many :periods, dependent: :destroy
+  has_many :klazzes, through: :periods
+  has_many :product_years, through: :klazzes
 
   has_many :professional_experiences, dependent: :destroy
   accepts_nested_attributes_for :professional_experiences, allow_destroy: true, reject_if: :all_blank

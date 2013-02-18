@@ -11,6 +11,7 @@ namespace :db do
         'Qui' => '2013-2-21',
         'Sex' => '2013-2-22',
         'Sab' => '2013-2-23'}
+        
       SUBJECT_DICTIONARY = {
         'Matematica' => 'MATEMÁTICA', 
         'Biologia' => 'BIOLOGIA', 
