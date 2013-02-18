@@ -1,5 +1,9 @@
+# encoding: UTF-8
 class Employee < ActiveRecord::Base
   has_paper_trail
+
+  GENDERS = ['Masculino', 'Feminino']
+  MARITAL_STATUSES = ['Solteiro(a)', 'Casado(a)', 'Separado(a)', 'Divorciado(a)', 'Viúvo(a)']
 
   mount_uploader :photo, PhotoUploader
   
@@ -12,7 +16,7 @@ class Employee < ActiveRecord::Base
     :cost_per_hour, :pis_pasep, :working_paper_number,
     :teacher_attributes, :product_head_teacher_attributes, 
     :campus_head_teacher_attributes, :subject_head_teacher_attributes, 
-    :campus_principal_attributes
+    :campus_principal_attributes, :address_attributes
 
   belongs_to :elite_role
 
@@ -23,6 +27,7 @@ class Employee < ActiveRecord::Base
     has_one :campus_head_teacher
     has_one :subject_head_teacher
     has_one :campus_principal
+    has_one :address, as: :addressable
   end
 
   with_options allow_destroy: true do |e|
@@ -31,6 +36,7 @@ class Employee < ActiveRecord::Base
     e.accepts_nested_attributes_for :campus_head_teacher
     e.accepts_nested_attributes_for :subject_head_teacher
     e.accepts_nested_attributes_for :campus_principal
+    e.accepts_nested_attributes_for :address
   end
 
   validates :email, uniqueness: true, allow_blank: true, 

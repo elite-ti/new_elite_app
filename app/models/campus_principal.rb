@@ -12,13 +12,4 @@ class CampusPrincipal < ActiveRecord::Base
   def accessible_klazz_ids
     campus.klazzes.map(&:id)
   end
-
-  def accessible_teaching_assignment_ids
-    campus.klazzes.includes(:teaching_assignments).map(&:teaching_assignment_ids).flatten
-  end
-
-  def accessible_teacher_absence_ids
-    TeacherAbsence.joins(period: :teaching_assignment).
-      where(teaching_assignments: {klazz_id:  accessible_klazz_ids}).map(&:id)
-  end
 end

@@ -1,43 +1,40 @@
+<h2>Info</h2>
 <%= f.input :elite_id, label: 'Elite ID' %>
 <%= f.input :email %>
-
 <%= f.input :name, placeholder: 'Nome completo, sem abreviações' %>
 
-<%= f.input :address, :as => :string, placeholder: 'Coloque seu endereço aqui' %>
-<%= f.input :suburb, placeholder: 'Coloque seu bairro aqui' %>
-<%= f.input :city, placeholder: 'Coloque sua cidade aqui' %>
-<%= f.input :state, as: :select, collection: Employee::STATES %>
+<h2>Address</h2>
+<%= f.simple_fields_for :address do |builder| %>
+  <%= render 'addresses/fields', f: builder %>
+<% end %>
 
-<%= f.input :personal_email, placeholder: 'Coloque seu email pessoal aqui' %>
-
+<h2>Documents</h2>
 <%= f.input :identification, placeholder: 'Número do RG' %>
 <%= f.input :expeditor, placeholder: 'Orgão Exp.' %>
 <%= f.input :cpf, placeholder: 'Apenas números' %>
+<%= f.input :pis_pasep %>
+<%= f.input :working_paper_number %>
 
-
+<h2>Contact</h2>
+<%= f.input :personal_email, placeholder: 'Coloque seu email pessoal aqui' %>
 <%= f.input :cellphone, as: :telephone %>
 <%= f.input :alternative_cellphone, as: :telephone %>
 <%= f.input :telephone, as: :telephone %>
-  <%= f.input :alternative_telephone, as: :telephone %>
+<%= f.input :alternative_telephone, as: :telephone %>
 <%= f.input :contact_telephone, as: :telephone %>
 <%= f.input :contact_name, placeholder: 'Ex.: Mãe' %>
 
+<h2>General</h2>
 <%= f.input :date_of_birth %>
-<%= f.input :gender, as: :select, 
-  collection: ['Masculino', 'Feminino'] %>
-<%= f.input :marital_status, as: :select,
-  collection: ['Solteiro(a)', 'Casado(a)', 'Separado(a)', 'Divorciado(a)', 'Viúvo(a)'] %>
+<%= f.input :gender, collection: Employee::GENDERS %>
+<%= f.input :marital_status, collection: Employee::MARITAL_STATUSES %>
 
+<h2>Elite</h2>
 <%= f.input :date_of_admission %>
-
 <%= f.association :elite_role %>
-
 <%= f.input :workload, hint: 'Horas por semana.' %>
 <%= f.input :contract_type, hint: 'CLT, CNPJ' %>
 <%= f.input :cost_per_hour, hint: 'Em reais.' %>
-
-<%= f.input :pis_pasep %>
-<%= f.input :working_paper_number %>
 
 <div id='image'>
   <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>

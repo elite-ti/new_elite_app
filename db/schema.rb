@@ -6,6 +6,8 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "addresses", :force => true do |t|
+    t.integer  "addressable_id"
+    t.integer  "addressable_type"
     t.string   "complement"
     t.string   "number"
     t.string   "street"
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "campuses", :force => true do |t|
     t.string   "name"
+    t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -107,8 +110,6 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   create_table "employees", :force => true do |t|
     t.string   "email"
     t.string   "elite_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "uid"
     t.integer  "person_id"
     t.date     "date_of_admission"
@@ -124,7 +125,6 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.date     "date_of_birth"
     t.string   "gender"
     t.string   "marital_status"
-    t.string   "address"
     t.string   "suburb"
     t.string   "city"
     t.string   "state"
@@ -139,6 +139,9 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.string   "contact_telephone"
     t.string   "contact_name"
     t.string   "chapa"
+    t.integer  "address_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "enrollments", :force => true do |t|
@@ -344,6 +347,8 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.string   "name"
     t.integer  "product_type_id"
     t.integer  "product_group_id"
+    t.string   "prefix"
+    t.string   "suffix"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

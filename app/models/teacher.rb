@@ -31,4 +31,12 @@ class Teacher < ActiveRecord::Base
   accepts_nested_attributes_for :professional_experiences, allow_destroy: true, reject_if: :all_blank
 
   validates :employee_id, :nickname, presence: true, on: :update
+
+  def build_product_group_preferences
+    ProductGroup.all.each do |product_group|
+      if product_group_preferences.where(product_group_id: product_group.id).empty?
+        product_group_preferences.build(product_group_id: product_group.id)
+      end
+    end
+  end
 end

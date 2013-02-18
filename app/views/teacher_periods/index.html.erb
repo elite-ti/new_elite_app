@@ -28,7 +28,7 @@
         <% presenter.week.each do |date| %>
           <td class='cell'>
             <% presenter.periods(date, position).each do |period| %>
-              <%= render partial: 'klazz_periods/period', 
+              <%= render partial: 'teacher_periods/period', 
                 locals: { period: period, tag_classes: presenter.tag_classes(period) } %>
             <% end %>
             <%= presenter.empty_period(date, position) %>

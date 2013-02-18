@@ -37,10 +37,12 @@
 
       <%= show_group 'Address',
         {
-          'Address' => @employee.address,
-          'Suburb' => @employee.suburb,
-          'City' => @employee.city,
-          'State' => @employee.state
+          'Street' => @employee.address.street,
+          'Number' => @employee.address.number,
+          'Complement' => @employee.address.complement,
+          'Suburb' => @employee.address.suburb,
+          'City' => @employee.address.city,
+          'State' => @employee.address.state
         } 
       %>
 

@@ -1,0 +1,8 @@
+<%= f.input :cep %>
+<%= f.input :street %>
+<%= f.input :number %>
+<%= f.input :complement %>
+<%= f.input :suburb %>
+<%= f.input :city %>
+<%= f.input :state, as: :select, collection: Address::STATES %>
+<%= f.hidden_field :country, value: 'Brasil' %>

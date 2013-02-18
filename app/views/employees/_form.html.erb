@@ -9,35 +9,35 @@
       collection: Employee::ROLES.map{|x| [x.humanize, x]} %>
 
     <div id='teacher_fields'>
-      <h3>Teacher</h3>
+      <h2>Teacher</h2>
       <%= f.simple_fields_for :teacher, @employee.teacher do |builder| %>
         <%= render 'employees/form/teacher_fields', f: builder %>
       <% end %>
     </div>
 
     <div id='campus_head_teacher_fields'>
-      <h3>Campus Head Teacher</h3>
+      <h2>Campus Head Teacher</h2>
       <%= f.simple_fields_for :campus_head_teacher do |builder| %>
         <%= render 'employees/form/campus_head_teacher_fields', f: builder %>
       <% end %>
     </div>
 
     <div id='product_head_teacher_fields'>
-      <h3>Product Head Teacher</h3>
+      <h2>Product Head Teacher</h2>
       <%= f.simple_fields_for :product_head_teacher do |builder| %>
         <%= render 'employees/form/product_head_teacher_fields', f: builder %>
       <% end %>
     </div>
 
     <div id='subject_head_teacher_fields'>
-      <h3>Subject Head Teacher</h3>
+      <h2>Subject Head Teacher</h2>
       <%= f.simple_fields_for :subject_head_teacher do |builder| %>
         <%= render 'employees/form/subject_head_teacher_fields', f: builder %>
       <% end %>
     </div>
 
     <div id='campus_principal_fields'>
-      <h3>Campus Principal</h3>
+      <h2>Campus Principal</h2>
       <%= f.simple_fields_for :campus_principal do |builder| %>
         <%= render 'employees/form/campus_principal_fields', f: builder %>
       <% end %>

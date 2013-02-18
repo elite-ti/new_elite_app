@@ -7,5 +7,5 @@ class Address < ActiveRecord::Base
   
   attr_accessible :complement, :number, :street, :suburb, :city, :state, :country, :cep
 
-  has_one :student
+  belongs_to :addressable, polymorphic: true
 end

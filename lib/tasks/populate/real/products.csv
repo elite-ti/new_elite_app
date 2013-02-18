@@ -1,28 +1,25 @@
-Não regular,Não regular
-1ª Série Militar,Pré-Militar
-1ª Série ENEM,Colégio
-2ª Série Militar,Pré-Militar
-2ª Série ENEM,Colégio
-3ª Ano + AFA/EN/EFOMM,Pré-Militar
-3ª Ano + AFA,Pré-Militar
-3ª Ano + EFOMM/ESPCEX,Pré-Militar
-3ª Ano + ESPCEX,Pré-Militar
-3ª Ano + IME-ITA,Pré-Militar
-3ª Ano + Pré-Vestibular ELITE +,Pré-Vestibular
-3ª Ano + Pré-Vestibular Manhã,Pré-Vestibular
-6º Ano,Colégio
-7º Ano,Colégio
-8º Ano,Colégio
-9º Forte,Colégio
-9º Militar,Pré-Militar
-AFA/EAAr/EFOMM,Pré-Militar
-AFA/EN/EFOMM,Pré-Militar
-AFA,Pré-Militar
-EFOMM/ESPCEX,Pré-Militar
-ESPCEX,Pré-Militar
-EsSA,Pré-Militar
-IME-ITA,Pré-Militar
-IME-ITA Especial,Pré-Militar
-Pré-Vestibular ELITE +,Pré-Vestibular
-Pré-Vestibular Manhã,Pré-Vestibular
-Pré-Vestibular Noite,Pré-Vestibular
+Não regular,Não regular,,,
+1ª Série Militar,Pré-Militar,11,MIL,9º Ano Militar e Ensino Médio Militar
+1ª Série ENEM,Colégio,11,,Ensino Médio
+2ª Série Militar,Pré-Militar,12,MIL,9º Ano Militar e Ensino Médio Militar
+2ª Série ENEM,Colégio,12,,Ensino Médio
+3ª Série + AFA/EFOMM,Pré-Militar,3AFA,,9º Ano Militar e Ensino Médio Militar
+3ª Série + ESPCEX,Pré-Militar,3ESP,,9º Ano Militar e Ensino Médio Militar
+3ª Série + IME-ITA,Pré-Militar,3IME,,IME/ITA
+3ª Série + Pré-Vestibular Biomédicas,Pré-Vestibular,3BIO,,Ensino Médio
+3ª Série + Pré-Vestibular Manhã,Pré-Vestibular,3PVM,,Ensino Médio
+6º Ano,Colégio,6,,Ensino Fundamental
+7º Ano,Colégio,7,,Ensino Fundamental
+8º Ano,Colégio,8,,Ensino Fundamental
+9º Ano Forte,Colégio,9,F,Ensino Fundamental
+9º Ano Militar,Pré-Militar,9,MIL,9º Ano Militar e Ensino Médio Militar
+AFA/EAAr/EFOMM,Pré-Militar,AEA,,AFA/EN e AFA/EEAR
+AFA/EN/EFOMM,Pré-Militar,AEE,,AFA/EN e AFA/EEAR
+AFA/EFOMM,Pré-Militar,AFA,,AFA/EN e AFA/EEAR
+ESPCEX,Pré-Militar,ESP,,ESPCEX e ESSA
+EsSA,Pré-Militar,ESA,,ESPCEX e ESSA
+IME-ITA,Pré-Militar,IME,,IME/ITA
+IME-ITA Especial,Pré-Militar,IES,,IME/ITA
+Pré-Vestibular Biomédicas,Pré-Vestibular,BIO,,Pré-Vestibular
+Pré-Vestibular Manhã,Pré-Vestibular,PVM,,Pré-Vestibular
+Pré-Vestibular Noite,Pré-Vestibular,PVN,,Pré-Vestibular

@@ -5,7 +5,7 @@ class ProductHeadTeacher < ActiveRecord::Base
 
   belongs_to :employee
 
-  has_many :product_head_teacher_products, dependent: :destroy
+  has_many :product_head_teacher_products, dependent: :destroy, inverse_of: :product_head_teacher
   has_many :products, through: :product_head_teacher_products
 
   validates :employee_id, presence: true, uniqueness: true, on: :update
@@ -13,10 +13,5 @@ class ProductHeadTeacher < ActiveRecord::Base
   def accessible_klazz_ids
     products.includes(:klazzes).
       map(&:klazzes).flatten.uniq.map(&:id)
-  end
-
-  def accessible_teaching_assignment_ids
-    products.includes(klazzes: :teaching_assignments).
-      map(&:klazzes).flatten.uniq.map(&:teaching_assignment_ids).flatten.uniq
   end
 end

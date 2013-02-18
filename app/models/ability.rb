@@ -20,33 +20,37 @@ class Ability
   end
 
   def teacher_ability
-    can [:show, :update], Employee, id: employee.id
-    can [:show, :update], Teacher, id: employee.teacher.id
+    can [:read, :update], Employee, id: employee.id
     can :read, Klazz, id: employee.teacher.klazz_ids
   end
 
   def product_head_teacher_ability
-    can :manage, Klazz, id: employee.product_head_teacher.accessible_klazz_ids
-    can :create, Period
-    can :update, Period, teaching_assignment_id: employee.product_head_teacher.accessible_teaching_assignment_ids
+    klazz_ids = employee.product_head_teacher.accessible_klazz_ids
+    can :read, Klazz, id: klazz_ids 
+    can :read, Period, klazz_id: klazz_ids
   end
 
   def campus_head_teacher_ability
-    can :manage, Klazz, id: employee.campus_head_teacher.accessible_klazz_ids
-    can :create, Period
-    can :update, Period, teaching_assignment_id: employee.campus_head_teacher.accessible_teaching_assignment_ids
+    klazz_ids = employee.campus_head_teacher.accessible_klazz_ids
+    can :read, Klazz, id: klazz_ids
+    can :read, Period, klazz_id: klazz_ids
   end
 
   def subject_head_teacher_ability
-    can :manage, Klazz, id: employee.subject_head_teacher.accessible_klazz_ids
-    can :create, Period
-    can :update, Period, teaching_assignment_id: employee.subject_head_teacher.accessible_teaching_assignment_ids
+    klazz_ids = employee.subject_head_teacher.accessible_klazz_ids
+    can :read, Klazz, id: klazz_ids
+    can :read, Period, klazz_id: klazz_ids
+  end
+
+  def product_principal_ability
+    klazz_ids = employee.campus_principal.accessible_klazz_ids
+    can :read, Klazz, id: klazz_ids
+    can :read, Period, klazz_id: klazz_ids
   end
 
   def campus_principal_ability
-    can :manage, Klazz, id: employee.campus_principal.accessible_klazz_ids
-    can :create, Period
-    can :update, Period, teaching_assignment_id: employee.campus_principal.accessible_teaching_assignment_ids
-    can :manage, TeacherAbsence, id: employee.campus_principal.accessible_teacher_absence_ids
+    klazz_ids = employee.campus_principal.accessible_klazz_ids
+    can :read, Klazz, id: klazz_ids
+    can :read, Period, klazz_id: klazz_ids
   end
 end

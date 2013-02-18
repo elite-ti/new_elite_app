@@ -1,7 +1,7 @@
 class Campus < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :name
+  attr_accessible :name, :code
 
   has_many :klazzes
   has_many :product_years, through: :klazzes
@@ -14,7 +14,7 @@ class Campus < ActiveRecord::Base
 
   has_many :campus_principals, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, :code, presence: true, uniqueness: true
 
   def possible_students(is_bolsao)
     if is_bolsao

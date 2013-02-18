@@ -18,7 +18,7 @@ class EmployeesController < ApplicationController
 
   def create
     if @employee.save
-      redirect_to employees_url, notice: 'Employee was successfully created.'
+      redirect_to @employee, notice: 'Employee was successfully created.'
     else
       set_employee
       render 'new'
@@ -26,8 +26,9 @@ class EmployeesController < ApplicationController
   end
 
   def update
+    debugger
     if @employee.update_attributes(params[:employee])
-      redirect_to employees_url, notice: 'Employee was successfully updated.'
+      redirect_to @employee, notice: 'Employee was successfully updated.'
     else
       set_employee
       render 'edit'
@@ -38,7 +39,8 @@ private
 
   def set_employee
     @employee.build_roles
-    @employee.teacher.professional_experiences.build if @employee.teacher.professional_experiences.empty?
+    @employee.build_address if @employee.address.nil?
     @employee.teacher.build_product_group_preferences
+    @employee.teacher.professional_experiences.build if @employee.teacher.professional_experiences.empty?
   end
 end

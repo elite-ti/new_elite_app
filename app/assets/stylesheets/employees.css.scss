@@ -1,6 +1,12 @@
+@mixin has-border {
+  border: 1px solid #999;
+  border-radius: 15px;
+}
+
 #employee_important_fields {
   width: 100%;
   height: 150px;
+  margin-bottom: 20px;
 
   .resource {
     float:left;
@@ -39,32 +45,11 @@
   }
 }
 
-
 #prof_exp_fields {
-  width: 470px;
-  margin-left: 60px;
-  margin-top: 10px;
-  border: 1px solid #999;
-  border-radius: 15px;
-  padding-left: 0;
-  padding-top: 15px;
-
-  th, td { width: 120px; }
-  colgroup { width: 250px; }
-  td label { width: 100%; }
-  td.error { margin-left: 0; }
-  td.radio {
-    input { margin-right: 20px; }
-    label { display: none; }
-  }
-  label {
-    width: 100px;
-    margin-left: 7px;
-  }
-  .remove_fields {
-    float: right;
-    margin-right: 20px;
-  }
+  width: 700px;
+  @include has-border;
+  margin-bottom: 20px;
+  h3 { margin-left: 50px; }
 }
 
 .add_field {
@@ -78,24 +63,13 @@
   display: block;
   clear: both;
 }
-#employee_post_graduated_comment { margin-bottom: 15px; }
 
-#employee_campus_head_teacher_attributes_campus_ids,
-  #employee_campus_head_teacher_attributes_product_ids,
-  #employee_product_head_teacher_attributes_product_ids,
-  #employee_subject_head_teacher_attributes_product_ids,
-  #employee_subject_head_teacher_attributes_subject_ids,
-  #employee_teacher_attributes_subject_ids,
-  #employee_teacher_attributes_campus_ids,
-  #employee_campus_principal_attributes_campus_id {
-  width: 335px;
-}
+#employee_post_graduated_comment { margin-bottom: 15px; }
 
 #product_group_preferences {
   margin-left: 30px;
   margin-bottom: 30px;
-  border: 1px solid #999;
-  border-radius: 15px;
+  @include has-border; 
 
   th, td { width: 120px; }
   colgroup { width: 250px; }

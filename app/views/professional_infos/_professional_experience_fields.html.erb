@@ -1,7 +1,7 @@
 <fieldset id="prof_exp_fields">
-  <%= f.association :school_role, label: "Experiência Profissional" %>
-  <%= f.input :school_name, placeholder: "Escreva aqui o nome da escola", 
-    label: false, input_html: { class: "scholl_name_input" } %>
+  <h3>Experiência Profissional</h3>
+  <%= f.association :school_role %>
+  <%= f.input :school_name, placeholder: "Escreva aqui o nome da escola" %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "Remover", "#", class: "remove_fields" %>
 </fieldset>

@@ -1,13 +1,15 @@
 class Product < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :product_type_id, :product_group_id, :name
+  attr_accessible :product_type_id, :product_group_id, :name, :prefix, :suffix
 
   belongs_to :product_type
   belongs_to :product_group
 
   has_many :product_years, dependent: :destroy
   has_many :klazzes, through: :product_years
+  has_many :campuses, through: :klazzes
+  has_many :periods, through: :klazzes
 
   has_many :product_head_teacher_products, dependent: :destroy
   has_many :product_head_teachers, through: :product_head_teacher_products

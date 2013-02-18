@@ -6,5 +6,5 @@ class ProfessionalExperience < ActiveRecord::Base
 
   attr_accessible :school_name, :school_role_id, :teacher_id
 
-  validates :school_name, :school_role_id, :teacher_id, presence: true
+  validates :teacher_id, presence: true
 end

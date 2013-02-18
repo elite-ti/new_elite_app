@@ -34,8 +34,8 @@ namespace :db do
       task campuses: :environment do
         p 'Populating campuses'
         ActiveRecord::Base.transaction do 
-          read_csv('campuses').flatten.each do |campus_name|
-            Campus.create!(name: campus_name)
+          read_csv('campuses').each do |campus_name, code|
+            Campus.create!(name: campus_name, code: code)
           end
         end
       end
@@ -108,16 +108,19 @@ namespace :db do
               identification, expeditor, cpf, gender, marital_status,
               pis_pasep, working_paper_number, date_of_admission,
               cost_per_hour, personal_email, contract_type|
+            address_attributes = {
+              street: address,
+              suburb: suburb,
+              city: city,
+              state: state,
+              country: 'Brasil'}
             Employee.create!(
               elite_id: elite_id,
               chapa: chapa,
               name: name,
               email: email,
               date_of_birth: date_of_birth,
-              address: address,
-              suburb: suburb,
-              city: city,
-              state: state,
+              address_attributes: address_attributes,
               telephone: telephone,
               alternative_telephone: alternative_telephone,
               cellphone: cellphone,
@@ -191,10 +194,13 @@ namespace :db do
       task products: :environment do
         p 'Populating products'
         ActiveRecord::Base.transaction do 
-          read_csv('products').each do |product_name, product_type_name|
+          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name|
             Product.create!(
               name: product_name, 
-              product_type_id: ProductType.find_by_name!(product_type_name).id)
+              product_type_id: ProductType.find_by_name!(product_type_name).id,
+              prefix: prefix,
+              suffix: suffix,
+              product_group_id: ProductGroup.where(name: product_group_name).first.try(:id))
           end
         end
       end
@@ -207,7 +213,7 @@ namespace :db do
       task product_years: :environment do
         p 'Populating product years'
         ActiveRecord::Base.transaction do 
-          read_csv('products').each do |product_name, product_type_name|
+          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name|
             ProductYear.create!(
               name: product_name + ' - ' + Year.first.number.to_s, 
               product_id: Product.where(name: product_name).first!.id, 

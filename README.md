@@ -2,6 +2,8 @@
 
 ## Todo
 
+* Adicionar funcionalidade de auditoria
+
 * Issues
   * Calendar export button
 
@@ -15,7 +17,6 @@
 ### Tomorrow!
 
 * Calendar
-  * create missing populate tasks
   * create/update/destroy actions for periods
 
 * Fix card processor 

@@ -18,6 +18,4 @@ class Klazz < ActiveRecord::Base
 
   validates :name, :campus_id, :product_year_id, presence: true
   validates :name, uniqueness: true
-
-  default_scope order('name')
 end

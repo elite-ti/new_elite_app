@@ -1,6 +1,6 @@
 namespace :db do
   namespace :populate do
-    namespace :faike do 
+    namespace :fake do 
       CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
       CARD_PARAMETERS = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
       CARD_STUDENT_COORDINATES = '1280x1000+0+0'
@@ -61,21 +61,15 @@ namespace :db do
       end
 
       task exams: :environment do 
-        # p 'Populating exam'
-        # ActiveRecord::Base.transaction do 
-        #   exam = Exam.create!(
-        #     datetime: Time.zone.now, 
-        #     exam_cycle_id: ExamCycle.first.id, 
-        #     name: 'Bolsao Fisica',
-        #     correct_answers: '',
-        #     options_per_
-        #   )
-        #   Question.limit(30).all.each do |question|
-        #     ExamQuestion.create(
-        #       question_id: question.id,
-        #       exam_id: exam.id)
-        #   end
-        # end
+        p 'Populating exams'
+        ActiveRecord::Base.transaction do 
+          Exam.create!(
+            datetime: Time.zone.now, 
+            exam_cycle_id: ExamCycle.first.id, 
+            name: 'Bolsao Fisica',
+            correct_answers: 'ABCDEABCDEABCDEABCDEABCDEABCDE',
+            options_per_question: 5)
+        end
       end
     end
   end

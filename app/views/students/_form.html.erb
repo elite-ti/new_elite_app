@@ -1,13 +1,30 @@
 <%= simple_form_for(@student) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class='form-inputs'>
+    <h2>Info</h2>
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :ra %>
+    <%= f.input :cpf %>
+    <%= f.input :own_cpf %>
+    <%= f.input :rg %>
+    <%= f.input :rg_expeditor %>
+    <%= f.input :gender %>
+    <%= f.input :date_of_birth %>
+    <%= f.input :number_of_children %>
+    <%= f.input :mother_name %>
+    <%= f.input :father_name %>
+    <%= f.input :telephone %>
+    <%= f.input :cellphone %>
+    <%= f.input :previous_school %>
+    <h2>Address</h2>
+    <%= f.simple_fields_for :address do |builder| %>
+      <%= render 'addresses/fields', f: builder %>
+    <% end %>
   </div>
 
-  <div class="form-actions">
+  <div class='form-actions'>
     <%= f.button :submit %>
   </div>
 <% end %>
