@@ -8,12 +8,12 @@ class Student < ActiveRecord::Base
 
   has_many :enrollments, dependent: :destroy
   has_many :klazzes, through: :enrollments
-  has_many :enrolled_years, through: :klazzes, source: :year
+  has_many :enrolled_years, through: :klazzes, source: :product_year
   has_many :enrolled_exam_cycles, through: :enrolled_years, source: :exam_cycle
   has_many :enrolled_exams, through: :enrolled_exam_cycles, source: :exam
 
   has_many :applicants, dependent: :destroy
-  has_many :applied_years, through: :applicants, source: :year
+  has_many :applied_years, through: :applicants, source: :product_year
   has_many :applied_exam_cycles, through: :applied_years, source: :exam_cycle
   has_many :applied_exams, through: :applied_exam_cycles, source: :exam
 

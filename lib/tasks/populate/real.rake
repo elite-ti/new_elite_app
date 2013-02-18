@@ -6,7 +6,7 @@ namespace :db do
       ASSETS_PATH = File.join(Rails.root, 'lib/tasks/populate/real')
 
       task quick: [
-        :product_types, :product_groups, :products, :years, :campuses, 
+        :product_types, :product_groups, :products, :years, :product_years, :campuses, 
         :subjects, :klazz_types, :majors, :school_roles, 
         :elite_roles, :absence_reasons, :employees, :teachers, :admins, 
         :poll_question_types, :poll_question_categories]
@@ -201,13 +201,17 @@ namespace :db do
 
       task years: :environment do
         p 'Populating years'
-        year_number = '2013'
+        Year.create!(number: 2013, start_date: '2013-2-18', end_date: '2013-12-23')
+      end
+
+      task product_years: :environment do
+        p 'Populating product years'
         ActiveRecord::Base.transaction do 
           read_csv('products').each do |product_name, product_type_name|
-            Year.create!(
-              name: product_name + ' - ' + year_number, 
+            ProductYear.create!(
+              name: product_name + ' - ' + Year.first.number.to_s, 
               product_id: Product.where(name: product_name).first!.id, 
-              year_number: year_number)
+              year_id: Year.first.id)
           end
         end
       end

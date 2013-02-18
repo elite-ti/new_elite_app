@@ -3,14 +3,7 @@
 ## Todo
 
 * Create year and year_product tables
-* Migrate year_product holidays and breaks
-* Fix card processor 
-  * Remove parameters from database
-  * Product head teachers can upload cards
-  * check ability when seeing student exams and exams
-* Schedule
-  * Update db changes from schema.mwb to schema.rb
-  * Create migration script for sample files
+
 * Issues
   * Calendar export button
   * Calendar numbering
@@ -21,13 +14,27 @@
 
 * Calendario
   * Cada um pode ver os seus
-  * trocar regular por ENEM
 
 ### Tomorrow!
 
 * Calendar
   * create missing populate tasks
   * create/update/destroy actions for periods
+
+* Fix card processor 
+  * Remove parameters from database
+  * Product head teachers can upload cards
+  * check ability when seeing student exams and exams
+
+* Create holidays and breaks table
+  * migrate it!
+
+### Wednesday
+
+* Schedule
+  * Update db changes from schema.mwb to schema.rb
+  * Create migration script for sample files
+
 
 ## Setup
 

@@ -42,7 +42,7 @@ namespace :db do
               exam_campus_id: Campus.where(name: line['Unidade para Prova']).first!.id,
               subscription_datetime: standardize_datetime(line['Data de Inscrição']),
               student_id: student.id,
-              year_id: Year.where(product_id: Product.where(name: line['Turma']).first!.id, year_number: YEAR).first!.id,
+              product_year_id: ProductYear.where(product_id: Product.where(name: line['Turma']).first!.id).first!.id,
               intended_campus_id: Campus.where(name: line['Unidade a Cursar']).first!.id
             )
           end

@@ -83,7 +83,7 @@ namespace :db do
 
       def create_klazz(klazz_name, product_name, campus_name)
         Klazz.where(name: klazz_name).first_or_create!(
-          year_id: Year.where(name: product_name + ' - 2013').first!.id,
+          product_year_id: ProductYear.where(name: product_name + ' - 2013').first!.id,
           campus_id: Campus.where(name: campus_name).first!.id)
       end
 

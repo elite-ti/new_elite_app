@@ -13,11 +13,10 @@ FactoryGirl.define do
 
   factory :applicant do
     student
-    year
+    product_year
     bolsao_id '1/1/2013'
     sequence(:number) { |n| "#{n}" }
   end
-
 
   factory :campus do
     sequence(:name) { |n| "Campus#{n}" }
@@ -36,15 +35,21 @@ FactoryGirl.define do
     sequence(:name) { |n| "Product#{n}" }
   end
 
-  factory :year do
+  factory :year do 
+    sequence(:number) { |n| n+2012 }
+    start_date { "#{number}-2-18" }
+    end_date { "#{number}-12-23" }
+  end
+
+  factory :product_year do
     product
-    year_number '2013'
+    year
     sequence(:name) { |n| "Year#{n}" }
   end
 
   factory :klazz do
     campus
-    year
+    product_year
     sequence(:name) { |n| "Klazz#{n}" }
   end
 
@@ -61,7 +66,7 @@ FactoryGirl.define do
   factory :subject_thread do
     sequence(:name) { |n| "SubjectThread#{n}" }
     subject
-    year
+    product_year
   end
 
   factory :teaching_assignment do
@@ -75,7 +80,7 @@ FactoryGirl.define do
   end
 
   factory :exam_cycle do
-    year
+    product_year
     sequence(:name) { |n| "ExamCycle#{n}" }
     start_date { Time.now }
     end_date { Time.now + 1.month }

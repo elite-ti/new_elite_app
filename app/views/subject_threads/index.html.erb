@@ -18,7 +18,7 @@
         <%= link_to 'Edit', edit_subject_thread_path(subject_thread), class: 'float-right' %>
       </td>
       <td><%= subject_thread.subject.name %></td>
-      <td><%= subject_thread.year.name %></td>
+      <td><%= subject_thread.product_year.name %></td>
       <td><%= subject_thread.topics.map(&:name).join(', ') %></td>
     </tr>
   <% end %>

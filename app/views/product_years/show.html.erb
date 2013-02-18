@@ -1,11 +1,11 @@
-<%= title 'Year - ' + @year.name, 
+<%= title 'Year - ' + @product_year.name, 
   link_to('Back | ', years_path),
-  link_to('Edit', edit_year_path(@year)) %>
+  link_to('Edit', edit_year_path(@product_year)) %>
 
 <div class='resource'>
-  <%= show_field 'Product Group', @year.product.product_group.try(:name) %>
-  <%= show_field 'Product Type', @year.product.product_type.name %>
-  <%= show_field 'Product', @year.product.name %>
+  <%= show_field 'Product Group', @product_year.product.product_group.try(:name) %>
+  <%= show_field 'Product Type', @product_year.product.product_type.name %>
+  <%= show_field 'Product', @product_year.product.name %>
 </div>
 
 <h2>Year Klazzes</h2>
@@ -17,7 +17,7 @@
   </thead>
 
   <tbody>
-  <% @year.klazzes.each do |klazzes| %>
+  <% @product_year.klazzes.each do |klazzes| %>
     <tr>
       <td>
         <%= klazz.name %>
@@ -42,7 +42,7 @@
   </thead>
 
   <tbody>
-  <% @year.subject_threads.each do |subject_thread| %>
+  <% @product_year.subject_threads.each do |subject_thread| %>
     <tr>
       <td>
         <%= subject_thread.name %>

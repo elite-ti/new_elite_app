@@ -118,7 +118,7 @@ private
   def set_exam_answers
     exam_questions = exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
-      campuses.map(&:years).flatten.uniq.map(&:students)
+      campuses.map(&:product_years).flatten.uniq.map(&:students)
       exam_answers.build(answer: answers[i], exam_question_id: exam_questions[i].id)
     end
     if answers_needing_check.any?

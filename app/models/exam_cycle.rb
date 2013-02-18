@@ -1,10 +1,10 @@
 class ExamCycle < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :end_date, :name, :start_date, :year_id, :is_bolsao
+  attr_accessible :end_date, :name, :start_date, :product_year_id, :is_bolsao
 
-  belongs_to :year
+  belongs_to :product_year
 
-  validates :name, :year_id, presence: true
-  validates :name, uniqueness: { scope: :year_id }
+  validates :name, :product_year_id, presence: true
+  validates :name, uniqueness: { scope: :product_year_id }
 end

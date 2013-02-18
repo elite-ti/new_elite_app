@@ -43,6 +43,7 @@ EliteApp::Application.routes.draw do
   end
   
   resources :campuses
+  resources :product_years
   resources :years
   resources :products
   resources :product_groups

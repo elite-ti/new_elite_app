@@ -5,8 +5,8 @@
     <%= f.input :name %>
 
     <div class='input'>
-      <%= f.label :year_id %>
-      <%= f.collection_select :year_id, Year.order(:name), :id, :name, include_blank: true %>
+      <%= f.label :product_year_id %>
+      <%= f.collection_select :product_year_id, ProductYear.order(:name), :id, :name, include_blank: true %>
     </div>
 
     <div class='input'>

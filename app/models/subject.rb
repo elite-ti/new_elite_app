@@ -8,7 +8,7 @@ class Subject < ActiveRecord::Base
   has_many :questions, through: :question_topics
 
   has_many :subject_threads, dependent: :destroy
-  has_many :years, through: :subject_threads
+  has_many :product_years, through: :subject_threads
   has_many :teaching_assignments, through: :subject_threads
 
   has_many :exam_subjects, dependent: :destroy

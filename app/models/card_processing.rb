@@ -27,7 +27,7 @@ class CardProcessing < ActiveRecord::Base
   end
 
   def campuses
-    campuses_ids.split(',').map do |campus_id|
+    campus_ids.split(',').map do |campus_id|
       Campus.find(campus_id)
     end
   end
@@ -50,7 +50,6 @@ private
       next if File.directory?(path) || File.extname(path) != '.tif' 
       StudentExam.create!(card: File.open(path), card_processing_id: self.id)
     end
-    CardProcessorWorker.perform_async(self.id)
     nil
   end
 end

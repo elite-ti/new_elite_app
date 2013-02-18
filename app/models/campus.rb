@@ -4,14 +4,13 @@ class Campus < ActiveRecord::Base
   attr_accessible :name
 
   has_many :klazzes
-  has_many :years, through: :klazzes
-  has_many :exam_cycles, through: :years
+  has_many :product_years, through: :klazzes
 
   has_many :campus_head_teacher_campuses, dependent: :destroy
   has_many :campus_head_teachers, through: :campus_head_teacher_campuses
 
-  has_many :picked_campuses, dependent: :destroy
-  has_many :teachers, through: :picked_campuses
+  has_many :campus_preferences, dependent: :destroy
+  has_many :teachers, through: :campus_preferences
 
   has_many :campus_principals, dependent: :destroy
 
@@ -19,9 +18,9 @@ class Campus < ActiveRecord::Base
 
   def possible_students(is_bolsao)
     if is_bolsao
-      return years.applicant_students 
+      return product_years.map(&:applicant_students)
     else
-      return years.enrolled_students
+      return product_years.map(&:enrolled_students)
     end
   end
 end

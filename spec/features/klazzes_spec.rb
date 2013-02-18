@@ -4,22 +4,22 @@ describe 'Klazzes' do
   before(:each) { log_admin_in }
 
   it 'shows all klazzes' do
-    (1..10).each { |i| create :klazz, name: "Klazz#{i}" }
+    5.times { |i| create :klazz, name: "Klazz#{i}" }
 
     visit klazzes_url
 
-    (1..10).each { |i| page.should have_content "Klazz#{i}" }
-    Klazz.count.should == 10
+    5.times { |i| page.should have_content "Klazz#{i}" }
+    Klazz.count.should == 5 
   end
 
   it 'creates a klazz' do
-    create :year, name: 'Year'
+    create :product_year, name: 'ProductYear'
     create :campus, name: 'Campus'
 
     visit klazzes_url
     click_link 'New Klazz'
     fill_in 'Name', with: 'Klazz'
-    select 'Year', from: 'Year'
+    select 'ProductYear', from: 'Product year'
     select 'Campus', from: 'Campus'
     click_button 'Create'
 
@@ -28,15 +28,11 @@ describe 'Klazzes' do
   end
 
   it 'updates a klazz' do
-    year = create :year, name: 'Year'
-    campus = create :campus, name: 'Campus'
-    create :klazz, year_id: year.id, campus_id: campus.id
+    create :klazz
 
     visit klazzes_url
     click_link 'Edit'
     fill_in 'Name', with: 'Klazz'
-    select 'Year', from: 'Year'
-    select 'Campus', from: 'Campus'
     click_button 'Update'
 
     page.should have_content 'Klazz was successfully updated.'

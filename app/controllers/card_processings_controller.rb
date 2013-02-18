@@ -10,6 +10,7 @@ class CardProcessingsController < ApplicationController
   def create
     @card_processing.campus_ids = current_employee.send(current_role).accessible_campus_ids.join(',')
     if @card_processing.save
+      CardProcessorWorker.perform_async(@card_processing.id)
       redirect_to card_processings_url, notice: 'Card processing was successfully created.'
     else
       debugger

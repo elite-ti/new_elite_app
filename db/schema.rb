@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "exam_datetime"
     t.integer  "exam_campus_id"
     t.integer  "student_id"
-    t.integer  "year_id"
+    t.integer  "product_year_id"
     t.integer  "intended_campus_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.boolean  "is_bolsao"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.integer  "year_id"
+    t.integer  "product_year_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -209,7 +209,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "klazzes", :force => true do |t|
     t.string   "name"
-    t.integer  "year_id"
+    t.integer  "product_year_id"
     t.integer  "campus_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -332,6 +332,14 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "updated_at"
   end
 
+  create_table "product_years", :force => true do |t|
+    t.string   "name"
+    t.integer  "year_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "products", :force => true do |t|
     t.string   "name"
     t.integer  "product_type_id"
@@ -432,7 +440,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "subject_threads", :force => true do |t|
     t.integer  "subject_id"
-    t.integer  "year_id"
+    t.integer  "product_year_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -531,9 +539,9 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "years", :force => true do |t|
-    t.string   "name"
-    t.string   "year_number"
-    t.integer  "product_id"
+    t.integer  "number"
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -42,7 +42,7 @@ namespace :db do
           end_date: Time.now + 1.week, 
           name: 'Bolsao', 
           start_date: Time.now, 
-          year_id: Year.first.id, 
+          product_year_id: ProductYear.first.id, 
           is_bolsao: true
         )
       end
@@ -55,7 +55,7 @@ namespace :db do
             student_id: student.id, 
             number: "#{i}",
             bolsao_id: '1',
-            year_id: ExamCycle.first.year.id,
+            product_year_id: ExamCycle.first.product_year.id,
           )
         end
       end

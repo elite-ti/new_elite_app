@@ -6,8 +6,8 @@ class Product < ActiveRecord::Base
   belongs_to :product_type
   belongs_to :product_group
 
-  has_many :years, dependent: :destroy
-  has_many :klazzes, through: :years
+  has_many :product_years, dependent: :destroy
+  has_many :klazzes, through: :product_years
 
   has_many :product_head_teacher_products, dependent: :destroy
   has_many :product_head_teachers, through: :product_head_teacher_products

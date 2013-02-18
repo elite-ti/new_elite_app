@@ -3,37 +3,31 @@ require 'spec_helper'
 describe 'Years' do
   before(:each) { log_admin_in }
 
-  it 'shows all Years' do
-    (1..10).each { |i| create :year, name: "Year#{i}" }
-
+  it 'shows all years' do
+    5.times { |i| create :year, number: 2013+i }
     visit years_url
-
-    (1..10).each { |i| page.should have_content "Year#{i}" }
-    Year.count.should == 10
+    5.times { |i| page.should have_content "#{2013+i}" }
+    Year.count.should == 5 
   end
 
-  it 'creates a Year' do
-    create :product, name: 'Product'
-
+  it 'creates a years' do
     visit years_url
     click_link 'New Year'
-    fill_in 'Name', with: 'Year'
-    select 'Product', from: 'Product'
-    fill_in 'Year number', with: '2013'
+    fill_in 'Number', with: '2013'
+    fill_in 'year_start_date', with: '2013-1-1'
+    fill_in 'year_end_date', with: '2013-12-31'
     click_button 'Create'
 
     page.should have_content 'Year was successfully created.'
     Year.count.should == 1
   end
 
-  it 'updates a Year' do
-    product = create :product, name: 'Product'
-    create :year, product_id: product.id
+  it 'updates a years' do
+    create :year
 
     visit years_url
     click_link 'Edit'
-    fill_in 'Name', with: 'Year'
-    select 'Product', from: 'Product'
+    fill_in 'Number', with: '2014'
     click_button 'Update'
 
     page.should have_content 'Year was successfully updated.'
