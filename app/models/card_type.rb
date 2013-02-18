@@ -5,7 +5,7 @@ class CardType < ActiveRecord::Base
   
   attr_accessible :card, :name, :parameters, :student_coordinates, :command
 
-  has_many :student_exams
+  has_many :card_processings
 
   validates :card, :name, :parameters, :student_coordinates, :command, presence: true
   validates :name, uniqueness: true

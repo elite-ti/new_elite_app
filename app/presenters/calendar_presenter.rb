@@ -1,8 +1,7 @@
 class CalendarPresenter
-  attr_reader :klazz, :week, :monday
+   attr_reader :week, :monday
 
-  def initialize(klazz, week, template)
-    @klazz = klazz
+  def initialize(week, template)
     @week = week
     @monday = @week.first
     @template = template
@@ -16,22 +15,8 @@ class CalendarPresenter
     dated_url @monday.prev_week
   end
 
-  def base_url
-    h.klazz_periods_path(klazz) 
-  end
-
-  def time_array
-    Period.time_array
-  end
-
   def empty_period(date, position)
-    path = h.new_klazz_period_path(
-      klazz_id: klazz.id, 
-      period: { date: date, position: position })
-
-    h.link_to(path) do 
-      h.tag(:div, class: 'period empty')
-    end.html_safe
+    h.tag(:div, class: 'period empty')
   end
 
   def periods(date, position)
@@ -40,11 +25,25 @@ class CalendarPresenter
     end
   end
 
-private 
+  def time_array
+    Period.time_array
+  end
+
+  def tag_classes(period)
+    tag_classes = ''
+    if period.past?
+      tag_classes += ' past'
+    else
+      tag_classes += ' future'
+    end
+    tag_classes += ' absent' if period.absent?
+    tag_classes
+  end
+
+protected 
 
   def periods_of_week
-    @periods_of_week ||= Period.includes(:teacher, :subject_thread).
-      where(klazz_id: klazz.id, date: week)
+    Period.includes(:teacher, :subject, :klazz).where(date: week)
   end
 
   def dated_url(date)
@@ -53,5 +52,5 @@ private
 
   def h
     @template
-  end
+  end 
 end

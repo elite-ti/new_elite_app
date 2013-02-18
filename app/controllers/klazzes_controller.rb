@@ -2,7 +2,7 @@ class KlazzesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @klazzes = @klazzes.includes(:campus, year: {product: :product_type})
+    @klazzes = @klazzes.includes(:campus, year: { product: :product_type })
   end
 
   def show

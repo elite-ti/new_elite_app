@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 EliteApp::Application.routes.draw do
+  resources :card_processings
   resources :topics
   resources :card_types
   resources :student_exams
@@ -24,7 +25,9 @@ EliteApp::Application.routes.draw do
   resources :professional_infos
   resources :schedule_infos
 
-  resources :teachers
+  resources :teachers do
+    resources :periods, controller: 'teacher_periods'
+  end
   resources :employees
 
   resources :absence_reasons
@@ -36,7 +39,7 @@ EliteApp::Application.routes.draw do
   resources :subject_threads
 
   resources :klazzes do 
-    resources :periods
+    resources :periods, controller: 'klazz_periods'
   end
   
   resources :campuses

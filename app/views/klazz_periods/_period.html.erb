@@ -1,0 +1,6 @@
+<div class='period filled <%= tag_classes %>'>
+  <p>
+    <span><%= period.teacher.try(:nickname) || "Sem professor" %></span><br />
+    <%= period.subject.code %> 
+  </p>
+</div>

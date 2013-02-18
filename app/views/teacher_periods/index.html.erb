@@ -1,0 +1,46 @@
+<% present_teacher_calendar(@teacher, @week) do |presenter| %>
+  <div class='navigation'> 
+    <h2>
+      <%= link_to '<', presenter.prev_week_url %>
+      <%= presenter.monday.strftime(' Week %V - %Y ') %>
+      <%= link_to '>', presenter.next_week_url %>
+    </h2>
+
+    <%= form_tag presenter.base_url, class: 'search' do %>
+      <%= text_field_tag :date, presenter.monday.strftime('%d/%m/%Y') %>
+    <% end %>
+  </div>
+
+  <table class='calendar'>
+    <tr>
+      <td class='time_cell'></td>
+
+      <% presenter.week.each do |date| %>
+        <td class='day_cell'>
+          <span><%= Date::DAYNAMES[date.wday] %></span><br />
+          <%= date.strftime('%d/%m/%Y') %>
+        </td>
+      <% end %>
+    </tr>
+
+    <% presenter.time_array.size.times do |position| %>
+      <tr>
+        <td class='time_cell'>
+          <%= presenter.time_array[position] %>
+        </td>
+
+        <% presenter.week.each do |date| %>
+          <td class='cell'>
+            <% presenter.periods(date, position).each do |period| %>
+              <%= render partial: 'klazz_periods/period', 
+                locals: { period: period, tag_classes: presenter.tag_classes(period) } %>
+            <% end %>
+            <%= presenter.empty_period(date, position) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+  <div class='period_form'></div>
+<% end %>

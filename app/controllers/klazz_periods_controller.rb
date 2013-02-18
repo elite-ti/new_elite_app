@@ -1,11 +1,11 @@
-class PeriodsController < ApplicationController
+class KlazzPeriodsController < ApplicationController
   load_and_authorize_resource :klazz
   load_and_authorize_resource :period, through: :klazz
   
   layout false
 
   def index
-    @week = set_week
+    set_week
   end
 
   def new
@@ -13,9 +13,9 @@ class PeriodsController < ApplicationController
 
   def create
     if @period.save
-      render partial: 'period', locals: { period: @period }
+      render partial: 'klazz_period/period', locals: { period: @period }
     else
-      render :new, layout: false
+      render :new
     end
   end
 
@@ -24,20 +24,21 @@ class PeriodsController < ApplicationController
 
   def update
     if @period.update_attributes(params[:period])
-      render partial: 'period', locals: { period: @period }
+      render partial: 'klazz_period/period', locals: { period: @period }
     else
-      render :edit, layout: false
+      render :edit
     end
   end
 
   def destroy
     @period.destroy
+    head 200
   end
 
 private
 
   def set_week
     monday = (params[:date] ? Date.parse(params[:date]) : Date.current).beginning_of_week
-    monday..(monday + 5.days)
+    @week = monday..(monday + 5.days)
   end
 end

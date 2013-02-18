@@ -14,5 +14,9 @@ class Subject < ActiveRecord::Base
   has_many :exam_subjects, dependent: :destroy
   has_many :exams, through: :exam_subjects
 
+  has_many :periods, dependent: :destroy
+  has_many :klazzes, through: :teaching_assignments
+  has_many :teachers, through: :teaching_assignments
+
   validates :name, :short_name, :code, presence: true, uniqueness: true
 end

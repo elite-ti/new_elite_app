@@ -73,13 +73,11 @@
     }
   }
 
-  .empty {
-    border: none;
-  }
-
-  .selected {
-    background-color: $selected_color;
-  }
+  .empty { border: none; }
+  .selected { background-color: $selected_color; }
+  .past { background-color: $past_color; }
+  .absent { background-color: $absent_color; }
+  .future { background-color: $future_color; }
 
   .period_form {
     display: none;

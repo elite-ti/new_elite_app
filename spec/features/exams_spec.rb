@@ -15,15 +15,15 @@ describe 'Exams' do
   it 'creates a exam' do
     create :exam_cycle, name: 'ExamCycle'
     subject = create :subject, name: "Subject"
-    topic = create :topic, subject_id: subject.id
-    5.times { |i| create :question, stem: "Question#{i}", topic_ids: [topic.id] }
 
     visit exams_url
-    click_link 'New Exam'
+    click_link 'New'
     fill_in 'Name', with: 'Exam'
+    fill_in 'exam_datetime', with: '2013-12-12 12:00'
     select 'ExamCycle', from: 'Exam cycle'
     select "Subject", from: 'Subject' 
-    5.times { |i| select "Question#{i}", from: 'Questions' }
+    fill_in 'Options per question', with: '5'
+    fill_in 'Correct answers', with: 'ABCDE'
     click_button 'Create'
 
     page.should have_content 'Exam was successfully created.'

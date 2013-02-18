@@ -6,8 +6,7 @@ describe 'Exam' do
   end
 
   it 'return correct number of questions' do
-    exam = create :exam
-    10.times { create :exam_question, exam_id: exam.id }
-    exam.number_of_questions.should == 10
+    exam = create :exam, options_per_question: 5
+    exam.number_of_questions.should == 5
   end
 end

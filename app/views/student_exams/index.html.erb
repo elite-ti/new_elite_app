@@ -24,9 +24,9 @@
         </span>
       </td> 
       <td><%= student_exam.student.try(:name) || 'No student' %></td>
-      <td><%= student_exam.exam.name %></td>
-      <td><%= student_exam.exam.exam_cycle.name %></td>
-      <td><%= student_exam.exam.exam_cycle.year.name %></td>
+      <td><%= student_exam.exam.try(:name) || 'No exam' %></td>
+      <td><%= student_exam.exam.try(:exam_cycle).try(:name) || 'No exam cycle' %></td>
+      <td><%= student_exam.exam.try(:exam_cycle).try(:year).try(:name) || 'No year' %></td>
     </tr>
   <% end %>
   </tbody>

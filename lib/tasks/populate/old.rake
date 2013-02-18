@@ -1,16 +1,13 @@
 # encoding: UTF-8
-
 namespace :db do
   namespace :populate do
     namespace :old do 
-      # Set this path to where you saved applicants csv
-      APPLICANTS_PATH = ''
       YEAR = '2013'
 
       task applicants: :environment do
         p 'Populating applicants'
         ActiveRecord::Base.transaction do
-          CSV.foreach(File.join(APPLICANTS_PATH, 'applicants.csv'), headers: true) do |line|
+          read_csv('applicants', headers: true) do |line|
             # Fields not saved from csv: ['Como Conheceu', 'Origem']
             next if Student.where(email: line['Email']).count > 0
 

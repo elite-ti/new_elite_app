@@ -18,5 +18,6 @@ private
     exam.exam_questions.order('number').each_with_index do |exam_question, i|
       exam_question.update_column :number, i+1
     end
+    nil
   end
 end

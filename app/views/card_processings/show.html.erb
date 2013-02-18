@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Processed at:</b>
+  <%= @card_processing.processed_at %>
+</p>
+
+<p>
+  <b>Is bolsao:</b>
+  <%= @card_processing.is_bolsao %>
+</p>
+
+<p>
+  <b>Campus ids:</b>
+  <%= @card_processing.campus_ids %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= @card_processing.file %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @card_processing.status %>
+</p>
+
+<p>
+  <b>Card type:</b>
+  <%= @card_processing.card_type_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_card_processing_path(@card_processing) %> |
+<%= link_to 'Back', card_processings_path %>

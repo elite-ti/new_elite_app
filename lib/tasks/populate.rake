@@ -1,15 +1,13 @@
 namespace :db do
   namespace :populate do
-    ASSETS_PATH = File.join(Rails.root, 'lib/tasks/populate/csvs')
-
-    def read_csv(file_name)
-      CSV.read File.join(ASSETS_PATH, file_name + '.csv')
+    def read_csv(file_name, *options)
+      CSV.read File.join(ASSETS_PATH, file_name + '.csv'), *options
     end
     
-    task to_test: [
+    task development: [
       'db:schema:load', 
       :clean_uploads, 
-      'db:populate:real:quick', 
+      'db:populate:real:quick',
       'db:populate:faike:all'
     ]
 

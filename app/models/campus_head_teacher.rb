@@ -22,4 +22,8 @@ class CampusHeadTeacher < ActiveRecord::Base
     products.includes(klazzes: :teaching_assignments).map(&:klazzes).flatten.uniq.map(&:teaching_assignment_ids).flatten.uniq &
       campuses.includes(klazzes: :teaching_assignments).map(&:klazzes).flatten.uniq.map(&:teaching_assignment_ids).flatten.uniq
   end
+
+  def accessible_campus_ids
+    campuses.map(&:id)
+  end
 end

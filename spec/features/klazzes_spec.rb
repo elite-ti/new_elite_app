@@ -24,7 +24,6 @@ describe 'Klazzes' do
     click_button 'Create'
 
     page.should have_content 'Klazz was successfully created.'
-    page.should have_content 'Klazzes'
     Klazz.count.should == 1
   end
 
@@ -41,7 +40,6 @@ describe 'Klazzes' do
     click_button 'Update'
 
     page.should have_content 'Klazz was successfully updated.'
-    page.should have_content 'Klazzes'
     Klazz.count.should == 1
   end
 end

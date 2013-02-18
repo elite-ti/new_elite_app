@@ -27,8 +27,7 @@ private
   def current_employee
     @current_employee ||= Employee.find(session[:user_id]) if session[:user_id]
     # To skip google authentication, just set your email
-    @current_employee ||= Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
-    @current_employee
+    # @current_employee ||= Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
   end
   helper_method :current_employee
 

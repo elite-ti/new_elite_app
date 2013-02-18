@@ -1,8 +1,0 @@
-<a href='<%= edit_klazz_period_path(period.klazz, period) %>'>
-  <div class='period filled'>
-    <p>
-      <span><%= period.teacher.try(:nickname) || "Sem professor" %></span><br />
-      <%= period.subject_thread.name %> 
-    </p>
-  </div>
-</a>

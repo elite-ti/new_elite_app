@@ -34,10 +34,4 @@ module ApplicationHelper
       end
     end
   end
-
-  def present_calendar(klazz, week)
-    presenter = CalendarPresenter.new(klazz, week, self)
-    yield presenter if block_given?
-    presenter
-  end
 end

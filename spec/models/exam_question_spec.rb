@@ -6,8 +6,7 @@ describe ExamQuestion do
   end
 
   it 'sets correct number in new question' do
-    exam = create :exam
-    5.times { create :exam_question, exam_id: exam.id }
+    exam = create :exam, options_per_question: 5
     ExamQuestion.all.map(&:number).should == (1..5).to_a 
     ExamQuestion.first.destroy
     ExamQuestion.all.map(&:number).should == (1..4).to_a

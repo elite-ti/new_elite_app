@@ -1,16 +1,16 @@
 require 'sidekiq'
 require_relative '../../app/workers/card_processor_worker.rb'
 
-class StudentExam; end
+class CardProcessing; end
 
 describe 'CardProcessorWorker' do  
   it 'performs task' do
-    student_exam = stub(:scan)
-    StudentExam.stub(:find) { student_exam }
+    card_processing = stub(:scan)
+    CardProcessing.stub(:find) { card_processing }
 
-    student_exam.should_receive(:scan).once
+    card_processing.should_receive(:scan).once
 
     worker = CardProcessorWorker.new
-    worker.perform(nil)
+    worker.perform('id')
   end
 end

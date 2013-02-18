@@ -15,7 +15,7 @@ describe 'SubjectThreads' do
     create :year, name: 'Year'
 
     visit subject_threads_url
-    click_link 'New Subject Thread'
+    click_link 'New'
     fill_in 'Name', with: 'SubjectThread'
     select 'Subject', from: 'Subject'
     select 'Year', from: 'Year'

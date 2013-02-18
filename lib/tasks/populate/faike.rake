@@ -61,12 +61,21 @@ namespace :db do
       end
 
       task exams: :environment do 
-        p 'Populating exam'
-        exam = Exam.create!(
-          datetime: Time.zone.now, 
-          exam_cycle_id: ExamCycle.first.id, 
-          name: 'Bolsao Fisica'
-        )
+        # p 'Populating exam'
+        # ActiveRecord::Base.transaction do 
+        #   exam = Exam.create!(
+        #     datetime: Time.zone.now, 
+        #     exam_cycle_id: ExamCycle.first.id, 
+        #     name: 'Bolsao Fisica',
+        #     correct_answers: '',
+        #     options_per_
+        #   )
+        #   Question.limit(30).all.each do |question|
+        #     ExamQuestion.create(
+        #       question_id: question.id,
+        #       exam_id: exam.id)
+        #   end
+        # end
       end
     end
   end

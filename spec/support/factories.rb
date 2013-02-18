@@ -85,6 +85,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Exam#{n}" }
     datetime { Time.zone.now }
     exam_cycle
+    options_per_question 5
+    correct_answers 'ABCDE' 
   end
 
   factory :exam_question do
@@ -107,8 +109,13 @@ FactoryGirl.define do
 
   factory :student_exam do
     card { File.open(File.join(Rails.root, 'spec/support/card_b.tif')) }
-    exam
+    card_processing
+  end
+
+  factory :card_processing do 
+    campus_ids { create(:campus).id.to_s }
     card_type
+    exam_date { Date.current }
   end
 
   factory :topic do

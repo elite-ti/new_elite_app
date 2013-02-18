@@ -4,13 +4,16 @@
   <%= f.error_notification %>
 
   <div class='form-inputs'>
-    <% if @student_exam.student.nil? %>
+    <% if @student_exam.student_not_found? %>
       <h2>Student was not found</h2>
       <%= image_tag @student_exam.card.student_url %>
       <%= f.association :student, :collection => @student_exam.possible_students %>
-    <% end %>
 
-    <% if @student_exam.answers_needing_check.any? %>
+    <% elsif @student_exam.exam_not_found? %>
+      <h2>Exam was not found</h2>
+      <%= f.association :exam, :collection => @student_exam.possible_exams %>
+
+    <% elsif @student_exam.invalid_answers? %>
       <h2>Some answers were zero or wrong</h2>
       <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
         <%= image_tag exam_fields.object.image_url %>

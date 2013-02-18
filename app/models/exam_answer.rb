@@ -3,7 +3,7 @@ class ExamAnswer < ActiveRecord::Base
 
   ANSWERS_TO_BE_CHECKED = %w[W Z]
 
-  attr_accessible :answer, :exam_question_id, :student_exam_id, :command
+  attr_accessible :answer, :exam_question_id, :student_exam_id
   belongs_to :exam_question
   belongs_to :student_exam
 

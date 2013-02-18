@@ -10,10 +10,8 @@ class Employee < ActiveRecord::Base
     :roles, :employee_attributes, :date_of_birth, :gender, :marital_status,
     :date_of_admission, :elite_role_id, :contract_type, :workload, 
     :cost_per_hour, :pis_pasep, :working_paper_number,
-    :teacher_attributes, 
-    :product_head_teacher_attributes, 
-    :campus_head_teacher_attributes, 
-    :subject_head_teacher_attributes, 
+    :teacher_attributes, :product_head_teacher_attributes, 
+    :campus_head_teacher_attributes, :subject_head_teacher_attributes, 
     :campus_principal_attributes
 
   belongs_to :elite_role
@@ -40,10 +38,6 @@ class Employee < ActiveRecord::Base
   validates :elite_id, presence: true, uniqueness: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :name, presence: true
-
-  STATES = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 
-            'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 
-            'SP', 'SE', 'TO']
 
   # TODO: add hr role
   ROLES = %w[admin teacher campus_head_teacher product_head_teacher subject_head_teacher campus_principal]

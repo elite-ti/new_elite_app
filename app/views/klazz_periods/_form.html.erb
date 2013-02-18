@@ -10,11 +10,22 @@
 
     <%= f.association :klazz_type %>
 
+    <% if @period.past? %>
+      <%= f.association :absence_reason %>
+    <% end %>
+
     <%= f.hidden_field :date %>
     <%= f.hidden_field :position %>
   </div>
 
   <div class='form-actions'>
     <%= f.button :submit %>
+  </div>
+
+  <div class='form-links'>
+    <% if @period.future? %>
+      <%= link_to 'Destroy', [@klazz, @period], class: 'destroy_link',
+        confirm: 'Are you sure?', method: :delete %>
+    <% end %>
   </div>
 <% end %>

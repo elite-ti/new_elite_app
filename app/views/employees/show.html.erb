@@ -12,61 +12,60 @@
   </div>
 </div>
 
-<% if @employee.roles.any? %>
-  <div class='tabs'>
-    <ul>
-      <li><a href='#info'>Info</a></li>
+<div class='tabs'>
+  <ul>
+    <li><a href='#info_tab'>Info</a></li>
 
-      <% if false # @employee.teacher? %>
-        <li><a href='/employees/<%= @employee.id %>/teacher_info'>Teacher Info</a></li>
-        <li><a href='/employees/<%= @employee.id %>/report'>Report</a></li>
-        <li><a href='/employees/<%= @employee.id %>/timetable'>Timetable</a></li>
-      <% end %>
-    </ul>
+    <% if @employee.teacher? %>
+      <li><%= link_to 'Calendar', teacher_periods_path(@employee.teacher), title: 'calendar_tab' %></li>
+    <% end %>
+  </ul>
 
-    <div id='info'>
-      <div class='resource'>
-        <%= show_group 'Contact Info', 
-          {
-            'Personal Email' => @employee.personal_email,
-            'Cellphone' => @employee.cellphone,
-            'Alternative Cellphone' => @employee.alternative_cellphone,
-            'Telephone' => @employee.telephone,
-            'Alternative Telephone' => @employee.alternative_telephone,
-            'Contact Telephone' => @employee.contact_telephone,
-            'Contact Name' => @employee.contact_name
-          }
-        %>
+  <div id='info_tab'>
+    <div class='resource'>
+      <%= show_group 'Contact Info', 
+        {
+          'Personal Email' => @employee.personal_email,
+          'Cellphone' => @employee.cellphone,
+          'Alternative Cellphone' => @employee.alternative_cellphone,
+          'Telephone' => @employee.telephone,
+          'Alternative Telephone' => @employee.alternative_telephone,
+          'Contact Telephone' => @employee.contact_telephone,
+          'Contact Name' => @employee.contact_name
+        }
+      %>
 
-        <%= show_group 'Address',
-          {
-            'Address' => @employee.address,
-            'Suburb' => @employee.suburb,
-            'City' => @employee.city,
-            'State' => @employee.state
-          } 
-        %>
+      <%= show_group 'Address',
+        {
+          'Address' => @employee.address,
+          'Suburb' => @employee.suburb,
+          'City' => @employee.city,
+          'State' => @employee.state
+        } 
+      %>
 
-        <%= show_group 'Documents', 
-          {
-            'Identification Number' => @employee.identification,
-            'Expeditor' => @employee.expeditor,
-            'CPF' => @employee.cpf,
-            'Pis/Pasep' => @employee.pis_pasep,
-            'Working Paper Number' => @employee.working_paper_number,
-            'Date of Birth' => @employee.date_of_birth
-          }
-        %>
+      <%= show_group 'Documents', 
+        {
+          'Identification Number' => @employee.identification,
+          'Expeditor' => @employee.expeditor,
+          'CPF' => @employee.cpf,
+          'Pis/Pasep' => @employee.pis_pasep,
+          'Working Paper Number' => @employee.working_paper_number,
+          'Date of Birth' => @employee.date_of_birth
+        }
+      %>
 
-        <%= show_group 'Elite Info', 
-          {
-            'Elite Role' => @employee.elite_role,
-            'Workload' => @employee.workload,
-            'Contract Type' => @employee.contract_type,
-            'Cost per Hour' => @employee.cost_per_hour.to_s
-          }
-        %>
-      </div>
+      <%= 
+        # show_group 'Elite Info', 
+        # {
+        #   'Elite Role' => @employee.elite_role,
+        #   'Workload' => @employee.workload,
+        #   'Contract Type' => @employee.contract_type,
+        #   'Cost per Hour' => @employee.cost_per_hour.to_s
+        # }
+      %>
     </div>
   </div>
-<% end %>
+
+  <div id='calendar_tab'></div>
+</div>

@@ -7,20 +7,6 @@ class StudentExamsController < ApplicationController
   def show
   end
 
-  def new
-  end
-
-  def create
-    begin
-      p = params[:student_exam]
-      CardProcessor.run(p[:card], p[:exam_id], p[:card_type_id])
-      notice = 'Files are now being processed.' 
-    rescue Decompressor::DecompressorError => e
-      notice = e.message 
-    end          
-    redirect_to student_exams_path, notice: notice
-  end
-
   def edit
   end
 

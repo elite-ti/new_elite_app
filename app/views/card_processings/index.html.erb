@@ -1,0 +1,25 @@
+<%= title 'Card Processings', link_to('New Card Processing', new_card_processing_path) %>
+
+<table id="card_processings" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Exam date</th>
+      <th>Is bolsao</th>
+      <th>File</th>
+      <th>Card type</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @card_processings.each do |card_processing| %>
+    <tr>
+      <td><%= card_processing.status %></td>
+      <td><%= card_processing.exam_date %></td>
+      <td><%= card_processing.is_bolsao %></td>
+      <td><%= card_processing.file %></td>
+      <td><%= card_processing.card_type.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

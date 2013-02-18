@@ -12,11 +12,8 @@
         { include_blank: true }, { multiple: true } %>
     </div>
 
-    <div class='input'>
-      <%= f.label :question_ids, 'Questions' %>
-      <%= f.grouped_collection_select :question_ids, Subject.order(:name), :questions, :name, :id, :stem, 
-        { include_blank: true }, { multiple: true } %>
-    </div>
+    <%= f.input :options_per_question %>
+    <%= f.input :correct_answers %>
   </div>
 
   <div class="form-actions">
