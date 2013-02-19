@@ -78,7 +78,10 @@ exit
 ssh-copy-id deployer@<host>
 cap deploy:install
 cap deploy:setup
-cap deploy:cold
+cap deploy:check
+cap deploy:update
+cap deploy:load_schema
+cap deploy
 ```
 
 

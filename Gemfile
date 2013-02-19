@@ -22,9 +22,6 @@ gem 'prawn'
 
 gem 'sidekiq'
 
-# gem 'therubyracer', '0.11.1'
-# gem 'libv8', '3.11.8.7'
-
 group :development do 
   gem 'debugger'
   gem 'thin'
@@ -36,9 +33,6 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
-
-  gem 'therubyracer', '0.11.3'
-  gem 'libv8', '3.11.8.13'
 
   gem 'jquery-datatables-rails'
   gem 'jquery-ui-rails'
