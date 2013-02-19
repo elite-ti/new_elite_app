@@ -15,4 +15,8 @@ class Question < ActiveRecord::Base
     reject_if: :all_blank, allow_destroy: true
 
   validates :stem, :model_answer, presence: true
+
+  def correct_options
+    options.where(correct: true)
+  end
 end

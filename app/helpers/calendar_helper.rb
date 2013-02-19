@@ -10,4 +10,10 @@ module CalendarHelper
     yield presenter if block_given?
     presenter
   end
+
+  def present_campus_calendar(teacher, week)
+    presenter = CampusCalendarPresenter.new(campus, week, self)
+    yield presenter if block_given?
+    presenter
+  end
 end

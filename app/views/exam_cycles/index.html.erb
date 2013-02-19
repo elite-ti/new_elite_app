@@ -16,14 +16,15 @@
     <tr>
       <td>
         <%= exam_cycle.name %>
-        <span style='float: right;'>
-          <%= link_to 'Edit', edit_exam_cycle_path(exam_cycle) %>
+        <span>
+          <%= link_to 'Edit', edit_exam_cycle_path(exam_cycle) %> |
+          <%= link_to 'Destroy', exam_cycle, method: :delete, confirm: 'Are you sure?' %>
         </span>
       </td>
       <td><%= exam_cycle.product_year.name %></td>
-      <td><%= exam_cycle.start_date %></td>
-      <td><%= exam_cycle.end_date %></td>
-      <td><%= exam_cycle.is_bolsao %></td>
+      <td><%= print_date(exam_cycle.start_date) %></td>
+      <td><%= print_date(exam_cycle.end_date) %></td>
+      <td><%= exam_cycle.is_bolsao.to_s.capitalize %></td>
     </tr>
   <% end %>
   </tbody>

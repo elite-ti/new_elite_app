@@ -65,6 +65,9 @@ form {
     h2 {
       margin-left: $indent;
     }
+    select {
+      width: 420px;
+    }
     fieldset {
       border: 1px solid;
       border-radius: 10px;

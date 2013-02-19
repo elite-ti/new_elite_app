@@ -5,6 +5,7 @@ class StudentsController < ApplicationController
   end
 
   def new
+    @student.build_address
   end
 
   def edit
@@ -24,5 +25,10 @@ class StudentsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    @student.destroy
+    redirect_to students_url, notice: 'Student was successfully destroyed.'
   end
 end

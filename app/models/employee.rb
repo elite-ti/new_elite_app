@@ -73,4 +73,8 @@ class Employee < ActiveRecord::Base
       logger.info "Uid from employee number #{id} changed" if _uid != uid
     end
   end
+
+  def admin?
+    roles.include? 'admin'
+  end
 end

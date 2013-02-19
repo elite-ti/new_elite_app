@@ -1,15 +1,15 @@
 class StudentExam < ActiveRecord::Base
   has_paper_trail
 
-  BEING_PROCESSED = 'Being processed'
-  ERROR = 'Error'
-  STUDENT_NOT_FOUND = 'Student not found'
-  EXAM_NOT_FOUND = 'Exam not found'
-  INVALID_ANSWERS = 'Invalid answers'
-  VALID = 'Valid'
-  NEEDS_CHECK = [STUDENT_NOT_FOUND, EXAM_NOT_FOUND, INVALID_ANSWERS]
+  BEING_PROCESSED_STATUS = 'Being processed'
+  ERROR_STATUS = 'Error'
+  STUDENT_NOT_FOUND_STATUS = 'Student not found'
+  EXAM_NOT_FOUND_STATUS = 'Exam not found'
+  INVALID_ANSWERS_STATUS = 'Invalid answers'
+  VALID_STATUS = 'Valid'
+  NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
 
-  attr_accessible :card, :card_processing_id 
+  attr_accessible :card, :card_processing_id, :student_id, :exam_id, :exam_answers_attributes
   delegate :card_type, :is_bolsao, :exam_date, :campuses, to: :card_processing
 
   belongs_to :exam
@@ -21,8 +21,17 @@ class StudentExam < ActiveRecord::Base
   validates :card, :card_processing_id, :status, presence: true
 
   mount_uploader :card, StudentExamCardUploader
-  before_validation :set_status_to_being_processed, on: :create
   after_save :destroy_conflicts!
+
+  before_validation :set_status_to_being_processed, on: :create
+
+  validates :student, presence: true, on: :update, if: :student_not_found?
+  before_update :set_exam, if: :student_not_found?
+
+  validates :exam, presence: true, on: :update, if: :exam_not_found?
+  before_update :set_exam_answers, if: :exam_not_found?
+
+  before_update :set_status_to_valid, if: :invalid_answers?
 
   def self.needing_check
     where(status: NEEDS_CHECK)
@@ -39,10 +48,7 @@ class StudentExam < ActiveRecord::Base
   end
 
   def possible_exams
-    if student.present?
-      (is_bolsao ? student.applied_exams : student.enrolled_exams).
-        where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
-    end
+    student.possible_exams(is_bolsao, exam_date)
   end
 
   def answers_needing_check
@@ -50,15 +56,15 @@ class StudentExam < ActiveRecord::Base
   end
 
   def student_not_found?
-    status == STUDENT_NOT_FOUND
+    status == STUDENT_NOT_FOUND_STATUS
   end
 
   def exam_not_found?
-    status == EXAM_NOT_FOUND
+    status == EXAM_NOT_FOUND_STATUS
   end
 
   def invalid_answers?
-    status == INVALID_ANSWERS
+    status == INVALID_ANSWERS_STATUS
   end
 
   def scan
@@ -66,7 +72,7 @@ class StudentExam < ActiveRecord::Base
       self.student_number, self.string_of_answers = 
         card_type.scan(card.path, card.normalized_path) 
     rescue
-      update_attribute :status, ERROR
+      update_attribute :status, ERROR_STATUS
       return
     end
 
@@ -74,21 +80,11 @@ class StudentExam < ActiveRecord::Base
     save!
   end
 
-  def set_user_modifications(student_id, exam_id, exam_answers_attributes)
-    if student_id
-      self.student_id = student_id
-      set_exam
-    elsif exam_id
-      self.exam_id = exam_id 
-      set_exam_answers
-    elsif exam_answers_attributes 
-      self.exam_answers_attributes = exam_answers_attributes
-      self.status = VALID
-    end
-    save!
-  end
-
 private
+
+  def set_status_to_being_processed
+    self.status = BEING_PROCESSED_STATUS
+  end
 
   def set_student
     if is_bolsao
@@ -101,17 +97,17 @@ private
       self.student_id = student.id 
       set_exam
     else
-      self.status = STUDENT_NOT_FOUND
+      self.status = STUDENT_NOT_FOUND_STATUS
     end
   end
 
   def set_exam
     exams = possible_exams
-    if exams.size == 1
+    if exams.present? and exams.size == 1
       self.exam_id = exams.first.id
       set_exam_answers
     else
-      self.status = EXAM_NOT_FOUND
+      self.status = EXAM_NOT_FOUND_STATUS
     end
   end 
 
@@ -122,14 +118,14 @@ private
       exam_answers.build(answer: answers[i], exam_question_id: exam_questions[i].id)
     end
     if answers_needing_check.any?
-      self.status = INVALID_ANSWERS
+      self.status = INVALID_ANSWERS_STATUS
     else
-      self.status = VALID
+      self.status = VALID_STATUS
     end
   end
 
-  def set_status_to_being_processed
-    self.status = BEING_PROCESSED
+  def set_status_to_valid
+    self.status = VALID_STATUS
   end
 
   def destroy_conflicts!

@@ -9,9 +9,4 @@ class ProductHeadTeacher < ActiveRecord::Base
   has_many :products, through: :product_head_teacher_products
 
   validates :employee_id, presence: true, uniqueness: true, on: :update
-
-  def accessible_klazz_ids
-    products.includes(:klazzes).
-      map(&:klazzes).flatten.uniq.map(&:id)
-  end
 end

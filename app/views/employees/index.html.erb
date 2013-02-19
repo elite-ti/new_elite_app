@@ -1,4 +1,5 @@
-<%= title 'Employees', link_to('New Employee', new_employee_path) %>
+<%= title 'Employees', 
+  (link_to('New Employee', new_employee_path) if can?(:create, Employee)) %>
 
 <table id='employees' class='display is-datatable'>
   <thead>
@@ -14,10 +15,14 @@
     <tr>
       <td>
         <%= employee.name %>
-        <span style='float: right;'>
-          <%= link_to 'Show', employee_path(employee) %> |
-          <%= link_to 'Edit', edit_employee_path(employee) %> |
-          <%= link_to 'Login as', login_as_path(employee) %>
+        <span>
+          <%= link_to 'Show', employee_path(employee) %>
+          <% if can?(:update, employee) %>
+            | <%= link_to 'Edit', edit_employee_path(employee) %> 
+          <% end %>
+          <% if can?(:update, :employee_sessions) %>
+            | <%= link_to 'Login as', login_as_path(employee) %>
+          <% end %>
         </span>
       </td>
       <td><%= employee.elite_id %></td>

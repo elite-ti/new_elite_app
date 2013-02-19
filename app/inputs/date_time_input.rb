@@ -9,7 +9,7 @@ class DateTimeInput < SimpleForm::Inputs::DateTimeInput
     end
 
     input_value = @builder.object.send(attribute_name)
-    input_html_options[:value] = input_value.strftime(string_format) if input_value
+    input_html_options[:value] = input_value.strftime(string_format) if input_value.present?
     @builder.text_field(attribute_name, input_html_options)
   end
 

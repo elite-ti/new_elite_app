@@ -5,15 +5,12 @@
     <%= f.input :name %>
     <%= f.input :datetime %>
     <%= f.association :exam_cycle %>
+    <%= f.association :subjects %>
 
-    <div class='input'>
-      <%= f.label :subject_ids, 'Subjects' %>
-      <%= f.collection_select :subject_ids, Subject.order(:name), :id, :name, 
-        { include_blank: true }, { multiple: true } %>
-    </div>
-
-    <%= f.input :options_per_question %>
-    <%= f.input :correct_answers %>
+    <% if @exam.new_record? %> 
+      <%= f.input :options_per_question %>
+      <%= f.input :correct_answers %>
+    <% end %>
   </div>
 
   <div class="form-actions">

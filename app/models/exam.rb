@@ -18,7 +18,7 @@ class Exam < ActiveRecord::Base
   validates :name, :exam_cycle_id, :correct_answers, :options_per_question,
     :datetime, presence: true
   validates :name, uniqueness: { scope: :exam_cycle_id }
-  validate :correct_answers_range
+  validate :correct_answers_range, on: :create
 
   after_create :create_questions
 
@@ -30,7 +30,7 @@ private
 
   def correct_answers_range
     return if options_per_question.nil?
-    # TODO 
+    # TODO: fix implementation
     initial_letter, final_letter = 'A', 'A'
     options_per_question.times { final_letter.next! }
     possible_letters = initial_letter..final_letter

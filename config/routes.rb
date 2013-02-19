@@ -1,5 +1,3 @@
-require 'sidekiq/web'
-
 EliteApp::Application.routes.draw do
   resources :card_processings
   resources :topics
@@ -42,7 +40,9 @@ EliteApp::Application.routes.draw do
     resources :periods, controller: 'klazz_periods'
   end
   
-  resources :campuses
+  resources :campuses do 
+    resources :periods, controller: 'campuses_periods'
+  end
   resources :product_years
   resources :years
   resources :products
@@ -58,6 +58,4 @@ EliteApp::Application.routes.draw do
 
   get 'home', to: 'home#index', as: 'home'
   root to: 'home#index'
-
-  mount Sidekiq::Web, at: '/sidekiq'
 end

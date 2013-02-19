@@ -6,22 +6,35 @@
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :ra %>
+
+    <h2>Contact</h2>
+    <%= f.input :telephone, as: :telephone %>
+    <%= f.input :cellphone, as: :telephone %>
+    <%= f.input :previous_school %>
+
+    <h2>Documents</h2>
     <%= f.input :cpf %>
     <%= f.input :own_cpf %>
     <%= f.input :rg %>
     <%= f.input :rg_expeditor %>
-    <%= f.input :gender %>
-    <%= f.input :date_of_birth %>
+
+    <h2>General</h2>
+    <%= f.input :gender, collection: Employee::GENDERS %>
+    <%= f.input :date_of_birth, as: :date %>
     <%= f.input :number_of_children %>
     <%= f.input :mother_name %>
     <%= f.input :father_name %>
-    <%= f.input :telephone %>
-    <%= f.input :cellphone %>
-    <%= f.input :previous_school %>
+
     <h2>Address</h2>
     <%= f.simple_fields_for :address do |builder| %>
       <%= render 'addresses/fields', f: builder %>
     <% end %>
+
+    <h2>Applicant</h2>
+    <%= f.association :applied_product_years, collection: ProductYear.order('name') %>
+
+    <h2>Enrolled Klazzes</h2>
+    <%= f.association :klazzes, collection: Klazz.order('name') %>
   </div>
 
   <div class='form-actions'>

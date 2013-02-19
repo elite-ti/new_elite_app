@@ -1,4 +1,5 @@
-<%= title 'Campuses', link_to('New', new_campus_path) %>
+<%= title 'Campuses', 
+  (link_to('New', new_campus_path) if can?(:create, Campus)) %>
 
 <table id='campuses' class='display is-datatable'>
   <thead>
@@ -12,9 +13,11 @@
       <tr>
         <td>
           <%= campus.name %>
-          <span class='float-left'>
-            <%= link_to('Show', campus) %> |
-            <%= link_to('Edit', edit_campus_path(campus)) %>
+          <span>
+            <%= link_to('Show', campus) %> 
+            <% if can?(:update, campus) %>
+              | <%= link_to('Edit', edit_campus_path(campus)) %>
+            <% end %>
           </span>
         </td>
       </tr>

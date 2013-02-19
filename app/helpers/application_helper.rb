@@ -34,4 +34,16 @@ module ApplicationHelper
       end
     end
   end
+
+  def print_date(date)
+    date.strftime('%d/%m/%Y')
+  end
+
+  def print_datetime(datetime)
+    datetime.strftime('%d/%m/%Y %H:%M')
+  end
+
+  def print_long_string(string, divide_in)
+    string.split('').in_groups_of(divide_in).map(&:join).join(' ')
+  end
 end

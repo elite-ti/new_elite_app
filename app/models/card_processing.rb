@@ -32,6 +32,10 @@ class CardProcessing < ActiveRecord::Base
     end
   end
 
+  def processed?
+    status == PROCESSED_STATUS
+  end
+
 private
 
   def decompress

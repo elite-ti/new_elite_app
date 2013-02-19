@@ -4,17 +4,17 @@ class Student < ActiveRecord::Base
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes
+    :address_attributes, :applied_product_year_ids, :klazz_ids
 
-  has_many :enrollments, dependent: :destroy
+  has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :klazzes, through: :enrollments
-  has_many :enrolled_years, through: :klazzes, source: :product_year
-  has_many :enrolled_exam_cycles, through: :enrolled_years, source: :exam_cycle
+  has_many :enrolled_product_years, through: :klazzes, source: :product_year
+  has_many :enrolled_exam_cycles, through: :enrolled_product_years, source: :exam_cycle
   has_many :enrolled_exams, through: :enrolled_exam_cycles, source: :exam
 
-  has_many :applicants, dependent: :destroy
-  has_many :applied_years, through: :applicants, source: :product_year
-  has_many :applied_exam_cycles, through: :applied_years, source: :exam_cycle
+  has_many :applicants, dependent: :destroy, inverse_of: :student
+  has_many :applied_product_years, through: :applicants, source: :product_year
+  has_many :applied_exam_cycles, through: :applied_product_years, source: :exam_cycle
   has_many :applied_exams, through: :applied_exam_cycles, source: :exam
 
   has_many :student_exams, dependent: :destroy
@@ -25,4 +25,9 @@ class Student < ActiveRecord::Base
 
   validates :name, presence: true
   validates :email, :ra, uniqueness: true, allow_blank: true
+
+  def possible_exams(is_bolsao, exam_date)
+    (is_bolsao ? applied_exams : enrolled_exams).
+      where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
+  end
 end

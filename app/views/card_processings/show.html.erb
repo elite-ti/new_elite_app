@@ -1,35 +1,42 @@
-<p id="notice"><%= notice %></p>
+<%= title 'Card Processing', 
+  link_to('Back', card_processings_path) %>
 
-<p>
-  <b>Processed at:</b>
-  <%= @card_processing.processed_at %>
-</p>
+<div class='resource'>
+  <p>
+    <span>Exam date: </span><%= print_date(@card_processing.exam_date) %><br />
+    <span>Is Bolsao: </span><%= @card_processing.is_bolsao ? 'True' : 'False' %><br />
+    <span>Card Type: </span><%= @card_processing.card_type.name %><br />
+  </p>
+</div>
 
-<p>
-  <b>Is bolsao:</b>
-  <%= @card_processing.is_bolsao %>
-</p>
+<table id='card_processing_student_exams' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Student</th>
+      <th>Exam</th>
+      <th>Scanned Answers</th>
+      <th>Scanned Student Number</th>
+    </tr>
+  </thead>
 
-<p>
-  <b>Campus ids:</b>
-  <%= @card_processing.campus_ids %>
-</p>
-
-<p>
-  <b>File:</b>
-  <%= @card_processing.file %>
-</p>
-
-<p>
-  <b>Status:</b>
-  <%= @card_processing.status %>
-</p>
-
-<p>
-  <b>Card type:</b>
-  <%= @card_processing.card_type_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_card_processing_path(@card_processing) %> |
-<%= link_to 'Back', card_processings_path %>
+  <tbody>
+  <% @card_processing.student_exams.each do |student_exam| %>
+    <tr>
+      <td>
+        <%= student_exam.status %>
+        <span class='float-right'>
+          <%= link_to 'Show', student_exam %>
+          <% if student_exam.needs_check? %>
+            | <%= link_to 'Check', edit_student_exam_path(student_exam) %>
+          <% end %>
+        </span>
+      </td> 
+      <td><%= student_exam.student.try(:name) || 'No student' %></td>
+      <td><%= student_exam.exam.try(:name) || 'No exam' %></td>
+      <td><%= student_exam.student_number %></td>
+      <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,3 +1,5 @@
-<%= title 'Edit Exam', link_to('Back', exams_path) %>
+<%= title 'Edit Exam', 
+  link_to('Show', @exam),
+  link_to('Back', exams_path) %>
 
 <%= render 'form' %>

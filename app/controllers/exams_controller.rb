@@ -4,6 +4,9 @@ class ExamsController < ApplicationController
   def index
   end
 
+  def show
+  end
+
   def new
   end
 
@@ -24,5 +27,10 @@ class ExamsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    @exam.destroy
+    redirect_to exams_url, notice: 'Exam was successfully destroyed.'
   end
 end

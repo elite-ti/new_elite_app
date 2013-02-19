@@ -1,5 +1,5 @@
 class EmployeeSessionsController < ApplicationController
-  authorize_resource class: false, only: :update
+  authorize_resource class: false
 
   def create
     employee = Employee.find_by_email(env['omniauth.auth']['info']['email'])

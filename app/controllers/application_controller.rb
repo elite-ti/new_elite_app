@@ -20,29 +20,36 @@ protected
 private
 
   def current_ability
-    @current_ability ||= Ability.new(current_employee, current_role)
+    @current_ability ||= set_ability
   end
   helper_method :current_ability
 
-  def current_employee
-    @current_employee ||= Employee.find(session[:user_id]) if session[:user_id]
-    # To skip google authentication, just set your email
-    # @current_employee ||= Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
+  def set_ability
+    return GuestAbility.new if current_role.nil?
+    return "#{current_role.camelize}Ability".constantize.new(current_employee)
   end
-  helper_method :current_employee
 
   def current_role
-    return nil if current_employee.nil?
-    if current_employee.roles.include? session[:role]
-      @current_role ||= session[:role]
-    else
-      @current_role ||= current_employee.roles.first
-    end
+    @current_role ||= set_role
   end
   helper_method :current_role
 
-  def admin?
-    current_employee.admin?
+  def set_role
+    return nil if current_employee.nil?
+
+    if current_employee.roles.include? session[:role]
+      return session[:role]
+    else
+      return current_employee.roles.first
+    end
   end
-  helper_method :admin?
+
+  def current_employee
+    @current_employee ||= set_employee
+  end
+  helper_method :current_employee
+
+  def set_employee
+    Employee.find(session[:user_id]) if session[:user_id]
+  end
 end

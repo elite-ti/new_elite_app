@@ -1,0 +1,16 @@
+<%= title 'Campus - ' + @campus.name, 
+  (link_to('Edit', edit_campus_path(@campus)) if can?(:update, @campus)) %>
+
+<div class='tabs'>
+  <ul>
+    <li><a href='#info_tab'>Info</a></li>
+    <li><%= link_to 'Calendar', campus_periods_path(@campus), title: 'calendar_tab' %></li>
+  </ul>
+
+  <div id='info_tab' class='resource'>
+    <p><span>Name: </span><%= @campus.name %></p>
+    <p><span>Klazzes: </span><%= @campus.klazzes.map(&:name).join(', ') %></p>
+  </div>
+
+  <div id='calendar_tab'></div>
+</div>

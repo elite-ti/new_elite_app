@@ -1,31 +1,57 @@
-<%= title 'Student Exam' %>
+<%= title 'Student Exam',
+  (link_to('Check', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
+  link_to('Back', @student_exam.card_processing) %>
 
 <div class='tabs'>
   <ul>
     <li><a href='#info'>Info</a></li>
-    <li><a href='#card'>Card</a></li>
-    <li><a href='#answers'>Answers</a></li>
+    <li><a href='#original_card'>Original Card</a></li>
+    <li><a href='#normalized_card'>Normalized Card</a></li>
   </ul>
 
   <div id='info'>
     <div class='resource'>
-      <%= show_group nil, 
-        {
-          'Student' => @student_exam.student.try(:name) || 'No student',
-          'Exam' => @student_exam.exam.name,
-          'Exam Cycle' => @student_exam.exam.exam_cycle.name,
-          'Year' => @student_exam.exam.exam_cycle.product_year.name,
-          'Product' => @student_exam.exam.exam_cycle.product_year.product.name,
-          'Product Type' => @student_exam.exam.exam_cycle.product_year.product.product_type.name
-        }
-      %>
+      <h2>Scanned Info</h2>
+      <p>
+        <span>Scanned Student Number: </span><%= @student_exam.student_number %><br />
+        <span>Scanned Answers: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
+      </p>
+
+      <h2>Actual Info</h2>
+      <p>
+        <% if @student_exam.needs_check? %>
+          This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
+        <% end %>
+        <span>Student: </span><%= @student_exam.student.try(:name) || 'Not found' %><br />
+        <span>Exam: </span><%= @student_exam.exam.try(:name) || 'Not found' %><br />
+      </p>
     </div>
+    <table id='student_exam_exam_answers' class='display is-datatable'>
+      <thead>
+        <tr>
+          <th>Question Number</th>
+          <th>Correct Option</th>
+          <th>Marked Option</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @student_exam.exam_answers.each do |exam_answer| %>
+        <tr>
+          <td><%= exam_answer.exam_question.number.to_s %></td> 
+          <td><%= exam_answer.answer %></td> 
+          <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   </div>
 
-  <div id='card'>
+  <div id='original_card'>
+    <%= image_tag @student_exam.card.png.url, width: '500' %>
+  </div>
+
+  <div id='normalized_card'>
     <%= image_tag @student_exam.card.normalized_url, width: '500' %>
-  </div>
-
-  <div id='answers'>
   </div>
 </div>

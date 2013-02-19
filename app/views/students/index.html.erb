@@ -16,7 +16,8 @@
         <%= student.name %>
         <span style='float: right;'>
           <%= link_to 'Show', student_path(student) %> |
-          <%= link_to 'Edit', edit_student_path(student) %>
+          <%= link_to 'Edit', edit_student_path(student) %> |
+          <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
         </span>
       </td>
       <td><%= student.ra %></td>

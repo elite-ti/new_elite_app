@@ -6,6 +6,7 @@ gem 'debugger'
 gem 'pg'
 gem 'thin', group: :development
 gem 'better_errors'
+gem 'binding_of_caller'
 
 gem 'capistrano'
 gem 'unicorn'
@@ -26,8 +27,6 @@ gem 'prawn', git: 'git://github.com/prawnpdf/prawn', branch: 'master'
 gem 'rubyzip'
 
 gem 'sidekiq'
-gem 'sinatra', require: false
-gem 'slim'
 
 group :assets do
   gem 'sass-rails'

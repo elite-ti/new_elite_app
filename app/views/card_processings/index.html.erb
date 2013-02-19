@@ -14,7 +14,15 @@
   <tbody>
   <% @card_processings.each do |card_processing| %>
     <tr>
-      <td><%= card_processing.status %></td>
+      <td>
+        <%= card_processing.status %>
+        <span>
+          <% if card_processing.processed? %>
+            <%= link_to 'Show', card_processing %> |
+          <% end %>
+          <%= link_to 'Destroy', card_processing, method: :delete, confirm: 'Are you sure?' %>
+        </span>
+      </td>
       <td><%= card_processing.exam_date %></td>
       <td><%= card_processing.is_bolsao %></td>
       <td><%= card_processing.file %></td>

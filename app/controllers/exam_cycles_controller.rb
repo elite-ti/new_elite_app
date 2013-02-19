@@ -25,4 +25,9 @@ class ExamCyclesController < ApplicationController
       render 'edit'
     end
   end
+
+  def destroy
+    @exam_cycle.destroy
+    redirect_to exam_cycles_url, notice: 'Exam cycle was successfully destroyed.'
+  end
 end

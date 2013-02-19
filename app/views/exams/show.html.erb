@@ -1,0 +1,38 @@
+<%= title 'Exam - ' + @exam.name, 
+  link_to('Edit', edit_exam_path(@exam)),
+  link_to('Back', exams_path) %>
+
+<div class='resource'>
+  <p><span>Datetime: </span><%= print_datetime(@exam.datetime) %>
+  <p><span>Exam Cycle: </span><%= @exam.exam_cycle.name %>
+  <p><span>Subjects: </span><%= @exam.subjects.map(&:name).join(', ') %>
+  <p><span>Options per Question: </span><%= @exam.options_per_question.to_s %>
+</div>
+
+<table id='exam_questions' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Model Answer</th>
+      <th>Correct Answers</th>
+      <th>Topics</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @exam.questions.each do |question| %>
+    <tr>
+      <td>
+        <%= question.stem %>
+        <span>
+          <%= link_to 'Show', question %> |
+          <%= link_to 'Edit', edit_question_path(question) %>
+        </span>
+      </td>
+      <td><%= question.model_answer %></td>
+      <td><%= question.correct_options.map(&:letter).join(', ') %></td>
+      <td><%= question.topics.map(&:name).join(', ') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

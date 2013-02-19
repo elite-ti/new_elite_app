@@ -23,7 +23,7 @@ private
     letter = 'A'
     question.options.order('letter').each do |option|
       option.update_column :letter, letter 
-      option.update_column :answer, letter
+      option.update_column :answer, 'Answer ' + letter
       letter.next!
     end
     nil

@@ -3,9 +3,9 @@ class Enrollment < ActiveRecord::Base
   
   attr_accessible :klazz_id, :student_id
 
-  belongs_to :student
+  belongs_to :student, inverse_of: :enrollments
   belongs_to :klazz
 
-  validates :student_id, :klazz_id, presence: true
+  validates :student, :klazz, presence: true
   validates :student_id, uniqueness: { scope: :klazz_id }
 end
