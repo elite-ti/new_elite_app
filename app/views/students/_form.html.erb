@@ -34,7 +34,7 @@
     <%= f.association :applied_product_years, collection: ProductYear.order('name') %>
 
     <h2>Enrolled Klazzes</h2>
-    <%= f.association :klazzes, collection: Klazz.order('name') %>
+    <%= f.association :enrolled_klazzes, collection: Klazz.order('name') %>
   </div>
 
   <div class='form-actions'>

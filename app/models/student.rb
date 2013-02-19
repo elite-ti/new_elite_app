@@ -7,15 +7,15 @@ class Student < ActiveRecord::Base
     :address_attributes, :applied_product_year_ids, :klazz_ids
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
-  has_many :klazzes, through: :enrollments
-  has_many :enrolled_product_years, through: :klazzes, source: :product_year
-  has_many :enrolled_exam_cycles, through: :enrolled_product_years, source: :exam_cycle
-  has_many :enrolled_exams, through: :enrolled_exam_cycles, source: :exam
+  has_many :enrolled_klazzes, through: :enrollments, source: :klazz
+  has_many :enrolled_product_years, through: :enrolled_klazzes, source: :product_year
+  has_many :enrolled_exam_cycles, through: :enrolled_product_years, source: :exam_cycles
+  has_many :enrolled_exams, through: :enrolled_exam_cycles, source: :exams
 
   has_many :applicants, dependent: :destroy, inverse_of: :student
   has_many :applied_product_years, through: :applicants, source: :product_year
-  has_many :applied_exam_cycles, through: :applied_product_years, source: :exam_cycle
-  has_many :applied_exams, through: :applied_exam_cycles, source: :exam
+  has_many :applied_exam_cycles, through: :applied_product_years, source: :exam_cycles
+  has_many :applied_exams, through: :applied_exam_cycles, source: :exams
 
   has_many :student_exams, dependent: :destroy
   has_many :exams, through: :student_exams

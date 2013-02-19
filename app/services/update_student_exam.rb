@@ -28,16 +28,17 @@ private
     end
   end
 
-  def update_answers(exam_id)
+  def update_exam(exam_id)
     student_exam.exam_id = exam_id
     if student_exam.exam.nil?
       errors.add(:exam, 'exam not found')
     else
-      student_exam.set_answers
+      student_exam.set_exam_answers
     end
   end
 
   def update_answers(exam_answers_attributes)
     student_exam.exam_answers_attributes = exam_answers_attributes
+    student_exam.status = StudentExam::VALID_STATUS
   end
 end

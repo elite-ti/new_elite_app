@@ -97,8 +97,7 @@ class StudentExam < ActiveRecord::Base
   def set_exam_answers
     exam_questions = exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
-      campuses.map(&:product_years).flatten.uniq.map(&:students)
-      exam_answers.build(answer: answers[i], exam_question_id: exam_questions[i].id)
+      exam_answers.build(answer: string_of_answers[i], exam_question_id: exam_questions[i].id)
     end
     if answers_needing_check.any?
       self.status = INVALID_ANSWERS_STATUS
@@ -111,12 +110,6 @@ private
 
   def set_status_to_being_processed
     self.status = BEING_PROCESSED_STATUS
-    true
-  end
-
-  
-  def set_status_to_valid
-    self.status = VALID_STATUS
     true
   end
 

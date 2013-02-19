@@ -8,10 +8,10 @@ class StudentExamsController < ApplicationController
   end
 
   def update
-    update_student_exam = UpdateStudentExam(params[:student_exam], @student_exam)
+    update_student_exam = UpdateStudentExam.new(params[:student_exam], @student_exam)
     if update_student_exam.update
       if params[:commit] == 'Finish'
-        redirect_to student_exams_path, notice: 'Changes applied!'
+        redirect_to @student_exam.card_processing, notice: 'Changes applied!'
       else
         check_student_exams
       end
@@ -28,7 +28,7 @@ private
       redirect_to edit_student_exam_path(needing_check.first!), 
         notice: 'Some fields need to be checked.'
     else
-      redirect_to student_exams_path, notice: 'All cards were checked!'
+      redirect_to @student_exam.card_processing, notice: 'All cards were checked!'
     end
   end
 end

@@ -1,4 +1,4 @@
-<%= title @student.name + (@student.ra.nil? ? '' : ' - ' + @student.ra), 
+<%= title @student.name + (@student.ra.blank? ? '' : ' - ' + @student.ra), 
   link_to('Back', students_path) %>
 
 <div class='tabs'>
@@ -39,8 +39,13 @@
       %>
       <%= show_group 'Address',
         {
-          'Adress' => @student.address
-        }
+          'Street' => @student.address.street,
+          'Number' => @student.address.number,
+          'Complement' => @student.address.complement,
+          'Suburb' => @student.address.suburb,
+          'City' => @student.address.city,
+          'State' => @student.address.state
+        } 
       %>
       <%= show_group 'General',
         {
@@ -51,5 +56,32 @@
   </div>
 
   <div id='exams'>
+    <table id='student_enrolled_exams' class='display is-datatable'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Datetime</th>
+          <th>Exam cycle</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @student.enrolled_exams.each do |exam| %>
+        <tr>
+          <td>
+            <%= exam.name %>
+            <span>
+              <%= link_to 'Show', exam %> |
+              <%= link_to 'Edit', edit_exam_path(exam) %> |
+              <%= link_to 'Destroy', exam, method: :delete, confirm: 'Are you sure?' %> 
+            </span>
+          </td>
+          <td><%= print_datetime(exam.datetime) %></td>
+          <td><%= exam.exam_cycle_id %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
   </div>
 </div>
