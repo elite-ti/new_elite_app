@@ -44,6 +44,6 @@ module ApplicationHelper
   end
 
   def print_long_string(string, divide_in)
-    string.split('').in_groups_of(divide_in).map(&:join).join(' ')
+    string.present? ? string.split('').in_groups_of(divide_in).map(&:join).join(' ') : ''
   end
 end

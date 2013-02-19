@@ -8,8 +8,8 @@ class StudentExamsController < ApplicationController
   end
 
   def update
-    p = params[:student_exam]
-    if @student_exam.update_attributes(params[:student_exam])
+    update_student_exam = UpdateStudentExam(params[:student_exam], @student_exam)
+    if update_student_exam.update
       if params[:commit] == 'Finish'
         redirect_to student_exams_path, notice: 'Changes applied!'
       else

@@ -50,7 +50,7 @@ Check vendor/setup/readme file.
 
 ## Dependencies
 
-* unrar unzip imagemagick libtiff-tools redis
+* unrar unzip imagemagick libtiff-tools redis libv8-dev
 
 
 ## Database
@@ -68,11 +68,11 @@ Check vendor/setup/readme file.
 
 ## Deploy
 
-* Linode - Ubuntu 12.04
+* Linode - Ubuntu 10.04
 
 ```sh
 ssh root@<host>
-adduser deployer --ingroup sudo
+adduser deployer --ingroup admin
 exit
 
 ssh-copy-id deployer@<host>

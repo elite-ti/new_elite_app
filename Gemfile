@@ -1,36 +1,32 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.11'
-gem 'debugger'
-
+gem 'rails'
 gem 'pg'
-
 
 gem 'capistrano'
 gem 'unicorn'
 
 gem 'jquery-rails'
 gem 'chosen-rails'
-gem 'bcrypt-ruby'
 
+gem 'bcrypt-ruby'
 gem 'omniauth-google-oauth2'
 gem 'cancan'
 
 gem 'simple_form'
-gem 'paper_trail', '~> 2'
+gem 'paper_trail'
 
 gem 'mini_magick'
 gem 'carrierwave'
-gem 'prawn', git: 'git://github.com/prawnpdf/prawn', branch: 'master'
-gem 'rubyzip'
+gem 'prawn'
 
 gem 'sidekiq'
 
-# somehow this is needed for deployment
-gem 'libv8', '~> 3.11.8'
-gem 'therubyracer'
+# gem 'therubyracer', '0.11.1'
+# gem 'libv8', '3.11.8.7'
 
 group :development do 
+  gem 'debugger'
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -41,7 +37,10 @@ group :assets do
   gem 'coffee-rails'
   gem 'uglifier'
 
-  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+  gem 'therubyracer', '0.11.3'
+  gem 'libv8', '3.11.8.13'
+
+  gem 'jquery-datatables-rails'
   gem 'jquery-ui-rails'
 end
 
@@ -51,8 +50,4 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'database_cleaner'
-
-  gem 'rb-inotify', '~> 0.8.8'
-  gem 'libnotify'
-  gem 'guard-rspec'
 end

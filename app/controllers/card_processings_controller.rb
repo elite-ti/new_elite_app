@@ -16,7 +16,6 @@ class CardProcessingsController < ApplicationController
       CardProcessorWorker.perform_async(@card_processing.id)
       redirect_to card_processings_url, notice: 'Card processing was successfully created.'
     else
-      debugger
       render :new
     end
   end

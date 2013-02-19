@@ -5,7 +5,7 @@
   Version: @version
 */
 (function($) {
-  var pasteEventName = ($.browser.msie ? 'paste' : 'input') + ".mask";
+  var pasteEventName = (navigator.appName == 'Microsoft Internet Explorer' ? 'paste' : 'input') + ".mask";
   var iPhone = (window.orientation != undefined);
 
   $.mask = {

@@ -10,6 +10,7 @@ load "config/recipes/rbenv"
 load "config/recipes/check"
 load "config/recipes/db"
 load "config/recipes/omni_auth"
+load "config/recipes/imagemagick"
 load "config/recipes/redis"
 
 server "50.116.8.31", :web, :app, :db, primary: true

@@ -22,13 +22,11 @@ class CardProcessing < ActiveRecord::Base
 
   def scan
     begin
-      student_exams.each do |student_exam|
-        student_exam.scan
-      end
+      student_exams.each(&:scan)
+      update_attribute :status, PROCESSED_STATUS
     rescue
       update_attribute :status, ERROR_STATUS
     end
-    update_attribute :status, PROCESSED_STATUS
   end
 
   def campuses

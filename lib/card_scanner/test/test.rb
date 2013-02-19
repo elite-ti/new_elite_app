@@ -1,5 +1,4 @@
 require 'find'
-require 'debugger'
 
 ANSWERS_PATH = '/home/charlie/Desktop/card_processor_assets/answers'
 CARDS_PATH = '/home/charlie/Desktop/card_processor_assets/cards'
