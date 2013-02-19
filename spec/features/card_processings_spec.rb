@@ -19,5 +19,9 @@ describe 'CardProcessings' do
 
     page.should have_content 'Card processing was successfully created.'
     CardProcessing.count.should == 1
+
+    CardProcessorWorker.perform_async(CardProcessing.first.id)
+    CardProcessorWorker.drain
+    CardProcessing.first.status.should == CardProcessing::PROCESSED_STATUS
   end
 end

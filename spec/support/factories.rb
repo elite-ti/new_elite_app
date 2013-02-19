@@ -20,6 +20,7 @@ FactoryGirl.define do
 
   factory :campus do
     sequence(:name) { |n| "Campus#{n}" }
+    code { "Code#{name}" }
   end
 
   factory :product_type do

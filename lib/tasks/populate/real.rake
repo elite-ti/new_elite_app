@@ -4,12 +4,15 @@ namespace :db do
       # Set this path to where you saved teachers photos
       PHOTOS_PATH = ''
       ASSETS_PATH = File.join(Rails.root, 'lib/tasks/populate/real')
+      CARD_PATH = "#{Rails.root}/spec/support/card_b.tif"
+      CARD_PARAMETERS = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+      CARD_STUDENT_COORDINATES = '1280x1000+0+0'
 
       task quick: [
         :product_types, :product_groups, :products, :years, :product_years, :campuses, 
         :subjects, :klazz_types, :majors, :school_roles, 
         :elite_roles, :absence_reasons, :employees, :teachers, :admins, 
-        :poll_question_types, :poll_question_categories]
+        :poll_question_types, :poll_question_categories, :card_types]
 
       task all: [:quick, :teacher_photos]
       
@@ -220,6 +223,16 @@ namespace :db do
               year_id: Year.first.id)
           end
         end
+      end
+
+      task card_types: :environment do 
+        p 'Populating card types'
+        CardType.create!(
+          card: File.open(CARD_PATH), 
+          name: 'Type B', 
+          command: 'type_b',
+          parameters: CARD_PARAMETERS,
+          student_coordinates: CARD_STUDENT_COORDINATES)
       end
     end
   end

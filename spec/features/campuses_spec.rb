@@ -4,17 +4,16 @@ describe 'Campuses' do
   before(:each) { log_admin_in }
 
   it 'shows all campuses' do
-    (1..10).each { |i| create :campus, name: "Campus#{i}" }
-
+    5.times { |i| create :campus, name: "Campus#{i}" }
     visit campuses_url
-
-    (1..10).each { |i| page.should have_content "Campus#{i}" }
+    5.times { |i| page.should have_content "Campus#{i}" }
   end
 
   it 'creates a campus' do
     visit campuses_url
     click_link 'New'
     fill_in 'Name', with: 'Campus'
+    fill_in 'Code', with: '01'
     click_button 'Create'
 
     page.should have_content 'Campus was successfully created.'

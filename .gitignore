@@ -20,4 +20,4 @@
 /lib/assets/images
 *.swp
 /.swp
-/dump.rbd
+/dump.rdb

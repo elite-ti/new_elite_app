@@ -36,11 +36,11 @@ module ApplicationHelper
   end
 
   def print_date(date)
-    date.strftime('%d/%m/%Y')
+    date.present? ? date.strftime('%d/%m/%Y') : ''
   end
 
   def print_datetime(datetime)
-    datetime.strftime('%d/%m/%Y %H:%M')
+    datetime.present? ? datetime.strftime('%d/%m/%Y %H:%M') : ''
   end
 
   def print_long_string(string, divide_in)

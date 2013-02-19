@@ -33,10 +33,19 @@
   * Update db changes from schema.mwb to schema.rb
   * Create migration script for sample files
 
+## Upload cards flow
+
+* Create an exam cycle which belongs to a product year
+* Create an exam in this exam cycle
+* Create a student in a klazz which belongs to that product year
+* Upload a file setting the same date as set to exam
+* Wait until the process is complete
+* Check answers
+
 
 ## Setup
 
-Check the vendor/setup/readme file.
+Check vendor/setup/readme file.
 
 
 ## Dependencies
@@ -46,7 +55,7 @@ Check the vendor/setup/readme file.
 
 ## Database
 
-* Postgresql -db/schema.rb (written in ruby)
+* Postgresql - db/schema.rb (written in ruby)
 * MySQL Workbench - db/schema.mwb
 
 
@@ -59,8 +68,18 @@ Check the vendor/setup/readme file.
 
 ## Deploy
 
-* Capistrano - config/recipes
 * Linode - Ubuntu 12.04
+
+```sh
+ssh root@<host>
+adduser deployer --ingroup sudo
+exit
+
+ssh-copy-id deployer@<host>
+cap deploy:install
+cap deploy:setup
+cap deploy:cold
+```
 
 
 ## Tutorials

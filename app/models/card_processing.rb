@@ -5,6 +5,7 @@ class CardProcessing < ActiveRecord::Base
 
   BEING_PROCESSED_STATUS = 'Being processed'
   PROCESSED_STATUS = 'Processed'
+  ERROR_STATUS = 'Error'
 
   belongs_to :card_type
   has_many :student_exams, dependent: :destroy
@@ -20,8 +21,12 @@ class CardProcessing < ActiveRecord::Base
   after_create :create_worker
 
   def scan
-    student_exams.each do |student_exam|
-      student_exam.scan
+    begin
+      student_exams.each do |student_exam|
+        student_exam.scan
+      end
+    rescue
+      update_attribute :status, ERROR_STATUS
     end
     update_attribute :status, PROCESSED_STATUS
   end
@@ -46,7 +51,7 @@ private
     rescue
       errors.add(:file, 'error processing file')
     end
-    nil
+    true
   end
 
   def create_worker
@@ -54,6 +59,6 @@ private
       next if File.directory?(path) || File.extname(path) != '.tif' 
       StudentExam.create!(card: File.open(path), card_processing_id: self.id)
     end
-    nil
+    true
   end
 end

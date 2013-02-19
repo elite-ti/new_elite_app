@@ -4,9 +4,7 @@ gem 'rails', '~> 3.2.11'
 gem 'debugger'
 
 gem 'pg'
-gem 'thin', group: :development
-gem 'better_errors'
-gem 'binding_of_caller'
+
 
 gem 'capistrano'
 gem 'unicorn'
@@ -27,6 +25,16 @@ gem 'prawn', git: 'git://github.com/prawnpdf/prawn', branch: 'master'
 gem 'rubyzip'
 
 gem 'sidekiq'
+
+# somehow this is needed for deployment
+gem 'libv8', '~> 3.11.8'
+gem 'therubyracer'
+
+group :development do 
+  gem 'thin'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
 
 group :assets do
   gem 'sass-rails'

@@ -25,10 +25,10 @@ class StudentExam < ActiveRecord::Base
 
   before_validation :set_status_to_being_processed, on: :create
 
-  validates :student, presence: true, on: :update, if: :student_not_found?
+  validates_presence_of :student, if: :student_not_found?
   before_update :set_exam, if: :student_not_found?
 
-  validates :exam, presence: true, on: :update, if: :exam_not_found?
+  validates_presence_of :exam, if: :exam_not_found?
   before_update :set_exam_answers, if: :exam_not_found?
 
   before_update :set_status_to_valid, if: :invalid_answers?
@@ -84,6 +84,7 @@ private
 
   def set_status_to_being_processed
     self.status = BEING_PROCESSED_STATUS
+    true
   end
 
   def set_student
@@ -99,6 +100,7 @@ private
     else
       self.status = STUDENT_NOT_FOUND_STATUS
     end
+    true
   end
 
   def set_exam
@@ -109,6 +111,7 @@ private
     else
       self.status = EXAM_NOT_FOUND_STATUS
     end
+    true
   end 
 
   def set_exam_answers
@@ -122,10 +125,12 @@ private
     else
       self.status = VALID_STATUS
     end
+    true
   end
 
   def set_status_to_valid
     self.status = VALID_STATUS
+    true
   end
 
   def destroy_conflicts!
@@ -134,5 +139,6 @@ private
         student_exam.destroy if student_exam.id != self.id
       end
     end
+    true
   end
 end

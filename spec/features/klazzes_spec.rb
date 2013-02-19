@@ -5,11 +5,8 @@ describe 'Klazzes' do
 
   it 'shows all klazzes' do
     5.times { |i| create :klazz, name: "Klazz#{i}" }
-
     visit klazzes_url
-
     5.times { |i| page.should have_content "Klazz#{i}" }
-    Klazz.count.should == 5 
   end
 
   it 'creates a klazz' do
@@ -24,7 +21,6 @@ describe 'Klazzes' do
     click_button 'Create'
 
     page.should have_content 'Klazz was successfully created.'
-    Klazz.count.should == 1
   end
 
   it 'updates a klazz' do
@@ -36,6 +32,5 @@ describe 'Klazzes' do
     click_button 'Update'
 
     page.should have_content 'Klazz was successfully updated.'
-    Klazz.count.should == 1
   end
 end
