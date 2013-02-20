@@ -4,7 +4,7 @@ class Student < ActiveRecord::Base
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes, :applied_product_year_ids, :klazz_ids
+    :address_attributes, :applied_product_year_ids, :enrolled_klazz_ids
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :enrolled_klazzes, through: :enrollments, source: :klazz
