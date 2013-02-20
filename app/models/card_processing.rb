@@ -48,7 +48,11 @@ private
       self.status = BEING_PROCESSED_STATUS
       self.is_bolsao ||= false
     rescue => e
+      logger.warn '=> Error decompressing file'
       logger.warn e.message
+      logger.warn "Folder path: #{@folder_path}"
+      logger.warn "File path: #{file.path}"
+      logger.warn "Filename: #{file.original_filename}"
       errors.add(:file, 'error processing file')
     end
     true

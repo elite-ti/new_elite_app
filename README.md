@@ -3,6 +3,7 @@
 ## Todo
 
 * Adicionar funcionalidade de auditoria
+* Create staging environment and deploy daily
 
 * Issues
   * Calendar export button
@@ -43,46 +44,9 @@
 * Check answers
 
 
-## Setup
-
-Check vendor/setup/readme file.
-
-
-## Dependencies
-
-* unrar 
-* unzip 
-* imagemagick 
-* libtiff4-dev
-* redis-server 
-* nodejs
-
 
 ## Database
 
 * Postgresql - db/schema.rb 
 * MySQL Workbench - db/schema.mwb
 * Populate tasks - lib/tasks/populate/
-
-
-## Deployment
-
-* Linode - Ubuntu 10.04
-
-```sh
-ssh root@<host>
-adduser deployer --ingroup admin
-exit
-
-ssh-copy-id deployer@<host>
-cap deploy:install
-cap deploy:setup
-cap deploy:cold
-```
-
-
-## Tutorials
-
-* Linux - http://nixsrv.com/llthw
-* Sublime Text - https://tutsplus.com/course/improve-workflow-in-sublime-text-2/
-* railscasts.com, railstutorial.com, destroyallsoftware.com

@@ -35,7 +35,7 @@ group :assets do
   gem 'uglifier'
 
   gem 'jquery-datatables-rails'
-  gem 'jquery-ui-rails'
+  gem 'jquery-ui-rails', '3.0.0'
 end
 
 gem 'rspec-rails', group: [:test, :development]
