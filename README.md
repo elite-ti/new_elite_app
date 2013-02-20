@@ -4,6 +4,7 @@
 
 * Adicionar funcionalidade de auditoria
 * Create staging environment and deploy daily
+* Add dpi validation to card upload
 
 * Issues
   * Calendar export button
