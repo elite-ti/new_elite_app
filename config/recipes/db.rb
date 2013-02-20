@@ -13,20 +13,22 @@ namespace :db do
     download file_path, "/home/charlie/Desktop/#{filename}"
   end
 
-  # desc 'Save and download uploads'
-  # task :uploads, roles: :db, only: {primary: true} do
-  #   dumps_path = 'dumps/'
-  #   run "mkdir -p #{dumps_path}"
+  desc 'Save and download uploads'
+  task :uploads, roles: :db, only: {primary: true} do
+    # uploads_path = 'uploads/'
+    # run "mkdir -p #{uploads_path}"
 
-  #   filename = "#{remote_db}_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.sql"
-  #   file_path = File.join(dumps_path, filename)
-  #   run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
-  #   download file_path, "/home/charlie/Desktop/#{filename}"
-  # end
+    # filename = "#{remote_db}_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.sql"
+    # run "zip -r #{current_path}/public/uploads"
+    # file_path = File.join(dumps_path, filename)
+    # run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
+    # download file_path, "/home/charlie/Desktop/#{filename}"
+  end
 
   desc 'Populate database'
   task :populate, roles: :db, only: {primary: true} do
     run "cd #{current_path} && bundle exec rake RAILS_ENV=production db:populate:production"
   end
   before 'db:populate', 'db:dump'
+  before 'db:populate', 'db:uploads'
 end

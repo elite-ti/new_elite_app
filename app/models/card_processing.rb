@@ -24,7 +24,8 @@ class CardProcessing < ActiveRecord::Base
     begin
       student_exams.each(&:scan)
       update_attribute :status, PROCESSED_STATUS
-    rescue
+    rescue Exception =>
+      logger.warn e.message
       update_attribute :status, ERROR_STATUS
     end
   end
@@ -46,7 +47,8 @@ private
       @folder_path = Decompressor.decompress(file.path, file.original_filename)
       self.status = BEING_PROCESSED_STATUS
       self.is_bolsao ||= false
-    rescue
+    rescue Exception => e
+      logger.warn e.message
       errors.add(:file, 'error processing file')
     end
     true

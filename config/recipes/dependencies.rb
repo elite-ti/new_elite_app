@@ -17,20 +17,20 @@ namespace :imagemagick do
   after "deploy:install", "imagemagick:install"
 end
 
-namespace :unzip do
-  desc "Install unzip on server"
+namespace :zip do
+  desc "Install zip on server"
   task :install, roles: :app do
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install unzip"
+    run "#{sudo} apt-get -y install zip unzip"
   end
-  after "deploy:install", "unzip:install"
+  after "deploy:install", "zip:install"
 end
 
-namespace :unrar do
-  desc "Install unrar on server"
+namespace :rar do
+  desc "Install rar on server"
   task :install, roles: :app do
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install unrar"
+    run "#{sudo} apt-get -y install rar unrar"
   end
-  after "deploy:install", "unrar:install"
+  after "deploy:install", "rar:install"
 end
