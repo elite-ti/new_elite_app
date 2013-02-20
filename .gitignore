@@ -8,10 +8,14 @@
 /log/*.log
 /tmp
 
-/config/database.yml
-/config/initializers/omni_auth.rb
-/public/uploads
-/lib/assets/images
 *.swp
 /.swp
 /dump.rdb
+
+/config/database.yml
+/config/initializers/omni_auth.rb
+
+/public/uploads
+/lib/assets/images
+/lib/card_scanner/type_b/bin
+

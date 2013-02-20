@@ -1,7 +1,7 @@
 class CardType < ActiveRecord::Base
   has_paper_trail
 
-  CARD_SCANNER_PATH = File.join(Rails.root, 'lib', 'card_scanner')
+  CARD_SCANNER_PATH = File.join(Rails.root, 'lib/card_scanner')
   
   attr_accessible :card, :name, :parameters, :student_coordinates, :command
 
@@ -60,6 +60,6 @@ private
   end
 
   def scanner_path
-    File.join(CARD_SCANNER_PATH, command)
+    File.join(CARD_SCANNER_PATH, command, 'bin/run')
   end
 end

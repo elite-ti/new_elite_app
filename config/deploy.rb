@@ -1,6 +1,6 @@
+require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 
-load 'config/recipes/bundler'
 load 'config/recipes/base'
 load 'config/recipes/nginx'
 load 'config/recipes/unicorn'
@@ -10,9 +10,8 @@ load 'config/recipes/rbenv'
 load 'config/recipes/check'
 load 'config/recipes/db'
 load 'config/recipes/omni_auth'
-load 'config/recipes/imagemagick'
 load 'config/recipes/redis'
-load 'config/recipes/decompressor'
+load 'config/recipes/dependencies'
 
 server '50.116.8.31', :web, :app, :db, primary: true
 
