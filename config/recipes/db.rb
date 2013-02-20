@@ -15,14 +15,13 @@ namespace :db do
 
   desc 'Save and download uploads'
   task :uploads, roles: :db, only: {primary: true} do
-    # uploads_path = 'uploads/'
-    # run "mkdir -p #{uploads_path}"
+    uploads_path = 'uploads/'
+    run "mkdir -p #{uploads_path}"
 
-    # filename = "#{remote_db}_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.sql"
-    # run "zip -r #{current_path}/public/uploads"
-    # file_path = File.join(dumps_path, filename)
-    # run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
-    # download file_path, "/home/charlie/Desktop/#{filename}"
+    filename = "#{application}_uploads_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.zip"
+    file_path = File.join(uploads_path, filename)
+    run "zip -r #{file_path} #{current_path}/public/uploads"
+    download file_path, "/home/charlie/Desktop/#{filename}"
   end
 
   desc 'Populate database'
