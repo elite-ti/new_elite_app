@@ -16,8 +16,8 @@
         <%= year.number %> 
         <%= link_to 'Edit', edit_year_path(year), class: 'float-right' %>
       </td>
-      <td><%= year.start_date %></td>
-      <td><%= year.end_date %></td>
+      <td><%= print_date(year.start_date) %></td>
+      <td><%= print_date(year.end_date) %></td>
     </tr>
   <% end %>
   </tbody>

@@ -53,7 +53,7 @@ private
       logger.warn "Folder path: #{@folder_path}"
       logger.warn "File path: #{file.path}"
       logger.warn "Filename: #{file.original_filename}"
-      errors.add(:file, 'error processing file')
+      errors.add(:file, 'error decompressing file')
     end
     true
   end
