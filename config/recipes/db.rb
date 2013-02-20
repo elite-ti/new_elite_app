@@ -7,7 +7,7 @@ namespace :db do
     dumps_path = 'dumps/'
     run "mkdir -p #{dumps_path}"
 
-    filename = "#{remote_db}_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.sql"
+    filename = "#{remote_db}_#{Time.now.strftime('%Y%m%d%H%M')}.sql"
     file_path = File.join(dumps_path, filename)
     run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
     download file_path, "/home/charlie/Desktop/#{filename}"
@@ -18,10 +18,12 @@ namespace :db do
     uploads_path = 'uploads/'
     run "mkdir -p #{uploads_path}"
 
-    filename = "#{application}_uploads_#{Time.now.strftime('%Y-%m-%d_%H:%M')}_UTC.zip"
+    filename = "#{application}_uploads_#{Time.now.strftime('%Y%m%d%H%M')}.zip"
     file_path = File.join(uploads_path, filename)
-    run "zip -r #{file_path} #{current_path}/public/uploads"
-    download file_path, "/home/charlie/Desktop/#{filename}"
+    if File.exist?(file_path)
+      run "zip -r #{file_path} #{current_path}/public/uploads"
+      download file_path, "/home/charlie/Desktop/#{filename}"
+    end
   end
 
   desc 'Populate database'

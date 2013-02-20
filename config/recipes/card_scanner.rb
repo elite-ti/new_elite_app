@@ -1,10 +1,10 @@
 namespace :card_scanner do
   desc "Install libtiff on server"
-  task :install, roles: :app do
+  task :install_dependencies, roles: :app do
     run "#{sudo} apt-get -y update"
     run "#{sudo} apt-get -y install libtiff4-dev"
   end
-  after "deploy:install", "card_scanner:install"
+  after "deploy:install", "card_scanner:install_dependencies"
   
   desc "Compile card scanner"
   task :compile, roles: :app do

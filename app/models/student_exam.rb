@@ -64,7 +64,7 @@ class StudentExam < ActiveRecord::Base
         card_type.scan(card.path, card.normalized_path) 
       set_student
       save!
-    rescue Exception => e
+    rescue => e
       logger.warn e.message
       update_attribute :status, ERROR_STATUS
     end
