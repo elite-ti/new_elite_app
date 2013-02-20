@@ -2,16 +2,15 @@ require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 
 load 'config/recipes/base'
-load 'config/recipes/nginx'
-load 'config/recipes/unicorn'
-load 'config/recipes/postgresql'
-load 'config/recipes/nodejs'
-load 'config/recipes/rbenv'
 load 'config/recipes/check'
-load 'config/recipes/db'
-load 'config/recipes/omni_auth'
+load 'config/recipes/rbenv'
+load 'config/recipes/unicorn'
 load 'config/recipes/redis'
+load 'config/recipes/postgresql'
+load 'config/recipes/omni_auth'
 load 'config/recipes/dependencies'
+load 'config/recipes/db'
+load 'config/recipes/card_scanner'
 
 server '50.116.8.31', :web, :app, :db, primary: true
 
