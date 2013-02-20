@@ -141,6 +141,7 @@ namespace :db do
         end
 
         def create_klazz(klazz_name, product_name, campus_name)
+          campus_name = 'Norte Shopping' if campus_name == 'NorteShopping'
           Klazz.where(name: klazz_name).first_or_create!(
             product_year_id: ProductYear.where(name: product_name + ' - 2013').first!.id,
             campus_id: Campus.where(name: campus_name).first!.id)

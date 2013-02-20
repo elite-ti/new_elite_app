@@ -34,12 +34,3 @@ namespace :unrar do
   end
   after "deploy:install", "unrar:install"
 end
-
-namespace :libtiff do
-  desc "Install libtiff on server"
-  task :install, roles: :app do
-    run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install libtiff-tools"
-  end
-  after "deploy:install", "libtiff:install"
-end

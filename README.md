@@ -53,7 +53,7 @@ Check vendor/setup/readme file.
 * unrar 
 * unzip 
 * imagemagick 
-* libtiff-tools 
+* libtiff4-dev
 * redis-server 
 * nodejs
 
