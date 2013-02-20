@@ -9,14 +9,16 @@ namespace :db do
             Student.create!(name: student_name.strip)
 
             campus = find_campus(campus_name)
+            next if campus.nil?
 
             product_name, campus_name, turno = product_campus_turno.split('-').map(&:strip)
-            product = find_product(product_name)
-            turno_code = translate_turno(turno)
+            turno = translate_turno(turno)
+            next if turno.nil?
 
-            if product.present? and campus.present? and turno_code.present?
+            product = find_product(product_name, turno)
+            next if product.nil?
 
-            end
+            # TODO: find klazz and create enrollment
           end
         end
       end
@@ -44,7 +46,7 @@ namespace :db do
         Campus.where(name: campus_name).first!
       end
 
-      def find_product(product_name)
+      def find_product(product_name, turno)
         product_name = {
           "1ª ANO" => '1ª Série ENEM',
           "1ª ANO MILITAR" => '1ª Série Militar',
@@ -112,7 +114,7 @@ namespace :db do
           "EsSA" => 'EsSA',
           "EsSa" => 'EsSA',
           "IME/ITA" => 'IME-ITA',
-          "PV" => '',
+          "PV" => '', # TODO: check turno
           "PVBIO" => 'Pré-Vestibular Biomédicas',
           "SEM TURMA" => nil
         }[product_name]
@@ -123,12 +125,10 @@ namespace :db do
 
       def translate_turno(turno)
         {
-          "MANHA" => '',
-          "MANHÃ" => '',
-          "NOITE" => '',
-          "NOME_TURMA" => '',
-          "TARDE" => '',
-          "VILA VALQUEIRE" => ''
+          "MANHA" => '1',
+          "MANHÃ" => '1',
+          "NOITE" => '2',
+          "TARDE" => '3'
         }[turno]
       end
     end
