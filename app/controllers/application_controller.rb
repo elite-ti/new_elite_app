@@ -30,11 +30,6 @@ private
   end
 
   def current_role
-    @current_role ||= set_current_role
-  end
-  helper_method :current_role
-
-  def set_current_role
     return nil if current_employee.nil?
 
     if current_employee.roles.include? session[:role]
@@ -43,6 +38,7 @@ private
       return current_employee.roles.first
     end
   end
+  helper_method :current_role
 
   def current_employee
     @current_employee ||= set_current_employee

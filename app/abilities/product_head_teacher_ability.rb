@@ -2,8 +2,8 @@ class ProductHeadTeacherAbility < HeadTeacherAbility
   include CanCan::Ability
 
   def initialize(employee)
-    super(employee) 
     @product_head_teacher = employee.product_head_teacher
+    super(employee) 
   end
 
 private

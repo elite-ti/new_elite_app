@@ -29,7 +29,7 @@ module ApplicationHelper
 
   def links(links)
     content_tag(:span) do
-      links.reduce do |sum, link|
+      links.compact.reduce do |sum, link|
         sum + ' | ' + link 
       end
     end

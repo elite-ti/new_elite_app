@@ -22,7 +22,7 @@ private
   def update_student(student_id)
     student_exam.student_id = student_id
     if student_exam.student.nil?
-      errors.add(:student_id, 'student not found')
+      student_exam.errors.add(:student_id, 'student not found')
     else
       student_exam.set_exam
     end
@@ -31,7 +31,7 @@ private
   def update_exam(exam_id)
     student_exam.exam_id = exam_id
     if student_exam.exam.nil?
-      errors.add(:exam, 'exam not found')
+      student_exam.errors.add(:exam, 'exam not found')
     else
       student_exam.set_exam_answers
     end

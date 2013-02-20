@@ -1,15 +1,17 @@
 class CampusHeadTeacherAbility < HeadTeacherAbility 
   include CanCan::Ability
 
+  attr_reader :campus_head_teacher
+
   def initialize(employee)
-    super(employee) 
     @campus_head_teacher = employee.campus_head_teacher
+    super(employee) 
+    
     can :manage, CardProcessing
   end
 
 private
   
-  attr_reader :campus_head_teacher
   delegate :products, :campuses, to: :campus_head_teacher
 
   def accessible_klazzes
