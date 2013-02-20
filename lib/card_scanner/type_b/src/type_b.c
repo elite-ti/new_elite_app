@@ -109,6 +109,9 @@ int main(int argc, char* argv[]) {
 }
 
 void read_configuration(int argc, char* argv[]) {
+  // TODO: hard code this paremeters
+  // 0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454
+
   if(argc != 30) 
     stop(1, WRONG_NUMBER_OF_ARGUMENTS);
   

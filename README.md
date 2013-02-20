@@ -50,23 +50,22 @@ Check vendor/setup/readme file.
 
 ## Dependencies
 
-* unrar unzip imagemagick libtiff-tools redis libv8-dev
+* unrar 
+* unzip 
+* imagemagick 
+* libtiff-tools 
+* redis-server 
+* nodejs
 
 
 ## Database
 
-* Postgresql - db/schema.rb (written in ruby)
+* Postgresql - db/schema.rb 
 * MySQL Workbench - db/schema.mwb
+* Populate tasks - lib/tasks/populate/
 
 
-## Tests
-
-* Rspec - Test framework
-* Capybara
-* Guard
-
-
-## Deploy
+## Deployment
 
 * Linode - Ubuntu 10.04
 
