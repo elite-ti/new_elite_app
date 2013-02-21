@@ -3,27 +3,11 @@ namespace :db do
   namespace :populate do
     namespace :fake do 
 
-      task all: [:exam_cycles, :exams, :students]
+      task all: [:exam_cycles, :students, :exams]
 
       task exam_cycles: :environment do 
         p 'Populating exam cycles'
-        ExamCycle.create!(
-          name: 'Ciclo 1', 
-          start_date: '01/02/2013 00:00', 
-          end_date: '28/02/2013 00:00', 
-          product_year_id: ProductYear.where(name: '2ª Série Militar - 2013').first!.id, 
-          is_bolsao: false
-        )
-      end
-
-      task exams: :environment do 
-        p 'Populating exams'
-        Exam.create!(
-          datetime: '01/02/2013 00:00', 
-          exam_cycle_id: ExamCycle.first.id, 
-          name: 'P1',
-          correct_answers: 'ABCDEABCDEABCDEABCDEABCDEABCDE',
-          options_per_question: 5)
+        
       end
 
       task students: :environment do 
@@ -57,7 +41,7 @@ namespace :db do
           ].each do |ra, klazz_name|
             klazz_id = Klazz.where(name: klazz_name).first!.id
             student_id = Student.where(ra: ra.to_i).first!.id
-            Enrollment.create(klazz_id: klazz_id, student_id: student_id)
+            Enrollment.create!(klazz_id: klazz_id, student_id: student_id)
           end
           [
             ["0046482",
@@ -85,13 +69,82 @@ namespace :db do
              "state"=>"RJ"}]
           ].each do |ra, address_attributes|
             student = Student.where(ra: ra.to_i).first!
-            student.update_attributes(address_attributes: address_attributes)
+            student.update_attributes!(address_attributes: address_attributes)
           end
+        end
+      end
+
+      task exams: :environment do
+        exam_cycle_id = ExamCycle.create!(
+          name: 'Ciclo 1', 
+          start_date: '01/02/2013 00:00', 
+          end_date: '28/02/2013 00:00', 
+          product_year_id: ProductYear.where(name: '2ª Série Militar - 2013').first!.id, 
+          is_bolsao: false).id
+
+        [{"datetime"=>'Fri, 01 Feb 2013 00:00:00 BRST -02:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"P1",
+          "correct_answers"=>"ABCDEABCDEABCDEABCDEABCDE",
+          "options_per_question"=>5,
+         []]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - 1a Série Militar",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABABDCDDBAAEDAAADAAAECDCEBCD",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Cilco 0 - AFA - EN",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Cilco 0 - AFA-ESPCEX",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - 9° Ano Militar / CN",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABABDCDDBAAEDAAADAAAECDCEBCD",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - 2° Série Militar",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABABDCDDBAAEDAAADAAAECDCEBCD",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - EsPCEx",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - AFA-EEAR-EFOMM",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]]
+        [{"datetime"=>'Sat, 23 Feb 2013 00:00:00 BRT -03:00',
+          "exam_cycle_id"=>exam_cycle_id,
+          "name"=>"Ciclo 0 - EsSA",
+          "correct_answers"=>"ACBECDAEBADCEDCECDCABCABABDCDDBAAEDAAADAAAECDCEBCD",
+          "options_per_question"=>5,
+         ["LÍNGUA PORTUGUESA", "MATEMÁTICA"]].each do |exam_attributes, subject_names|
+          Exam.create!(exam_attributes)
+          subject_ids = subject_names.map do |subject_name|
+            Subject.where(name: subject_name).first!.id
+          end
+          Exam.update_attributes!(subject_ids: subject_ids)
         end
       end
     end
   end
 end
-
 
 
