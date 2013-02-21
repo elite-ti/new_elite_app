@@ -1,11 +1,9 @@
 namespace :redis do
   desc "Install redis on server"
   task :install, roles: :app do
-    run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install redis-server"
     run "#{sudo} add-apt-repository ppa:rwky/redis"
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y upgrade"
+    run "#{sudo} apt-get -y install redis-server"
   end
   after "deploy:install", "redis:install"
 

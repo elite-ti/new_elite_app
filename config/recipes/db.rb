@@ -10,7 +10,7 @@ namespace :db do
     filename = "#{remote_db}_#{Time.now.strftime('%Y%m%d%H%M')}.sql"
     file_path = File.join(dumps_bkp_path, filename)
     run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
-    download file_path, "/home/charlie/Desktop/#{filename}"
+    download file_path, "~/Desktop/#{filename}"
   end
 
   desc 'Save and download uploads'
