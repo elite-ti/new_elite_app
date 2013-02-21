@@ -8,13 +8,14 @@ class CardProcessing < ActiveRecord::Base
   ERROR_STATUS = 'Error'
 
   belongs_to :card_type
+  belongs_to :campus
   has_many :student_exams, dependent: :destroy
 
   attr_accessible :card_type_id, :file, :is_bolsao, 
-    :exam_date, :campus_ids, :status
+    :exam_date, :campus_id, :status, :name
   attr_accessor :file
 
-  validates :campus_ids, :card_type_id,
+  validates :campus_id, :card_type_id,
     :exam_date, :status, presence: true
 
   before_validation :decompress
@@ -30,14 +31,24 @@ class CardProcessing < ActiveRecord::Base
     end
   end
 
-  def campuses
-    campus_ids.split(',').map do |campus_id|
-      Campus.find(campus_id)
-    end
-  end
-
   def processed?
     status == PROCESSED_STATUS
+  end
+
+  def needs_check?
+    student_exams.needing_check.any?
+  end
+
+  def to_be_checked
+    student_exams.needing_check.first
+  end
+
+  def total_number_of_cards
+    student_exams.count
+  end
+
+  def number_of_errors
+    student_exams.where(status: StudentExam::ERROR_STATUS).count
   end
 
 private

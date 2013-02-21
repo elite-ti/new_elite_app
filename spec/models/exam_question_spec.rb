@@ -9,6 +9,6 @@ describe ExamQuestion do
     exam = create :exam, options_per_question: 5
     ExamQuestion.all.map(&:number).should == (1..5).to_a 
     ExamQuestion.first.destroy
-    ExamQuestion.all.map(&:number).should == (1..4).to_a
+    ExamQuestion.all.map(&:number).sort.should == (1..4).to_a
   end
 end

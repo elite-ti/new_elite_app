@@ -10,7 +10,7 @@ class Question < ActiveRecord::Base
   has_many :topics, through: :question_topics
   has_many :subjects, through: :topics
 
-  has_many :options, dependent: :destroy
+  has_many :options, dependent: :destroy, inverse_of: :question
   accepts_nested_attributes_for :options,
     reject_if: :all_blank, allow_destroy: true
 

@@ -3,9 +3,9 @@ class Option < ActiveRecord::Base
 
   attr_accessible :question_id, :answer, :correct, :letter
 
-  belongs_to :question
+  belongs_to :question, inverse_of: :options
 
-  validates :question_id, presence: true
+  validates :question, presence: true
   validates :answer, uniqueness: { scope: :question_id }
 
   before_validation :set_correctness

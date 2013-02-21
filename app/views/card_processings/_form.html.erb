@@ -2,10 +2,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :name %>
     <%= f.input :exam_date, as: :date %>
     <%= f.input :is_bolsao %>
     <%= f.input :file, as: :file %>
     <%= f.association :card_type %>
+    <%= f.association :campus, 
+      collection: @accessible_campuses,
+      html_input: { value: @campus_field_value } %>
   </div>
 
   <div class="form-actions">

@@ -11,10 +11,6 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
     %w(tif)
   end
 
-  def filename 
-    "original.tif"
-  end
-
   version :png do
     process convert: :png
 

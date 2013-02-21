@@ -32,9 +32,8 @@ Find.find(ANSWERS_PATH) do |path|
   end
 end
 
-p 'Compiling card processor'
-`rm -f b_type`
-`gcc -std=c99 b_type.c lodepng.c -lm -o b_type`
+print "=> Testing files\n"
+`ruby ../compile.rb`
 
 errors = 0
 successes = 0

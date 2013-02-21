@@ -8,7 +8,8 @@
     <% if @student_exam.student_not_found? %>
       <h2>Student was not found</h2>
       <%= image_tag @student_exam.card.student_url %>
-      <%= f.association :student, :collection => @student_exam.possible_students %>
+      <%= f.association :student, 
+        collection: @student_exam.possible_students %>
 
     <% elsif @student_exam.exam_not_found? %>
       <h2>Exam was not found</h2>

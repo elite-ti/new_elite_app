@@ -6,8 +6,4 @@ class Admin < ActiveRecord::Base
   belongs_to :employee
   
   validates :employee_id, presence: true, uniqueness: true
-
-  def accessible_campus_ids
-    Campus.all.map(&:id)
-  end
 end

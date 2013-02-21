@@ -81,11 +81,12 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "card_processings", :force => true do |t|
+    t.string   "name"
+    t.integer  "card_type_id"
+    t.integer  "campus_id"
     t.date     "exam_date"
     t.boolean  "is_bolsao"
     t.string   "status"
-    t.integer  "card_type_id"
-    t.string   "campus_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

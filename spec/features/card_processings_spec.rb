@@ -8,12 +8,13 @@ describe 'CardProcessings' do
   it 'creates a card processing' do
     create :card_type, name: 'Type B'
     create :exam, datetime: '2013-12-12 12:00'
-    create :campus
+    create :campus, name: 'Campus'
 
     visit card_processings_path
     click_link 'New Card Processing'
     fill_in 'card_processing_exam_date', with: '2013-12-12'
     select 'Type B', from: 'Card type' 
+    select 'Campus', from: 'Campus'
     attach_file 'File', '/home/charlie/Desktop/card_processor_stuff/samples.zip' 
     click_button 'Create'
 

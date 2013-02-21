@@ -1,24 +1,33 @@
-<%= title 'Card Processings', link_to('New Card Processing', new_card_processing_path) %>
+<%= title 'Card Processings', 
+  link_to('New Card Processing', new_card_processing_path) %>
 
-<table id="card_processings" class="display is-datatable">
+<table id='card_processings' class='display is-datatable'>
   <thead>
     <tr>
+      <th>Name</th>
       <th>Status</th>
       <th>Exam date</th>
       <th>Is bolsao</th>
       <th>File</th>
       <th>Card type</th>
+      <th>Datetime</th>
+      <th>Errors/Total</th>
     </tr>
   </thead>
 
   <tbody>
   <% @card_processings.each do |card_processing| %>
     <tr>
+      <td><%= card_processing.name %></td>
       <td>
         <%= card_processing.status %>
         <span>
           <% if card_processing.processed? %>
             <%= link_to 'Show', card_processing %> |
+            <% if card_processing.needs_check? %>
+              <%= link_to 'Check', 
+                edit_student_exam_path(card_processing.to_be_checked) %> |
+            <% end %>
           <% end %>
           <%= destroy_link(card_processing) %>
         </span>
@@ -27,6 +36,11 @@
       <td><%= card_processing.is_bolsao %></td>
       <td><%= card_processing.file %></td>
       <td><%= card_processing.card_type.name %></td>
+      <td><%= print_datetime(card_processing.created_at) %></td>
+      <td>
+        <%= card_processing.number_of_errors %>/
+        <%= card_processing.total_number_of_cards %>
+      </td>
     </tr>
   <% end %>
   </tbody>

@@ -9,13 +9,13 @@ class CardConfiguration
   end
 
   def parse_result(result)
-    raise InvalidResult.new if result.size != number_of_questions
+    raise InvalidResult.new('wrong number of questions') if result.size != number_of_questions
 
     student_result = result[0, student_zone.number_of_questions]
-    raise InvalidResult.new unless student_zone.is_valid_result?(student_result)
+    raise InvalidResult.new('wrong student answers') unless student_zone.is_valid_result?(student_result)
 
     questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
-    raise InvalidResult.new unless questions_zone.is_valid_result?(questions_result)
+    raise InvalidResult.new('wrong questions answers') unless questions_zone.is_valid_result?(questions_result)
 
     return [student_result, questions_result]    
   end

@@ -13,6 +13,7 @@
   <thead>
     <tr>
       <th>Status</th>
+      <th>Filename</th>
       <th>Student</th>
       <th>Exam</th>
       <th>Scanned Answers</th>
@@ -32,6 +33,7 @@
           <% end %>
         </span>
       </td> 
+      <td><%= File.basename student_exam.card.path %></td>
       <td><%= student_exam.student.try(:name) || 'No student' %></td>
       <td><%= student_exam.exam.try(:name) || 'No exam' %></td>
       <td><%= student_exam.student_number %></td>

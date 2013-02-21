@@ -18,4 +18,8 @@ class Klazz < ActiveRecord::Base
 
   validates :name, :campus_id, :product_year_id, presence: true
   validates :name, uniqueness: true
+
+  def label_method
+    name + ' - ' + campus.name
+  end
 end

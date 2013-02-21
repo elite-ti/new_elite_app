@@ -8,38 +8,53 @@ def test(folder_path, filename, expected)
   end
 
   parameters = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
+  errors = []
    
   result = `../bin/run #{tif_path} #{normalized_path} #{parameters}`
   if result == expected
-    p '=> Success!'
+    print '.'
   else
-    p '=> Error in file -> ' + tif_path
-    p 'Result: ' + result
-    p 'Expected: ' + expected
+    print 'F'
+    errors << [
+      'File:     ' + tif_path,
+      'Result:   ' + result,
+      'Expected: ' + expected,
+    ]
+  end
+
+  errors.each do |error|
+    2.times { print "\n" }
+    print error[0] + "\n"
+    print error[1] + "\n"
+    print error[2] + "\n"
   end
 end
 
-p 'Testing files'
+print "=> Testing files\n"
 `ruby ../compile.rb`
 
-folder_path = '/home/charlie/Desktop/card_processor_stuff/quick_test' 
+# folder_path = '/home/charlie/Desktop/card_processor_stuff/quick_test' 
 
-test folder_path, '11012013180610.tif', '0047315BBCEDDEEBABEEECEDDBBAEABEACCDEDBBABCECEB'
-test folder_path, '11012013180612.tif', '004Z312BBBACCBCDBBCEEABDDEBBACCCECDDEBABCEAECDA'
-test folder_path, '11012013182145.tif', '0047299CBEBDECDABCDBEEDDACB'
-test folder_path, '11012013182330.tif', '1016961ADEBEBBDACCDBEDDCECC'
-test folder_path, '11012013182332.tif', '004W440ABWADDBBDDCEBEBDAEAA'
-test folder_path, '11012013182334.tif', '0046443BDBCDCAECBDADBBCCDCD'
-test folder_path, '11012013182336.tif', '0047101BBBCACCEEBCEBEECCEED'
+# test folder_path, '11012013180610.tif', '0047315BBCEDDEEBABEEECEDDBBAEABEACCDEDBBABCECEB'
+# test folder_path, '11012013180612.tif', '004Z312BBBACCBCDBBCEEABDDEBBACCCECDDEBABCEAECDA'
+# test folder_path, '11012013182145.tif', '0047299CBEBDECDABCDBEEDDACB'
+# test folder_path, '11012013182330.tif', '1016961ADEBEBBDACCDBEDDCECC'
+# test folder_path, '11012013182332.tif', '004W440ABWADDBBDDCEBEBDAEAA'
+# test folder_path, '11012013182334.tif', '0046443BDBCDCAECBDADBBCCDCD'
+# test folder_path, '11012013182336.tif', '0047101BBBCACCEEBCEBEECCEED'
 
-test folder_path, '11012013174505.tif', 'ZZZZZZZABECCEEEDAADAECEBCEEAEADEBAAADDBECEEEEDE'
-test folder_path, '11012013175133.tif', '1022824CBCBEBAEBADDEEDCACEEBABAEAEBDECEEEDADCDB' 
-test folder_path, '11012013175139.tif', '1022823BBCABBAEDECDEBBDEEECAABBBEBCDABABADEDDDA'  
-test folder_path, '11012013180225.tif', '0046715EDCADEDABACDEDCDDABCAACAAEAACACBBABBECEE' 
+# test folder_path, '11012013174505.tif', 'ZZZZZZZABECCEEEDAADAECEBCEEAEADEBAAADDBECEEEEDE'
+# test folder_path, '11012013175133.tif', '1022824CBCBEBAEBADDEEDCACEEBABAEAEBDECEEEDADCDB' 
+# test folder_path, '11012013175139.tif', '1022823BBCABBAEDECDEBBDEEECAABBBEBCDABABADEDDDA'  
+# test folder_path, '11012013180225.tif', '0046715EDCADEDABACDEDCDDABCAACAAEAACACBBABBECEE' 
 
-folder_path = '/home/charlie/Desktop/samples_tif'
+folder_path = '/home/charlie/Desktop/card_processor_stuff/bugged_files' 
 
-test folder_path, 'sample1.tif', '0246864AEBDCBDAEDEEEBEEWEEBEEDEEEBEED'
-test folder_path, 'sample2.tif', '0001234ABCZEZWCZBDEEEDCBBCDCZBCZBDAEC'
-test folder_path, 'sample3.tif', '166Z921BCDEBABACAAZZZZBZZEZZBCCCCWCDE'
-test folder_path, 'sample4.tif', 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
+test folder_path, '11012013174904.tif', ''
+test folder_path, '11012013174906.tif', ''
+test folder_path, '11012013174908.tif', ''
+test folder_path, '11012013174910_001.tif', ''
+test folder_path, '11012013174912.tif', ''
+test folder_path, '11012013174914.tif', ''
+test folder_path, '11012013174916.tif', ''
+test folder_path, '11012013174918.tif', ''

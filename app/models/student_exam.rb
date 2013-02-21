@@ -10,7 +10,7 @@ class StudentExam < ActiveRecord::Base
   NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
 
   attr_accessible :card, :card_processing_id
-  delegate :card_type, :is_bolsao, :exam_date, :campuses, to: :card_processing
+  delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
 
   belongs_to :exam
   belongs_to :student
@@ -33,9 +33,7 @@ class StudentExam < ActiveRecord::Base
   end
 
   def possible_students
-    campuses.map do |campus|
-      campus.possible_students(is_bolsao)
-    end.flatten.uniq
+    campus.possible_students(is_bolsao).flatten.uniq
   end
 
   def possible_exams
@@ -77,7 +75,7 @@ class StudentExam < ActiveRecord::Base
       student = Student.where(ra: student_number.to_i).first
     end
 
-    if student and possible_students(campuses, is_bolsao).include?(student) 
+    if student and possible_students(campus, is_bolsao).include?(student) 
       self.student_id = student.id 
       set_exam
     else

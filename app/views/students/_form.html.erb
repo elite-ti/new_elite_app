@@ -31,10 +31,13 @@
     <% end %>
 
     <h2>Applicant</h2>
-    <%= f.association :applied_product_years, collection: ProductYear.order('name') %>
+    <%= f.association :applied_product_years, 
+        collection: ProductYear.order('name') %>
 
     <h2>Enrolled Klazzes</h2>
-    <%= f.association :enrolled_klazzes, collection: Klazz.order('name') %>
+    <%= f.association :enrolled_klazzes, 
+      collection: Klazz.order('name'),
+      label_method: :label_method %>
   </div>
 
   <div class='form-actions'>

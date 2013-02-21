@@ -14,6 +14,8 @@ class Campus < ActiveRecord::Base
 
   has_many :campus_principals, dependent: :destroy
 
+  has_many :card_processings, dependent: :destroy
+
   validates :name, :code, presence: true, uniqueness: true
 
   def possible_students(is_bolsao)
