@@ -1,73 +1,97 @@
+# encoding: UTF-8
 namespace :db do
   namespace :populate do
     namespace :fake do 
 
-      task all: [:topics_and_questions, :card_types, :exam_cycles, :applicants, :exams]
-
-      task topics_and_questions: :environment do
-        p 'Populating topics and questions'
-        Subject.all.each do |subject|
-          10.times do |i|
-            topic = Topic.create!(
-              name: "#{subject.name} Topic #{i}",
-              subject_id: subject.id,
-              itens: "Various itens"
-            )
-            Question.create!(
-              stem: "#{subject.name} Question #{i}", 
-              model_answer: 'ModelAnswer',
-              topic_ids: [topic.id]
-            ) 
-          end
-        end
-      end
-
-      task card_types: :environment do 
-        p 'Populating card types'
-        CardType.create!(
-          card: File.open(CARD_PATH), 
-          name: 'Type B', 
-          command: 'type_b',
-          parameters: CARD_PARAMETERS,
-          student_coordinates: CARD_STUDENT_COORDINATES 
-        )
-      end
+      task all: [:exam_cycles, :exams, :students]
 
       task exam_cycles: :environment do 
         p 'Populating exam cycles'
         ExamCycle.create!(
-          end_date: Time.now + 1.week, 
-          name: 'Bolsao', 
-          start_date: Time.now, 
-          product_year_id: ProductYear.first.id, 
-          is_bolsao: true
+          name: 'Ciclo 1', 
+          start_date: '01/02/2013 00:00', 
+          end_date: '28/02/2013 00:00', 
+          product_year_id: ProductYear.where(name: '2ª Série Militar - 2013').first!.id, 
+          is_bolsao: false
         )
-      end
-
-      task applicants: :environment do 
-        p 'Populating applicants'
-        10.times do |i|
-          student = Student.create!(name: "Student #{i}")
-          Applicant.create!(
-            student_id: student.id, 
-            number: "#{i}",
-            bolsao_id: '1',
-            product_year_id: ExamCycle.first.product_year.id,
-          )
-        end
       end
 
       task exams: :environment do 
         p 'Populating exams'
+        Exam.create!(
+          datetime: '01/02/2013 00:00', 
+          exam_cycle_id: ExamCycle.first.id, 
+          name: 'P1',
+          correct_answers: 'ABCDEABCDEABCDEABCDEABCDEABCDE',
+          options_per_question: 5)
+      end
+
+      task students: :environment do 
         ActiveRecord::Base.transaction do 
-          Exam.create!(
-            datetime: Time.zone.now, 
-            exam_cycle_id: ExamCycle.first.id, 
-            name: 'Bolsao Fisica',
-            correct_answers: 'ABCDEABCDEABCDEABCDEABCDEABCDE',
-            options_per_question: 5)
+          p 'Populating students'
+          [
+            {"name"=>"Student", "ra"=>"0"},
+            {"name"=>"Teste", "ra"=>"246864"},
+            {"name"=>"Aleixa Carvalho", "ra"=>"0046544"},
+            {"name"=>"Isabelle Carvalho", "ra"=>"0046482"},
+            {"name"=>"Isis Alanis C. Cordeiro", "ra"=>"1001013"},
+            {"name"=>"Joao Victor Tavares", "ra"=>"0046546"},
+            {"name"=>"Mateus Damasceno", "ra"=>"0047034"},
+            {"name"=>"Tatiana Machado", "ra"=>"0047381"},
+            {"name"=>"Thamiris da Silva", "ra"=>"0047434"},
+            {"name"=>"Juliana Bravin", "ra"=>"0047188"}
+          ].each do |student_attributes|
+            Student.create!(student_attributes)
+          end
+          [
+            ["0", "01-1221MIL"], 
+            ["246864", "01-1221MIL"], 
+            ["0046544", "01-1221MIL"], 
+            ["0046482", "01-1222MIL"], 
+            ["1001013", "01-1221MIL"], 
+            ["0046546", "01-1221MIL"], 
+            ["0047034", "01-1221MIL"], 
+            ["0047381", "01-1221MIL"], 
+            ["0047434", "01-1221MIL"], 
+            ["0047188", "01-1221MIL"]
+          ].each do |ra, klazz_name|
+            klazz_id = Klazz.where(name: klazz_name).first!.id
+            student_id = Student.where(ra: ra.to_i).first!.id
+            Enrollment.create(klazz_id: klazz_id, student_id: student_id)
+          end
+          [
+            ["0046482",
+            {"street"=>"Estrada do Bananal, 535. Bl: 01, Ap: 606",
+             "suburb"=>"Freguesia",
+             "city"=>"Rio de Janeiro ",
+             "state"=>"RJ"}],
+            ["1001013",
+            {"street"=>"Rua Visconde de Santa Isabel, 265",
+             "suburb"=>"Vila Isabel",
+             "city"=>"Rio de Janeiro ",
+             "state"=>"RJ"}],
+            ["0046546",
+            {"street"=>"Rua dos Artistas,204 Ap: 401",
+             "suburb"=>"Vila Isabel",
+             "city"=>"Rio de Janeiro "}],
+            ["0047381",
+            {"street"=>"Rua Bolívar, 164",
+             "suburb"=>"Copacabana",
+             "city"=>"Rio de Janeiro "}],
+            ["0047434",
+            {"street"=>"Rua Otávio Mangabeira, 331",
+             "suburb"=>"Jardim América",
+             "city"=>"Rio de Janeiro ",
+             "state"=>"RJ"}]
+          ].each do |ra, address_attributes|
+            student = Student.where(ra: ra.to_i).first!
+            student.update_attributes(address_attributes: address_attributes)
+          end
         end
       end
     end
   end
 end
+
+
+

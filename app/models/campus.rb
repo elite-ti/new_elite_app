@@ -17,12 +17,4 @@ class Campus < ActiveRecord::Base
   has_many :card_processings, dependent: :destroy
 
   validates :name, :code, presence: true, uniqueness: true
-
-  def possible_students(is_bolsao)
-    if is_bolsao
-      return product_years.map(&:applicant_students)
-    else
-      return product_years.map(&:enrolled_students)
-    end
-  end
 end

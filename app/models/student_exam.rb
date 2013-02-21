@@ -33,7 +33,11 @@ class StudentExam < ActiveRecord::Base
   end
 
   def possible_students
-    campus.possible_students(is_bolsao).flatten.uniq
+    if is_bolsao
+      return campus.product_years.map(&:applicant_students).flatten.uniq 
+    else
+      return campus.product_years.map(&:enrolled_students).flatten.uniq
+    end
   end
 
   def possible_exams
@@ -96,8 +100,11 @@ class StudentExam < ActiveRecord::Base
   def set_exam_answers
     exam_questions = exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
-      exam_answers.build(answer: string_of_answers[i], exam_question_id: exam_questions[i].id)
+      exam_answers.build(
+        answer: string_of_answers[i], 
+        exam_question_id: exam_questions[i].id)
     end
+
     if answers_needing_check.any?
       self.status = INVALID_ANSWERS_STATUS
     else

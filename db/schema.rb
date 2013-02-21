@@ -411,7 +411,6 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.string   "telephone"
     t.string   "cellphone"
     t.string   "previous_school"
-    t.integer  "address_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
