@@ -54,17 +54,21 @@ class CardProcessing < ActiveRecord::Base
 private
 
   def decompress
-    begin
-      @folder_path = Decompressor.decompress(file.path, file.original_filename)
-      self.status = BEING_PROCESSED_STATUS
-      self.is_bolsao ||= false
-    rescue => e
-      logger.warn '=> Error decompressing file'
-      logger.warn e.message
-      logger.warn "Folder path: #{@folder_path}"
-      logger.warn "File path: #{file.path}"
-      logger.warn "Filename: #{file.original_filename}"
-      errors.add(:file, 'error decompressing file')
+    if file.present?
+      begin
+        @folder_path = Decompressor.decompress(file.path, file.original_filename)
+        self.status = BEING_PROCESSED_STATUS
+        self.is_bolsao ||= false
+      rescue => e
+        logger.warn '=> Error decompressing file'
+        logger.warn e.message
+        logger.warn "Folder path: #{@folder_path}"
+        logger.warn "File path: #{file.path}"
+        logger.warn "Filename: #{file.original_filename}"
+        errors.add(:file, 'error decompressing file')
+      end
+    else
+      errors.add(:file, 'can\' be blank')
     end
     true
   end

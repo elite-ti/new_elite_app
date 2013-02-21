@@ -5,13 +5,12 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Created at</th>
       <th>Status</th>
-      <th>Exam date</th>
-      <th>Is bolsao</th>
-      <th>File</th>
-      <th>Card type</th>
-      <th>Datetime</th>
       <th>Errors/Total</th>
+      <th>Is bolsao</th>
+      <th>Card type</th>
+      <th>Exam date</th>
     </tr>
   </thead>
 
@@ -19,6 +18,7 @@
   <% @card_processings.each do |card_processing| %>
     <tr>
       <td><%= card_processing.name %></td>
+      <td><%= print_datetime(card_processing.created_at) %></td>
       <td>
         <%= card_processing.status %>
         <span>
@@ -32,15 +32,13 @@
           <%= destroy_link(card_processing) %>
         </span>
       </td>
-      <td><%= print_date(card_processing.exam_date) %></td>
-      <td><%= card_processing.is_bolsao %></td>
-      <td><%= card_processing.file %></td>
-      <td><%= card_processing.card_type.name %></td>
-      <td><%= print_datetime(card_processing.created_at) %></td>
       <td>
         <%= card_processing.number_of_errors %>/
         <%= card_processing.total_number_of_cards %>
       </td>
+      <td><%= card_processing.is_bolsao %></td>
+      <td><%= card_processing.card_type.name %></td>
+      <td><%= print_date(card_processing.exam_date) %></td>
     </tr>
   <% end %>
   </tbody>

@@ -8,8 +8,7 @@ class CardProcessingsController < ApplicationController
   end
 
   def new
-    @accessible_campuses = Campus.accessible_by(current_ability)
-    @campus_field_value = @accessible_campuses.first.id if @accessible_campuses.size == 1
+    set_campus_select
   end
 
   def create
@@ -17,6 +16,7 @@ class CardProcessingsController < ApplicationController
       CardProcessorWorker.perform_async(@card_processing.id)
       redirect_to card_processings_url, notice: 'Card processing was successfully created.'
     else
+      set_campus_select
       render :new
     end
   end
@@ -24,5 +24,12 @@ class CardProcessingsController < ApplicationController
   def destroy
     @card_processing.destroy
     redirect_to card_processings_url, notice: 'Card processing was successfully destroyed.'
+  end
+
+private
+
+  def set_campus_select
+    @accessible_campuses = Campus.accessible_by(current_ability)
+    @campus_include_blank = !(@accessible_campuses.size == 1)
   end
 end
