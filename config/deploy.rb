@@ -12,6 +12,7 @@ load 'config/recipes/omni_auth'
 load 'config/recipes/dependencies'
 load 'config/recipes/db'
 load 'config/recipes/card_scanner'
+load 'config/recipes/carrierwave'
 
 server '50.116.8.31', :web, :app, :db, primary: true
 
