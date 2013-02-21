@@ -10,7 +10,10 @@
   <tbody>
   <% @poll_question_categories.each do |poll_question_category| %>
     <tr>
-      <td><%= poll_question_category.name %></td>
+      <td>
+        <%= poll_question_category.name %>
+        <span><%= link_to 'Edit', edit_poll_question_category_path(poll_question_category) %></span>
+      </td>
     </tr>
   <% end %>
   </tbody>

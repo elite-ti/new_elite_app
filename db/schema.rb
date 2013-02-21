@@ -395,7 +395,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "students", :force => true do |t|
     t.string   "name"
-    t.string   "ra"
+    t.integer  "ra"
     t.string   "email"
     t.string   "password_digest"
     t.string   "cpf"

@@ -34,14 +34,7 @@ toggle_post_graduated_fields = () ->
 jQuery ->
   # Roles
   toggle_roles()
-  $('#employee_roles').click -> toggle_roles()
-
-  # jQuery Mask
-  $(".telephone_input").mask("(99)9999-9999")
-  $("#employee_cpf").mask("999.999.999-99")
-  $('form').submit ->
-    $(".telephone_input, #personal_info_cpf").each (index, element) =>
-      $(element).prop('value', $(element).prop('value').replace(/\D/g,''))
+  $('#employee_roles').click -> toggle_roles()  
 
   # Toggle fields
   toggle_graduated_fields()

@@ -1,5 +1,6 @@
 <%= title 'Campus - ' + @campus.name, 
-  (link_to('Edit', edit_campus_path(@campus)) if can?(:update, @campus)) %>
+  (link_to('Edit', edit_campus_path(@campus)) if can?(:update, @campus)),
+  link_to('Back', campuses_path) %>
 
 <div class='tabs'>
   <ul>

@@ -1,5 +1,5 @@
 <%= title 'Campuses', 
-  (link_to('New', new_campus_path) if can?(:create, Campus)) %>
+  (link_to('New Campus', new_campus_path) if can?(:create, Campus)) %>
 
 <table id='campuses' class='display is-datatable'>
   <thead>

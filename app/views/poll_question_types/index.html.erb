@@ -1,4 +1,5 @@
-<%= title 'Poll Question Types', link_to('New Poll Question Type', new_poll_question_type_path) %>
+<%= title 'Poll Question Types', 
+  link_to('New Poll Question Type', new_poll_question_type_path) %>
 
 <table id="poll_question_types" class="display is-datatable">
   <thead>
@@ -10,7 +11,10 @@
   <tbody>
   <% @poll_question_types.each do |poll_question_type| %>
     <tr>
-      <td><%= poll_question_type.name %></td>
+      <td>
+        <%= poll_question_type.name %>
+        <span><%= link_to 'Edit', edit_poll_question_type_path(poll_question_type) %></span>
+      </td>
     </tr>
   <% end %>
   </tbody>

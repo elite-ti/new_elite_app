@@ -20,10 +20,10 @@
           <% if card_processing.processed? %>
             <%= link_to 'Show', card_processing %> |
           <% end %>
-          <%= link_to 'Destroy', card_processing, method: :delete, confirm: 'Are you sure?' %>
+          <%= destroy_link(card_processing) %>
         </span>
       </td>
-      <td><%= card_processing.exam_date %></td>
+      <td><%= print_date(card_processing.exam_date) %></td>
       <td><%= card_processing.is_bolsao %></td>
       <td><%= card_processing.file %></td>
       <td><%= card_processing.card_type.name %></td>

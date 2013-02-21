@@ -46,4 +46,8 @@ module ApplicationHelper
   def print_long_string(string, divide_in)
     string.present? ? string.split('').in_groups_of(divide_in).map(&:join).join(' ') : ''
   end
+
+  def destroy_link(object)
+    link_to 'Destroy', object, method: :delete, confirm: 'Are you sure?'
+  end
 end

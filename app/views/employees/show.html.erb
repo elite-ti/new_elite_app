@@ -1,4 +1,6 @@
-<%= title @employee.name, link_to('Edit', edit_employee_path(@employee)) %>
+<%= title @employee.name, 
+  link_to('Edit', edit_employee_path(@employee)),
+  link_to('Back', employees_path) %>
 
 <div id='employee_important_fields'>
   <div class='resource'>

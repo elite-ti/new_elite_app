@@ -1,5 +1,5 @@
-<%= title 'Edit Campus' %>
+<%= title 'Edit Campus',
+  link_to('Show', @campus),
+  link_to('Back', campuses_path) %>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', campuses_path %>

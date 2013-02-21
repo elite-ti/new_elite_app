@@ -74,7 +74,7 @@ class StudentExam < ActiveRecord::Base
     if is_bolsao
       student = Applicant.where(number: student_number).first.try(:student)
     else
-      student = Student.where(ra: student_number).first
+      student = Student.where(ra: student_number.to_i).first
     end
 
     if student and possible_students(campuses, is_bolsao).include?(student) 

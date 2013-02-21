@@ -5,9 +5,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-  end
-
-  def edit
+    @question.options.build
   end
 
   def create
@@ -16,6 +14,10 @@ class QuestionsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def edit
+    @question.options.build if @question.options.empty?
   end
 
   def update
