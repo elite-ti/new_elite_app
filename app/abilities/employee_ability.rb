@@ -6,10 +6,6 @@ class EmployeeAbility
 
     can :destroy, :employee_session
     can :update, :role_session
-    can [:read, :update], Employee, id: employee.id
+    can [:read, :update], Employee, id: @employee.id
   end
-
-protected
-
-  attr_reader :employee
 end
