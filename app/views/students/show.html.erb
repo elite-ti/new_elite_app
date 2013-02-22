@@ -1,4 +1,5 @@
 <%= title @student.name + (@student.ra.to_s.blank? ? '' : ' - ' + @student.ra.to_s), 
+  link_to('Edit', edit_student_path(@student)),
   link_to('Back', students_path) %>
 
 <div class='tabs'>
@@ -37,16 +38,18 @@
           'Father' => @student.father_name
         }
       %>
-      <%= show_group 'Address',
-        {
-          'Street' => @student.address.street,
-          'Number' => @student.address.number,
-          'Complement' => @student.address.complement,
-          'Suburb' => @student.address.suburb,
-          'City' => @student.address.city,
-          'State' => @student.address.state
-        } 
-      %>
+      <% if @student.address.present? %>
+        <%= show_group 'Address',
+          {
+            'Street' => @student.address.street,
+            'Number' => @student.address.number,
+            'Complement' => @student.address.complement,
+            'Suburb' => @student.address.suburb,
+            'City' => @student.address.city,
+            'State' => @student.address.state
+          } 
+        %>
+      <% end %>
       <%= show_group 'General',
         {
           'Previous School' => @student.previous_school

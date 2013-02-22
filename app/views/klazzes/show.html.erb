@@ -5,6 +5,7 @@
 <div class='tabs'>
   <ul>
     <li><a href='#info_tab'>Info</a></li>
+    <li><a href='#students_tab'>Students</a></li>
     <li><%= link_to 'Calendar', klazz_periods_path(@klazz), title: 'calendar_tab' %></li>
   </ul>
 
@@ -15,5 +16,33 @@
     <p><span>Year: </span><%= @klazz.product_year.name %></p>
   </div>
 
-  <div id='calendar_tab'></div>
+  <div id='students_tab'>
+    <%= link_to 'Download Lista de Presença', klazz_path(@klazz, format: 'xls') %>
+    <table id="students" class="display is-datatable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Ra</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @klazz.enrolled_students.each do |student| %>
+        <tr>
+          <td>
+            <%= student.name %>
+            <span style='float: right;'>
+              <%= link_to 'Show', student_path(student) %> |
+              <%= link_to 'Edit', edit_student_path(student) %> |
+              <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
+            </span>
+          </td>
+          <td><%= student.ra %></td>
+          <td><%= student.email %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

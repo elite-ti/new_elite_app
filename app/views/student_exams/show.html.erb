@@ -39,8 +39,8 @@
       <% @student_exam.exam_answers.each do |exam_answer| %>
         <tr>
           <td><%= exam_answer.exam_question.number.to_s %></td> 
-          <td><%= exam_answer.answer %></td> 
           <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
+          <td><%= exam_answer.answer %></td> 
         </tr>
       <% end %>
       </tbody>

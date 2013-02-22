@@ -7,7 +7,7 @@ class Klazz < ActiveRecord::Base
   belongs_to :product_year
 
   has_many :enrollments, dependent: :destroy
-  has_many :students, through: :enrollments
+  has_many :enrolled_students, through: :enrollments, source: :student
 
   has_many :ticks, dependent: :destroy
   has_many :topics, through: :ticks

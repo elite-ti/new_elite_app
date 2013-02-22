@@ -36,7 +36,7 @@ class StudentExam < ActiveRecord::Base
     if is_bolsao
       return campus.product_years.map(&:applicant_students).flatten.uniq 
     else
-      return campus.product_years.map(&:enrolled_students).flatten.uniq
+      return campus.klazzes.map(&:enrolled_students).flatten.uniq 
     end
   end
 

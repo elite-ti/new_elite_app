@@ -86,7 +86,7 @@ html {
 
         h1 {
           @include naked;
-          width: 500px; height: 25px;
+          width: 800px; height: 25px;
           position: absolute;
           top: 0; left: 0;
         }
@@ -199,4 +199,8 @@ ul.ui-autocomplete {
       background-color: #FFFCB2;
     }
   }
+}
+
+.ui-tabs-panel {
+  color: #555;
 }
