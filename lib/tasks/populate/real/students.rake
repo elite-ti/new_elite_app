@@ -1,174 +1,48 @@
-# encoding: UTF-8
 namespace :db do
   namespace :populate do
     namespace :real do 
       task students: :environment do
         p 'Populating students'
         ActiveRecord::Base.transaction do 
-          read_csv('students').map do |campus_name, student_name, product_campus_turno|
-            Student.create!(name: student_name.strip)
+          read_csv('students').each do |ra, name, klazz_name|
+            student = Student.where(ra: ra.to_i).first_or_create!(name: name)
 
-            campus = find_campus(campus_name)
-            next if campus.nil?
+            klazz = Klazz.where(name: klazz_name).first
+            next if klazz.nil?
 
-            product_name, campus_name, turno = product_campus_turno.split('-').map(&:strip)
-            turno = translate_turno(turno)
-            next if turno.nil?
-
-            product = find_product(product_name, turno)
-            next if product.nil?
-
-            # TODO: find klazz and create enrollment
-          end
+            Enrollment.where(student_id: student.id, klazz_id: klazz.id).first_or_create!
+          end 
         end
       end
 
-      def find_campus(campus_name)
-        campus_name = {
-          "Elite Bangu" => 'Bangu',
-          "Elite Campo Grande I" => 'Campo Grande I',
-          "Elite Campo Grande II" => 'Campo Grande II',
-          "Elite Ilha do Governador" => 'Ilha do Governador',
-          "Elite Madureira I" => 'Madureira I',
-          "Elite Madureira II" => 'Madureira II',
-          "Elite Madureira III" => 'Madureira III',
-          "Elite Norte Shopping" => 'Norte Shopping',
-          "Elite Nova Iguaçu" => 'Nova Iguaçu',
-          "Elite São Gonçalo I" => 'São Gonçalo I',
-          "Elite São Gonçalo II" => 'São Gonçalo II',
-          "Elite Taquara" => 'Taquara',
-          "Elite Tijuca I" => 'Tijuca',
-          "Elite Vila Valqueire" => 'Valqueire',
-          "NAO INFORMADO" => nil
-        }[campus_name]
+      task check_not_found_klazzes: :environment do 
+        klazzes = read_csv('students').map do |row| row[2] end.uniq
 
-        return nil if campus_name.nil?
-        Campus.where(name: campus_name).first!
+        p 'Not found klazzes'
+        klazzes.each do |klazz|
+          p klazz if Klazz.where(name: klazz).empty?
+        end
       end
 
-      def find_product(product_name, turno)
-        product_name = {
-          "1ª ANO" => '1ª Série ENEM',
-          "1ª ANO MILITAR" => '1ª Série Militar',
-          "1ª SERIE" => '1ª Série ENEM',
-          "1ª SERIE MILITAR" => '1ª Série Militar',
-          "1ª SÉRIE" => '1ª Série ENEM',
-          "1ª SÉRIE ENEM" => '1ª Série ENEM',
-          "1º  SERIE ENEM" => '1ª Série ENEM',
-          "1º ANO" => '1ª Série ENEM',
-          "1º ANO MILITAR" => '1ª Série Militar',
-          "1º SERIE" => '1ª Série ENEM',
-          "1º SERIE ENEM" => '1ª Série ENEM',
-          "1º SERIE MILITAR" => '1ª Série Militar',
-          "2ª SERIE ENEM" => '2ª Série ENEM',
-          "2ª SERIE MILITAR" => '2ª Série Militar',
-          "2ª SÉRIE MILITAR" => '2ª Série Militar',
-          "2º  SERIE" => '2ª Série ENEM',
-          "2º  SERIE ENEM" => '2ª Série ENEM',
-          "2º ANO" => '2ª Série ENEM',
-          "2º ANO MILITAR" => '2ª Série Militar',
-          "2º SERIE" => '2ª Série ENEM',
-          "2º SERIE ENEM" => '2ª Série ENEM',
-          "2º SERIE MILITAR" => '2ª Série Militar',
-          "3 º ANO BIO" => '3ª Série + Pré-Vestibular Biomédicas',
-          "3 º SERIE PRE VESTIBULAR" => '3ª Série + Pré-Vestibular Manhã',
-          "3ª SERIE AF/EF/EsP" => '',
-          "3ª SERIE BIOMEDICA" => '3ª Série + Pré-Vestibular Biomédicas',
-          "3ª SERIE MILITAR" => '',
-          "3ª SERIE PRE" => '3ª Série + Pré-Vestibular Manhã',
-          "3ª SÉRIE AF/EF/EsPCEX" => '',
-          "3ª SÉRIE PRÉ MILITAR" => '',
-          "3º  SERIE PRE" => '3ª Série + Pré-Vestibular Manhã',
-          "3º ANO BIO" => '3ª Série + Pré-Vestibular Biomédicas',
-          "3º ANO BIOMEDICA" => '3ª Série + Pré-Vestibular Biomédicas',
-          "3º ANO PRE" => '3ª Série + Pré-Vestibular Manhã',
-          "3º SERIE BIO" => '3ª Série + Pré-Vestibular Biomédicas',
-          "3º SERIE PRE" => '3ª Série + Pré-Vestibular Manhã',
-          "6 ª ANO" => '6º Ano',
-          "6ª ANO" => '6º Ano',
-          "6ª ANO NORTE SHOPPING" => '6º Ano',
-          "6º ANO" => '6º Ano',
-          "7ª" => '7º Ano',
-          "7ª ANO" => '7º Ano',
-          "7ª ANO NORTE SHOPPING" => '7º Ano',
-          "7º ANO" => '7º Ano',
-          "8ª  ANO" => '8º Ano',
-          "8ª ANO" => '8º Ano',
-          "9 ª ANO MILITAR" => '9º Ano Militar',
-          "9ª ANO" => '',
-          "9ª ANO FORTE" => '9º Ano Forte',
-          "9ª ANO MILITAR" => '9º Ano Militar',
-          "9º  ANO FORTE" => '9º Ano Forte',
-          "9º ANO MILITAR" => '9º Ano Militar',
-          "AF/EE/EF" => '',
-          "AF/EF/Es" => '',
-          "AF/EF/EsP" => '',
-          "AF/EF/EsPCEX" => '',
-          "AF/EN/EF" => '',
-          "AF/EN/EsP" => '',
-          "CN/EPCAR" => '',
-          "CN/EPCAr" => '',
-          "CN/EPICAR" => '',
-          "ET" => '',
-          "EsPCEx" => 'ESPCEX',
-          "EsSA" => 'EsSA',
-          "EsSa" => 'EsSA',
-          "IME/ITA" => 'IME-ITA',
-          "PV" => '', # TODO: check turno
-          "PVBIO" => 'Pré-Vestibular Biomédicas',
-          "SEM TURMA" => nil
-        }[product_name]
+      task check_repeated_students: :environment do 
+        table = read_csv('students').sort do |x, y| x[0] <=> y[0] end.uniq
+        ras = table.map do |row| row[0] end
+        repeated_ra_indexes = []
 
-        return nil if product_name.nil?
-        Product.where(name: product_name).first!
-      end
+        (ras.size - 1).times do |i| 
+          if ras[i] == ras[i + 1]
+            repeated_ra_indexes << i 
+            repeated_ra_indexes << i + 1
+          end
+        end
+        repeated_ra_indexes.uniq!
 
-      def translate_turno(turno)
-        {
-          "MANHA" => '1',
-          "MANHÃ" => '1',
-          "NOITE" => '2',
-          "TARDE" => '3'
-        }[turno]
+        p 'Repeated Students'
+        repeated_ra_indexes.each do |ra_index|
+          row = table[ra_index]
+          p row.join(',') 
+        end
       end
     end
   end
 end
-
-# Third row campuses
-# "ANO VILA VALQUEIRE"
-# "BAGU"
-# "BANGU"
-# "CAMPO GRANDE"
-# "CAMPO GRANDE 1"
-# "CAMPO GRANDE 2"
-# "CAMPO GRANDE I"
-# "CAMPO GRANDE II"
-# "ILHA"
-# "ILHA DO GOVERNADOR"
-# "MADUREIRA"
-# "MADUREIRA 1"
-# "MADUREIRA 2"
-# "MADUREIRA 3"
-# "MADUREIRA I"
-# "MADUREIRA II"
-# "MADUREIRA III"
-# "MANHÃ"
-# "MILITAR"
-# "MILITAR ILHA DO GOVERNADOR"
-# "NORTE SHOPPING"
-# "NOVA IGUAÇU"
-# "SAO GONÇALO II"
-# "SÃO GONÇALO"
-# "SÃO GONÇALO  1"
-# "SÃO GONÇALO 1"
-# "SÃO GONÇALO 2"
-# "SÃO GONÇALO I"
-# "SÃO GONÇALO II"
-# "TAQUARA"
-# "TIJUCA"
-# "TIJUCA 1"
-# "TIJUCA I"
-# "VESTIBULAR"
-# "VILA VALQUEIRE"
-# "VILA VALQUIERE"

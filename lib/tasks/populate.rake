@@ -8,7 +8,8 @@ namespace :db do
       'db:schema:load', 
       :clean_uploads, 
       'db:populate:real:quick',
-      'db:populate:real:periods:all',
+      'db:populate:real:periods',
+      'db:populate:real:students',
       'db:populate:fake:all'
     ]
 
