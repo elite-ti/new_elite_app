@@ -13,7 +13,7 @@ namespace :db do
         :product_types, :product_groups, :products, :years, :product_years, :campuses, 
         :subjects, :klazz_types, :majors, :school_roles, 
         :elite_roles, :absence_reasons, :employees, :teachers, :admins, 
-        :poll_question_types, :poll_question_categories, :card_types]
+        :poll_question_types, :poll_question_categories, :card_types, :campus_head_teachers]
 
       task all: [:quick, :teacher_photos]
       
@@ -148,9 +148,9 @@ namespace :db do
         p 'Populating teachers'
         ActiveRecord::Base.transaction do 
           read_csv('teachers').each do |elite_id, nickname|
-            employee = Employee.find_by_elite_id!(elite_id)
-            employee.update_attributes!(roles: ['teacher'])
-            employee.create_teacher!(nickname: nickname)
+            employee = Employee.find_by_elite_id!(elite_id.to_i)
+            employee.update_attributes!(roles: employee.roles + ['teacher'])
+            employee.create_teacher!(nickname: nickname.strip)
           end
         end
       end
@@ -234,6 +234,24 @@ namespace :db do
           command: 'type_b',
           parameters: CARD_PARAMETERS,
           student_coordinates: CARD_STUDENT_COORDINATES)
+      end
+
+      task campus_head_teachers: :environment do 
+        p 'Populating campus head teachers'
+        ActiveRecord::Base.transaction do 
+          all_product_ids = Product.all.map(&:id)
+          read_csv('campus_head_teachers').each do |elite_id, name, email, *campus_names|
+            employee = Employee.where(elite_id: elite_id.to_i).first!
+            employee.update_attributes!(email: email, roles: employee.roles + %w[campus_head_teacher])
+
+            campus_ids = campus_names.map do |campus_name|
+              Campus.where(name: campus_name).first!.id
+            end
+            employee.create_campus_head_teacher!(
+              product_ids: all_product_ids,
+              campus_ids: campus_ids)
+          end
+        end
       end
     end
   end

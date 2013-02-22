@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "employees", :force => true do |t|
     t.string   "email"
-    t.string   "elite_id"
+    t.integer  "elite_id"
     t.string   "uid"
     t.integer  "person_id"
     t.date     "date_of_admission"

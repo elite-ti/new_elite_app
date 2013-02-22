@@ -41,12 +41,12 @@ class Employee < ActiveRecord::Base
 
   validates :email, uniqueness: true, allow_blank: true, 
     format: { with: /\A([^@\s]+)@sistemaeliterio\.com\.br\z/i }
-  validates :elite_id, presence: true, uniqueness: true,
-    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :elite_id, presence: true, uniqueness: true
   validates :name, presence: true
 
   # TODO: add hr role
-  ROLES = %w[admin teacher campus_head_teacher product_head_teacher subject_head_teacher campus_principal]
+  ROLES = %w[admin teacher campus_head_teacher product_head_teacher 
+    subject_head_teacher campus_principal]
 
   def roles
     ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
