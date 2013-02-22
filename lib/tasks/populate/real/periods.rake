@@ -49,7 +49,7 @@ namespace :db do
               sequencial = parsed_klazz_name[3]
               campus_name = Campus.where(code: campus_code).first!.name
 
-              %w[AFA/EFOMM ESPCEX].each do |product_name|
+              %w[AFA/EN/EFOMM ESPCEX].each do |product_name|
                 product = Product.where(name: product_name).first!
                 klazz_name = campus_code + '-' + product.prefix + turno + sequencial + (product.suffix || '')
                 create_klazz(klazz_name, product_name, campus_name)
@@ -57,9 +57,14 @@ namespace :db do
               end
 
             elsif product_name == 'AFA/ESPCEX CONTRA'
-              klazz_name = '10-1121MIL'
-              campus_name = Campus.where(code: '10').first!.name
-              product_name = Product.where(prefix: '11', suffix: 'MIL').first!.name
+              product_name = 'ESPCEX'
+              parsed_klazz_name = klazz_name.match(/(.*)-AES(.)(.)/)
+              campus_code = parsed_klazz_name[1]
+              turno = parsed_klazz_name[2]
+              sequencial = parsed_klazz_name[3]
+
+              product = Product.where(name: product_name).first!
+              klazz_name = campus_code + '-' + product.prefix + turno + sequencial + (product.suffix || '')
               create_klazz(klazz_name, product_name, campus_name)
               create_period(klazz_name, subject_name, teacher_elite_id, position_plus_one, week_day)
 

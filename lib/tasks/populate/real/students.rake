@@ -5,6 +5,7 @@ namespace :db do
         p 'Populating students'
         ActiveRecord::Base.transaction do 
           read_csv('students').each do |ra, name, klazz_name|
+            name = name.split(/\s+/).map(&:mb_chars).map(&:capitalize).join(' ')
             student = Student.where(ra: ra.to_i).first_or_create!(name: name)
 
             klazz = Klazz.where(name: klazz_name).first
@@ -16,11 +17,9 @@ namespace :db do
       end
 
       task check_not_found_klazzes: :environment do 
-        klazzes = read_csv('students').map do |row| row[2] end.uniq
-
         p 'Not found klazzes'
-        klazzes.each do |klazz|
-          p klazz if Klazz.where(name: klazz).empty?
+        read_csv('students').each do |ra, name, klazz_name|
+          p "#{ra},#{name},#{klazz_name}" if %w[#N/A #VALUE!].include?(klazz_name)
         end
       end
 

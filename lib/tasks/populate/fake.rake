@@ -6,6 +6,7 @@ namespace :db do
       task all: [:exams]
 
       task exams: :environment do
+        p 'Populating exams'
         exam_cycle_id = ExamCycle.create!(
           name: 'Ciclo 1', 
           start_date: '01/02/2013 00:00', 
