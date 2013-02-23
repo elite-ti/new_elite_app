@@ -15,9 +15,7 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can :create, CardProcessing 
     can [:read, :destroy], CardProcessing, campus_id: accessible_campus_ids
 
-    can :manage, :attendance_list
-
-    # TODO: maybe
+    # TODO: 
     # can add teacher absence
     # can manage exams
   end

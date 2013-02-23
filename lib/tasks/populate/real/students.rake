@@ -9,9 +9,21 @@ namespace :db do
             student = Student.where(ra: ra.to_i).first_or_create!(name: name)
 
             klazz = Klazz.where(name: klazz_name).first
-            next if klazz.nil?
-
-            Enrollment.where(student_id: student.id, klazz_id: klazz.id).first_or_create!
+            if klazz.present?
+              Enrollment.where(student_id: student.id, klazz_id: klazz.id).first_or_create!
+            else
+              parsed_klazz_name = klazz_name.match(/(.*)-AES(.)(.)/)
+              if parsed_klazz_name
+                product_year = Product.where(prefix: 'AES').first!.product_years.first!
+                campus = Campus.where(code: parsed_klazz_name[1]).first!
+                Klazz.create!(
+                  name: klazz_name,
+                  product_year_id: product_year.id,
+                  campus_id: campus.id)
+              else
+                p 'Klazz not found: ' + klazz_name
+              end
+            end
           end 
         end
       end

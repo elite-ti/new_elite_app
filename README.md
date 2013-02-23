@@ -5,17 +5,17 @@
 * Migrar os dados - OK
 * Adicionar card_processing uploader para o .zip/rar/tif - OK
 * Testar o que os coordenadores podem fazer - OK
+* Popular resto dos alunos - OK
 
-* Criar lista de presenca
-* Criar lista de presenca temporaria
-  * 7 digitos(1 9, 2 unidade, 2 produto, 2 sequencial)
+* Criar lista de presenca - OK
+* Criar lista de presenca temporaria - OK
+  * 7 digitos(1 9, 2 unidade, 2 produto, 2 sequencial) - OK
 
 * Amanha
   * Arrumar permissoes de coordenador
     * Ver calendario da unidade
     * Mudar calendario pelo select date
   * Traduzir
-  * Popular resto dos alunos
 
 
 * Calendar
