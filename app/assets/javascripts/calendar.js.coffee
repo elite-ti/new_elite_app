@@ -18,11 +18,13 @@ class Tab
 
     @goto_week().change (e) =>
       date_field = $(e.target)
-      action = date_field.closest('form').attr('action')
-      date = date_field.attr('value')
+      action = date_field.closest('form').get(0).action
+      date = date_field.attr('value').split('/').reverse().join('-')
+      alert action + '?date=' + date
       @update(action + '?date=' + date)
 
     @next_prev_week().click (e) =>
+      alert e.target.href
       @update(e.target.href)
       return false
 

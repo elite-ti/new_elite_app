@@ -8,5 +8,12 @@
  *= require datetime_picker/jquery-ui-timepicker-addon
  *= require dataTables/src/demo_table_jui
  *= require chosen
- *= require_tree .
+
+ *= require layout
+ *= require form
+ *= require home
+ *= require employees
+ *= require calendar
+ *= require teacher_absences
+ *= require mercury
  */ 
