@@ -2,16 +2,10 @@
 
 ## Urgent!
 
-* Migrar os dados - OK
-* Adicionar card_processing uploader para o .zip/rar/tif - OK
-* Testar o que os coordenadores podem fazer - OK
-* Popular resto dos alunos - OK
-
-* Criar lista de presenca - OK
-* Criar lista de presenca temporaria - OK
-  * 7 digitos(1 9, 2 unidade, 2 produto, 2 sequencial) - OK
 
 * Amanha
+  * Refazer o student populate task
+    * considerar outros campos (3 serie)
   * Arrumar permissoes de coordenador
     * Ver calendario da unidade
     * Mudar calendario pelo select date
