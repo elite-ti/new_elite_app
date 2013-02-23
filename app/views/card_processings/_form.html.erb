@@ -5,8 +5,8 @@
     <%= f.input :name %>
     <%= f.input :exam_date, as: :date %>
     <%= f.input :is_bolsao %>
-    <%= f.input :file, as: :file %>
-    <%= f.association :card_type %>
+    <%= f.input :file, hint: '.rar, .zip ou .tif' %>
+    <%= f.association :card_type, include_blank: false %>
     <%= f.association :campus, 
       collection: @accessible_campuses,
       include_blank: @campus_include_blank %>

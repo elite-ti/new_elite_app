@@ -1,7 +1,9 @@
-<h2>Info</h2>
-<%= f.input :elite_id, label: 'Elite ID' %>
-<%= f.input :email %>
-<%= f.input :name, placeholder: 'Nome completo, sem abreviações' %>
+<% if current_employee.admin? %>
+  <h2>Info</h2>
+  <%= f.input :elite_id, label: 'Elite ID' %>
+  <%= f.input :email %>
+  <%= f.input :name, placeholder: 'Nome completo, sem abreviações' %>
+<% end %>
 
 <h2>Contact</h2>
 <%= f.input :personal_email, placeholder: 'Coloque seu email pessoal aqui' %>

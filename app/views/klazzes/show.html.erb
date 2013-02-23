@@ -1,5 +1,5 @@
 <%= title @klazz.name, 
-  link_to('Edit', edit_klazz_path(@klazz)),
+  (link_to('Edit', edit_klazz_path(@klazz)) if can?(:update, @klazz)),
   link_to('Back', klazzes_path) %>
 
 <div class='tabs'>
@@ -17,7 +17,6 @@
   </div>
 
   <div id='students_tab'>
-    <%= link_to 'Download Lista de Presença', klazz_path(@klazz, format: 'xls') %>
     <table id="students" class="display is-datatable">
       <thead>
         <tr>

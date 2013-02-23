@@ -10,10 +10,10 @@ class CampusHeadTeacherAbility < EmployeeAbility
 
     can :read, Campus, id: accessible_campus_ids
     can :read, Klazz, campus_id: accessible_campus_ids
-    
+    can :read, Teacher, id: accessible_teacher_ids
+
     can :create, CardProcessing 
-    can [:read, :update], CardProcessing, campus_id: accessible_campus_ids
-    can :update, StudentExam, card_processing: { campus_id: accessible_campus_ids }
+    can [:read, :destroy], CardProcessing, campus_id: accessible_campus_ids
 
     # TODO: maybe
     # can add teacher absence
@@ -26,7 +26,15 @@ private
   delegate :campuses, to: :campus_head_teacher
 
   def accessible_employee_ids
-    @accessible_employee_ids ||= Teacher.all.map(&:employee_id)
+    @accessible_employee_ids ||= accessible_teachers.map(&:employee_id)
+  end
+
+  def accessible_teacher_ids
+    @accessible_teacher_ids ||= accessible_teachers.map(&:id)
+  end
+
+  def accessible_teachers
+    @accessible_teachers ||= Teacher.all
   end
 
   def accessible_campus_ids
