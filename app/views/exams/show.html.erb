@@ -7,6 +7,7 @@
   <p><span>Exam Cycle: </span><%= @exam.exam_cycle.name %>
   <p><span>Subjects: </span><%= @exam.subjects.map(&:name).join(', ') %>
   <p><span>Options per Question: </span><%= @exam.options_per_question.to_s %>
+  <p><span>Correct Answers: </span><%= @exam.correct_answers %>
 </div>
 
 <h2>Questions</h2>
