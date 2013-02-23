@@ -5,7 +5,9 @@
 <div class='tabs'>
   <ul>
     <li><a href='#info_tab'>Info</a></li>
+    <% if false %>
     <li><%= link_to 'Calendar', campus_periods_path(@campus), title: 'calendar_tab' %></li>
+    <% end %>
   </ul>
 
   <div id='info_tab' class='resource'>
