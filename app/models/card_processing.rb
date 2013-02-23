@@ -1,4 +1,4 @@
-require 'find'
+# require 'find'
 
 class CardProcessing < ActiveRecord::Base
   has_paper_trail
@@ -13,26 +13,35 @@ class CardProcessing < ActiveRecord::Base
 
   attr_accessible :card_type_id, :file, :is_bolsao, 
     :exam_date, :campus_id, :status, :name
-  attr_accessor :file
 
-  validates :campus_id, :card_type_id,
+  validates :campus_id, :card_type_id, :file, :name,
     :exam_date, :status, presence: true
 
-  before_validation :decompress
-  after_create :create_worker
+  before_validation :set_status_to_being_processed
+  mount_uploader :file, CardProcessingUploader
+  # before_validation :decompress
+  # after_create :create_worker
 
-  def scan
-    begin
-      student_exams.each(&:scan)
-      update_attribute :status, PROCESSED_STATUS
-    rescue => e
-      logger.warn e.message
-      update_attribute :status, ERROR_STATUS
-    end
-  end
+  # def scan
+  #   begin
+  #     student_exams.each(&:scan)
+  #     update_attribute :status, PROCESSED_STATUS
+  #   rescue => e
+  #     logger.warn e.message
+  #     update_attribute :status, ERROR_STATUS
+  #   end
+  # end
 
   def processed?
     status == PROCESSED_STATUS
+  end
+
+  def being_processed?
+    status == BEING_PROCESSED_STATUS
+  end
+
+  def error?
+    status == ERROR_STATUS
   end
 
   def needs_check?
@@ -53,31 +62,35 @@ class CardProcessing < ActiveRecord::Base
 
 private
 
-  def decompress
-    if file.present?
-      begin
-        @folder_path = Decompressor.decompress(file.path, file.original_filename)
-        self.status = BEING_PROCESSED_STATUS
-        self.is_bolsao ||= false
-      rescue => e
-        logger.warn '=> Error decompressing file'
-        logger.warn e.message
-        logger.warn "Folder path: #{@folder_path}"
-        logger.warn "File path: #{file.path}"
-        logger.warn "Filename: #{file.original_filename}"
-        errors.add(:file, 'error decompressing file')
-      end
-    else
-      errors.add(:file, 'can\' be blank')
-    end
+  def set_status_to_being_processed
+    self.status = BEING_PROCESSED_STATUS
+    self.is_bolsao ||= false
     true
   end
 
-  def create_worker
-    Find.find(@folder_path) do |path|
-      next if File.directory?(path) || File.extname(path) != '.tif' 
-      StudentExam.create!(card: File.open(path), card_processing_id: self.id)
-    end
-    true
-  end
+  # def decompress
+  #   if file.present?
+  #     begin
+  #       @folder_path = Decompressor.decompress(file.path, file.original_filename)
+  #     rescue => e
+  #       logger.warn '=> Error decompressing file'
+  #       logger.warn e.message
+  #       logger.warn "Folder path: #{@folder_path}"
+  #       logger.warn "File path: #{file.path}"
+  #       logger.warn "Filename: #{file.original_filename}"
+  #       errors.add(:file, 'error decompressing file')
+  #     end
+  #   else
+  #     errors.add(:file, 'can\' be blank')
+  #   end
+  #   true
+  # end
+
+  # def create_worker
+  #   Find.find(@folder_path) do |path|
+  #     next if File.directory?(path) || File.extname(path) != '.tif' 
+  #     StudentExam.create!(card: File.open(path), card_processing_id: self.id)
+  #   end
+  #   true
+  # end
 end

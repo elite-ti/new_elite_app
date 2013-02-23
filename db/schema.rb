@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "card_processings", :force => true do |t|
     t.string   "name"
+    t.string   "file"
     t.integer  "card_type_id"
     t.integer  "campus_id"
     t.date     "exam_date"
@@ -350,6 +351,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.integer  "product_group_id"
     t.string   "prefix"
     t.string   "suffix"
+    t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
