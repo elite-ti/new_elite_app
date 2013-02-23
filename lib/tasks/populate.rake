@@ -10,15 +10,16 @@ namespace :db do
       'db:populate:real:quick',
       'db:populate:real:periods',
       'db:populate:real:students',
-      'db:populate:fake:all'
+      'db:populate:real:exams'
     ]
 
     task production: [
-      # 'db:schema:load', 
-      # :clean_uploads, 
-      # 'db:populate:real:quick',
-      # 'db:populate:real:periods:all',
-      # 'db:populate:fake:all'
+      'db:schema:load', 
+      :clean_uploads, 
+      'db:populate:real:quick',
+      'db:populate:real:periods',
+      'db:populate:real:students',
+      'db:populate:real:exams'
     ]
 
     task clean_uploads: :environment do

@@ -2,6 +2,20 @@
 
 ## Urgent!
 
+* Migrar os dados
+* Adicionar card_processing uploader para o .zip/rar/tif
+* Testar o que os coordenadores podem fazer
+* Popular resto dos alunos
+
+* Criar lista de presenca
+* Criar lista de presenca temporaria
+  * 7 digitos(1 9, 2 unidade, 2 produto, 2 sequencial)
+
+* Amanha
+  * Traduzir
+  * pensar no banco para isso
+
+
 * Calendar
   * create/update/destroy actions for periods
 
