@@ -1,4 +1,5 @@
 EliteApp::Application.routes.draw do
+  resources :attendance_lists
   resources :card_processings
   resources :topics
   resources :card_types

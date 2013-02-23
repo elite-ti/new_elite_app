@@ -1,0 +1,54 @@
+wb = xlsx_package.workbook
+
+title = wb.styles.add_style sz: 24, alignment: { horizontal: :center, vertical: :center },
+  border: { style: :thin, color: "00", edges: [:left, :right, :top] }, b: true
+
+subtitle = wb.styles.add_style sz: 16, alignment: { vertical: :center },
+  border: { style: :thin, color: "00", edges: [:left] }, b: true
+
+date = wb.styles.add_style sz: 16, alignment: { vertical: :center, horizontal: :right },
+  border: { style: :thin, color: "00", edges: [:right] }, b: true
+
+header = wb.styles.add_style sz: 12, alignment: { horizontal: :center, vertical: :center }, bg_color: 'AAAAAA',
+  border: { style: :thin, color: "00", outline: true }, b: true
+
+empty = wb.styles.add_style sz: 10,
+  border: { style: :thin, color: "00", outline: true }
+
+filled = wb.styles.add_style sz: 10, bg_color: 'AAAAAA',
+  border: { style: :thin, color: "00", outline: true }
+
+wb.add_worksheet(name: "Lista") do |sheet|
+  sheet.add_row ["LISTA DE PRESENÇA", '', ''], height: 40, widths: [100]
+  sheet.merge_cells("A1:C1")
+  %w[A1 B1 C1].each do |cell|
+    sheet[cell].style = title
+  end
+
+  sheet.add_row ['Simulado: {{}}', '', ''], height: 30, widths: [20, 40, 40]
+  sheet.add_row ['Unidade: {{}}', '', 'Data: 23/02/2013'], height: 30
+  sheet.merge_cells("A2:B2")
+  sheet.merge_cells("A3:B3")
+  %w[A2 A3 B2 B3].each do |cell|
+    sheet[cell].style = subtitle
+  end
+
+  %w[C2 C3].each do |cell|
+    sheet[cell].style = date
+  end
+
+  sheet.add_row ['CÓDIGO', 'ALUNO', 'ASSINATURA']
+  %w[A4 B4 C4].each do |cell|
+    sheet[cell].style = header
+  end
+
+  30.times do |i|
+    if i.odd?
+      sheet.add_row ['', '', ''], style: [filled, filled, empty]
+    else i.even?
+      sheet.add_row ['', '', ''], style: [empty, empty, empty]
+    end
+  end
+end
+
+

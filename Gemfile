@@ -19,6 +19,7 @@ gem 'paper_trail'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'prawn'
+gem 'axlsx_rails'
 
 gem 'sidekiq'
 
