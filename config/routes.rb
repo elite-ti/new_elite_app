@@ -1,4 +1,6 @@
 EliteApp::Application.routes.draw do
+  mount Mercury::Engine => '/'
+
   resources :attendance_lists
   resources :card_processings
   resources :topics

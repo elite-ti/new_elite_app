@@ -4,12 +4,15 @@
 
 
 * Amanha
+  * Arrumar a mudanca do calendario pelo select date
   * Refazer o student populate task
-    * considerar outros campos (3 serie)
-  * Arrumar permissoes de coordenador
-    * Ver calendario da unidade
-    * Mudar calendario pelo select date
+    * considerar outros campos (3 serie etc)
+  * Arrumar calendario da unidade
   * Traduzir
+
+* Melhorias
+  * Ajax nas datatables (tah precisando)
+  * Revisar back buttons
 
 
 * Calendar
