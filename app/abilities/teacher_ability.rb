@@ -6,6 +6,8 @@ class TeacherAbility < EmployeeAbility
     @teacher = employee.teacher
 
     can :read, Klazz, id: accessible_klazz_ids
+    can :read, Teacher, id: teacher.id
+    can :read, Period, teacher_id: teacher.id
   end
 
 private

@@ -6,12 +6,12 @@ class KlazzesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html
-      format.xls do
-        headers["Content-Disposition"] = "attachment; filename=\"#{@klazz.name}.xls\"" 
-      end
-    end
+    # respond_to do |format|
+    #   format.html
+    #   format.xls do
+    #     headers["Content-Disposition"] = "attachment; filename=\"#{@klazz.name}.xls\"" 
+    #   end
+    # end
   end
 
   def new

@@ -35,7 +35,7 @@ private
     if current_employee.roles.include? session[:role]
       return session[:role]
     else
-      return current_employee.roles.first
+      return current_employee.roles.last
     end
   end
   helper_method :current_role
