@@ -20,6 +20,7 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'prawn'
 # gem 'axlsx_rails'
+gem 'mercury-rails'
 
 gem 'sidekiq'
 
