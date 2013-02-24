@@ -17,4 +17,4 @@
 //= require infos
 //= require subject_threads
 //= require teacher_absence
-//= require mercury
+//= require exams

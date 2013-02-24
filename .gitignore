@@ -18,4 +18,5 @@
 /public/uploads
 /lib/assets/images
 /lib/card_scanner/type_b/bin
+*.bak
 

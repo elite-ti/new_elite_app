@@ -1,8 +1,9 @@
 class Exam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :datetime, :exam_cycle_id, :name, :subject_ids,
-    :correct_answers, :options_per_question
+  attr_accessor :number_of_answers_per_subject, :subject
+  attr_accessible :datetime, :exam_cycle_id, :name, 
+    :options_per_question, :number_of_answers_per_subject
 
   belongs_to :exam_cycle
 
@@ -30,7 +31,7 @@ private
 
   def correct_answers_range
     return if options_per_question.nil?
-    # TODO: fix implementation
+    # TODO: refactor
     initial_letter, final_letter = 'A', 'A'
     options_per_question.times { final_letter.next! }
     possible_letters = initial_letter..final_letter
@@ -43,6 +44,11 @@ private
   end
 
   def create_questions
+
+    subject_ids.each_with_index do |subject_id, index|
+      number_of_answers = number_of_answers_per_subject[index]
+
+    end
     correct_answers.split('').each do |answer|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
 

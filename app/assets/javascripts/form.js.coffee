@@ -19,3 +19,5 @@ jQuery ->
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).parent().before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
+
+  
