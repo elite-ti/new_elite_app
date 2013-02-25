@@ -6,8 +6,8 @@ class Decompressor
   ERROR_DECOMPRESSING_FILE_MESSAGE = 'Error decompressing file'
   SUPPORTED_FORMATS = %w[rar zip]
 
-  def self.decompress(file_path, filename)
-    format = File.extname(filename).reverse.chop.reverse
+  def self.decompress(file_path)
+    format = File.extname(file_path).reverse.chop.reverse
     raise DecompressorError.new(NOT_SUPPORTED_MESSAGE) unless is_supported?(format)
     
     folder_path = `mktemp -d`.chop
@@ -20,11 +20,11 @@ class Decompressor
     end
   end
 
-private
-
   def self.is_supported?(format)
     SUPPORTED_FORMATS.include? format
   end
+
+private
 
   def self.decompress_zip(file_path, folder_path)
     system "unzip #{file_path} -d #{folder_path} > /dev/null 2>&1"

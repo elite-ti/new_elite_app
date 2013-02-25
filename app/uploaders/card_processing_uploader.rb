@@ -10,4 +10,8 @@ class CardProcessingUploader < CarrierWave::Uploader::Base
   def extension_white_list
     %w(tif rar zip)
   end
+
+  def filename
+    "original.#{model.file.file.extension}" if original_filename 
+  end
 end

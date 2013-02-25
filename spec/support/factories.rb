@@ -33,7 +33,8 @@ FactoryGirl.define do
 
   factory :product do
     product_type
-    sequence(:name) { |n| "Product#{n}" }
+    sequence(:code) { |n| "#{n}" }
+    name { "Product#{code}" }
   end
 
   factory :year do 

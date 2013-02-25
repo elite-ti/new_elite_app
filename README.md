@@ -3,8 +3,11 @@
 ## Urgent!
 
 * Hoje
-  * Formulario do exame
-  * 
+  * Criar super klazzes
+  * Create temporary students task
+  * Update students task
+  * Upload cards
+  * Test card check
 
 
 * Amanha

@@ -3,6 +3,7 @@ class CardProcessorWorker
   sidekiq_options retry: false
   
   def perform(card_processing_id)
-    # CardProcessing.find(card_processing_id).scan
+    card_processor = CardProcessor.new(card_processing_id)
+    card_processor.process
   end
 end

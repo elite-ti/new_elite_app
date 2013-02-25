@@ -10,7 +10,8 @@
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
 #define ERROR_WRITING_FILE "Error: could not write png."
-#define PIVOT_NOT_FOUND "Error: pivot not found."
+#define PIVOT_X_NOT_FOUND "Error: pivot x not found."
+#define PIVOT_Y_NOT_FOUND "Error: pivot y not found."
 
 #define get_index(file, x, y) (((y) * (file).width + (x))*4)
 #define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
@@ -76,7 +77,8 @@ double get_tangent(File);
 
 File move(File);
 Pixel get_pivot(File);
-int is_in_mark(File, int, int);
+int get_pivot_x(File file);
+int get_pivot_y(File file, int x);
 
 void process_file(File *);
 void process_zone(File *, Zone);
@@ -89,6 +91,10 @@ void write_png(File *);
 File create_empty_file(int, int);
 void copy_pixel(File *, int, int, File *, int, int);
 double get_column_density(File, int);
+double get_line_density(File, int, int, int);
+void set_pixel_to_red(File, int, int); 
+
+
 
 
 Configuration conf;
@@ -97,13 +103,19 @@ int main(int argc, char* argv[]) {
   read_configuration(argc, argv);
 
   File file = read_file();
+
+  // for(int x = file.width; x >= 3*file.width/4; x--)
+  //   printf("%lf\n", get_column_density(file, x));
+
   File rotated_180_file = rotate180(file);
+  write_png(&rotated_180_file);
   File rotated_file = rotate(rotated_180_file);
   File moved_file = move(rotated_file);
 
   process_file(&moved_file);
   print_answers(moved_file);
   write_png(&moved_file);
+  free(moved_file.raster);
 
   return 0;
 }
@@ -313,20 +325,22 @@ void copy_pixel(File *from, int from_x, int from_y, File *to, int to_x, int to_y
 }  
 
 void write_png(File *file) {
-  file->raster[get_index(*file, conf.pivot_default_x, conf.pivot_default_y)] = 255;
-  file->raster[get_index(*file, conf.pivot_default_x, conf.pivot_default_y) + 1] = 255;
   unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
   if(error) 
     stop(3, ERROR_WRITING_FILE);
   
-  free(file->raster);
 }
 
 int is_upside_down(File file) {
-  for(int x = file.width - 1; x >= file.width/4; x--)
-    if(get_column_density(file, x) > 0.4)
-      return 1;
-  return 0;
+  int matches = 0;
+  for(int x = file.width - 1; x >= file.width - 100; x--)
+    if(get_column_density(file, x) > 0.3)
+      matches++;
+
+  if(matches > 10)
+    return 1;
+  else
+    return 0;
 }
 
 double get_tangent(File file) {
@@ -370,56 +384,82 @@ double get_tangent(File file) {
 
 Pixel get_pivot(File file) {
   Pixel pivot;
-  double density, max_density = 0;
+  // double density, max_density = 0;
+  // int target_x = -1, target_xx = -1; 
+  // for(int x = 0; x < file.width && target_xx < 0; x++) {
+  //   if(target_x < 0) {
+  //     if(get_column_density(file, x) > 0.4)
+  //       target_x = x; 
+  //   }
+  //   else {
+  //     if (get_column_density(file, x) < 0.4)
+  //       target_xx = x;
+  //   }
+  // }
+  // target_x = (target_x + target_xx)/2;
+
+  // for(int y = 0; y < file.height/2; y++) {
+  //   if(is_pixel_filled(file, target_x, y) && is_in_mark(file, target_x, y)) {
+  //     while(is_pixel_filled(file, target_x, y))
+  //       target_x++;
+  //     pivot.x = target_x--;
+  //     pivot.y = y;
+  //     return pivot;
+  //   }
+  // }
+  // stop(4, PIVOT_NOT_FOUND);
+  pivot.x = get_pivot_x(file);
+  pivot.y = get_pivot_y(file, pivot.x);
+  return pivot;
+}
+
+int get_pivot_x(File file) {
+  int boolean = 0;
+  for(int x = 0; x < file.width; x++) {
+    if(boolean == 0) {
+      if(get_column_density(file, x) > 0.3)
+        boolean = 1;
+    }
+    else {
+      if (get_column_density(file, x) < 0.3)
+        return x;
+    }
+  }
+  stop(4, PIVOT_X_NOT_FOUND);
+}
+
+int get_pivot_y(File file, int x) { 
   int target_x = -1, target_xx = -1; 
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
-      if(get_column_density(file, x) > 0.4)
+      if(get_column_density(file, x) > 0.3)
         target_x = x; 
     }
     else {
-      if (get_column_density(file, x) < 0.4)
+      if (get_column_density(file, x) < 0.3)
         target_xx = x;
     }
   }
-  target_x = (target_x + target_xx)/2;
 
-  for(int y = 0; y < file.height/2; y++) {
-    if(is_pixel_filled(file, target_x, y) && is_in_mark(file, target_x, y)) {
-      while(is_pixel_filled(file, target_x, y))
-        target_x++;
-      pivot.x = target_x--;
-      pivot.y = y;
-      return pivot;
+  for(int y = 0; y < file.height; y++) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+      int matches = 0;
+      for(int z = 0; z < 30; z++)
+        if(get_line_density(file, target_x, target_xx, y + z) > 0.8)
+          matches++;
+      if(matches == 30)
+        return y;
     }
   }
-  stop(4, PIVOT_NOT_FOUND);
+  stop(4, PIVOT_Y_NOT_FOUND);
 }
 
-int is_in_mark(File file, int x, int y) {
-  int min_x, max_x, max_y = y;
-  while(is_pixel_filled(file, x, max_y)) {
-    min_x = x;
-    while(is_pixel_filled(file, min_x, y))
-      min_x--;
-    min_x++;
-
-    max_x = x;
-    while(is_pixel_filled(file, max_x, y))
-      max_x++;
-    max_x--;
-
-    if(!is_approximately(max_x-min_x, conf.mark_width)) {
-      if(max_y == y)
-        return 0;
-      break;
-    }
-
-    max_y++;
-  }
-  if(is_approximately(max_y - y, conf.mark_height))
-    return 1;
-  return 0;
+double get_line_density(File file, int start_x, int end_x, int y) {
+  int match = 0;
+  for(int x = start_x; x < end_x; x++) 
+    if(is_pixel_filled(file, x, y))
+        match++;
+  return (double)match / (double)(end_x - start_x);
 }
 
 double get_column_density(File file, int x) {
@@ -471,13 +511,35 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
 
 double process_option(File file, int start_x, int start_y, int width, int height) {
   int match = 0;
+  start_x = start_x + 10;
+  start_y = start_y + 5;
+  width = width - 20;
+  height = height - 10;
 
   for(int y = start_y; y < height + start_y; y++)
     for(int x = start_x; x < width + start_x; x++)
       if(is_pixel_filled(file, x, y))
         match++;
 
+  if(0) {
+    for(int y = start_y; y < height + start_y; y++) {
+      set_pixel_to_red(file, start_x, y);
+      set_pixel_to_red(file, start_x + width, y);
+    }
+
+    for(int x = start_x; x < width + start_x; x++) {
+      set_pixel_to_red(file, x, start_y);
+      set_pixel_to_red(file, x, start_y + height);
+    }
+  }
+
   return (double)match / (double)(width*height);
+}
+
+void set_pixel_to_red(File file, int x, int y) {
+  file.raster[get_index(file, x, y)] = 255;
+  file.raster[get_index(file, x, y) + 1] = 0;
+  file.raster[get_index(file, x, y) + 2] = 0;
 }
 
 void print_answers(File file) {
