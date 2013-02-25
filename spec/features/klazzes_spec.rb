@@ -10,14 +10,12 @@ describe 'Klazzes' do
   end
 
   it 'creates a klazz' do
-    create :product_year, name: 'ProductYear'
-    create :campus, name: 'Campus'
+    super_klazz = create :super_klazz
 
     visit klazzes_url
     click_link 'New Klazz'
     fill_in 'Name', with: 'Klazz'
-    select 'ProductYear', from: 'Product year'
-    select 'Campus', from: 'Campus'
+    select super_klazz.name, from: 'Super klazz'
     click_button 'Create'
 
     page.should have_content 'Klazz was successfully created.'

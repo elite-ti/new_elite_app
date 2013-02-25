@@ -15,4 +15,12 @@ class SuperKlazz < ActiveRecord::Base
 
   validates :campus, :product_year, presence: true
   validates :product_year_id, uniqueness: { scope: :campus_id }
+  
+  def name
+    label_method
+  end
+  
+  def label_method
+    product_year.name + ' - ' + campus.name
+  end
 end

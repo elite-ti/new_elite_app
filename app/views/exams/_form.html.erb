@@ -3,24 +3,11 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :datetime %>
-    <%= f.association :exam_cycle %>
 
     <% if @exam.new_record? %> 
       <div class='form-fields'>
         <%= f.input :options_per_question %>
-        <%= f.hidden_field :subject_ids %>
-        <%= f.hidden_field :correct_answers %>
-        <%= f.hidden_field :number_of_answers_per_subject %>
-
-        <h2>Subexams</h2>
-        <fieldset class='template'>
-          <%= f.collection_select :subject, Subject.all.map, :id, :name %>
-          <%= f.input :correct_answers, as: :string %>
-          <%= f.hidden_field :_destroy %>
-          <%= link_to 'Remove', '#', class: 'remove_subexam' %>
-        </fieldset>
-        <p class='add_subexam'><%= link_to 'Add', '#' %></p>
+        <%= f.input :correct_answers %>
       </div>
     <% end %>
   </div>

@@ -30,13 +30,14 @@
       <%= render 'addresses/fields', f: builder %>
     <% end %>
 
-    <h2>Applicant</h2>
-    <%= f.association :applied_product_years, 
-        collection: ProductYear.order('name') %>
+    <h2>Applied Super Klazzes</h2>
+    <%= f.association :applied_super_klazzes, 
+        collection: SuperKlazz.all,
+        label_method: :label_method %>
 
-    <h2>Enrolled Klazzes</h2>
-    <%= f.association :enrolled_klazzes, 
-      collection: Klazz.order('name'),
+    <h2>Enrolled Super Klazzes</h2>
+    <%= f.association :enrolled_super_klazzes, 
+      collection: SuperKlazz.all,
       label_method: :label_method %>
   </div>
 

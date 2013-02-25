@@ -4,17 +4,20 @@ class Student < ActiveRecord::Base
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes, :applied_product_year_ids, :enrolled_klazz_ids
+    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
-  has_many :enrolled_klazzes, through: :enrollments, source: :klazz
-  has_many :enrolled_product_years, through: :enrolled_klazzes, source: :product_year
+  has_many :enrolled_super_klazzes, through: :enrollments, source: :super_klazz
+  has_many :enrolled_product_years, through: :enrolled_super_klazzes, source: :product_year
   has_many :enrolled_exam_cycles, through: :enrolled_product_years, source: :exam_cycles
-  has_many :enrolled_exams, through: :enrolled_exam_cycles, source: :exams
+  has_many :enrolled_exam_executions, through: :enrolled_exam_cycles, source: :exam_executions
+  has_many :enrolled_exams, through: :enrolled_exam_executions, source: :exams
 
   has_many :applicants, dependent: :destroy, inverse_of: :student
-  has_many :applied_product_years, through: :applicants, source: :product_year
+  has_many :applied_super_klazzes, through: :applicants, source: :super_klazz
+  has_many :applied_product_years, through: :applied_super_klazzes, source: :product_year
   has_many :applied_exam_cycles, through: :applied_product_years, source: :exam_cycles
+  has_many :applied_exam_executions, through: :applied_exam_cycles, source: :exam_executions
   has_many :applied_exams, through: :applied_exam_cycles, source: :exams
 
   has_many :student_exams, dependent: :destroy

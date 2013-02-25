@@ -14,8 +14,4 @@ class Klazz < ActiveRecord::Base
 
   validates :name, :super_klazz, presence: true
   validates :name, uniqueness: true
-
-  def label_method
-    name + ' - ' + campus.name
-  end
 end

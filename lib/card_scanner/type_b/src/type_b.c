@@ -521,7 +521,7 @@ double process_option(File file, int start_x, int start_y, int width, int height
       if(is_pixel_filled(file, x, y))
         match++;
 
-  if(0) {
+  if(1) {
     for(int y = start_y; y < height + start_y; y++) {
       set_pixel_to_red(file, start_x, y);
       set_pixel_to_red(file, start_x + width, y);

@@ -46,13 +46,17 @@ FactoryGirl.define do
   factory :product_year do
     product
     year
-    sequence(:name) { |n| "Year#{n}" }
+    sequence(:name) { |n| "ProductYear#{n}" }
+  end
+
+  factory :super_klazz do 
+    product_year
+    campus
   end
 
   factory :klazz do
-    campus
-    product_year
     sequence(:name) { |n| "Klazz#{n}" }
+    super_klazz
   end
 
   factory :klazz_type do
@@ -90,8 +94,6 @@ FactoryGirl.define do
 
   factory :exam do
     sequence(:name) { |n| "Exam#{n}" }
-    datetime { Time.zone.now }
-    exam_cycle
     options_per_question 5
     correct_answers 'ABCDE' 
   end

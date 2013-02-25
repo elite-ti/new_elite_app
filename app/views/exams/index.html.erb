@@ -5,8 +5,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Datetime</th>
-      <th>Exam cycle</th>
     </tr>
   </thead>
 
@@ -21,8 +19,6 @@
           <%= link_to 'Destroy', exam, method: :delete, confirm: 'Are you sure?' %> 
         </span>
       </td>
-      <td><%= print_datetime(exam.datetime) %></td>
-      <td><%= exam.exam_cycle.name %></td>
     </tr>
   <% end %>
   </tbody>

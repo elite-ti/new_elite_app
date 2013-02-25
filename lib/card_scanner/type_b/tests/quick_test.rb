@@ -62,12 +62,16 @@ print "=> Testing files\n"
 # test folder_path, '11012013174916.tif', ''
 # test folder_path, '11012013174918.tif', ''
 
-folder_path = '/home/charlie/Desktop/cards_by_campus/' 
-Find.find(folder_path) do |path|
-  next if File.extname(path) != '.tif'
+# folder_path = '/home/charlie/Desktop/cards_by_campus/' 
+# Find.find(folder_path) do |path|
+#   next if File.extname(path) != '.tif'
 
-  test File.dirname(path), File.basename(path), ''
-end
+#   test File.dirname(path), File.basename(path), ''
+# end
 
 # test '/home/charlie/Desktop/', '1° Ano Militar23022013161139_003.tif', ''
 
+folder_path = '/home/charlie/Desktop/cards_by_campus/NorteShopping'
+Dir.entries(folder_path).each do |filename|
+  test folder_path, filename, ''
+end

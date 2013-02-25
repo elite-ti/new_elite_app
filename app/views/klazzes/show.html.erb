@@ -10,40 +10,39 @@
   </ul>
 
   <div id='info_tab' class='resource'>
-    <p><span>Campus: </span><%= @klazz.campus.name %></p>
-    <p><span>Product Type: </span><%= @klazz.product_year.product.product_type.name %></p>
-    <p><span>Product: </span><%= @klazz.product_year.product.name %></p>
-    <p><span>Year: </span><%= @klazz.product_year.name %></p>
+    <p><span>Super Klazz: </span><%= @klazz.super_klazz.name %></p>
   </div>
 
-  <div id='students_tab'>
-    <table id="students" class="display is-datatable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Ra</th>
-          <th>Email</th>
-        </tr>
-      </thead>
+  <% if false %>
+    <div id='students_tab'>
+      <table id="students" class="display is-datatable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Ra</th>
+            <th>Email</th>
+          </tr>
+        </thead>
 
-      <tbody>
-      <% @klazz.enrolled_students.each do |student| %>
-        <tr>
-          <td>
-            <%= student.name %>
-            <% if current_employee.admin? %>
-              <span style='float: right;'>
-                <%= link_to 'Show', student_path(student) %> |
-                <%= link_to 'Edit', edit_student_path(student) %> |
-                <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
-              </span>
-            <% end %>
-          </td>
-          <td><%= student.ra %></td>
-          <td><%= student.email %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
+        <tbody>
+        <% @klazz.enrolled_students.each do |student| %>
+          <tr>
+            <td>
+              <%= student.name %>
+              <% if current_employee.admin? %>
+                <span style='float: right;'>
+                  <%= link_to 'Show', student_path(student) %> |
+                  <%= link_to 'Edit', edit_student_path(student) %> |
+                  <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
+                </span>
+              <% end %>
+            </td>
+            <td><%= student.ra %></td>
+            <td><%= student.email %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>

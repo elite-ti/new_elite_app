@@ -5,10 +5,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Campus</th>
-      <th>Year</th>
-      <th>Product</th>
-      <th>Product Type</th>
+      <th>SuperKlazz</th>
     </tr>
   </thead>
 
@@ -24,10 +21,7 @@
           <% end %>
         </span>
       </td>
-      <td><%= klazz.campus.name %></td>
-      <td><%= klazz.product_year.name %></td>
-      <td><%= klazz.product_year.product.name %></td>
-      <td><%= klazz.product_year.product.product_type.name %></td>
+      <td><%= klazz.super_klazz.label_method %></td>
     </tr>
   <% end %>
   </tbody>
