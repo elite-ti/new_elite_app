@@ -1,0 +1,29 @@
+<%= title 'Super Klazzes', 
+  (link_to('New Super Klazz', new_super_klazz_path) if can?(:create, SuperKlazz)) %>
+
+<table id="super_klazzes" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>ProductYear</th>
+      <th>Campus</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @super_klazzes.each do |super_klazz| %>
+    <tr>
+      <td>
+        <%= super_klazz.name %>
+        <span class='float-right'>
+          <% if can?(:update, super_klazz) %>
+            <%= link_to 'Edit', edit_super_klazz_path(super_klazz) %>
+          <% end %>
+        </span>
+      </td>
+      <td><%= super_klazz.product_year.name %></td>
+      <td><%= super_klazz.campus.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

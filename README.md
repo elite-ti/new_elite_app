@@ -5,7 +5,7 @@
 * Hoje
   * Criar super klazzes
     * repopulate - OK
-    * fix tests - 
+    * fix tests - OK
     * create interface for new models
   * Create temporary students task
   * Upload cards

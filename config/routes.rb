@@ -1,6 +1,4 @@
 EliteApp::Application.routes.draw do
-  mount Mercury::Engine => '/'
-
   resources :attendance_lists
   resources :card_processings
   resources :topics
@@ -46,6 +44,7 @@ EliteApp::Application.routes.draw do
   resources :campuses do 
     resources :periods, controller: 'campuses_periods'
   end
+  resources :super_klazzes 
   resources :product_years
   resources :years
   resources :products
