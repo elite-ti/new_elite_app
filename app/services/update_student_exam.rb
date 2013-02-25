@@ -10,7 +10,7 @@ class UpdateStudentExam
     if student_exam.student_not_found?
       update_student(params[:student_id])
     elsif student_exam.exam_not_found?
-      update_exam(params[:exam_id])
+      update_exam(params[:exam_execution_id])
     elsif student_exam.invalid_answers?
       update_answers(params[:exam_answers_attributes])
     end
@@ -24,13 +24,13 @@ private
     if student_exam.student.nil?
       student_exam.errors.add(:student_id, 'student not found')
     else
-      student_exam.set_exam
+      student_exam.set_exam_execution
     end
   end
 
-  def update_exam(exam_id)
-    student_exam.exam_id = exam_id
-    if student_exam.exam.nil?
+  def update_exam(exam_execution_id)
+    student_exam.exam_execution_id = exam_execution_id
+    if student_exam.exam_execution.nil?
       student_exam.errors.add(:exam, 'exam not found')
     else
       student_exam.set_exam_answers

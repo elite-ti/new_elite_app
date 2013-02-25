@@ -16,7 +16,11 @@ class StudentExamsController < ApplicationController
         check_student_exams
       end
     else
-      render :edit
+      if params[:commit] == 'Finish'
+        redirect_to @student_exam.card_processing, notice: 'Changes not applied.'
+      else
+        render :edit
+      end
     end
   end
 
@@ -28,7 +32,8 @@ private
       redirect_to edit_student_exam_path(needing_check.first!), 
         notice: 'Some fields need to be checked.'
     else
-      redirect_to @student_exam.card_processing, notice: 'All cards were checked!'
+      redirect_to @student_exam.card_processing, 
+        notice: 'All cards were checked!'
     end
   end
 end

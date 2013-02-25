@@ -32,10 +32,13 @@ private
             p 'File: ' + file.path
             next
           end
-          FileUtils.mv(path, File.join(File.dirname(path), counter.to_s + '.tif'))
+          new_path = File.join(File.dirname(path), counter.to_s + '.tif')
+          FileUtils.mv(path, new_path)
           counter = counter + 1
-          StudentExam.create!(card: File.open(path), card_processing_id: card_processing.id)
+          StudentExam.create!(card: File.open(new_path), card_processing_id: card_processing.id)
         end
+
+        FileUtils.rm_rf(folder_path)
       rescue => e
         p 'Decompressor Error'
         p 'CardProcessingId: ' + card_processing.id.to_s

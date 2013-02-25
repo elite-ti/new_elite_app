@@ -13,7 +13,7 @@
 
     <% elsif @student_exam.exam_not_found? %>
       <h2>Exam was not found</h2>
-      <%= f.association :exam, :collection => @student_exam.possible_exams %>
+      <%= f.association :exam_execution, :collection => @student_exam.possible_exam_executions %>
 
     <% elsif @student_exam.invalid_answers? %>
       <h2>Some answers were zero or wrong</h2>

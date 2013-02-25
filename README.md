@@ -2,14 +2,16 @@
 
 ## Urgent!
 
-* Hoje
+* Today
   * Criar super klazzes
     * repopulate - OK
     * fix tests - OK
-    * create interface for new models
-  * Create temporary students task
+    * create interface for new models - OK
+  * Create temporary students task - OK
   * Upload cards
+  * Look into card_processings file whereabouts
   * Test cards check
+  * Dont delete carrierwave files after delete resource
 
 
 * Amanha

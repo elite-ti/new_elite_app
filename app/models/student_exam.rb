@@ -34,14 +34,14 @@ class StudentExam < ActiveRecord::Base
 
   def possible_students
     if is_bolsao
-      return campus.product_years.map(&:applicant_students).flatten.uniq 
+      return campus.applicant_students
     else
-      return campus.klazzes.map(&:enrolled_students).flatten.uniq 
+      return campus.enrolled_students
     end
   end
 
-  def possible_exams
-    student.possible_exams(is_bolsao, exam_date)
+  def possible_exam_executions
+    student.possible_exam_executions(is_bolsao, exam_date)
   end
 
   def answers_needing_check
@@ -61,6 +61,7 @@ class StudentExam < ActiveRecord::Base
   end
 
   def scan
+    debugger
     begin
       self.student_number, self.string_of_answers = 
         card_type.scan(card.path, card.normalized_path) 
@@ -73,24 +74,25 @@ class StudentExam < ActiveRecord::Base
   end
 
   def set_student
+    normalized_student_number = student_number.gsub(/\AZ*/, '').gsub(/Z*\z/, '')
     if is_bolsao
-      student = Applicant.where(number: student_number).first.try(:student)
+      student = Applicant.where(number: normalized_student_number.to_i).first.try(:student)
     else
-      student = Student.where(ra: student_number.to_i).first
+      student = Student.where(ra: normalized_student_number.to_i).first
     end
 
-    if student and possible_students(campus, is_bolsao).include?(student) 
+    if student and possible_students.include?(student) 
       self.student_id = student.id 
-      set_exam
+      set_exam_execution
     else
       self.status = STUDENT_NOT_FOUND_STATUS
     end
   end
 
-  def set_exam
-    exams = possible_exams
-    if exams.present? and exams.size == 1
-      self.exam_id = exams.first.id
+  def set_exam_execution
+    exam_executions = possible_exam_executions
+    if exam_executions.present? and exam_executions.size == 1
+      self.exam_execution_id = exam_executions.first.id
       set_exam_answers
     else
       self.status = EXAM_NOT_FOUND_STATUS
@@ -98,7 +100,7 @@ class StudentExam < ActiveRecord::Base
   end 
 
   def set_exam_answers
-    exam_questions = exam.exam_questions.order(:number)
+    exam_questions = exam_execution.exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
       exam_answers.build(
         answer: string_of_answers[i], 
@@ -120,8 +122,11 @@ private
   end
 
   def destroy_conflicts!
-    if student.present? and exam.present?
-      StudentExam.where(student_id: student.id, exam_id: exam.id).each do |student_exam|
+    if student.present? and exam_execution.present?
+      StudentExam.where(
+        student_id: student.id, 
+        exam_execution_id: exam_execution.id
+      ).each do |student_exam|
         student_exam.destroy if student_exam.id != self.id
       end
     end

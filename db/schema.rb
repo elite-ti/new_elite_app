@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "applicants", :force => true do |t|
-    t.string   "number"
+    t.integer  "number"
     t.string   "bolsao_id"
     t.datetime "subscription_datetime"
     t.datetime "exam_datetime"
