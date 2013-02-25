@@ -12,7 +12,7 @@ class StudentExam < ActiveRecord::Base
   attr_accessible :card, :card_processing_id
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
 
-  belongs_to :exam
+  belongs_to :exam_execution
   belongs_to :student
   belongs_to :card_processing
   has_many :exam_answers, dependent: :destroy

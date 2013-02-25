@@ -1,12 +1,11 @@
 class ProductPrincipal < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :employee_id, :product_id
+  attr_accessible :employee_id, :product_ids
 
-  validates :employee_id, :product_id, presence: true
-  validates :employee_id, uniqueness: true
+  belongs_to :employee
+  has_many :product_principal_products, dependent: :destroy, inverse_of: :product_principal
+  has_many :products, through: :product_principal_products
 
-  def accessible_klazz_ids
-    product.campuses.map(&:klazzes).flatten.map(&:id)
-  end
+  validates :employee_id, presence: true, uniqueness: true
 end

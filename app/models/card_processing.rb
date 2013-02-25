@@ -1,5 +1,3 @@
-# require 'find'
-
 class CardProcessing < ActiveRecord::Base
   has_paper_trail
 
@@ -17,20 +15,8 @@ class CardProcessing < ActiveRecord::Base
   validates :campus_id, :card_type_id, :file, :name,
     :exam_date, :status, presence: true
 
-  before_validation :set_status_to_being_processed
+  before_validation :set_default_attributes, on: :create
   mount_uploader :file, CardProcessingUploader
-  # before_validation :decompress
-  # after_create :create_worker
-
-  # def scan
-  #   begin
-  #     student_exams.each(&:scan)
-  #     update_attribute :status, PROCESSED_STATUS
-  #   rescue => e
-  #     logger.warn e.message
-  #     update_attribute :status, ERROR_STATUS
-  #   end
-  # end
 
   def processed?
     status == PROCESSED_STATUS
@@ -42,6 +28,14 @@ class CardProcessing < ActiveRecord::Base
 
   def error?
     status == ERROR_STATUS
+  end
+
+  def processed!
+    update_attribute :status, PROCESSED_STATUS
+  end 
+
+  def error!
+    update_attribute :status, ERROR_STATUS
   end
 
   def needs_check?
@@ -59,38 +53,12 @@ class CardProcessing < ActiveRecord::Base
   def number_of_errors
     student_exams.where(status: StudentExam::ERROR_STATUS).count
   end
-
+  
 private
 
-  def set_status_to_being_processed
+  def set_default_attributes
     self.status = BEING_PROCESSED_STATUS
     self.is_bolsao ||= false
     true
   end
-
-  # def decompress
-  #   if file.present?
-  #     begin
-  #       @folder_path = Decompressor.decompress(file.path, file.original_filename)
-  #     rescue => e
-  #       logger.warn '=> Error decompressing file'
-  #       logger.warn e.message
-  #       logger.warn "Folder path: #{@folder_path}"
-  #       logger.warn "File path: #{file.path}"
-  #       logger.warn "Filename: #{file.original_filename}"
-  #       errors.add(:file, 'error decompressing file')
-  #     end
-  #   else
-  #     errors.add(:file, 'can\' be blank')
-  #   end
-  #   true
-  # end
-
-  # def create_worker
-  #   Find.find(@folder_path) do |path|
-  #     next if File.directory?(path) || File.extname(path) != '.tif' 
-  #     StudentExam.create!(card: File.open(path), card_processing_id: self.id)
-  #   end
-  #   true
-  # end
 end

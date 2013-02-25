@@ -4,6 +4,9 @@
 
 * Hoje
   * Criar super klazzes
+    * repopulate
+    * fix tests
+    * check interface
   * Create temporary students task
   * Update students task
   * Upload cards

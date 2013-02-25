@@ -10,16 +10,16 @@ namespace :db do
 
             klazz = Klazz.where(name: klazz_name).first
             if klazz.present?
-              Enrollment.where(student_id: student.id, klazz_id: klazz.id).first_or_create!
+              Enrollment.where(student_id: student.id, super_klazz_id: klazz.super_klazz.id).first_or_create!
             else
               parsed_klazz_name = klazz_name.match(/(.*)-AES(.)(.)/)
               if parsed_klazz_name
                 product_year = Product.where(prefix: 'AES').first!.product_years.first!
                 campus = Campus.where(code: parsed_klazz_name[1]).first!
-                Klazz.create!(
-                  name: klazz_name,
+                super_klazz = SuperKlazz.where(
                   product_year_id: product_year.id,
-                  campus_id: campus.id)
+                  campus_id: campus.id).first_or_create!
+                super_klazz.klazzes.create!(name: klazz_name)
               else
                 p 'Klazz not found: ' + klazz_name
               end

@@ -77,9 +77,9 @@ namespace :db do
           product_names = ['AFA/EFOMM', 'ESPCEX', 'IME-ITA', 
             'Pré-Vestibular Biomédicas', 'Pré-Vestibular Manhã']
           Product.where(name: product_names).each do |product|
-            product.periods.includes(klazz: :campus).each do |period|
+            product.periods.includes(klazz: { super_klazz: :campus }).each do |period|
               klazz = period.klazz
-              campus = klazz.campus
+              campus = klazz.super_klazz.campus
               parsed_klazz_name = klazz.name.match(/#{campus.code}-#{product.prefix}(.)(.)#{product.suffix}/)
               turno = parsed_klazz_name[1]
               sequencial = parsed_klazz_name[2]
@@ -88,9 +88,7 @@ namespace :db do
               new_product = Product.where(name: new_product_name).first!
               new_klazz_name = "#{campus.code}-#{new_product.prefix}#{turno}#{sequencial}#{new_product.suffix}"
 
-              new_klazz = Klazz.where(name: new_klazz_name).first_or_create!(
-                product_year_id: ProductYear.where(name: new_product_name + ' - 2013').first!.id,
-                campus_id: Campus.where(name: campus.name).first!.id)
+              create_klazz(new_klazz_name, new_product.name, campus.name)
               Period.create!(
                 klazz_id: new_klazz.id, 
                 subject_id: period.subject_id,
@@ -118,9 +116,10 @@ namespace :db do
       end
 
       def create_klazz(klazz_name, product_name, campus_name)
-        Klazz.where(name: klazz_name).first_or_create!(
+        super_klazz = SuperKlazz.where(
           product_year_id: ProductYear.where(name: product_name + ' - 2013').first!.id,
-          campus_id: Campus.where(name: campus_name).first!.id)
+          campus_id: Campus.where(name: campus_name).first!.id).first_or_create!
+        super_klazz.klazzes.where(name: klazz_name).first_or_create!
       end
 
       def create_period(klazz_name, subject_name, teacher_elite_id, position_plus_one, week_day)

@@ -1,24 +1,12 @@
 class Exam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessor :number_of_answers_per_subject, :subject
-  attr_accessible :datetime, :exam_cycle_id, :name, 
-    :options_per_question, :number_of_answers_per_subject
-
-  belongs_to :exam_cycle
-
-  has_many :exam_subjects, dependent: :destroy, inverse_of: :exam
-  has_many :subjects, through: :exam_subjects
+  attr_accessible :name, :options_per_question, :correct_answers
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions
 
-  has_many :student_exams, dependent: :destroy
-  has_many :students, through: :student_exams
-
-  validates :name, :exam_cycle_id, :correct_answers, :options_per_question,
-    :datetime, presence: true
-  validates :name, uniqueness: { scope: :exam_cycle_id }
+  validates :name, :correct_answers, :options_per_question, presence: true
   validate :correct_answers_range, on: :create
 
   after_create :create_questions

@@ -8,14 +8,8 @@ class ProductYear < ActiveRecord::Base
 
   has_many :exam_cycles, dependent: :destroy
   has_many :subject_threads, dependent: :destroy
+  has_many :super_klazzes, dependent: :destroy
 
-  has_many :klazzes, dependent: :destroy
-  has_many :enrollments, through: :klazzes
-  has_many :enrolled_students, through: :enrollments, source: :student
-
-  has_many :applicants
-  has_many :applicant_students, through: :applicants, source: :student
-  
   validates :product_id, :name, :year_id, presence: true
   validates :name, uniqueness: true 
 end

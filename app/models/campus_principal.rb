@@ -1,15 +1,11 @@
 class CampusPrincipal < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :campus_id, :employee_id
+  attr_accessible :employee_id, :campus_ids
 
   belongs_to :employee
-  belongs_to :campus
+  has_many :campus_principal_campuses, dependent: :destroy, inverse_of: :campus_principal
+  has_many :campuses, through: :campus_principal_campuses
 
-  validates :campus, presence: true
-  validates :employee_id, presence: true, uniqueness: true, on: :update
-
-  def accessible_klazz_ids
-    campus.klazzes.map(&:id)
-  end
+  validates :employee_id, presence: true, uniqueness: true
 end

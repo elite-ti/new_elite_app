@@ -33,8 +33,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "exam_datetime"
     t.integer  "exam_campus_id"
     t.integer  "student_id"
-    t.integer  "product_year_id"
-    t.integer  "intended_campus_id"
+    t.integer  "super_klazz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,9 +65,15 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "updated_at"
   end
 
+  create_table "campus_principal_campuses", :force => true do |t|
+    t.integer  "campus_principal_id"
+    t.integer  "campus_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "campus_principals", :force => true do |t|
     t.integer  "employee_id"
-    t.integer  "campus_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,10 +86,10 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "card_processings", :force => true do |t|
+    t.integer  "campus_id"
+    t.integer  "card_type_id"
     t.string   "name"
     t.string   "file"
-    t.integer  "card_type_id"
-    t.integer  "campus_id"
     t.date     "exam_date"
     t.boolean  "is_bolsao"
     t.string   "status"
@@ -148,7 +153,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "enrollments", :force => true do |t|
     t.integer  "student_id"
-    t.integer  "klazz_id"
+    t.integer  "super_klazz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -171,6 +176,15 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "updated_at"
   end
 
+  create_table "exam_executions", :force => true do |t|
+    t.integer  "exam_cycle_id"
+    t.integer  "super_klazz_id"
+    t.integer  "exam_id"
+    t.datetime "datetime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "exam_questions", :force => true do |t|
     t.integer  "question_id"
     t.integer  "exam_id"
@@ -187,8 +201,6 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
   end
 
   create_table "exams", :force => true do |t|
-    t.datetime "datetime"
-    t.integer  "exam_cycle_id"
     t.string   "name"
     t.string   "correct_answers"
     t.integer  "options_per_question"
@@ -214,8 +226,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "klazzes", :force => true do |t|
     t.string   "name"
-    t.integer  "product_year_id"
-    t.integer  "campus_id"
+    t.integer  "super_klazz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -324,9 +335,15 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "updated_at"
   end
 
+  create_table "product_principal_products", :force => true do |t|
+    t.integer  "product_principal_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "product_principals", :force => true do |t|
     t.integer  "employee_id"
-    t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -386,12 +403,12 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "student_exams", :force => true do |t|
     t.integer  "card_processing_id"
+    t.integer  "student_id"
+    t.integer  "exam_execution_id"
     t.string   "card"
     t.string   "status"
     t.string   "student_number"
     t.string   "string_of_answers"
-    t.integer  "student_id"
-    t.integer  "exam_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -457,6 +474,13 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.string   "name"
     t.string   "short_name"
     t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "super_klazzes", :force => true do |t|
+    t.integer  "product_year_id"
+    t.integer  "campus_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

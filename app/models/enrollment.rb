@@ -1,11 +1,11 @@
 class Enrollment < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :klazz_id, :student_id
+  attr_accessible :super_klazz_id, :student_id
 
   belongs_to :student, inverse_of: :enrollments
-  belongs_to :klazz
+  belongs_to :super_klazz
 
-  validates :student, :klazz, presence: true
-  validates :student_id, uniqueness: { scope: :klazz_id }
+  validates :student, :super_klazz, presence: true
+  validates :student_id, uniqueness: { scope: :super_klazz_id }
 end
