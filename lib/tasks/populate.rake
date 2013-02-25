@@ -10,6 +10,7 @@ namespace :db do
       'db:populate:real:quick',
       'db:populate:real:periods',
       'db:populate:real:students',
+      'db:populate:real:temporary_students',
       'db:populate:real:exams'
     ]
 
@@ -19,6 +20,7 @@ namespace :db do
       'db:populate:real:quick',
       'db:populate:real:periods',
       'db:populate:real:students',
+      'db:populate:real:temporary_students',
       'db:populate:real:exams'
     ]
 

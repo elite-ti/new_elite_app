@@ -32,11 +32,6 @@ private
   end
 
   def create_questions
-
-    subject_ids.each_with_index do |subject_id, index|
-      number_of_answers = number_of_answers_per_subject[index]
-
-    end
     correct_answers.split('').each do |answer|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
 

@@ -88,7 +88,12 @@ namespace :db do
               new_product = Product.where(name: new_product_name).first!
               new_klazz_name = "#{campus.code}-#{new_product.prefix}#{turno}#{sequencial}#{new_product.suffix}"
 
-              create_klazz(new_klazz_name, new_product.name, campus.name)
+
+              super_klazz = SuperKlazz.where(
+                product_year_id: ProductYear.where(name: new_product_name + ' - 2013').first!.id,
+                campus_id: Campus.where(name: campus.name).first!.id).first_or_create!
+              new_klazz = Klazz.where(name: new_klazz_name).first_or_create!(super_klazz_id: super_klazz.id)
+
               Period.create!(
                 klazz_id: new_klazz.id, 
                 subject_id: period.subject_id,

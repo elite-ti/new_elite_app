@@ -6,11 +6,10 @@
   * Criar super klazzes
     * repopulate
     * fix tests
-    * check interface
+    * create interface for new models
   * Create temporary students task
-  * Update students task
   * Upload cards
-  * Test card check
+  * Test cards check
 
 
 * Amanha

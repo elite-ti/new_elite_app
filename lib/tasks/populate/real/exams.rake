@@ -18,13 +18,13 @@ namespace :db do
             "ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB" =>
               ["AFA/EN/EFOMM", "ESPCEX", "AFA/EAAr/EFOMM"]
           }.each_pair do |correct_answers, product_names|
-            Exam.create!(
+            exam = Exam.create!(
               name: cycle_zero,
               correct_answers: correct_answers,
               options_per_question: 5)
             product_names.each do |product_name|
               cycle_and_exam_name = cycle_zero + ' - ' + product_name
-              product_year = ProductYear.where(name: product_name + ' - 2013').first!.id
+              product_year = ProductYear.where(name: product_name + ' - 2013').first!
 
               exam_cycle = ExamCycle.create!(
                 name: cycle_and_exam_name,
