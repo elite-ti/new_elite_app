@@ -13,10 +13,16 @@
 * Upload norte shopping as a test - OK
   * Change scanner parameters
 
+* Update exam populate script - OK
 * Upload cards
-* Update exam populate script
 * Deploy and populate
 
+## Tomorrow
+
+* Convert to png before processing (dont user libtiff)
+* Create error view
+* Upload cards
+* Deploy and populate
 
 
 ## Later...
