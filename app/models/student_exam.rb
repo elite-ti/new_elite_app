@@ -60,6 +60,10 @@ class StudentExam < ActiveRecord::Base
     status == INVALID_ANSWERS_STATUS
   end
 
+  def error!
+    update_attribute :status, ERROR_STATUS
+  end
+
   def scan
     begin
       self.student_number, self.string_of_answers = 

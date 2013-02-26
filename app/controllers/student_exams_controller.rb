@@ -24,6 +24,12 @@ class StudentExamsController < ApplicationController
     end
   end
 
+  def error
+    @student_exam = StudentExam.find(params[:id])
+    @student_exam.error!
+    redirect_to :back, notice: 'Student exam was marked as error.'
+  end
+
 private
 
   def check_student_exams

@@ -1,4 +1,5 @@
 <%= title 'Student Exam',
+  (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
   (link_to('Check', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
   link_to('Back', @student_exam.card_processing) %>
 

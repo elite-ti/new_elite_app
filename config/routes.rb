@@ -3,7 +3,11 @@ EliteApp::Application.routes.draw do
   resources :card_processings
   resources :topics
   resources :card_types
-  resources :student_exams
+  resources :student_exams do 
+    member do 
+      get :error 
+    end
+  end
   resources :exam_answers
   resources :exams
   resources :questions

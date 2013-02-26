@@ -1,4 +1,5 @@
 <%= title 'Check Student Exam', 
+  (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
   link_to('Back', @student_exam.card_processing) %>
 
 <%= simple_form_for(@student_exam, html: { multipart: true }) do |f| %>

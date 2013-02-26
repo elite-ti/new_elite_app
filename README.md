@@ -19,7 +19,7 @@
 
 ## Tomorrow
 
-* Convert to png before processing (dont user libtiff)
+* Convert to png before processing (dont use libtiff)
 * Create error view
 * Upload cards
 * Deploy and populate
