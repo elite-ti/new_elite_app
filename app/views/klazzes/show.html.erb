@@ -5,7 +5,9 @@
 <div class='tabs'>
   <ul>
     <li><a href='#info_tab'>Info</a></li>
-    <li><a href='#students_tab'>Students</a></li>
+    <% if false %>
+      <li><a href='#students_tab'>Students</a></li>
+    <% end %>
     <li><%= link_to 'Calendar', klazz_periods_path(@klazz), title: 'calendar_tab' %></li>
   </ul>
 

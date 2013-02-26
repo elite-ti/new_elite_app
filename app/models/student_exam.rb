@@ -61,7 +61,6 @@ class StudentExam < ActiveRecord::Base
   end
 
   def scan
-    debugger
     begin
       self.student_number, self.string_of_answers = 
         card_type.scan(card.path, card.normalized_path) 

@@ -2,47 +2,37 @@
 
 ## Urgent!
 
-* Today
-  * Criar super klazzes
-    * repopulate - OK
-    * fix tests - OK
-    * create interface for new models - OK
-  * Create temporary students task - OK
-  * Upload cards
-  * Look into card_processings file whereabouts
-  * Test cards check
-  * Dont delete carrierwave files after delete resource
+* Criar super klazzes - OK
+  * repopulate - OK
+  * fix tests - OK
+  * create interface for new models - OK
+  
+* Create temporary students task - OK
+* Test card upload - OK
+
+* Upload norte shopping as a test - OK
+  * Change scanner parameters
+
+* Upload cards
+* Update exam migration
 
 
-* Amanha
-  * Arrumar a mudanca do calendario pelo select date
-  * Refazer o student populate task
-    * considerar outros campos (3 serie etc)
-  * Arrumar calendario da unidade
-  * Traduzir
+## Later...
 
-* Melhorias
-  * Ajax nas datatables (tah precisando)
-  * Revisar back buttons
-
+* Improvements
+  * Datatables ajax
+  * Review back buttons
+  * Tranlate
 
 * Calendar
+  * fix select date
+  * create campus calendar
   * create/update/destroy actions for periods
-
-* Fix card processor 
-  * Remove parameters from database
-  * Product head teachers can upload cards
-  * check ability when seeing student exams and exams
-
-* Create holidays and breaks table
-  * migrate it!
+  * create holidays and breaks table
 
 * Schedule
   * Update db changes from schema.mwb to schema.rb
   * Create migration script for sample files
-
-
-## Later...
 
 * Adicionar funcionalidade de auditoria
 * Create staging environment and deploy daily

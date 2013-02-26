@@ -9,15 +9,18 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can :read, Period
 
     can :read, Campus, id: accessible_campus_ids
-    can :read, Klazz, campus_id: accessible_campus_ids
+    can :read, Klazz, super_klazz: { campus_id: accessible_campus_ids }
     can :read, Teacher, id: accessible_teacher_ids
 
     can :create, CardProcessing 
-    can [:read, :destroy], CardProcessing, campus_id: accessible_campus_ids
+    can :read, CardProcessing, campus_id: accessible_campus_ids
+
+    can [:read, :update], StudentExam, 
+      card_processing: { campus_id: accessible_campus_ids },
+      status: StudentExam::NEEDS_CHECK
 
     # TODO: 
     # can add teacher absence
-    # can manage exams
   end
 
 private

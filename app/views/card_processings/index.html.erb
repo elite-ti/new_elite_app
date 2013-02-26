@@ -27,10 +27,12 @@
             <%= link_to 'Show', card_processing %> |
             <% if card_processing.needs_check? %>
               <%= link_to 'Check', 
-                edit_student_exam_path(card_processing.to_be_checked) %> |
+                edit_student_exam_path(card_processing.to_be_checked) %>
             <% end %>
           <% end %>
-          <%= destroy_link(card_processing) %>
+          <% if can?(:destroy, card_processing) %>
+            | <%= destroy_link(card_processing) %>
+          <% end %>
         </span>
       </td>
       <td>
