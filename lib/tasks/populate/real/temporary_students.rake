@@ -1,3 +1,4 @@
+# encoding: UTF-8
 namespace :db do
   namespace :populate do
     namespace :real do 
@@ -7,6 +8,21 @@ namespace :db do
           read_csv('temporary_students', col_sep: ';').each do |ra, name, product_name, campus_name|
             name = name.split(/\s+/).map(&:mb_chars).map(&:capitalize).join(' ')
             student = Student.create!(name: name, ra: ra)
+
+            product_name = {
+              "1ºMilitar" => "1ª Série Militar", 
+              "2ºMilitar" => "2ª Série Militar", 
+              "AFA- EFOMM-ESPCEX" => "AFA/ESPCEX", 
+              "9ºMilitar" => "9º Ano Militar", 
+              "1ª Série Militar" => "1ª Série Militar", 
+              "9º Ano Militar" => "9º Ano Militar", 
+              "AFA-EAAr-EFOMM" => "AFA/EAAr/EFOMM", 
+              "AFA-ESPCEX" => "AFA/ESPCEX", 
+              "2ª Série Militar" => "2ª Série Militar", 
+              "ESPCEX" => "ESPCEX", 
+              "IME-ITA" => "IME-ITA", 
+              "2ª Série ENEM" => "2ª Série ENEM"
+            }[product_name]
 
             if ["AFA-ESPCEX", "AFA-EAAr-EFOMM"].include?(product_name)
               product_name.gsub!(/-/, '/')
