@@ -16,7 +16,7 @@ namespace :db do
             "ACBECDAEBADCEDCECDCABCABABDCDDBAAEDAAADAAAECDCEBCD" =>
               ["1ª Série Militar", "9º Ano Militar", "2ª Série Militar", "EsSA"],
             "ACBECDAEBADCEDCECDCABCABAACEEACACCECDEDABDDEABBCBB" =>
-              ["AFA/EN/EFOMM", "ESPCEX", "AFA/EAAr/EFOMM"]
+              ["AFA/EN/EFOMM", "ESPCEX", "AFA/EAAr/EFOMM", "IME-ITA", "AFA/ESPCEX"]
           }.each_pair do |correct_answers, product_names|
             exam = Exam.create!(
               name: cycle_zero,
@@ -42,10 +42,43 @@ namespace :db do
               end
             end
           end
+
+          [
+            [
+              "Madureira III",
+              "1ª Série Militar", 
+              "ADCEDCECACBECDAEBCABADCABADAAAECDCEBCDBDCDDBAAEDAA"
+            ],
+            [
+              "Madureira I",
+              "2ª Série Militar",
+              "CECDECDABEADCEBCAABACBACDAAAECDCEBCDBDCDDBAAEDAAAD"
+            ],
+            [
+              "Madureira III",
+              "9º Ano Militar",
+              "ADCEDCECACBECDAEBBCABADCAAAAECDCEBCDBDCDDBAAEDAAAD"
+            ]
+          ].each do |campus_name, product_name, correct_answers|
+            exam = Exam.create!(
+              name: cycle_zero,
+              correct_answers: correct_answers,
+              options_per_question: 5)
+
+            product_year = ProductYear.where(name: product_name + ' - 2013').first!
+            campus = Campus.where(name: campus_name).first!
+            super_klazz = SuperKlazz.where(campus_id: campus.id, product_year_id: product_year.id).first!
+            exam_cycle = product_year.exam_cycles.first!
+
+            ExamExecution.where(
+              exam_cycle_id: exam_cycle.id,
+              super_klazz_id: super_klazz.id
+            ).first!.update_attributes!(exam_id: exam.id)
+          end
         end
       end
     end
   end
 end
 
-
+# TODO: dividir por materia!

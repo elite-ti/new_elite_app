@@ -1,25 +1,25 @@
-Não regular,Não regular,,,
-1ª Série Militar,Pré-Militar,MIL,9º Ano Militar e Ensino Médio Militar
-1ª Série ENEM,Colégio,,Ensino Médio
-2ª Série Militar,Pré-Militar,MIL,9º Ano Militar e Ensino Médio Militar
-2ª Série ENEM,Colégio,,Ensino Médio
-3ª Série + AFA/EFOMM,Pré-Militar,3AFA,,9º Ano Militar e Ensino Médio Militar
-3ª Série + ESPCEX,Pré-Militar,3ESP,,9º Ano Militar e Ensino Médio Militar
-3ª Série + IME-ITA,Pré-Militar,3IME,,IME/ITA
-3ª Série + Pré-Vestibular Biomédicas,Pré-Vestibular,3BIO,,Ensino Médio
-3ª Série + Pré-Vestibular Manhã,Pré-Vestibular,3PVM,,Ensino Médio
-6º Ano,Colégio,6,,Ensino Fundamental
-7º Ano,Colégio,7,,Ensino Fundamental
-8º Ano,Colégio,8,,Ensino Fundamental
-9º Ano Forte,Colégio,9,F,Ensino Fundamental
-9º Ano Militar,Pré-Militar,9,MIL,9º Ano Militar e Ensino Médio Militar
-AFA/EAAr/EFOMM,Pré-Militar,AEA,,AFA/EN e AFA/EEAR
-AFA/EN/EFOMM,Pré-Militar,AEE,,AFA/EN e AFA/EEAR
-ESPCEX,Pré-Militar,ESP,,ESPCEX e ESSA
-EsSA,Pré-Militar,ESA,,ESPCEX e ESSA
-IME-ITA,Pré-Militar,IME,,IME/ITA
-IME-ITA Especial,Pré-Militar,IES,,IME/ITA
-Pré-Vestibular Biomédicas,Pré-Vestibular,BIO,,Pré-Vestibular
-Pré-Vestibular Manhã,Pré-Vestibular,PVM,,Pré-Vestibular
-Pré-Vestibular Noite,Pré-Vestibular,PVN,,Pré-Vestibular
-AFA/ESPCEX,Pré-Militar,AES,,
+Não regular,Não regular,,,,01
+1ª Série Militar,Pré-Militar,MIL,9º Ano Militar e Ensino Médio Militar,02
+1ª Série ENEM,Colégio,,Ensino Médio,03
+2ª Série Militar,Pré-Militar,MIL,9º Ano Militar e Ensino Médio Militar,04
+2ª Série ENEM,Colégio,,Ensino Médio,05
+3ª Série + AFA/EFOMM,Pré-Militar,3AFA,,9º Ano Militar e Ensino Médio Militar,06
+3ª Série + ESPCEX,Pré-Militar,3ESP,,9º Ano Militar e Ensino Médio Militar,07
+3ª Série + IME-ITA,Pré-Militar,3IME,,IME/ITA,08
+3ª Série + Pré-Vestibular Biomédicas,Pré-Vestibular,3BIO,,Ensino Médio,09
+3ª Série + Pré-Vestibular Manhã,Pré-Vestibular,3PVM,,Ensino Médio,10
+6º Ano,Colégio,6,,Ensino Fundamental,11
+7º Ano,Colégio,7,,Ensino Fundamental,12
+8º Ano,Colégio,8,,Ensino Fundamental,13
+9º Ano Forte,Colégio,9,F,Ensino Fundamental,14
+9º Ano Militar,Pré-Militar,9,MIL,9º Ano Militar e Ensino Médio Militar,15
+AFA/EAAr/EFOMM,Pré-Militar,AEA,,AFA/EN e AFA/EEAR,16
+AFA/EN/EFOMM,Pré-Militar,AEE,,AFA/EN e AFA/EEAR,17
+ESPCEX,Pré-Militar,ESP,,ESPCEX e ESSA,18
+EsSA,Pré-Militar,ESA,,ESPCEX e ESSA,19
+IME-ITA,Pré-Militar,IME,,IME/ITA,20
+IME-ITA Especial,Pré-Militar,IES,,IME/ITA,21
+Pré-Vestibular Biomédicas,Pré-Vestibular,BIO,,Pré-Vestibular,22
+Pré-Vestibular Manhã,Pré-Vestibular,PVM,,Pré-Vestibular,23
+Pré-Vestibular Noite,Pré-Vestibular,PVN,,Pré-Vestibular,24
+AFA/ESPCEX,Pré-Militar,AES,,,25

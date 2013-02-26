@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :product_type_id, :product_group_id, :name, :prefix, :suffix
+  attr_accessible :product_type_id, :product_group_id, :name, :prefix, :suffix, :code
 
   belongs_to :product_type
   belongs_to :product_group

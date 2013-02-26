@@ -6,7 +6,7 @@
   * repopulate - OK
   * fix tests - OK
   * create interface for new models - OK
-  
+
 * Create temporary students task - OK
 * Test card upload - OK
 
@@ -14,7 +14,9 @@
   * Change scanner parameters
 
 * Upload cards
-* Update exam migration
+* Update exam populate script
+* Deploy and populate
+
 
 
 ## Later...

@@ -198,13 +198,14 @@ namespace :db do
       task products: :environment do
         p 'Populating products'
         ActiveRecord::Base.transaction do 
-          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name|
+          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name, code|
             Product.create!(
               name: product_name, 
               product_type_id: ProductType.find_by_name!(product_type_name).id,
               prefix: prefix,
               suffix: suffix,
-              product_group_id: ProductGroup.where(name: product_group_name).first.try(:id))
+              product_group_id: ProductGroup.where(name: product_group_name).first.try(:id),
+              code: code)
           end
         end
       end
@@ -217,7 +218,7 @@ namespace :db do
       task product_years: :environment do
         p 'Populating product years'
         ActiveRecord::Base.transaction do 
-          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name|
+          read_csv('products').each do |product_name, product_type_name, prefix, suffix, product_group_name, code|
             ProductYear.create!(
               name: product_name + ' - ' + Year.first.number.to_s, 
               product_id: Product.where(name: product_name).first!.id, 
