@@ -15,9 +15,11 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can :create, CardProcessing 
     can :read, CardProcessing, campus_id: accessible_campus_ids
 
-    can [:read, :update], StudentExam, 
+    can :read, StudentExam, 
       card_processing: { campus_id: accessible_campus_ids },
       status: StudentExam::NEEDS_CHECK
+
+    can [:update, :error], StudentExam
 
     # TODO: 
     # can add teacher absence
