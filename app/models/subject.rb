@@ -11,9 +11,6 @@ class Subject < ActiveRecord::Base
   has_many :product_years, through: :subject_threads
   has_many :teaching_assignments, through: :subject_threads
 
-  has_many :exam_subjects, dependent: :destroy
-  has_many :exams, through: :exam_subjects
-
   has_many :periods, dependent: :destroy
   has_many :klazzes, through: :teaching_assignments
   has_many :teachers, through: :teaching_assignments

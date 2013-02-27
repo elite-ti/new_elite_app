@@ -193,13 +193,6 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
     t.datetime "updated_at"
   end
 
-  create_table "exam_subjects", :force => true do |t|
-    t.integer  "subject_id"
-    t.integer  "exam_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "exams", :force => true do |t|
     t.string   "name"
     t.string   "correct_answers"
