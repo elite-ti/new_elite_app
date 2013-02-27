@@ -1,19 +1,24 @@
 # EliteApp
 
 
-## Steps
+## Urgent
 
-* Download all exam cards, organize and create .rar to upload
-* Fix card scanner
-* Fix elite_app
+* ExamCards
+  * download - OK
+  * organize
+  * create .rar to upload
 
-## Urgent!
+* Add students sent by campuses
+  * cg1
+  * cg2 - OK
 
-* Error rendering students#show
-* Error processing card 
-    * bug.rar - try converting to png before processing
-* Fix card scanner
-* Update exam questions subjects  
+* Errors
+  * Error rendering students#show
+  * Error rendering employee#show
+  * Error processing card 
+  * Update exam questions subjects  
+
+* Improve card check forms
 
 
 ## Later...

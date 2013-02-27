@@ -14,19 +14,9 @@ namespace :db do
               "2ºMilitar" => "2ª Série Militar", 
               "AFA- EFOMM-ESPCEX" => "AFA/ESPCEX", 
               "9ºMilitar" => "9º Ano Militar", 
-              "1ª Série Militar" => "1ª Série Militar", 
-              "9º Ano Militar" => "9º Ano Militar", 
               "AFA-EAAr-EFOMM" => "AFA/EAAr/EFOMM", 
               "AFA-ESPCEX" => "AFA/ESPCEX", 
-              "2ª Série Militar" => "2ª Série Militar", 
-              "ESPCEX" => "ESPCEX", 
-              "IME-ITA" => "IME-ITA", 
-              "2ª Série ENEM" => "2ª Série ENEM"
-            }[product_name]
-
-            if ["AFA-ESPCEX", "AFA-EAAr-EFOMM"].include?(product_name)
-              product_name.gsub!(/-/, '/')
-            end
+            }[product_name] || product_name
 
             super_klazz = SuperKlazz.where(
               product_year_id: ProductYear.where(name: product_name + ' - 2013').first!.id, 
