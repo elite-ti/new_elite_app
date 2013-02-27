@@ -75,10 +75,32 @@ namespace :db do
               super_klazz_id: super_klazz.id
             ).first!.update_attributes!(exam_id: exam.id)
           end
+
+          math = Subject.where(name: "MATEMÁTICA").first!
+          math_question_ids = ExamQuestion.where(number: (26..50)).map(&:question).map(&:id)
+          math_topic = Topic.create!(
+            name: math.name,
+            subtopics: 'All',
+            subject_id: math.id)
+          math_question_ids.each do |math_question_id|
+            QuestionTopic.create!(
+              question_id: math_question_id,
+              topic_id: math_topic.id)
+          end
+
+          portuguese = Subject.where(name: "LÍNGUA PORTUGUESA").first!
+          portuguese_question_ids = ExamQuestion.where(number: (1..25)).map(&:question).map(&:id)
+          portuguese_topic = Topic.create!(
+            name: math.name,
+            subtopics: 'All',
+            subject_id: portuguese.id) 
+          portuguese_question_ids.each do |portuguese_question_id|
+            QuestionTopic.create!(
+              question_id: portuguese_question_id,
+              topic_id: portuguese_topic.id)
+          end
         end
       end
     end
   end
 end
-
-# TODO: dividir por materia!

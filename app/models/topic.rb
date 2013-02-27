@@ -1,7 +1,7 @@
 class Topic < ActiveRecord::Base
   has_paper_trail
 
-  attr_accessible :itens, :name, :subject_id
+  attr_accessible :subtopics, :name, :subject_id
 
   belongs_to :subject
 
@@ -11,5 +11,5 @@ class Topic < ActiveRecord::Base
   has_many :question_topics, dependent: :destroy
   has_many :questions, through: :question_topics
 
-  validates :name, :itens, :subject_id, presence: true
+  validates :name, :subtopics, :subject_id, presence: true
 end
