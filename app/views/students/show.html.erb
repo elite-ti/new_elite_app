@@ -62,25 +62,16 @@
     <table id='student_enrolled_exams' class='display is-datatable'>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Datetime</th>
           <th>Exam cycle</th>
+          <th>Datetime</th>
         </tr>
       </thead>
 
       <tbody>
-      <% @student.enrolled_exams.each do |exam| %>
+      <% @student.enrolled_exam_executions.each do |exam_execution| %>
         <tr>
-          <td>
-            <%= exam.name %>
-            <span>
-              <%= link_to 'Show', exam %> |
-              <%= link_to 'Edit', edit_exam_path(exam) %> |
-              <%= link_to 'Destroy', exam, method: :delete, confirm: 'Are you sure?' %> 
-            </span>
-          </td>
-          <td><%= print_datetime(exam.datetime) %></td>
-          <td><%= exam.exam_cycle_id %></td>
+          <td><%= exam_execution.exam_cycle.name %></td>
+          <td><%= print_datetime(exam_execution.datetime) %></td>
         </tr>
       <% end %>
       </tbody>

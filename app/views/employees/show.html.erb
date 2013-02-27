@@ -38,16 +38,18 @@
       %>
 
       <% if current_employee.admin? or current_employee == @employee %>
-        <%= show_group 'Address',
-          {
-            'Street' => @employee.address.street,
-            'Number' => @employee.address.number,
-            'Complement' => @employee.address.complement,
-            'Suburb' => @employee.address.suburb,
-            'City' => @employee.address.city,
-            'State' => @employee.address.state
-          } 
-        %>
+        <% if @employee.address.present? %>
+          <%= show_group 'Address',
+            {
+              'Street' => @employee.address.street,
+              'Number' => @employee.address.number,
+              'Complement' => @employee.address.complement,
+              'Suburb' => @employee.address.suburb,
+              'City' => @employee.address.city,
+              'State' => @employee.address.state
+            } 
+          %>
+        <% end %>
 
         <%= show_group 'Documents', 
           {
