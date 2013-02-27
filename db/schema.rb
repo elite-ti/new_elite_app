@@ -554,7 +554,7 @@ ActiveRecord::Schema.define(:version => 20130217201533) do
 
   create_table "topics", :force => true do |t|
     t.string   "name"
-    t.text     "itens"
+    t.text     "subtopics"
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
