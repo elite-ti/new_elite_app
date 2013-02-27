@@ -11,7 +11,7 @@ class CardProcessingUploader < CarrierWave::Uploader::Base
     %w(tif rar zip)
   end
 
-  def filename
-    "original.#{model.file.file.extension}" if original_filename 
-  end
+  # def filename
+  #   "original.#{model.file.file.extension}" if original_filename 
+  # end
 end
