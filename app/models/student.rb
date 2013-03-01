@@ -29,4 +29,26 @@ class Student < ActiveRecord::Base
     (is_bolsao ? applied_exam_executions : enrolled_exam_executions).
       where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
   end
+
+  def self.create_temporary_student!(name, super_klazz_id)
+    super_klazz = SuperKlazz.find(super_klazz_id)
+
+    min_temporary_ra = '9' + super_klazz.campus.code + super_klazz.product_year.product.code + '00'
+    min_temporary_ra = min_temporary_ra.to_i - 1
+    max_ra = super_klazz.enrolled_students.maximum(:ra)
+    ra = 0
+    if max_ra.nil?
+      ra = min_temporary_ra.to_i
+    else
+      ra = [max_ra, min_temporary_ra.to_i].max
+    end
+    ra = ra + 1
+
+    student = Student.new
+    student.name = name
+    student.ra = ra
+    student.enrolled_super_klazz_ids = [super_klazz_id]
+    student.save!
+    student
+  end
 end

@@ -2,22 +2,82 @@
   (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
   link_to('Back', @student_exam.card_processing) %>
 
-<%= simple_form_for(@student_exam, html: { multipart: true }) do |f| %>
-  <%= f.error_notification %>
+<% if @student_exam.student_not_found? %>
+  <h2>Student was not found</h2>
+  <%= image_tag @student_exam.card.student_url %>
+  <div style='height: 50px;'></div>
+  <div class='tabs'>
+    <ul>
+      <li><a href='#existing_student'>Existing Student</a></li>
+      <li><a href='#new_student'>New Student</a></li>
+    </ul>
 
-  <div class='form-inputs'>
-    <% if @student_exam.student_not_found? %>
-      <h2>Student was not found</h2>
-      <%= image_tag @student_exam.card.student_url %>
-      <%= f.association :student, 
-        collection: @student_exam.possible_students %>
+    <div id='existing_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <div class='input'>
+            <%= f.label :student_id %>
+            <%= collection_select :mock, :student_ra, @possible_students, :id, :ra, include_blank: true %>
+            <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
+          </div>
+        </div>
 
-    <% elsif @student_exam.exam_not_found? %>
-      <h2>Exam was not found</h2>
-      <%= f.association :exam_execution, :collection => @student_exam.possible_exam_executions %>
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Next Student Exam' %>
+        </div>
+      <% end %>
+    </div>
+      
+    <div id='new_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <%= f.simple_fields_for @new_student do |ff| %>
+            <%= ff.input :name %>
+            <%= ff.association :enrolled_super_klazzes, 
+              label: 'SuperKlazz',
+              label_method: :product_year_name, 
+              input_html: { multiple: false } %>
+          <% end %>
+        </div>
 
-    <% elsif @student_exam.invalid_answers? %>
-      <h2>Some answers were zero or wrong</h2>
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Next Student Exam' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+  
+<% elsif @student_exam.exam_not_found? %>
+  <h2>Exam was not found</h2>
+
+  <p>
+    <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+    <strong>Student: </strong><%= @student_exam.student.name %><br />
+    <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
+      map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
+  </p>
+
+  <%= simple_form_for(@student_exam) do |f| %>
+    <%= f.error_notification %>
+    <div class='form-inputs'>
+      <%= f.association :exam_execution, 
+        collection: @student_exam.possible_exam_executions %>
+    </div> 
+    <div class='form-actions'>
+      <%= f.submit 'Finish', class: 'btn' %>
+      <%= f.submit 'Next Student Exam' %>
+    </div>
+  <% end %>
+
+<% elsif @student_exam.invalid_answers? %>
+  <h2>Some answers were zero or wrong</h2>
+
+  <%= simple_form_for(@student_exam) do |f| %>
+    <%= f.error_notification %>
+    <div class='form-inputs'>
       <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
         <%= image_tag exam_fields.object.image_url %>
         <div class='radio-buttons'>
@@ -25,11 +85,11 @@
             exam_fields.object.options.map{|x| [x, x]}, :first, :last %>
         </div>
       <% end %>
-    <% end %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.submit 'Finish', class: 'btn' %>
-    <%= f.submit 'Next Student Exam' %>
-  </div>
+    </div>
+  
+    <div class='form-actions'>
+      <%= f.submit 'Finish', class: 'btn' %>
+      <%= f.submit 'Next Student Exam' %>
+    </div>
+  <% end %>
 <% end %>

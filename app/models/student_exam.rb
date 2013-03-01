@@ -67,7 +67,7 @@ class StudentExam < ActiveRecord::Base
   def scan
     begin
       self.student_number, self.string_of_answers = 
-        card_type.scan(card.path, card.normalized_path) 
+        card_type.scan(card.png.path, card.normalized_path) 
       set_student
       save!
     rescue => e

@@ -25,4 +25,8 @@ class SuperKlazz < ActiveRecord::Base
   def label_method
     product_year.name + ' - ' + campus.name
   end
+
+  def product_year_name
+    product_year.name
+  end
 end

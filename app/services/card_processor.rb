@@ -29,7 +29,7 @@ private
           if File.extname(path) != '.tif' 
             p 'CardProcessor: Not supported format'
             p 'CardProcessingId: ' + card_processing.id.to_s
-            p 'File: ' + file.path
+            p 'File: ' + path
             next
           end
           new_path = File.join(File.dirname(path), counter.to_s + '.tif')

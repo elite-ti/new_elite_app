@@ -3,30 +3,20 @@
 
 ## Urgent
 
-* ExamCards
-  * download - OK
-  * organize
-  * create .rar to upload
-
-* Add students sent by campuses
-  * cg1
-  * cg2 - OK
-
-* Errors
-  * Error rendering students#show
-  * Error rendering employee#show
-  * Error processing card 
-  * Update exam questions subjects  
-
 * Improve card check forms
 
+* Create feedback button!
+
+* Conferir numero de alunos nas turmas
+  (Apenas nove da 2MIL da tijuca?)
 
 ## Later...
 
 * Improvements
+  * Add subject to exam form - update task
   * Datatables ajax
   * Review back buttons
-  * Tranlate
+  * Translate
 
 * Calendar
   * fix select date

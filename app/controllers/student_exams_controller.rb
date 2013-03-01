@@ -5,6 +5,7 @@ class StudentExamsController < ApplicationController
   end
 
   def edit
+    set_form_objects
   end
 
   def update
@@ -19,6 +20,7 @@ class StudentExamsController < ApplicationController
       if params[:commit] == 'Finish'
         redirect_to @student_exam.card_processing, notice: 'Changes not applied.'
       else
+        set_form_objects
         render :edit
       end
     end
@@ -40,6 +42,13 @@ private
     else
       redirect_to @student_exam.card_processing, 
         notice: 'All cards were checked!'
+    end
+  end
+
+  def set_form_objects
+    if @student_exam.student_not_found?
+      @possible_students = @student_exam.possible_students
+      @new_student = @student_exam.student || @student_exam.build_student
     end
   end
 end
