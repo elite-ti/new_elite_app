@@ -16,6 +16,7 @@ class StudentExam < ActiveRecord::Base
   belongs_to :student
   belongs_to :card_processing
   has_many :exam_answers, dependent: :destroy
+  has_many :exam_questions, through: :exam_answers
   accepts_nested_attributes_for :exam_answers
 
   validates :card, :card_processing_id, presence: true
@@ -115,6 +116,12 @@ class StudentExam < ActiveRecord::Base
     else
       self.status = VALID_STATUS
     end
+  end
+
+  def get_exam_answers
+    exam_answers.includes(:exam_question).sort do |x,y| 
+      x.exam_question.number <=> y.exam_question.number 
+    end.map(&:answer)
   end
 
 private

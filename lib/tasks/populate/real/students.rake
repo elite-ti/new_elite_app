@@ -5,8 +5,7 @@ namespace :db do
         p 'Populating students'
         ActiveRecord::Base.transaction do 
           read_csv('students').each do |ra, name, klazz_name|
-            name = name.split(/\s+/).map(&:mb_chars).map(&:capitalize).join(' ')
-            student = Student.where(ra: ra.to_i).first_or_create!(name: name)
+            student = Student.where(ra: ra.to_i).first_or_create!(name: name.strip)
 
             klazz = Klazz.where(name: klazz_name).first
             if klazz.present?
