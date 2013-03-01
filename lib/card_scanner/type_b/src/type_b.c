@@ -6,13 +6,14 @@
 #include <string.h>
 
 #define ERROR 0.7
-#define DEBUG // Comment out if not debug version
+// #define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
 #define ERROR_WRITING_FILE "Error: could not write png."
 #define PIVOT_X_NOT_FOUND "Error: pivot x not found."
 #define PIVOT_Y_NOT_FOUND "Error: pivot y not found."
+#define PIVOT_REVERSE_Y_NOT_FOUND "Error: reverse pivot y not found."
 
 #define get_index(file, x, y) (((y) * (file).width + (x))*4)
 #define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
@@ -108,8 +109,8 @@ int main(int argc, char* argv[]) {
   File file = read_file();
 
   File rotated_180_file = rotate180(file);
-  // write_png(&rotated_180_file);
   File rotated_file = rotate(rotated_180_file);
+  // write_png(&rotated_file);
   File moved_file = move(rotated_file);
 
   // test_rotation(moved_file);
@@ -263,27 +264,28 @@ File rotate180(File file) {
 
 File rotate(File file) {
 
-  if(test_rotation(file) == 1) return file;
+  //if(test_rotation(file) == 1) return file;
 
   double tg = get_tangent(file);
   if(tg == 0)
     return file;
-
-  // DEBUG: paint green tangent
-  #ifdef DEBUG
-    printf("tg: %f\n", tg);
-    double tg_abs = tg;
-    if(tg < 0)
-      tg_abs = -tg;
-    for (int y = 0; y < file.height; ++y)
-      paint_pixel(file, floor(tg_abs*y), y, 0, 255, 0);
-  #endif
 
   double tg2 = tg*tg;
   double s = sqrt((tg2)/(1.0 + tg2));
   if(tg < 0)
     s = -s;
   double c = sqrt(1.0/(1.0 + tg2));
+
+  // DEBUG: paint green tangent
+  #ifdef DEBUG
+    printf("tg: %f\n", tg);
+    printf("s: %f\n", s);
+    printf("c: %f\n", c);
+    for (int y = 0; y < file.height; ++y){
+      // printf("%d %d\n", (int) floor(tg*y), y);
+      paint_pixel(file, 100 + floor(tg*y), y, 0, 255, 0);
+    }
+  #endif
 
   File rotated_file = create_empty_file(file.height, file.width);
   for(int x = 0; x < file.width; x++) {
@@ -375,6 +377,7 @@ double get_tangent(File file) {
   int *xx = (int*) malloc(file.height * sizeof(int));
   int *yy = (int*) malloc(file.height * sizeof(int));
   int size = 0, x, y, counter;
+  // printf("até aqui eu cheguei\n");
   double average = 0;
   for(y = 0; y < file.height; y++) {
     x = 0;
@@ -432,8 +435,8 @@ double get_tangent(File file) {
   // printf("SUMxx: %g\n", SUMxx);
   // printf("size - discarded: %d\n", size - discarded);
   double tg = ((double)SUMxx/(double)SUMxy);
-  if(tg < 0)
-    tg = -tg;
+  // if(tg < 0)
+  //   tg = -tg;
   // printf("%g\n", tg);
 
   return tg;
@@ -441,6 +444,7 @@ double get_tangent(File file) {
 
 Pixel get_pivot(File file) {
   Pixel pivot;
+
   // double density, max_density = 0;
   // int target_x = -1, target_xx = -1; 
   // for(int x = 0; x < file.width && target_xx < 0; x++) {
@@ -465,17 +469,30 @@ Pixel get_pivot(File file) {
   //   }
   // }
   // stop(4, PIVOT_NOT_FOUND);
+  #ifdef DEGUB
+    printf("Pivot: %d %d\n", pivot.x, pivot.y);
+    paint_big_pixel(file, pivot.x, pivot.y, 0, 255, 255);
+  #endif
+
   pivot.x = get_pivot_x(file);
   pivot.y = get_pivot_y(file, pivot.x);
+
   return pivot;
 }
 
 int get_pivot_x(File file) {
-  int boolean = 0;
-  for(int x = 0; x < file.width; x++) {
-    if(boolean == 0) {
+  int target_x = -1, target_xx = -1; 
+  int count = 0;
+  for(int x = 0; x < file.width && target_xx < 0; x++) {
+    if(target_x < 0) {
       if(get_column_density(file, x) > 0.3)
-        boolean = 1;
+      {
+        count = 1;
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+          count++;
+        if(count > 40)
+          target_x = x;
+      }
     }
     else {
       if (get_column_density(file, x) < 0.3)
@@ -487,10 +504,17 @@ int get_pivot_x(File file) {
 
 int get_pivot_y(File file, int start_y) {
   int target_x = -1, target_xx = -1; 
+  int count = 0;
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
       if(get_column_density(file, x) > 0.3)
-        target_x = x; 
+      {
+        count = 1;
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+          count++;
+        if(count > 40)
+          target_x = x;
+      }
     }
     else {
       if (get_column_density(file, x) < 0.3)
@@ -498,11 +522,17 @@ int get_pivot_y(File file, int start_y) {
     }
   }
 
+  for (int i = 0; i < file.height; ++i)
+  {
+    paint_pixel(file, target_x, i, 0, 0, 255);
+    paint_pixel(file, target_xx, i, 0, 0, 255);
+  }
+  // printf("TESTE TESTE TESTE %d %d \n", target_x, target_xx);
   for(int y = start_y; y < file.height; y++) {
-    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.7) {
       int matches = 0;
       for(int z = 0; z < 30; z++)
-        if(get_line_density(file, target_x, target_xx, y + z) > 0.8)
+        if(get_line_density(file, target_x, target_xx, y + z) > 0.7)
           matches++;
       if(matches == 30)
         return y;
@@ -513,10 +543,17 @@ int get_pivot_y(File file, int start_y) {
 
 int get_reverse_pivot_y(File file, int start_y) { 
   int target_x = -1, target_xx = -1; 
+  int count;
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
       if(get_column_density(file, x) > 0.3)
-        target_x = x; 
+      {
+        count = 1;
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+          count++;
+        if(count > 40)
+          target_x = x;
+      }
     }
     else {
       if (get_column_density(file, x) < 0.3)
@@ -525,16 +562,16 @@ int get_reverse_pivot_y(File file, int start_y) {
   }
 
   for(int y = start_y; y >= 0; y--) {
-    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.7) {
       int matches = 0;
       for(int z = 0; z < 30; z++)
-        if(get_line_density(file, target_x, target_xx, y - z) > 0.8)
+        if(get_line_density(file, target_x, target_xx, y - z) > 0.7)
           matches++;
       if(matches == 30)
         return y;
     }
   }
-  stop(4, PIVOT_Y_NOT_FOUND);
+  stop(4, PIVOT_REVERSE_Y_NOT_FOUND);
 }
 
 double get_line_density(File file, int start_x, int end_x, int y) {
@@ -545,12 +582,17 @@ double get_line_density(File file, int start_x, int end_x, int y) {
   return (double)match / (double)(end_x - start_x);
 }
 
+// double get_column_density(File file, int x, int start_y, int end_y) {
 double get_column_density(File file, int x) {
   int match = 0;
-  for(int y = 0; y < file.height; y++) 
+  int count = 0;
+  // for(int y = start_y; y < file.height && y < end_y; y++) {
+  for(int y = 0; y < file.height; y++) {
     if(is_pixel_filled(file, x, y))
         match++;
-  return (double)match / (double)file.height;
+      count++;
+  }
+  return (double)match / (double)count;
 }
 
 // Pixel *get_clock_locations(File file){
@@ -702,12 +744,19 @@ int test_rotation(File file){
 
 int get_division_between_zones(File file){
   int target_x = -1, target_xx = -1;
+  int count;
 
   // Find start and end for clock in x
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
       if(get_column_density(file, x) > 0.3)
-        target_x = x; 
+      {
+        count = 1;
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+          count++;
+        if(count > 40)
+          target_x = x;
+      }
     }
     else {
       if (get_column_density(file, x) < 0.3)
@@ -718,10 +767,10 @@ int get_division_between_zones(File file){
   // Find pivot in y
   int y;
   for(y = 0; y < file.height; y++) {
-    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.7) {
       int matches = 0;
       for(int z = 0; z < 30; z++)
-        if(get_line_density(file, target_x, target_xx, y + z) > 0.8)
+        if(get_line_density(file, target_x, target_xx, y + z) > 0.7)
           matches++;
       if(matches == 30)
         break;
@@ -745,7 +794,7 @@ int adjust_configuration(File file){
   int start_of_header_y = get_pivot_y(file, 0);
   int end_of_header_y = get_division_between_zones(file);
 
-  if(start_of_header_y - 540 < 150 && end_of_header_y - 1000 < 150){
+  if(abs(start_of_header_y - 540) < 150 && abs(end_of_header_y - 1000) < 150){
     conf.student_zone.group_y = start_of_header_y;
     conf.student_zone.vertical_space_between_options = ((double)(end_of_header_y - start_of_header_y - conf.student_zone.questions_per_group * conf.student_zone.option_height))/((double) (conf.student_zone.questions_per_group - 1));    
   }
@@ -754,19 +803,20 @@ int adjust_configuration(File file){
   int start_of_answer_y = get_pivot_y(file, end_of_header_y);  
   int end_of_answer_y = get_reverse_pivot_y(file, file.height - 1);
 
-  if(start_of_answer_y - 1060 < 150 && end_of_answer_y - 4500 < 150){
+  if(abs(start_of_answer_y - 1060) < 150 && abs(end_of_answer_y - 4500) < 150){
     conf.questions_zone.group_y = start_of_answer_y;
     conf.questions_zone.vertical_space_between_options = ((double)(end_of_answer_y - start_of_answer_y - conf.questions_zone.questions_per_group * conf.questions_zone.option_height))/((double) (conf.questions_zone.questions_per_group - 1));
   }
 
   #ifdef DEBUG
-    printf("%d\n", start_of_header_y);
-    printf("%d\n", end_of_header_y);
-    printf("%d\n", start_of_answer_y);
-    printf("%d\n", end_of_answer_y);
-    printf("%d\n", conf.student_zone.questions_per_group);
-    printf("%d\n", conf.student_zone.option_height);
-    printf("%g\n", conf.student_zone.vertical_space_between_options);
+    printf("\n", start_of_header_y);
+    printf("Start Header: %d\n", start_of_header_y);
+    printf("End of Header: %d\n", end_of_header_y);
+    printf("Start of Answers: %d\n", start_of_answer_y);
+    printf("End of Answers: %d\n", end_of_answer_y);
+    printf("Questions Header: %d\n", conf.student_zone.questions_per_group);
+    printf("Option Height Header: %d\n", conf.student_zone.option_height);
+    printf("Vertical Space Header: %g\n", conf.student_zone.vertical_space_between_options);
       
     for (int i = 0; i < 500; ++i)
     {

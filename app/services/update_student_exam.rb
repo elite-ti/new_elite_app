@@ -7,6 +7,7 @@ class UpdateStudentExam
   end
 
   def update
+    debugger
     ActiveRecord::Base.transaction do 
       if student_exam.student_not_found?
         if !params[:student].nil?
@@ -15,7 +16,11 @@ class UpdateStudentExam
           update_student(params[:student_id])
         end
       elsif student_exam.exam_not_found?
-        update_exam(params[:exam_execution_id])
+        if !params[:student].nil?
+          update_and_update_student(params[:student])
+        elsif !params[:exam_execution_id].nil?
+          update_exam(params[:exam_execution_id])
+        end
       elsif student_exam.invalid_answers?
         update_answers(params[:exam_answers_attributes])
       end
@@ -33,6 +38,13 @@ private
 
   def update_student(student_id)
     student_exam.student_id = student_id
+    student_exam.set_exam_execution
+    student_exam.save!
+  end
+
+  def update_and_update_student(student)
+    student_exam.student.update_attributes!(student)
+    student_exam.reload!
     student_exam.set_exam_execution
     student_exam.save!
   end

@@ -24,7 +24,7 @@
 
         <div class='form-actions'>
           <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Next Student Exam' %>
+          <%= f.submit 'Continue' %>
         </div>
       <% end %>
     </div>
@@ -35,6 +35,7 @@
           <%= f.simple_fields_for @new_student do |ff| %>
             <%= ff.input :name %>
             <%= ff.association :enrolled_super_klazzes, 
+              collection: @student_exam.campus.super_klazzes,
               label: 'SuperKlazz',
               label_method: :product_year_name, 
               input_html: { multiple: false } %>
@@ -43,7 +44,7 @@
 
         <div class='form-actions'>
           <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Next Student Exam' %>
+          <%= f.submit 'Continue' %>
         </div>
       <% end %>
     </div>
@@ -51,25 +52,46 @@
 </div>
   
 <% elsif @student_exam.exam_not_found? %>
-  <h2>Exam was not found</h2>
+  <% if @student_exam.possible_exam_executions.size > 1 %>
+    <h2>More than one exam is possible for this student</h2>
+    <p>
+      <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+      <strong>Student: </strong><%= @student_exam.student.name %><br />
+      <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
+        map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
+    </p>
 
-  <p>
-    <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
-    <strong>Student: </strong><%= @student_exam.student.name %><br />
-    <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
-      map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
-  </p>
+    <%= simple_form_for(@student_exam) do |f| %>
+      <%= f.error_notification %>
+      <div class='form-inputs'>
+        <%= f.association :exam_execution, 
+          collection: @student_exam.possible_exam_executions %>
+      </div> 
+      <div class='form-actions'>
+        <%= f.submit 'Finish', class: 'btn' %>
+        <%= f.submit 'Continue' %>
+      </div>
+    <% end %>
+  <% else %>
+    <h2>No exams available for this student</h2>
+    <p>
+      <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+      <strong>Student: </strong><%= @student_exam.student.name %><br />
+    </p>
 
-  <%= simple_form_for(@student_exam) do |f| %>
-    <%= f.error_notification %>
-    <div class='form-inputs'>
-      <%= f.association :exam_execution, 
-        collection: @student_exam.possible_exam_executions %>
-    </div> 
-    <div class='form-actions'>
-      <%= f.submit 'Finish', class: 'btn' %>
-      <%= f.submit 'Next Student Exam' %>
-    </div>
+    <%= simple_form_for(@student_exam) do |f| %>
+      <%= f.error_notification %>
+      <div class='form-inputs'>
+        <%= f.simple_fields_for @student_exam.student do |ff| %>
+          <%= ff.association :enrolled_super_klazzes,
+            collection: @student_exam.campus.super_klazzes %>
+        <% end %>
+      </div> 
+      <div class='form-actions'>
+        <%= f.submit 'Finish', class: 'btn' %>
+        <%= f.submit 'Continue' %>
+      </div>
+    <% end %>
   <% end %>
 
 <% elsif @student_exam.invalid_answers? %>
@@ -89,7 +111,7 @@
   
     <div class='form-actions'>
       <%= f.submit 'Finish', class: 'btn' %>
-      <%= f.submit 'Next Student Exam' %>
+      <%= f.submit 'Continue' %>
     </div>
   <% end %>
 <% end %>

@@ -36,20 +36,20 @@ end
 print "=> Testing files\n"
 `ruby ../compile.rb`
 
-# folder_path = '/home/charlie/Desktop/card_processor_stuff/quick_test' 
+folder_path = '/home/charlie/Desktop/card_processor_stuff/quick_test' 
 
-# test folder_path, '11012013180610.tif', '0047315BBCEDDEEBABEEECEDDBBAEABEACCDEDBBABCECEB'
-# test folder_path, '11012013180612.tif', '004Z312BBBACCBCDBBCEEABDDEBBACCCECDDEBABCEAECDA'
-# test folder_path, '11012013182145.tif', '0047299CBEBDECDABCDBEEDDACB'
-# test folder_path, '11012013182330.tif', '1016961ADEBEBBDACCDBEDDCECC'
-# test folder_path, '11012013182332.tif', '004W440ABWADDBBDDCEBEBDAEAA'
-# test folder_path, '11012013182334.tif', '0046443BDBCDCAECBDADBBCCDCD'
-# test folder_path, '11012013182336.tif', '0047101BBBCACCEEBCEBEECCEED'
+test folder_path, '11012013180610.tif', '0047315BBCEDDEEBABEEECEDDBBAEABEACCDEDBBABCECEB'
+test folder_path, '11012013180612.tif', '004Z312BBBACCBCDBBCEEABDDEBBACCCECDDEBABCEAECDA'
+test folder_path, '11012013182145.tif', '0047299CBEBDECDABCDBEEDDACB'
+test folder_path, '11012013182330.tif', '1016961ADEBEBBDACCDBEDDCECC'
+test folder_path, '11012013182332.tif', '004W440ABWADDBBDDCEBEBDAEAA'
+test folder_path, '11012013182334.tif', '0046443BDBCDCAECBDADBBCCDCD'
+test folder_path, '11012013182336.tif', '0047101BBBCACCEEBCEBEECCEED'
 
-# test folder_path, '11012013174505.tif', 'ZZZZZZZABECCEEEDAADAECEBCEEAEADEBAAADDBECEEEEDE'
-# test folder_path, '11012013175133.tif', '1022824CBCBEBAEBADDEEDCACEEBABAEAEBDECEEEDADCDB' 
-# test folder_path, '11012013175139.tif', '1022823BBCABBAEDECDEBBDEEECAABBBEBCDABABADEDDDA'  
-# test folder_path, '11012013180225.tif', '0046715EDCADEDABACDEDCDDABCAACAAEAACACBBABBECEE' 
+test folder_path, '11012013174505.tif', 'ZZZZZZZABECCEEEDAADAECEBCEEAEADEBAAADDBECEEEEDE'
+test folder_path, '11012013175133.tif', '1022824CBCBEBAEBADDEEDCACEEBABAEAEBDECEEEDADCDB' 
+test folder_path, '11012013175139.tif', '1022823BBCABBAEDECDEBBDEEECAABBBEBCDABABADEDDDA'  
+test folder_path, '11012013180225.tif', '0046715EDCADEDABACDEDCDDABCAACAAEAACACBBABBECEE' 
 
 # folder_path = '/home/charlie/Desktop/card_processor_stuff/bugged_files' 
 
@@ -71,7 +71,7 @@ print "=> Testing files\n"
 
 # test '/home/charlie/Desktop/', '1° Ano Militar23022013161139_003.tif', ''
 
-folder_path = '/home/charlie/Desktop/cards_by_campus/NorteShopping'
-Dir.entries(folder_path).each do |filename|
-  test folder_path, filename, ''
-end
+# folder_path = '/home/charlie/Desktop/cards_by_campus/NorteShopping'
+# Dir.entries(folder_path).each do |filename|
+#   test folder_path, filename, ''
+# end

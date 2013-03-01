@@ -1,4 +1,5 @@
 <%= title 'Card Processing', 
+  (link_to('Check', edit_student_exam_path(@card_processing.to_be_checked)) if @card_processing.needs_check?),
   link_to('Back', card_processings_path) %>
 
 <div class='resource'>
