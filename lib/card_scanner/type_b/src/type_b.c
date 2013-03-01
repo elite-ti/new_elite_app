@@ -6,6 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
+#define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -92,8 +93,10 @@ File create_empty_file(int, int);
 void copy_pixel(File *, int, int, File *, int, int);
 double get_column_density(File, int);
 double get_line_density(File, int, int, int);
-void set_pixel_to_red(File, int, int); 
-
+void set_pixel_to_red(File, int, int);
+int test_rotation(File);
+void paint_pixel(File, int, int, int, int, int);
+int adjust_configuration(File);
 
 
 
@@ -104,17 +107,18 @@ int main(int argc, char* argv[]) {
 
   File file = read_file();
 
-  // for(int x = file.width; x >= 3*file.width/4; x--)
-  //   printf("%lf\n", get_column_density(file, x));
-
   File rotated_180_file = rotate180(file);
-  write_png(&rotated_180_file);
+  // write_png(&rotated_180_file);
   File rotated_file = rotate(rotated_180_file);
   File moved_file = move(rotated_file);
+
+  // test_rotation(moved_file);
+  adjust_configuration(moved_file);
 
   process_file(&moved_file);
   print_answers(moved_file);
   write_png(&moved_file);
+
   free(moved_file.raster);
 
   return 0;
@@ -258,9 +262,22 @@ File rotate180(File file) {
 }
 
 File rotate(File file) {
+
+  if(test_rotation(file) == 1) return file;
+
   double tg = get_tangent(file);
   if(tg == 0)
     return file;
+
+  // DEBUG: paint green tangent
+  #ifdef DEBUG
+    printf("tg: %f\n", tg);
+    double tg_abs = tg;
+    if(tg < 0)
+      tg_abs = -tg;
+    for (int y = 0; y < file.height; ++y)
+      paint_pixel(file, floor(tg_abs*y), y, 0, 255, 0);
+  #endif
 
   double tg2 = tg*tg;
   double s = sqrt((tg2)/(1.0 + tg2));
@@ -282,6 +299,7 @@ File rotate(File file) {
 
 File move(File file) {
   Pixel pivot = get_pivot(file);
+
   int delta_x = conf.pivot_default_x - pivot.x;
   int delta_y = conf.pivot_default_y - pivot.y;
 
@@ -343,6 +361,16 @@ int is_upside_down(File file) {
     return 0;
 }
 
+void paint_big_pixel(File file, int x, int y, int R, int G, int B, int radius) {
+  for (int temp_x = x-radius; temp_x < x + radius; ++temp_x)
+  {
+    for (int temp_y = y - radius; temp_y < y + radius; ++temp_y)
+    {
+      paint_pixel(file, temp_x, temp_y, R, G, B);
+    }
+  }
+}
+
 double get_tangent(File file) {
   int *xx = (int*) malloc(file.height * sizeof(int));
   int *yy = (int*) malloc(file.height * sizeof(int));
@@ -353,7 +381,7 @@ double get_tangent(File file) {
     while(is_in_file(file, x, y) && !is_pixel_filled(file, x, y))
       x++;
     counter = 0;
-    while(is_in_file(file, x, y) && is_pixel_filled(file, x + counter, y))
+    while(is_in_file(file, x, y) && is_pixel_filled(file, x + counter, y) && x+counter < 151)
       counter++;
     if(counter > 50) {
       xx[size] = x + counter;
@@ -366,20 +394,49 @@ double get_tangent(File file) {
   
   int discarded = 0;
   double SUMx = 0, SUMy = 0, SUMxy = 0, SUMxx = 0;
+  
+  double sigma = 0;
+
+  for (int i = 0; i < size; ++i)
+  {
+    sigma = sigma + ((double)xx[i] - average) * ((double)xx[i] - average); 
+  }
+  sigma = sigma/(size - 1);
+  sigma = sqrt(sigma);
+
+  double average_x = 0, average_y = 0;
   for(int i = 0; i < size; i++) {
-    if(xx[i] > average - 40 && xx[i] < average + 40) {
-      SUMx = SUMx + xx[i];
-      SUMy = SUMy + yy[i];
-      SUMxy = SUMxy + xx[i]*yy[i];
-      SUMxx = SUMxx + xx[i]*xx[i];
+    if(xx[i] > average - sigma && xx[i] < average + sigma) {
+      average_x += (double)xx[i];
+      average_y += (double)yy[i];
     } 
     else
       discarded++;  
   }
+
+  average_x = (double)average_x/(double)(size-discarded);
+  average_y = (double)average_y/(double)(size-discarded);
+
+    for(int i = 0; i < size; i++) {
+    if(xx[i] > average - sigma && xx[i] < average + sigma) {
+      // printf("%d %d\n", xx[i], yy[i]);
+      SUMxy = SUMxy + ((double)xx[i]-average_x)*((double)yy[i]-average_y);
+      SUMxx = SUMxx + ((double)xx[i]-average_x)*((double)xx[i]-average_x);
+      paint_big_pixel(file, xx[i], yy[i], 255, 0, 0, 5);
+    }  
+  }
   free(xx);
   free(yy);
 
-  return (double)(SUMx*SUMx - (size-discarded)*SUMxx) / (double)(SUMx*SUMy - (size-discarded)*SUMxy);
+  // printf("SUMxy: %g\n", SUMxy);
+  // printf("SUMxx: %g\n", SUMxx);
+  // printf("size - discarded: %d\n", size - discarded);
+  double tg = ((double)SUMxx/(double)SUMxy);
+  if(tg < 0)
+    tg = -tg;
+  // printf("%g\n", tg);
+
+  return tg;
 }
 
 Pixel get_pivot(File file) {
@@ -428,7 +485,7 @@ int get_pivot_x(File file) {
   stop(4, PIVOT_X_NOT_FOUND);
 }
 
-int get_pivot_y(File file, int x) { 
+int get_pivot_y(File file, int start_y) {
   int target_x = -1, target_xx = -1; 
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
@@ -441,11 +498,37 @@ int get_pivot_y(File file, int x) {
     }
   }
 
-  for(int y = 0; y < file.height; y++) {
+  for(int y = start_y; y < file.height; y++) {
     if(get_line_density(file, target_x, target_xx, y) > 0.8) {
       int matches = 0;
       for(int z = 0; z < 30; z++)
         if(get_line_density(file, target_x, target_xx, y + z) > 0.8)
+          matches++;
+      if(matches == 30)
+        return y;
+    }
+  }
+  stop(4, PIVOT_Y_NOT_FOUND);
+}
+
+int get_reverse_pivot_y(File file, int start_y) { 
+  int target_x = -1, target_xx = -1; 
+  for(int x = 0; x < file.width && target_xx < 0; x++) {
+    if(target_x < 0) {
+      if(get_column_density(file, x) > 0.3)
+        target_x = x; 
+    }
+    else {
+      if (get_column_density(file, x) < 0.3)
+        target_xx = x;
+    }
+  }
+
+  for(int y = start_y; y >= 0; y--) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+      int matches = 0;
+      for(int z = 0; z < 30; z++)
+        if(get_line_density(file, target_x, target_xx, y - z) > 0.8)
           matches++;
       if(matches == 30)
         return y;
@@ -470,12 +553,57 @@ double get_column_density(File file, int x) {
   return (double)match / (double)file.height;
 }
 
+// Pixel *get_clock_locations(File file){
+//   Pixel points[57];
+//   int index = 0;
+//   int start_y = 0, width = 75, height = 40;
+//   // double  percentage_before = 0, percentage_now = 0;
+//   int start_x = -1, end_x = -1, target_x;
+
+//   for(int x = 0; x < file.width && end_x < 0; x++) {
+//     if(start_x < 0) {
+//       if(get_column_density(file, x) > 0.3)
+//         start_x = x; 
+//     }
+//    else {
+//      if (get_column_density(file, x) < 0.3)
+//        end_x = x;
+//    }
+//   }
+
+//   target_x = (start_x + end_x)/2;
+
+//   for(int y = 0; y < file.height; y++) {
+//       if(get_line_density(file, start_x, end_x, y) > 0.8) {
+//         int matches = 0;
+//         for(int z = 0; z < 40; z++)
+//           if(get_line_density(file, start_x, end_x, y + z) > 0.8)
+//             matches++;
+//         if(matches >= 25)
+//         {
+//             Pixel p;
+//             p.x = target_x;
+//             p.y = y;
+//             points[index] = p; 
+//             y = y + 40;
+//         }
+//       }
+//   }
+//     // for (int i = start_y; i < file.height; ++i)
+//     // {
+//     //   percentage_now = process_option(file,start_x,i,width,height);
+
+//     // }
+//   return points;
+// }
+
 
 void process_file(File *file) {
   file->number_of_questions = 0;
 
   process_zone(file, conf.student_zone);
   process_zone(file, conf.questions_zone);
+
 }
 
 void process_zone(File *file, Zone zone) {
@@ -521,17 +649,17 @@ double process_option(File file, int start_x, int start_y, int width, int height
       if(is_pixel_filled(file, x, y))
         match++;
 
-  if(1) {
+  #ifdef DEBUG
     for(int y = start_y; y < height + start_y; y++) {
-      set_pixel_to_red(file, start_x, y);
-      set_pixel_to_red(file, start_x + width, y);
+      paint_pixel(file, start_x, y, 255, 0, 0);
+      paint_pixel(file, start_x + width, y, 255, 0, 0);
     }
 
     for(int x = start_x; x < width + start_x; x++) {
-      set_pixel_to_red(file, x, start_y);
-      set_pixel_to_red(file, x, start_y + height);
+      paint_pixel(file, x, start_y, 255, 0, 0);
+      paint_pixel(file, x, start_y + height, 255, 0, 0);
     }
-  }
+  #endif
 
   return (double)match / (double)(width*height);
 }
@@ -544,10 +672,120 @@ void set_pixel_to_red(File file, int x, int y) {
 
 void print_answers(File file) {
   for(int i = 0; i < file.number_of_questions; i++)
+  {
+    // printf("Z");
     printf("%c", file.answers[i]);
+  }
 }
 
 void stop(int code, const char* message) {
   printf("%s", message);
   exit(code);
+}
+
+//Código de prova real de rotação
+int test_rotation(File file){
+  int pivot_x = get_pivot_x(file);
+  double min_density = 1;
+  for (int i = 0; i < 15; ++i)
+  {
+    double density = get_column_density(file, pivot_x + i);
+    if(min_density > density) min_density = density;
+  }
+  if (min_density >= 0.2)
+  {
+    return 0;
+    // printf("\nPossivelmente rotacionado erroneamente.\n");
+  }
+  return 1;
+}
+
+int get_division_between_zones(File file){
+  int target_x = -1, target_xx = -1;
+
+  // Find start and end for clock in x
+  for(int x = 0; x < file.width && target_xx < 0; x++) {
+    if(target_x < 0) {
+      if(get_column_density(file, x) > 0.3)
+        target_x = x; 
+    }
+    else {
+      if (get_column_density(file, x) < 0.3)
+        target_xx = x;
+    }
+  }
+
+  // Find pivot in y
+  int y;
+  for(y = 0; y < file.height; y++) {
+    if(get_line_density(file, target_x, target_xx, y) > 0.8) {
+      int matches = 0;
+      for(int z = 0; z < 30; z++)
+        if(get_line_density(file, target_x, target_xx, y + z) > 0.8)
+          matches++;
+      if(matches == 30)
+        break;
+    }
+  }
+
+  // Starting from pivot, search for blank of 45 lines
+  int matches = 0;
+  for(; y < file.height; y++) {
+    if(get_line_density(file, target_x, target_xx, y) < 0.2)
+      matches++;
+    else
+      matches = 0;
+    if(matches == 45)
+      return y - 44;
+  }
+}
+
+int adjust_configuration(File file){
+  // Alignment for header zone
+  int start_of_header_y = get_pivot_y(file, 0);
+  int end_of_header_y = get_division_between_zones(file);
+
+  if(start_of_header_y - 540 < 150 && end_of_header_y - 1000 < 150){
+    conf.student_zone.group_y = start_of_header_y;
+    conf.student_zone.vertical_space_between_options = ((double)(end_of_header_y - start_of_header_y - conf.student_zone.questions_per_group * conf.student_zone.option_height))/((double) (conf.student_zone.questions_per_group - 1));    
+  }
+
+  // Alignment for answers zone
+  int start_of_answer_y = get_pivot_y(file, end_of_header_y);  
+  int end_of_answer_y = get_reverse_pivot_y(file, file.height - 1);
+
+  if(start_of_answer_y - 1060 < 150 && end_of_answer_y - 4500 < 150){
+    conf.questions_zone.group_y = start_of_answer_y;
+    conf.questions_zone.vertical_space_between_options = ((double)(end_of_answer_y - start_of_answer_y - conf.questions_zone.questions_per_group * conf.questions_zone.option_height))/((double) (conf.questions_zone.questions_per_group - 1));
+  }
+
+  #ifdef DEBUG
+    printf("%d\n", start_of_header_y);
+    printf("%d\n", end_of_header_y);
+    printf("%d\n", start_of_answer_y);
+    printf("%d\n", end_of_answer_y);
+    printf("%d\n", conf.student_zone.questions_per_group);
+    printf("%d\n", conf.student_zone.option_height);
+    printf("%g\n", conf.student_zone.vertical_space_between_options);
+      
+    for (int i = 0; i < 500; ++i)
+    {
+      paint_pixel(file, i, start_of_header_y, 0, 0, 255);
+      paint_pixel(file, i, end_of_header_y, 0, 0, 255);
+    }
+
+    for (int i = 0; i < 500; ++i)
+    {
+      paint_pixel(file, i, start_of_answer_y, 0, 0, 255);
+      paint_pixel(file, i, end_of_answer_y, 0, 0, 255);
+    }
+  #endif
+
+  return 0;
+}
+
+void paint_pixel(File file, int x, int y, int R, int G, int B) {
+  file.raster[(get_index(file, x, y))] = R;
+  file.raster[(get_index(file, x, y)) + 1] = G;
+  file.raster[(get_index(file, x, y)) + 2] = B;
 }
