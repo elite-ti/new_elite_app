@@ -3,9 +3,6 @@
 
 ## Urgent
 
-* Check temporary students ra (production/populate script)
-* Check why is question number 100 being chopped
-* Update exam execution view
 * Create feedback button!
 
 * Conferir numero de alunos nas turmas

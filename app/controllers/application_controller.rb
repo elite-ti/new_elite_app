@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  http_basic_authenticate_with :name => "elite", :password => "elite123"
+  # http_basic_authenticate_with :name => "elite", :password => "elite123"
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -56,7 +56,7 @@ private
   helper_method :current_employee
 
   def set_current_employee
-    return Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
+    # return Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
     Employee.find(session[:user_id]) if session[:user_id]
   end
 end

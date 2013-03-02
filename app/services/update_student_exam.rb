@@ -7,7 +7,6 @@ class UpdateStudentExam
   end
 
   def update
-    debugger
     ActiveRecord::Base.transaction do 
       if student_exam.student_not_found?
         if !params[:student].nil?
