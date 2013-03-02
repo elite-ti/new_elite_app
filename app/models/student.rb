@@ -43,6 +43,9 @@ class Student < ActiveRecord::Base
       ra = [max_ra, min_temporary_ra.to_i].max
     end
     ra = ra + 1
+    while Student.where(ra: ra).size > 0
+      ra = ra + 1  
+    end
 
     student = Student.new
     student.name = name
