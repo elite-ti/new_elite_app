@@ -43,7 +43,7 @@ private
 
   def update_and_update_student(student)
     student_exam.student.update_attributes!(student)
-    student_exam.reload!
+    student_exam.reload
     student_exam.set_exam_execution
     student_exam.save!
   end

@@ -74,6 +74,8 @@
     <% end %>
   <% else %>
     <h2>No exams available for this student</h2>
+
+    <%= image_tag @student_exam.card.student_url %>
     <p>
       <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
       <strong>Student: </strong><%= @student_exam.student.name %><br />
