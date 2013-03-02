@@ -13,6 +13,7 @@ load 'config/recipes/dependencies'
 load 'config/recipes/db'
 load 'config/recipes/card_scanner'
 load 'config/recipes/carrierwave'
+load 'config/recipes/bkp'
 
 server '50.116.8.31', :web, :app, :db, primary: true
 
