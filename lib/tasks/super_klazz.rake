@@ -27,20 +27,19 @@ namespace :super_klazz do
 
   task create_exam_results: :environment do 
     p 'Creating exam results'
-    folder = '/home/charlie/Desktop/exam_results'
-
-    SuperKlazz.includes(:campus, product_year: :product).all.each do |super_klazz|
-      uri = "#{super_klazz.campus.name}_#{super_klazz.product_year.product.name}.csv"
-      uri.gsub!(/\//, '-')
-      
-      CSV.open("#{folder}/" + uri, "wb") do |csv|
-        super_klazz.student_exams.each do |student_exam|
-          csv << [
-            student_exam.student.ra, 
-            student_exam.student.name, 
-            student_exam.get_exam_answers.join('')
-          ]
-        end
+    CSV.open("/home/charlie/Desktop/exam_results.csv", "wb") do |csv|
+      StudentExam.includes(
+        :student, 
+        exam_answers: :exam_question, 
+        exam_execution: { super_klazz: [:campus, product_year: :product]}
+      ).where(status: 'Valid').each do |student_exam|
+        csv << [
+          student_exam.student.ra, 
+          student_exam.student.name, 
+          student_exam.exam_execution.super_klazz.product_year.product.name,
+          student_exam.exam_execution.super_klazz.campus.name,
+          student_exam.get_exam_answers.join('')
+        ]
       end
     end
   end
