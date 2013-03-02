@@ -35,7 +35,7 @@ class StudentExamsController < ApplicationController
 private
 
   def check_student_exams
-    needing_check = StudentExam.needing_check
+    needing_check = StudentExam.accessible_by(current_ability).needing_check
     if needing_check.any?
       redirect_to edit_student_exam_path(needing_check.first!), 
         notice: 'Some fields need to be checked.'
