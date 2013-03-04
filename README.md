@@ -5,6 +5,9 @@
 
 * Create feedback button!
 
+o contador de erros tem que englobar todos os tipos de erros
+ C tá desatualizado
+
 * Conferir numero de alunos nas turmas
   (Apenas nove da 2MIL da tijuca?)
 
