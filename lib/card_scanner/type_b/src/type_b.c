@@ -722,8 +722,8 @@ void set_pixel_to_red(File file, int x, int y) {
 void print_answers(File file) {
   for(int i = 0; i < file.number_of_questions; i++)
   {
-    printf("Z");
-    // printf("%c", file.answers[i]);
+    // printf("Z");
+    printf("%c", file.answers[i]);
   }
 }
 

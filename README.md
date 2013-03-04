@@ -1,5 +1,11 @@
 # EliteApp
 
+## Achar o carlos
+  * Producurar na tabela versions
+     
+  * Fazer error teste apontar para carlos
+  * rodar o programa
+
 
 ## Urgent
 
