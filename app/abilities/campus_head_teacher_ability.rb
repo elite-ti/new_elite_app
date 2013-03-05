@@ -16,8 +16,7 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can :read, CardProcessing, campus_id: accessible_campus_ids
 
     can :read, StudentExam, 
-      card_processing: { campus_id: accessible_campus_ids },
-      status: StudentExam::NEEDS_CHECK
+      card_processing: { campus_id: accessible_campus_ids }
 
     can [:update, :error], StudentExam
 

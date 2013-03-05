@@ -1,23 +1,35 @@
 # EliteApp
 
-## Achar o carlos
-  * Producurar na tabela versions
-     
-  * Fazer error teste apontar para carlos
-  * rodar o programa
-
 
 ## Urgent
 
-* Create feedback button!
+* Find o carlos - OK
+* Add single missing card (ane gabrielle) - OK
+* Create bkp - 201303041548 - OK
 
-o contador de erros tem que englobar todos os tipos de erros
- C tá desatualizado
+* Check cg2 cards - add - OK
+* Upload nubia_mad3 - OK
+* Add taquara cards - OK
+* Create bkp - 201303042309 - OK
+* Get exam results and send to balls - OK
+* Create bkp - 201303051740 - OK
 
-* Conferir numero de alunos nas turmas
-  (Apenas nove da 2MIL da tijuca?)
+
+* Update products - OK
+* Add exams - OK
+* Change ras from 9 to 8 - OK
+* Campus head teachers can read student_exam - OK
+* Do the above in production - 
+* Create bkp - 201303051800
+
+
+* Add AFA/ESPCEX super_klazz
+  * Bangu, Ilha do Governador, Madureira I, NorteShopping, Nova Iguaçu, Taquara, Valqueire, São Gonçalo I, Madureira III
+  * Except madureira I e madureira III - wait for email
 
 ## Later...
+
+* Create feedback button!
 
 * Improvements
   * Add subject to exam form - update task

@@ -20,11 +20,8 @@ class Product < ActiveRecord::Base
   has_many :subject_head_teacher_products, dependent: :destroy
   has_many :subject_head_teachers, through: :subject_head_teacher_products
 
-  has_many :product_preferences, dependent: :destroy
-  has_many :teachers_with_preference, through: :product_preferences, source: :teachers
-
-  has_many :campus_principal_products, dependent: :destroy
-  has_many :campus_principals, through: :campus_principal_products
+  has_many :product_principal_products, dependent: :destroy
+  has_many :product_principals, through: :product_principal_products
 
   validates :product_type_id, :name, presence: true
   validates :name, uniqueness: { scope: :product_type_id }
