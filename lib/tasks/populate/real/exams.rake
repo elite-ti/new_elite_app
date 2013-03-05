@@ -2,6 +2,43 @@
 namespace :db do
   namespace :populate do
     namespace :real do 
+      task create_afa_espcex_super_klazzes: :environment do 
+        p 'Creating AFA/ESPCEX super_klazzes'
+        ActiveRecord::Base.transaction do 
+          [
+            'Bangu',
+            'Ilha do Governador',
+            'NorteShopping',
+            'Nova Iguaçu',
+            'Taquara',
+            'Valqueire',
+            'São Gonçalo I'
+          ].each do |campus_name|
+            SuperKlazz.where(
+              product_year_id: ProductYear.where(name: 'AFA/ESPCEX - 2013').first!.id,
+              campus_id: Campus.where(name: campus_name).first!.id).first_or_create!
+          end
+
+          from_super_klazzes = SuperKlazz.where(
+            product_year_id: ProductYear.where(name: ['ESPCEX - 2013', '3ª Série + ESPCEX - 2013']).map(&:id))
+          to_super_klazzes = SuperKlazz.where(
+            product_year_id: ProductYear.where(name: 'AFA/ESPCEX - 2013').first!.id)
+
+          from_super_klazzes.each do |from_super_klazz|
+            to_super_klazz = to_super_klazzes.select do |sk| sk.campus_id == from_super_klazz.campus_id end.first
+            if to_super_klazz.nil?
+              p from_super_klazz.campus.name
+              next
+            end
+
+            from_super_klazz.enrolled_students.each do |student|
+              student.enrolled_super_klazz_ids = [to_super_klazz.id]
+              student.save
+            end
+          end
+        end
+      end
+
       task update_temporary_ras: :environment do 
         p 'Updating temporary ras'
 
@@ -89,7 +126,6 @@ namespace :db do
                 correct_answers: correct_answers,
                 options_per_question: 5)
 
-              p product_name
               product_year = ProductYear.where(name: product_name + ' - 2013').first!
               exam_cycle = product_year.exam_cycles.first!
 

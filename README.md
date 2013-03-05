@@ -19,13 +19,10 @@
 * Add exams - OK
 * Change ras from 9 to 8 - OK
 * Campus head teachers can read student_exam - OK
-* Do the above in production - 
-* Create bkp - 201303051800
+* Add AFA/ESPCEX to (taquara, bangu, ilha, norteshopping, saogoncalo, valqueire, nova iguacu) and rearrage students
+* Do the the above in production - OK
 
 
-* Add AFA/ESPCEX super_klazz
-  * Bangu, Ilha do Governador, Madureira I, NorteShopping, Nova Iguaçu, Taquara, Valqueire, São Gonçalo I, Madureira III
-  * Except madureira I e madureira III - wait for email
 
 ## Later...
 
