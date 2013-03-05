@@ -2,7 +2,7 @@ set_default(:remote_user) { application }
 set_default(:remote_db) { "#{application}_production" }
 
 namespace :bkp do
-  desc 'Create a db dump in your vps'
+  desc 'Backup db dump'
   task :dump, roles: :db, only: {primary: true} do
     dumps_bkp_path = 'dumps_bkp'
     run "mkdir -p #{dumps_bkp_path}"
@@ -12,7 +12,7 @@ namespace :bkp do
     run "#{sudo} -u postgres pg_dump #{remote_db} > #{file_path}"
   end
 
-  desc 'Save and download uploads'
+  desc 'Backup uploads'
   task :uploads, roles: :db, only: {primary: true} do
     uploads_bkp_path = 'uploads_bkp'
     run "mkdir -p #{uploads_bkp_path}"
@@ -22,5 +22,11 @@ namespace :bkp do
 
     uploads_path = "#{shared_path}/uploads"
     run "zip -r #{file_path} #{uploads_path}"
+  end
+
+  desc 'Backup db dump and uploads'
+  task :all, roles: :db, only: {primary: true} do 
+    dump
+    uploads
   end
 end
