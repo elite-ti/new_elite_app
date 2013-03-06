@@ -52,7 +52,8 @@ class CardProcessing < ActiveRecord::Base
 
   def number_of_errors
     student_exams.where(status: StudentExam::ERROR_STATUS).count +
-      student_exams.where(status: StudentExam::NEEDS_CHECK).count
+      student_exams.where(status: StudentExam::NEEDS_CHECK).count +
+      student_exams.where(status: StudentExam::REPEATED_STUDENT).count
   end
   
 private

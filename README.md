@@ -1,6 +1,6 @@
 # EliteApp
 
-
+mudando o aluno de turma, suas respostas ficam na prova antiga
 ## Urgent
 
 * Find o carlos - OK
