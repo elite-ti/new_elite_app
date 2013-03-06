@@ -30,7 +30,9 @@ private
 
   def update_and_create_new_student(student)
     name = student[:name]
-    super_klazz_id = student[:enrolled_super_klazz_ids].first
+    super_klazz_id = student[:enrolled_super_klazz_ids]
+    debugger
+
     student = Student.create_temporary_student!(name, super_klazz_id)
     update_student(student.id)
   end
