@@ -19,12 +19,20 @@
 * Add exams - OK
 * Change ras from 9 to 8 - OK
 * Campus head teachers can read student_exam - OK
-* Add AFA/ESPCEX to (taquara, bangu, ilha, norteshopping, saogoncalo, valqueire, nova iguacu) and rearrage students
+* Add AFA/ESPCEX to (taquara, bangu, ilha, norteshopping, saogoncalo, valqueire, nova iguacu) - OK
+  * rearrage students - OK
 * Do the the above in production - OK
+* Create bkp - 201303051920 - OK
 
+* Upload two missing cards(guilherme almeida e pedro lucas) - OK
+
+* Upload new .zip files to production - OK
+* Start processment to smart guys cards
 
 
 ## Later...
+
+* Create views to edit student_exam
 
 * Create feedback button!
 

@@ -7,6 +7,7 @@ class StudentExam < ActiveRecord::Base
   EXAM_NOT_FOUND_STATUS = 'Exam not found'
   INVALID_ANSWERS_STATUS = 'Invalid answers'
   VALID_STATUS = 'Valid'
+  REPEATED_STUDENT = 'Repeated student'
   NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
 
   attr_accessible :card, :card_processing_id
@@ -22,7 +23,7 @@ class StudentExam < ActiveRecord::Base
   validates :card, :card_processing_id, presence: true
 
   mount_uploader :card, StudentExamCardUploader
-  after_save :destroy_conflicts!
+  after_save :mark_conclicts!
   before_create :set_status_to_being_processed
 
   def self.needing_check
@@ -131,13 +132,16 @@ private
     true
   end
 
-  def destroy_conflicts!
+  def mark_conclicts!
     if student.present? and exam_execution.present?
-      StudentExam.where(
+      conflics = StudentExam.where(
         student_id: student.id, 
         exam_execution_id: exam_execution.id
-      ).each do |student_exam|
-        student_exam.destroy if student_exam.id != self.id
+      )
+      if conflics.size > 1
+        conflics.each do |student_exam|
+          student_exam.update_column :status, REPEATED_STUDENT
+        end
       end
     end
     true

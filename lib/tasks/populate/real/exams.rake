@@ -27,7 +27,6 @@ namespace :db do
           from_super_klazzes.each do |from_super_klazz|
             to_super_klazz = to_super_klazzes.select do |sk| sk.campus_id == from_super_klazz.campus_id end.first
             if to_super_klazz.nil?
-              p from_super_klazz.campus.name
               next
             end
 
