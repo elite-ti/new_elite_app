@@ -27,7 +27,9 @@ mudando o aluno de turma, suas respostas ficam na prova antiga
 * Upload two missing cards(guilherme almeida e pedro lucas) - OK
 
 * Upload new .zip files to production - OK
-* Start processment to smart guys cards
+* Start processment to smart guys cards - OK
+* Check new cards - OK
+
 
 
 ## Later...

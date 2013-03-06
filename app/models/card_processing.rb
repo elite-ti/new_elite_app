@@ -55,6 +55,9 @@ class CardProcessing < ActiveRecord::Base
       student_exams.where(status: StudentExam::NEEDS_CHECK).count +
       student_exams.where(status: StudentExam::REPEATED_STUDENT).count
   end
+
+  def remove_file!
+  end
   
 private
 

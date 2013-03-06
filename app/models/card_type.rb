@@ -41,6 +41,9 @@ class CardType < ActiveRecord::Base
     configuration.parse_result(scan_result)
   end
 
+  def remove_card!
+  end
+
 private
 
   def parameters_valid?

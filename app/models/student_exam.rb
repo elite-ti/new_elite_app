@@ -125,6 +125,9 @@ class StudentExam < ActiveRecord::Base
     end.map(&:answer)
   end
 
+  def remove_card!
+  end
+
 private
 
   def set_status_to_being_processed

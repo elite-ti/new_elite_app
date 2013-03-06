@@ -77,4 +77,7 @@ class Employee < ActiveRecord::Base
   def admin?
     roles.include? 'admin'
   end
+
+  def remove_photo!
+  end
 end
