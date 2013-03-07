@@ -1,6 +1,7 @@
 # EliteApp
 
 mudando o aluno de turma, suas respostas ficam na prova antiga
+
 ## Urgent
 
 * Find o carlos - OK
@@ -30,10 +31,15 @@ mudando o aluno de turma, suas respostas ficam na prova antiga
 * Start processment to smart guys cards - OK
 * Check new cards - OK
 
+* Destroy repeated card_processing (cg2) - ?
+* Create bkp - 201303071605
+
 
 
 ## Later...
 
+* Fix card_processing destroy link
+* Unmark card_processing as repeated after destruction
 * Create views to edit student_exam
 
 * Create feedback button!
