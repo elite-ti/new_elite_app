@@ -29,7 +29,7 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, 'git'
-set :branch, 'master'
+set :branch, 'production'
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
