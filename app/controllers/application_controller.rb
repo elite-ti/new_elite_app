@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
-    if current_employee.nil?
+    if current_employee.present?
       logger.warn '!!AccessDenied!!'
       logger.warn 'Employee email: ' + current_employee.email
       logger.warn 'Current role: ' + current_role
