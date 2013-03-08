@@ -22,6 +22,8 @@ class UpdateStudentExam
         end
       elsif student_exam.invalid_answers?
         update_answers(params[:exam_answers_attributes])
+      elsif student_exam.error?
+        update_scanned_attributes(params[:student_number], params[:string_of_answers])
       end
     end
   end
@@ -59,6 +61,13 @@ private
   def update_answers(exam_answers_attributes)
     student_exam.exam_answers_attributes = exam_answers_attributes
     student_exam.status = StudentExam::VALID_STATUS
+    student_exam.save!
+  end
+
+  def update_scanned_attributes(student_number, string_of_answers)
+    student_exam.student_number = student_number
+    student_exam.string_of_answers = string_of_answers
+    student_exam.set_student
     student_exam.save!
   end
 end

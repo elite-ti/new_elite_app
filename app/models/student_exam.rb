@@ -8,7 +8,8 @@ class StudentExam < ActiveRecord::Base
   INVALID_ANSWERS_STATUS = 'Invalid answers'
   VALID_STATUS = 'Valid'
   REPEATED_STUDENT = 'Repeated student'
-  NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
+  NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, 
+    INVALID_ANSWERS_STATUS, ERROR_STATUS, REPEATED_STUDENT]
 
   attr_accessible :card, :card_processing_id
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
@@ -62,6 +63,10 @@ class StudentExam < ActiveRecord::Base
     status == INVALID_ANSWERS_STATUS
   end
 
+  def error?
+    status == ERROR_STATUS
+  end
+
   def error!
     update_attribute :status, ERROR_STATUS
   end
@@ -105,6 +110,7 @@ class StudentExam < ActiveRecord::Base
   end 
 
   def set_exam_answers
+    exam_answers.destroy_all
     exam_questions = exam_execution.exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
       exam_answers.build(
