@@ -2,6 +2,82 @@
 namespace :db do
   namespace :populate do
     namespace :real do 
+      task add_exams_5: :environment do
+        p 'Add exams 5'
+        ActiveRecord::Base.transaction do 
+          datetime = 'Sat, 09 Mar 2013 14:00:00 BRT -03:00'
+          [
+            'C - AFA/EAAr/EFOMM - All - POR(20) + ING(20): BEEDDBAACCAAAAADCCDD DDBEADDCEEEDECADBDEC',
+            'C - AFA/EN/EFOMM - All - POR(20) + ING(20): BEEDDBAACCAAAAADCCDD DDBEADDCEEEDECADBDEC',
+            'C - AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): BEEDDBAACCAAAAADCCDD DDBEADDCEEEDECADBDEC',
+            'C - AFA/ESPCEX (ESPCEX) - All - POR(20) + QUI(12) + FIS(12): BEEDDBAACCAAAAADCCDD DCAEBEBEECAC AADDEEBBACDB',
+            'C - ESPCEX - All - POR(20) + QUI(12) + FIS(12): BEEDDBAACCAAAAADCCDD DCAEBEBEECAC AADDEEBBACDD',
+            'C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): BCBBDCBECEAD BEEDDBAACCAA AABBEC CBBADA',
+            'C - Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10) + LES(6): BBDDCCADDCBBDAD CBCCBB CCDDCD DDACCB ACDBA CADBAD ABDACDCABD AAADBC',
+            'C - 1ª Série Militar - All - MAT(20): ABDBECBCEEDDAACCBBDC',
+            'C - 9º Ano Militar, CN/EPCAR - All - MAT(20): ABDBECACBEDDAACCBBDC',
+            'U - 1ª Série Militar - Madureira III - MAT(20): DDAACCBBDCABDBECBCEE',
+            'U - 9º Ano Militar, CN/EPCAR - Madureira III - MAT(20): DDAACCBBDCABDBECACBE'
+          ].each do |line|
+            action, product_names, campus_names, exam_attributes = line.split(' - ')
+            product_names = product_names.gsub(/ \(.*\)/, '')
+            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
+            campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
+            subjects, correct_answers = exam_attributes.split(': ')
+            subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+            correct_answers = correct_answers.gsub(' ', '')
+            exam = Exam.create!(
+              name: 'P1', 
+              correct_answers: correct_answers, 
+              options_per_question: 5)
+
+            starting_at = 1
+            subject_hash.each_pair do |subject_code, number_of_questions|
+              number_of_questions = number_of_questions.to_i
+              subject = Subject.where(code: subject_code).first!
+
+              subject_question_ids = 
+                ExamQuestion.where(
+                  number: (starting_at..(starting_at + number_of_questions - 1)),
+                  exam_id: exam.id).map(&:question).map(&:id)
+
+              subject_topic = 
+                Topic.where(name: subject.name, subject_id: subject.id).
+                first_or_create!(subtopics: 'All')
+
+              subject_question_ids.each do |subject_question_id|
+                QuestionTopic.create!(
+                  question_id: subject_question_id,
+                  topic_id: subject_topic.id)
+              end
+              starting_at = starting_at + number_of_questions
+            end
+
+            product_years.each do |product_year|
+              exam_cycle = ExamCycle.where(
+                name: 'Ciclo 1 - ' + product_year.name).first_or_create!(
+                is_bolsao: false, product_year_id: product_year.id)
+
+              campuses.each do |campus|
+                super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+                next if super_klazz.nil?
+                
+                if action == 'C'
+                  ExamExecution.create!(
+                    exam_cycle_id: exam_cycle.id, 
+                    super_klazz_id: super_klazz.id,
+                    datetime: datetime,
+                    exam_id: exam.id)
+                elsif action == 'U'
+                  exam_execution = ExamExecution.where(exam_cycle_id: exam_cycle.id, super_klazz_id: super_klazz.id).first
+                  exam_execution.update_attribute :exam_id, exam.id
+                end
+              end
+            end
+          end
+        end 
+      end
+
       task create_afa_espcex_super_klazzes: :environment do 
         p 'Creating AFA/ESPCEX super_klazzes'
         ActiveRecord::Base.transaction do 
