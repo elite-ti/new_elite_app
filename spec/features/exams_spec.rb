@@ -11,11 +11,14 @@ describe 'Exams' do
   end
 
   it 'creates a exam' do
+    create :subject, name: 'Subject'
+
     visit exams_url
     click_link 'New'
     fill_in 'Name', with: 'Exam'
     fill_in 'Options per question', with: '5'
     fill_in 'Correct answers', with: 'ABCDE'
+    select 'Subject', from: 'Subject'
     click_button 'Create'
 
     page.should have_content 'Exam was successfully created.'
