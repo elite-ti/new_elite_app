@@ -1,6 +1,11 @@
 # EliteApp
 
-mudando o aluno de turma, suas respostas ficam na prova antiga
+## Next steps
+
+* Migrate data from question_topics to exams suject
+* Create new exam_executions linking exam and exam_day
+* Refactor exam_cycle (it doesn't make any sense)
+
 
 ## Urgent
 
