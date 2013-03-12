@@ -16,8 +16,7 @@ describe 'CardProcessings' do
     fill_in 'card_processing_exam_date', with: '2013-12-12'
     select 'Type B', from: 'Card type' 
     select 'Campus', from: 'Campus'
-    attach_file 'File', '/home/charlie/Desktop/card_processor_stuff/samples.zip' 
-    # attach_file 'File', '/home/charlie/Desktop/bug.rar'
+    attach_file 'File', File.join(Rails.root, 'spec/support/card_a.tif') 
     click_button 'Create'
 
     page.should have_content 'Card processing was successfully created.'

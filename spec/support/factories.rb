@@ -129,7 +129,7 @@ FactoryGirl.define do
 
   factory :topic do
     sequence(:name) { |n| "Topic#{n}" }
-    itens 'Blah blah blah'
+    subtopics 'Blah blah blah'
     subject
   end
 end

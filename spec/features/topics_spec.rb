@@ -16,7 +16,7 @@ describe 'Topics' do
     visit topics_url
     click_link 'New Topic'
     fill_in 'Name', with: 'Topic'
-    fill_in 'Itens', with: 'Itens...'
+    fill_in 'Subtopics', with: 'Itens...'
     select subject.name, from: 'Subject'
     click_button 'Create'
 
