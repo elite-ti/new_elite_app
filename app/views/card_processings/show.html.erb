@@ -37,7 +37,7 @@
       </td> 
       <td><%= File.basename student_exam.card.path %></td>
       <td><%= student_exam.student.try(:name) || 'No student' %></td>
-      <td><%= student_exam.exam_execution.try(:exam).try(:name) || 'No exam' %></td>
+      <td><%= student_exam.exam_day.try(:exam).try(:name) || 'No exam' %></td>
       <td><%= student_exam.student_number %></td>
       <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
     </tr>

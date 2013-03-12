@@ -129,7 +129,7 @@ namespace :db do
               exam_cycle = product_year.exam_cycles.first!
 
               product_year.super_klazzes.each do |super_klazz|
-                ExamExecution.create!(
+                ExamDay.create!(
                   exam_cycle_id: exam_cycle.id,
                   super_klazz_id: super_klazz.id,
                   exam_id: exam.id,
@@ -189,7 +189,7 @@ namespace :db do
             super_klazz = SuperKlazz.where(campus_id: campus.id, product_year_id: product_year.id).first!
             exam_cycle = product_year.exam_cycles.first!
 
-            ExamExecution.where(
+            ExamDay.where(
               exam_cycle_id: exam_cycle.id,
               super_klazz_id: super_klazz.id
             ).first!.update_attributes!(exam_id: exam.id)
@@ -226,7 +226,7 @@ namespace :db do
               is_bolsao: false)
 
             product_year.super_klazzes.each do |super_klazz|
-              ExamExecution.create!(
+              ExamDay.create!(
                 exam_cycle_id: exam_cycle.id,
                 super_klazz_id: super_klazz.id,
                 exam_id: exam.id,
@@ -265,7 +265,7 @@ namespace :db do
               is_bolsao: false)
 
             product_year.super_klazzes.each do |super_klazz|
-              ExamExecution.create!(
+              ExamDay.create!(
                 exam_cycle_id: exam_cycle.id,
                 super_klazz_id: super_klazz.id,
                 exam_id: exam.id,
@@ -307,7 +307,7 @@ namespace :db do
                 is_bolsao: false)
 
               product_year.super_klazzes.each do |super_klazz|
-                ExamExecution.create!(
+                ExamDay.create!(
                   exam_cycle_id: exam_cycle.id,
                   super_klazz_id: super_klazz.id,
                   exam_id: exam.id,
@@ -343,7 +343,7 @@ namespace :db do
             super_klazz = SuperKlazz.where(campus_id: campus.id, product_year_id: product_year.id).first!
             exam_cycle = product_year.exam_cycles.first!
 
-            ExamExecution.where(
+            ExamDay.where(
               exam_cycle_id: exam_cycle.id,
               super_klazz_id: super_klazz.id
             ).first!.update_attributes!(exam_id: exam.id)

@@ -68,10 +68,10 @@
       </thead>
 
       <tbody>
-      <% @student.enrolled_exam_executions.each do |exam_execution| %>
+      <% @student.enrolled_exam_days.each do |exam_day| %>
         <tr>
-          <td><%= exam_execution.exam_cycle.name %></td>
-          <td><%= print_datetime(exam_execution.datetime) %></td>
+          <td><%= exam_day.exam_cycle.name %></td>
+          <td><%= print_datetime(exam_day.datetime) %></td>
         </tr>
       <% end %>
       </tbody>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312060544) do
+ActiveRecord::Schema.define(:version => 20130312063313) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(:version => 20130312060544) do
     t.datetime "updated_at"
   end
 
-  create_table "exam_executions", :force => true do |t|
+  create_table "exam_days", :force => true do |t|
     t.integer  "exam_cycle_id"
     t.integer  "super_klazz_id"
     t.integer  "exam_id"
@@ -430,7 +430,7 @@ ActiveRecord::Schema.define(:version => 20130312060544) do
   create_table "student_exams", :force => true do |t|
     t.integer  "card_processing_id"
     t.integer  "student_id"
-    t.integer  "exam_execution_id"
+    t.integer  "exam_day_id"
     t.string   "card"
     t.string   "status"
     t.string   "student_number"

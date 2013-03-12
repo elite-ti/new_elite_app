@@ -19,8 +19,8 @@ jQuery ->
     if $(this).find('#student_exam_student_enrolled_super_klazz_ids').val() == null 
       $('#student_exam_student_enrolled_super_klazz_ids').closest('.input').append('<span class="error">can\'t be blank</span>')
       submit = false
-    if $(this).find('#student_exam_exam_execution_id').val() == ''
-      $('#student_exam_exam_execution_id').closest('.input').append('<span class="error">can\'t be blank</span>')
+    if $(this).find('#student_exam_exam_day_id').val() == ''
+      $('#student_exam_exam_day_id').closest('.input').append('<span class="error">can\'t be blank</span>')
       submit = false
     if $(this).find('#student_exam_student_number').val() == ''
       $('#student_exam_student_number').closest('.input').append('<span class="error">can\'t be blank</span>')

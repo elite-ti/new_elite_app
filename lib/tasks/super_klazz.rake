@@ -31,13 +31,13 @@ namespace :super_klazz do
       StudentExam.includes(
         :student, 
         exam_answers: :exam_question, 
-        exam_execution: { super_klazz: [:campus, product_year: :product]}
+        exam_day: { super_klazz: [:campus, product_year: :product]}
       ).where(status: 'Valid').each do |student_exam|
         csv << [
           student_exam.student.ra, 
           student_exam.student.name, 
-          student_exam.exam_execution.super_klazz.product_year.product.name,
-          student_exam.exam_execution.super_klazz.campus.name,
+          student_exam.exam_day.super_klazz.product_year.product.name,
+          student_exam.exam_day.super_klazz.campus.name,
           student_exam.get_exam_answers.join('')
         ]
       end

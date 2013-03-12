@@ -14,7 +14,7 @@ class StudentExam < ActiveRecord::Base
   attr_accessible :card, :card_processing_id
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
 
-  belongs_to :exam_execution
+  belongs_to :exam_day
   belongs_to :student
   belongs_to :card_processing
   has_many :exam_answers, dependent: :destroy
@@ -43,8 +43,8 @@ class StudentExam < ActiveRecord::Base
     end
   end
 
-  def possible_exam_executions
-    student.possible_exam_executions(is_bolsao, exam_date)
+  def possible_exam_days
+    student.possible_exam_days(is_bolsao, exam_date)
   end
 
   def answers_needing_check
@@ -93,16 +93,16 @@ class StudentExam < ActiveRecord::Base
 
     if student and possible_students.include?(student) 
       self.student_id = student.id 
-      set_exam_execution
+      set_exam_day
     else
       self.status = STUDENT_NOT_FOUND_STATUS
     end
   end
 
-  def set_exam_execution
-    exam_executions = possible_exam_executions
-    if exam_executions.present? and exam_executions.size == 1
-      self.exam_execution_id = exam_executions.first.id
+  def set_exam_day
+    exam_days = possible_exam_days
+    if exam_days.present? and exam_days.size == 1
+      self.exam_day_id = exam_days.first.id
       set_exam_answers
     else
       self.status = EXAM_NOT_FOUND_STATUS
@@ -111,7 +111,7 @@ class StudentExam < ActiveRecord::Base
 
   def set_exam_answers
     exam_answers.destroy_all
-    exam_questions = exam_execution.exam.exam_questions.order(:number)
+    exam_questions = exam_day.exam.exam_questions.order(:number)
     (0..(exam_questions.size - 1)).each do |i|      
       exam_answers.build(
         answer: string_of_answers[i], 
@@ -142,10 +142,10 @@ private
   end
 
   def mark_conclicts!
-    if student.present? and exam_execution.present?
+    if student.present? and exam_day.present?
       conflics = StudentExam.where(
         student_id: student.id, 
-        exam_execution_id: exam_execution.id
+        exam_day_id: exam_day.id
       )
       if conflics.size > 1
         conflics.each do |student_exam|

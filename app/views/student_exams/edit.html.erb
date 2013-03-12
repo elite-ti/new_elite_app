@@ -52,7 +52,7 @@
 </div>
   
 <% elsif @student_exam.exam_not_found? %>
-  <% if @student_exam.possible_exam_executions.size > 1 %>
+  <% if @student_exam.possible_exam_days.size > 1 %>
     <h2>More than one exam is possible for this student</h2>
     <p>
       <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
@@ -64,8 +64,8 @@
     <%= simple_form_for(@student_exam) do |f| %>
       <%= f.error_notification %>
       <div class='form-inputs'>
-        <%= f.association :exam_execution, 
-          collection: @student_exam.possible_exam_executions %>
+        <%= f.association :exam_day, 
+          collection: @student_exam.possible_exam_days %>
       </div> 
       <div class='form-actions'>
         <%= f.submit 'Finish', class: 'btn' %>

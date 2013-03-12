@@ -9,7 +9,7 @@ class Exam < ActiveRecord::Base
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions
 
-  has_many :exam_executions, dependent: :destroy
+  has_many :exam_days, dependent: :destroy
 
   validates :name, :correct_answers, :options_per_question, 
     :subject_id, presence: true

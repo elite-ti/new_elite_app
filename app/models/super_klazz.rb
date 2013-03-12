@@ -7,8 +7,8 @@ class SuperKlazz < ActiveRecord::Base
   belongs_to :product_year
   has_many :klazzes, dependent: :destroy
 
-  has_many :exam_executions, dependent: :destroy
-  has_many :student_exams, through: :exam_executions
+  has_many :exam_days, dependent: :destroy
+  has_many :student_exams, through: :exam_days
 
   has_many :enrollments, dependent: :destroy
   has_many :enrolled_students, through: :enrollments, source: :student
