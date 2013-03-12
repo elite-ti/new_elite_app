@@ -31,6 +31,6 @@ private
   end
 
   def self.decompress_rar(file_path, folder_path)
-    system "unrar e #{file_path} #{folder_path} > /dev/null 2>&1"
+    system "unrar e -or #{file_path} #{folder_path} > /dev/null 2>&1"
   end
 end

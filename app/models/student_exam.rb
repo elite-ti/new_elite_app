@@ -99,6 +99,8 @@ class StudentExam < ActiveRecord::Base
     if exam_executions.present? and exam_executions.size == 1
       self.exam_execution_id = exam_executions.first.id
       set_exam_answers
+    # elsif exam_executions.size > 1
+      
     else
       self.status = EXAM_NOT_FOUND_STATUS
     end
