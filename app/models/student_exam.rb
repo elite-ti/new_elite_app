@@ -99,7 +99,24 @@ class StudentExam < ActiveRecord::Base
     if exam_executions.present? and exam_executions.size == 1
       self.exam_execution_id = exam_executions.first.id
       set_exam_answers
-    # elsif exam_executions.size > 1
+
+    elsif exam_executions.size > 1
+      index = string_of_answers.rindex(/[^Z]/)      
+      if index.present?
+        index = index + 1
+        selected_exam_execution = exam_executions.map(&:exam).map(&:number_of_questions).select do |exam_execution|
+          exam_execution.number_of_questions == index
+        end
+
+        if selected_exam_execution.present? and selected_exam_execution.size == 1
+          self.exam_execution_id = selected_exam_execution.first.id
+          set_exam_answers
+        else
+          self.status = EXAM_NOT_FOUND_STATUS
+        end
+      else
+        self.status = ERROR_STATUS
+      end
       
     else
       self.status = EXAM_NOT_FOUND_STATUS
