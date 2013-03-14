@@ -1,0 +1,28 @@
+<%= title 'Exam Days', link_to('New Exam Day', new_exam_day_path) %>
+
+<table id="exam_days" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Datetime</th>
+      <th>SuperExam</th>
+      <th>SuperKlazz</th>
+      <th>ExamCycle</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @exam_days.each do |exam_day| %>
+    <tr>
+      <td>
+        <%= exam_day.datetime %>
+        <span>
+          <%= link_to 'Edit', edit_exam_day_path(exam_day) %>
+        </span>
+      </td>
+      <td><%= exam_day.super_exam.name %></td>
+      <td><%= exam_day.super_klazz.name %></td>
+      <td><%= exam_day.exam_cycle.name %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

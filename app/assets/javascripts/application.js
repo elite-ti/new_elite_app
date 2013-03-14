@@ -13,7 +13,6 @@
 //= require form
 //= require calendar
 //= require employees
-//= require exams
 //= require infos
 //= require subject_threads
 //= require teacher_absence

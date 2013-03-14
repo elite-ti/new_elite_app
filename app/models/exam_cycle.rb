@@ -8,4 +8,8 @@ class ExamCycle < ActiveRecord::Base
 
   validates :name, :product_year_id, presence: true
   validates :name, uniqueness: { scope: :product_year_id }
+
+  def super_klazzes
+  	product_year.super_klazzes
+  end
 end

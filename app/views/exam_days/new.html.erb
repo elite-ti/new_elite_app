@@ -1,0 +1,32 @@
+<%= title 'New Exam Day', link_to('Back', exam_days_path) %>
+
+<%= simple_form_for @exam_day_form, url: exam_days_path do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :datetime, as: :datetime %>
+
+    <div class='input'>
+      <%= f.label :super_exam_id %>
+      <%= f.collection_select :super_exam_id, SuperExam.all, :id, :name, include_blank: true %>
+      <%= f.error :super_exam_id %>
+    </div>
+
+    <div class='input'>
+      <%= f.label :exam_cycle_id %>
+      <%= f.collection_select :exam_cycle_id, ExamCycle.all, :id, :name, include_blank: true %>
+      <%= f.error :exam_cycle_id %>
+    </div>
+
+    <div class='input'>
+      <%= f.label :super_klazz_ids, 'Super Klazzes' %>
+      <%= f.grouped_collection_select :super_klazz_ids, ExamCycle.order(:name), :super_klazzes, :name, :id, :name, 
+        { include_blank: true }, { multiple: true } %>
+      <%= f.error :super_klazz_ids %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
