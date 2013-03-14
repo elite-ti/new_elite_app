@@ -1,4 +1,7 @@
 EliteApp::Application.routes.draw do
+  resources :exam_days
+  resources :super_exams
+  
   resources :attendance_lists
   resources :card_processings
   resources :topics

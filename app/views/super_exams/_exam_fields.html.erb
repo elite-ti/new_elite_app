@@ -1,0 +1,19 @@
+<fieldset>
+  <div class='input'>
+    <%= f.label :subject_id %>
+    <%= f.collection_select :subject_id, Subject.order(:name), :id, :name, include_blank: true %>
+  </div>
+
+  <div class='input'>
+    <%= f.label :options_per_question %>
+    <%= f.text_field :options_per_question %>
+  </div>
+
+  <div class='input'>
+    <%= f.label :correct_answers %>
+    <%= f.text_field :correct_answers %>
+  </div>
+
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "remove", '#', class: "remove_fields" %>
+</fieldset>

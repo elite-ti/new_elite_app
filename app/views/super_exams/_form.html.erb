@@ -1,0 +1,14 @@
+<%= simple_form_for(@super_exam) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+  	<%= f.fields_for :exams do |ff| %>
+  	  <%= render 'exam_fields', f: ff %>
+	  <% end %>
+  	<%= link_to_add_fields "Add", f, :exams %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

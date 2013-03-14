@@ -60,7 +60,9 @@ form {
       border-radius: 10px;
       margin-left: -1px;
       padding-left: 0;
-      a { margin-left: $indent; }
+      .remove_fields { 
+        margin-left: $indent; 
+      }
     }
   }
 

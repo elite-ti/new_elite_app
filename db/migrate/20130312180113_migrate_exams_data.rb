@@ -22,14 +22,13 @@ class MigrateExamsData < ActiveRecord::Migration
 
   		old_exams = Exam.all
   		old_exams.each do |old_exam|
+        super_exam = SuperExam.create!
+        old_exam.exam_days.each do |exam_day|
+          exam_day.update_attribute :super_exam_id, super_exam.id 
+        end
+
   			h = get_subject_answers_hash_from(old_exam)
-
   			h.each_pair do |subject, correct_answers|
-          super_exam = SuperExam.create!
-          old_exam.exam_days.each do |exam_day|
-            exam_day.update_attribute :super_exam_id, super_exam.id 
-          end
-
           super_exam.exams.create!(
   					subject_id: subject.id, 
   					correct_answers: correct_answers,

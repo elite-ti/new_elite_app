@@ -1,0 +1,22 @@
+<%= title 'Super Exams', link_to('New Super Exam', new_super_exam_path) %>
+
+<table id="super_exams" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @super_exams.each do |super_exam| %>
+    <tr>
+      <td>
+        <%= super_exam.name %>
+        <span>
+          <%= link_to 'Edit', edit_super_exam_path(super_exam) %>
+        </span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

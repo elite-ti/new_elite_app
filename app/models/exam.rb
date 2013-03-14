@@ -1,7 +1,7 @@
 class Exam < ActiveRecord::Base
   has_paper_trail
   
-  attr_accessible :name, :options_per_question, :correct_answers,
+  attr_accessible :options_per_question, :correct_answers,
     :subject_id
 
   belongs_to :subject
