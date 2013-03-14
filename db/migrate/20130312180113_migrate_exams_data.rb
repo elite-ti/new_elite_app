@@ -3,7 +3,6 @@ class MigrateExamsData < ActiveRecord::Migration
   def up
   	ActiveRecord::Base.transaction do 
   		add_column :exam_days, :super_exam_id, :integer
-      add_column :student_exams, :exam_day_id, :integer
 
       questions_without_topic = Question.all.select do |q| q.topics.empty? end
       ciclo_zero_exams = questions_without_topic.map(&:exams).flatten.uniq
@@ -39,7 +38,6 @@ class MigrateExamsData < ActiveRecord::Migration
   		old_exams.map(&:destroy)
   		remove_column :exams, :name
       remove_column :exam_days, :exam_id
-      remove_column :student_exams, :exam_execution_id
   	end
   end
 

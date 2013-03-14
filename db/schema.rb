@@ -436,13 +436,13 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
   create_table "student_exams", :force => true do |t|
     t.integer  "card_processing_id"
     t.integer  "student_id"
+    t.integer  "exam_day_id"
     t.string   "card"
     t.string   "status"
     t.string   "student_number"
     t.string   "string_of_answers"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "exam_day_id"
   end
 
   create_table "students", :force => true do |t|
