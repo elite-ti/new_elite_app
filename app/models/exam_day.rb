@@ -5,12 +5,9 @@ class ExamDay < ActiveRecord::Base
 
   belongs_to :exam_cycle
   belongs_to :super_klazz
-  belongs_to :exam
-  has_many :student_exams
+  belongs_to :super_exam 
 
-  validates :exam_cycle, :super_klazz, :exam, presence: :true 
+  has_many :student_exams, dependent: :destroy
 
-  def name
-    exam_cycle.name + ' - ' + super_klazz.name
-  end
+  validates :exam_cycle, :super_klazz, :super_exam, presence: :true 
 end 

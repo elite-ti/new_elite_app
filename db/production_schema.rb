@@ -1,18 +1,4 @@
-# encoding: UTF-8
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
-#
-# It's strongly recommended to check this file into your version control system.
-
-ActiveRecord::Schema.define(:version => 20130314180631) do
-
+ActiveRecord::Schema.define(:version => 20130217201533) do
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -39,17 +25,6 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "answer_card_types", :force => true do |t|
-    t.string   "name",                  :null => false
-    t.string   "parameters",            :null => false
-    t.string   "card",                  :null => false
-    t.integer  "student_number_length", :null => false
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
-  add_index "answer_card_types", ["name"], :name => "index_answer_card_types_on_name", :unique => true
 
   create_table "applicants", :force => true do |t|
     t.integer  "number"
@@ -185,17 +160,10 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
 
   create_table "exam_answers", :force => true do |t|
     t.integer  "student_exam_id"
+    t.integer  "exam_question_id"
     t.string   "answer"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "number"
-  end
-
-  create_table "exam_components", :force => true do |t|
-    t.integer  "super_exam_id"
-    t.integer  "exam_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
   end
 
   create_table "exam_cycles", :force => true do |t|
@@ -208,13 +176,13 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.datetime "updated_at"
   end
 
-  create_table "exam_days", :force => true do |t|
+  create_table "exam_executions", :force => true do |t|
     t.integer  "exam_cycle_id"
     t.integer  "super_klazz_id"
+    t.integer  "exam_id"
     t.datetime "datetime"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "super_exam_id"
   end
 
   create_table "exam_questions", :force => true do |t|
@@ -225,19 +193,12 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.datetime "updated_at"
   end
 
-  create_table "exam_subjects", :force => true do |t|
-    t.integer  "subject_id"
-    t.integer  "exam_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "exams", :force => true do |t|
+    t.string   "name"
     t.string   "correct_answers"
     t.integer  "options_per_question"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "subject_id"
   end
 
   create_table "klazz_periods", :force => true do |t|
@@ -436,13 +397,13 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
   create_table "student_exams", :force => true do |t|
     t.integer  "card_processing_id"
     t.integer  "student_id"
+    t.integer  "exam_execution_id"
     t.string   "card"
     t.string   "status"
     t.string   "student_number"
     t.string   "string_of_answers"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "exam_day_id"
   end
 
   create_table "students", :force => true do |t|
@@ -508,11 +469,6 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "super_exams", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "super_klazzes", :force => true do |t|
@@ -606,14 +562,6 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.datetime "created_at"
   end
 
-  create_table "year_products", :force => true do |t|
-    t.string   "name"
-    t.string   "year_id"
-    t.integer  "product_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "years", :force => true do |t|
     t.integer  "number"
     t.date     "start_date"
@@ -621,5 +569,4 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
 end

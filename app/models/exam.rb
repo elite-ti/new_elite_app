@@ -5,13 +5,14 @@ class Exam < ActiveRecord::Base
     :subject_id
 
   belongs_to :subject
+  has_many :exam_days, dependent: :destroy
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions
 
   has_many :exam_days, dependent: :destroy
 
-  validates :name, :correct_answers, :options_per_question, 
+  validates :correct_answers, :options_per_question, 
     :subject_id, presence: true
   validate :correct_answers_range, on: :create
 
