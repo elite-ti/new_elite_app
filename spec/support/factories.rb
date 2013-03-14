@@ -93,7 +93,6 @@ FactoryGirl.define do
   end
 
   factory :exam do
-    sequence(:name) { |n| "Exam#{n}" }
     subject
     options_per_question 5
     correct_answers 'ABCDE' 

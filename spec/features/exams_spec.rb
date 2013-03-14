@@ -4,9 +4,9 @@ describe 'Exams' do
   before(:each) { log_admin_in }
 
   it 'shows all exams' do
-    5.times { |i| create :exam, name: "Exam#{i}" }
+    5.times { |i| create :exam }
     visit exams_url
-    5.times { |i| page.should have_content "Exam#{i}" }
+    5.times { |i| page.should have_content "questions" }
     Exam.count.should == 5 
   end
 
@@ -15,7 +15,6 @@ describe 'Exams' do
 
     visit exams_url
     click_link 'New'
-    fill_in 'Name', with: 'Exam'
     fill_in 'Options per question', with: '5'
     fill_in 'Correct answers', with: 'ABCDE'
     select 'Subject', from: 'Subject'
@@ -27,10 +26,11 @@ describe 'Exams' do
 
   it 'updates a exam' do
     create :exam
+    subject = create :subject
 
     visit exams_url
     click_link 'Edit'
-    fill_in 'Name', with: 'NewExam'
+    select subject.name, from: 'Subject'
     click_button 'Update'
 
     page.should have_content 'Exam was successfully updated.'

@@ -22,6 +22,10 @@ class Exam < ActiveRecord::Base
     exam_questions.count
   end
 
+  def name
+    "#{subject.name} - #{number_of_questions.to_s} questions"
+  end
+
 private
 
   def correct_answers_range
