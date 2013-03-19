@@ -104,8 +104,8 @@ class StudentExam < ActiveRecord::Base
       index = string_of_answers.rindex(/[^Z]/)      
       if index.present?
         index = index + 1
-        selected_exam_execution = exam_executions.map(&:exam).map(&:number_of_questions).select do |exam_execution|
-          exam_execution.number_of_questions == index
+        selected_exam_execution = exam_executions.select do |exam_execution|
+          exam_execution.exam.number_of_questions == index
         end
 
         if selected_exam_execution.present? and selected_exam_execution.size == 1
