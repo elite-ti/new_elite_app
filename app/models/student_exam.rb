@@ -66,6 +66,15 @@ class StudentExam < ActiveRecord::Base
     update_attribute :status, ERROR_STATUS
   end
 
+  def number_of_marked_options
+    if string_of_answers.present?
+      index = string_of_answers.rindex(/[^Z]/)  
+      if index.present?
+        return index + 1
+      end
+    end
+  end
+
   def scan
     begin
       self.student_number, self.string_of_answers = 

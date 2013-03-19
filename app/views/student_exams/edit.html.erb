@@ -59,6 +59,7 @@
       <strong>Student: </strong><%= @student_exam.student.name %><br />
       <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
         map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
+      <strong>Number of answers: </strong><%= @student_exam.number_of_marked_options.to_s %>
     </p>
 
     <%= simple_form_for(@student_exam) do |f| %>
