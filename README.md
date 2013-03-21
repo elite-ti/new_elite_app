@@ -2,49 +2,27 @@
 
 ## Next steps
 
+* Add to float in card_zone.rb - OK
+* Update rails!
+* Add dynamic exam_execution name - OK
+* Fix bug when cropping question from card - OK
+* Add question number to check exam_answers view - OK
 
+* Create views to edit student_exam (3 errors)
+  * Unmark card_processing as repeated after destruction
+* Criar testes
+* Arrumar inconsistencia no banco (alunos que mudaram de turma)
+* Pensar no reloginho
 
-## Urgent
-
-* Find o carlos - OK
-* Add single missing card (ane gabrielle) - OK
-* Create bkp - 201303041548 - OK
-
-* Check cg2 cards - add - OK
-* Upload nubia_mad3 - OK
-* Add taquara cards - OK
-* Create bkp - 201303042309 - OK
-* Get exam results and send to balls - OK
-* Create bkp - 201303051740 - OK
-
-
-* Update products - OK
-* Add exams - OK
-* Change ras from 9 to 8 - OK
-* Campus head teachers can read student_exam - OK
-* Add AFA/ESPCEX to (taquara, bangu, ilha, norteshopping, saogoncalo, valqueire, nova iguacu) - OK
-  * rearrage students - OK
-* Do the the above in production - OK
-* Create bkp - 201303051920 - OK
-
-* Upload two missing cards(guilherme almeida e pedro lucas) - OK
-
-* Upload new .zip files to production - OK
-* Start processment to smart guys cards - OK
-* Check new cards - OK
-
-* Destroy repeated card_processing (cg2) - ?
-* Create bkp - 201303071605
-
+* Add super_klazz to edit student_exam view (student_not found)
+* Add repeated student view (two buttons, correct and incorrect)
 
 
 ## Later...
 
 * Fix card_processing destroy link
-* Unmark card_processing as repeated after destruction
-* Create views to edit student_exam
-
 * Create feedback button!
+* Generate attendance_list and exam_results as printable/editable views
 
 * Improvements
   * Add subject to exam form - update task

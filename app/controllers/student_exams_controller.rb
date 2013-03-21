@@ -26,9 +26,9 @@ class StudentExamsController < ApplicationController
     end
   end
 
-  def error
+  def custom_error
     @student_exam = StudentExam.find(params[:id])
-    @student_exam.error!
+    @student_exam.custom_error!(params[:message])
     redirect_to @student_exam.card_processing, notice: 'Student exam was marked as error.'
   end
 

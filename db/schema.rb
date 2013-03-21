@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20130314180631) do
   create_table "exam_components", :force => true do |t|
     t.integer  "super_exam_id"
     t.integer  "exam_id"
+    t.integer  "number"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end

@@ -5,9 +5,11 @@ class SuperExamsController < ApplicationController
   end
 
   def new
+    create_exam_if_none
   end
 
   def edit
+    create_exam_if_none
   end
 
   def create
@@ -24,5 +26,11 @@ class SuperExamsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+private
+
+  def create_exam_if_none
+    @super_exam.exams.build if @super_exam.exams.empty?
   end
 end

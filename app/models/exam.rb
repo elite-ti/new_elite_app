@@ -22,6 +22,14 @@ class Exam < ActiveRecord::Base
     "#{subject.name} - #{number_of_questions.to_s} questions"
   end
 
+  def ordered_questions
+    exam_questions.includes(:question).order('number').map(&:question)
+  end
+
+  def array_of_answers
+    ordered_questions.map(&:correct_options)
+  end
+
 private
 
   def correct_answers_range

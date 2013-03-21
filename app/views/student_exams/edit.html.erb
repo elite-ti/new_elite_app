@@ -105,6 +105,7 @@
       <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
         <%= image_tag exam_fields.object.image_url %>
         <div class='radio-buttons'>
+          <span class='number'><%= exam_fields.object.number.to_s %></span>
           <%= exam_fields.collection_radio_buttons :answer, 
             exam_fields.object.options.map{|x| [x, x]}, :first, :last %>
         </div>

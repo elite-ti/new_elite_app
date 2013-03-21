@@ -29,6 +29,10 @@ protected
 
 private
 
+  def user_for_paper_trail
+    current_employee && current_employee.id
+  end
+
   def current_ability
     @current_ability ||= set_current_ability
   end

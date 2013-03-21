@@ -98,6 +98,9 @@ FactoryGirl.define do
     correct_answers 'ABCDE' 
   end
 
+  factory :super_exam do
+  end
+
   factory :exam_question do
     exam
     question

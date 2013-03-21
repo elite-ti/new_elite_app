@@ -17,6 +17,6 @@ class Question < ActiveRecord::Base
   validates :stem, :model_answer, presence: true
 
   def correct_options
-    options.where(correct: true)
+    options.where(correct: true).map(&:letter)
   end
 end

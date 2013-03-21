@@ -24,7 +24,7 @@
           This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
         <% end %>
         <span>Student: </span><%= @student_exam.student.try(:name) || 'Not found' %><br />
-        <span>Exam: </span><%= @student_exam.exam_day.try(:exam).try(:name) || 'Not found' %><br />
+        <span>Exam: </span><%= @student_exam.exam_day.try(:super_exam).try(:name) || 'Not found' %><br />
       </p>
     </div>
     <table id='student_exam_exam_answers' class='display is-datatable'>
@@ -37,10 +37,10 @@
       </thead>
 
       <tbody>
-      <% @student_exam.exam_answers.each do |exam_answer| %>
+      <% @student_exam.exam_answers.each_with_index do |exam_answer, index| %>
         <tr>
-          <td><%= exam_answer.exam_question.number.to_s %></td> 
-          <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
+          <td><%= index + 1 %></td> 
+          <td><%= @student_exam.exam_day.super_exam.array_of_answers[index].join(', ') %></td> 
           <td><%= exam_answer.answer %></td> 
         </tr>
       <% end %>

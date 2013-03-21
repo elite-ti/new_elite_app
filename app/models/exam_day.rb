@@ -9,4 +9,8 @@ class ExamDay < ActiveRecord::Base
   has_many :student_exams, dependent: :destroy
 
   validates :datetime, :exam_cycle, :super_klazz, :super_exam, presence: :true 
+
+  def name
+    exam_cycle.name + ' - ' + super_klazz.name + ' - ' + datetime.strftime('%d/%m/%Y')
+  end
 end 

@@ -11,4 +11,16 @@ class SuperExam < ActiveRecord::Base
 	def name
 		exams.map(&:name).join(' - ')
 	end
+
+	def number_of_questions
+		exams.map(&:number_of_questions).reduce(0, &:+)
+	end
+
+	def ordered_exams
+		exam_components.includes(:exam).order('number').map(&:exam)
+	end
+
+	def array_of_answers
+		ordered_exams.map(&:array_of_answers).reduce([], &:+)
+	end
 end

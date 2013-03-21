@@ -10,7 +10,7 @@ class ExamDayForm
 		@super_klazz_ids = (params[:super_klazz_ids] || []).select do |id| id.present? end
 		@exam_cycle_id = params[:exam_cycle_id]
 		@super_exam_id = params[:super_exam_id]
-		@datetime = Time.zone.parse(params[:datetime])
+		@datetime = params[:datetime].nil? ? Time.zone.now : Time.zone.parse(params[:datetime])
 	end
 
 	def save

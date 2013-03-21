@@ -8,11 +8,9 @@ class ExamsController < ApplicationController
   end
 
   def new
-    create_exam_if_none
   end
 
   def edit
-    create_exam_if_none
   end
 
   def create
@@ -34,11 +32,5 @@ class ExamsController < ApplicationController
   def destroy
     @exam.destroy
     redirect_to exams_url, notice: 'Exam was successfully destroyed.'
-  end
-
-private
-
-  def create_exam_if_none
-    @super_exam.exams.build
   end
 end

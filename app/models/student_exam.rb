@@ -3,6 +3,7 @@ class StudentExam < ActiveRecord::Base
 
   BEING_PROCESSED_STATUS = 'Being processed'
   ERROR_STATUS = 'Error'
+  CUSTOM_ERROR_STATUS = 'Custom Error:'
   STUDENT_NOT_FOUND_STATUS = 'Student not found'
   EXAM_NOT_FOUND_STATUS = 'Exam not found'
   INVALID_ANSWERS_STATUS = 'Invalid answers'
@@ -67,8 +68,12 @@ class StudentExam < ActiveRecord::Base
     status == ERROR_STATUS
   end
 
-  def error!
-    update_attribute :status, ERROR_STATUS
+  def custom_error?
+    status.match(/\ACustom Error:/)
+  end
+
+  def custom_error!(message)
+    update_attribute :status, CUSTOM_ERROR_STATUS + ' ' + message
   end
 
   def scan
@@ -111,11 +116,9 @@ class StudentExam < ActiveRecord::Base
 
   def set_exam_answers
     exam_answers.destroy_all
-    exam_questions = exam_day.exam.exam_questions.order(:number)
-    (0..(exam_questions.size - 1)).each do |i|      
-      exam_answers.build(
-        answer: string_of_answers[i], 
-        exam_question_id: exam_questions[i].id)
+    exam_day.super_exam.number_of_questions.times do |i|      
+      string_of_answers[i] ||= 'Z'
+      exam_answers.build(answer: string_of_answers[i])
     end
 
     if answers_needing_check.any?
@@ -145,8 +148,7 @@ private
     if student.present? and exam_day.present?
       conflics = StudentExam.where(
         student_id: student.id, 
-        exam_day_id: exam_day.id
-      )
+        exam_day_id: exam_day.id)
       if conflics.size > 1
         conflics.each do |student_exam|
           student_exam.update_column :status, REPEATED_STUDENT

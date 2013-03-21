@@ -3,6 +3,7 @@
 <table id="exam_days" class="display is-datatable">
   <thead>
     <tr>
+      <th>Name</th>
       <th>Datetime</th>
       <th>SuperExam</th>
       <th>SuperKlazz</th>
@@ -14,11 +15,12 @@
   <% @exam_days.each do |exam_day| %>
     <tr>
       <td>
-        <%= exam_day.datetime %>
+        <%= exam_day.name %>
         <span>
           <%= link_to 'Edit', edit_exam_day_path(exam_day) %>
         </span>
       </td>
+      <td><%= exam_day.datetime %></td>
       <td><%= exam_day.super_exam.name %></td>
       <td><%= exam_day.super_klazz.name %></td>
       <td><%= exam_day.exam_cycle.name %></td>
