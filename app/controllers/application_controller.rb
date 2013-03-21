@@ -1,11 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  # http_basic_authenticate_with :name => "elite", :password => "elite123"
-
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-    if current_employee.nil?
+    if current_employee.present?
       logger.warn '!!AccessDenied!!'
       logger.warn 'Employee email: ' + current_employee.email
       logger.warn 'Current role: ' + current_role
@@ -13,6 +10,7 @@ class ApplicationController < ActionController::Base
       logger.warn '!!AccessDenied!!'
       logger.warn 'Guest user.'
     end
+    redirect_to root_url, :alert => exception.message
   end
 
 protected
@@ -56,7 +54,6 @@ private
   helper_method :current_employee
 
   def set_current_employee
-    # return Employee.find_by_email!('gustavo.schmidt@sistemaeliterio.com.br') if Rails.env == 'development'
     Employee.find(session[:user_id]) if session[:user_id]
   end
 end
