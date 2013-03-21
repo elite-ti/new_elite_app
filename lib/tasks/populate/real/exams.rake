@@ -2,6 +2,16 @@
 namespace :db do
   namespace :populate do
     namespace :real do 
+      task add_missing_exam: :environment do 
+        p 'Adding missing exam'
+        datetime = 'Sat, 16 Mar 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P2'
+        array = [
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): BCBABEBBBD BDDEEDDBAB BAADBDACBB']
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+
       task add_exams: :environment do
         p 'Adding exams'
         datetime = 'Sat, 16 Mar 2013 14:00:00 BRT -03:00'
