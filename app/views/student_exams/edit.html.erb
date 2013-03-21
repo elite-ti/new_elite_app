@@ -118,6 +118,34 @@
     </div>
   <% end %>
 
+<% elsif @student_exam.repeated_student? %>
+  <h2>Repeated Student</h2>
+  <%= image_tag @student_exam.card.student_url %>
+  <div style='height: 50px;'></div>
+  <p>
+    <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+    <strong>Student: </strong><%= @student_exam.student.name %><br />
+    <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
+      map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
+  </p>
+  <%= form_tag("/student_exams/#{@student_exam.id}", :method => :put) do %>
+    <div class='form-inputs'>
+      <p>Is it correct?</p>
+      <div class='input'>
+        <%= label_tag 'True' %>
+        <%= radio_button_tag 'student_exam[correctness]', true %>
+      </div>
+      <div class='input'>
+        <%= label_tag 'False' %>
+        <%= radio_button_tag 'student_exam[correctness]', false %>
+      </div>
+    </div> 
+    <div class='form-actions'>
+      <%= submit_tag 'Finish', class: 'btn' %>
+      <%= submit_tag 'Continue' %>
+    </div>
+  <% end %>
+
 <% elsif @student_exam.error? %>
   <h2>Erro processing card</h2>
 

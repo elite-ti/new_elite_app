@@ -8,8 +8,8 @@
 * Fix bug when cropping question from card - OK
 * Add question number to check exam_answers view - OK
 
-* Create views to edit student_exam (3 errors)
-  * Unmark card_processing as repeated after destruction
+* Create views to edit student_exam (3 errors) - OK
+  * Unmark card_processing as repeated after destruction - SHIT
 * Criar testes
 * Arrumar inconsistencia no banco (alunos que mudaram de turma)
 * Pensar no reloginho

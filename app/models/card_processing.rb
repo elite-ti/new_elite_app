@@ -51,9 +51,7 @@ class CardProcessing < ActiveRecord::Base
   end
 
   def number_of_errors
-    student_exams.where(status: StudentExam::ERROR_STATUS).count +
-      student_exams.where(status: StudentExam::NEEDS_CHECK).count +
-      student_exams.where(status: StudentExam::REPEATED_STUDENT).count
+    student_exams.where(status: StudentExam::NEEDS_CHECK).count
   end
 
   def remove_file!

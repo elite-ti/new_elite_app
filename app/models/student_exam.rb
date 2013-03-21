@@ -56,6 +56,10 @@ class StudentExam < ActiveRecord::Base
     status == STUDENT_NOT_FOUND_STATUS
   end
 
+  def repeated_student?
+    status == REPEATED_STUDENT
+  end
+
   def exam_not_found?
     status == EXAM_NOT_FOUND_STATUS
   end
@@ -146,12 +150,19 @@ private
 
   def mark_conclicts!
     if student.present? and exam_day.present?
-      conflics = StudentExam.where(
+      conflicts = StudentExam.where(
         student_id: student.id, 
         exam_day_id: exam_day.id)
-      if conflics.size > 1
-        conflics.each do |student_exam|
-          student_exam.update_column :status, REPEATED_STUDENT
+      if conflicts.size > 1
+        conflicts.each do |student_exam|
+          next if student_exam.id == self.id
+          
+          if `diff #{student_exam.card.path} #{self.card.path}`.present?
+            student_exam.update_column :status, REPEATED_STUDENT
+            self.update_column :status, REPEATED_STUDENT
+          else
+            student_exam.destroy
+          end
         end
       end
     end

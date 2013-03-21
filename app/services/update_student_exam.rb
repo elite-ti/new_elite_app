@@ -24,6 +24,8 @@ class UpdateStudentExam
         update_answers(params[:exam_answers_attributes])
       elsif student_exam.error?
         update_scanned_attributes(params[:student_number], params[:string_of_answers])
+      elsif student_exam.repeated_student?
+        update_repeated_student_exam(params[:correctness])
       end
     end
   end
@@ -68,6 +70,18 @@ private
     student_exam.student_number = student_number
     student_exam.string_of_answers = string_of_answers
     student_exam.set_student
+    student_exam.save!
+  end
+
+  def update_repeated_student_exam(correctness)
+    if correctness == 'true'
+      student_exam.status = StudentExam::VALID_STATUS
+    elsif correctness == 'false'
+      student_exam.student_id = nil
+      student_exam.exam_day_id = nil
+      student_exam.exam_answers.destroy_all
+      student_exam.status = StudentExam::STUDENT_NOT_FOUND_STATUS
+    end
     student_exam.save!
   end
 end
