@@ -133,11 +133,10 @@ class StudentExam < ActiveRecord::Base
   end 
 
   def set_exam_answers
-    exam_questions = exam_execution.exam.exam_questions.order(:number)
-    (0..(exam_questions.size - 1)).each do |i|      
+    exam_execution.exam.exam_questions.each do |exam_question|
       exam_answers.build(
-        answer: string_of_answers[i], 
-        exam_question_id: exam_questions[i].id)
+        answer: string_of_answers[exam_question.number - 1], 
+        exam_question_id: exam_question.id)
     end
 
     if answers_needing_check.any?
