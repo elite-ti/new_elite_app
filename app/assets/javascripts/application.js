@@ -17,4 +17,5 @@
 //= require subject_threads
 //= require teacher_absence
 //= require exams
+//= require exam_results
 //= require student_exams

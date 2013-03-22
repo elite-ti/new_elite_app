@@ -1,0 +1,25 @@
+<%= title 'Exam Results' %>
+
+<%= form_tag '/exam_results' do %>
+  <div class="form-inputs">
+    <div class='input'>
+      <%= label_tag :date, 'Date' %>
+      <%= text_field_tag 'exam_result[date]', nil, class: 'date_picker' %>
+    </div>
+
+    <div class='input'>
+      <%= label_tag :campus_id, 'Campus' %>
+      <%= collection_select :exam_result, :campus_id, @accessible_campuses, :id, :name %>
+    </div>
+
+    <div class='input'>
+      <%= label_tag :product_year_id, 'Product Year' %>
+      <%= collection_select :exam_result, :product_year_id, ProductYear.all, :id, :name %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= button_tag :submit, class: 'btn remote' %>
+  </div>
+<% end %>
+

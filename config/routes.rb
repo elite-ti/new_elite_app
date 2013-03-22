@@ -1,4 +1,6 @@
 EliteApp::Application.routes.draw do
+  get "exam_results", to: 'exam_results#index'
+
   resources :exam_days
   resources :super_exams
   

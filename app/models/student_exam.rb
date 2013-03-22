@@ -28,6 +28,19 @@ class StudentExam < ActiveRecord::Base
   after_save :mark_conclicts!
   before_create :set_status_to_being_processed
 
+  def grade
+    counter = 0
+    exam_answers = 'A'*50 #get_exam_answers
+    exam_day.super_exam.fast_array_of_answers.each_with_index do |correct_answers, index|
+      counter = counter + 1 if correct_answers.include? (exam_answers[index])
+    end
+    counter
+  end
+
+  def get_exam_answers
+    exam_answers.sort do |x,y| x.number <=> y.number end.map(&:answer)
+  end
+
   def self.needing_check
     where(status: NEEDS_CHECK)
   end
@@ -130,12 +143,6 @@ class StudentExam < ActiveRecord::Base
     else
       self.status = VALID_STATUS
     end
-  end
-
-  def get_exam_answers
-    exam_answers.includes(:exam_question).sort do |x,y| 
-      x.exam_question.number <=> y.exam_question.number 
-    end.map(&:answer)
   end
 
   def remove_card!
