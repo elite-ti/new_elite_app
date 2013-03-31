@@ -1,7 +1,29 @@
 # encoding: UTF-8
 namespace :db do
   namespace :populate do
-    namespace :real do 
+    namespace :real do
+      task add_exams_2: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 23 Mar 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P3'
+        array = [
+          'C - CN/EPCAR, 9º Ano Militar - All - MAT(20): DDDDEEADEEBDACEBBCCC', 
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC',
+          'C - 1ª Série Militar - All - MAT(20): DDDDEEADEEBDACEBBCCC', 
+          'C - 2ª Série Militar - All - QUI(10) + HIS(10) + BIO(10): BCABECDBAA DBBEEEEBCB ADAEABACEB',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20) + POR (20) + ING(20): BECCBDECDAACBBCDCBBD DEAEBCADADEACBADBEEB CBABBBCCADCBADACACAA CBCCCDDABCDEDECBDAEC', 
+          'C - AFA/EAAr/EFOMM - All - FIS(20) + MAT (20): DEAEBCADADEACBADBEEB BEDDBDCACEADBCACCEDC', 
+          'C - Pré-Vestibular, 3ª Série + Pré-Vestibular - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10)- DADABDCDDBDABAC ACABAA ABCADB BDADBD BBDDAD BBDAB DBBDDA CDDAADCBBA',
+          'C - IME-ITA, 3ª Série + IME-ITA - All - POR(15) + ING(15): ACADBCBEBEDAACA DACBDECBEAACBBB',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20) + POR(20) + ING(20): ABACDCCBDAACCCBDADAE DEAEBCADADEACBADBEEB CBABBBCCADCBADACACAA CBCCCDDABCDEDECBDAEC',
+          'U - 1ª Série Militar - Madureira III - MAT(20): BDACEBBCCCDDDDEEADEE',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - MAT(20): BDACEBBCCCDDDDEEADEE',
+          'U - 2ª Série Militar - Madureira I - QUI(10) + HIS(10) + BIO(10): ECDBAABCAB EEEBCBDBBE BACEBADAEA',
+          'U - 9º Ano Forte - São Gonçalo II - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_madureira_exams: :environment do 
         p 'Adding exams'
         datetime = 'Sat, 16 Mar 2013 14:00:00 BRT -03:00'
