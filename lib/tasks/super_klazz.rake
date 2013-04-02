@@ -55,7 +55,7 @@ namespace :super_klazz do
 
     if errors > 0
     p 'There are still #{errors} errors. Press any key to continue.'
-    answer = gets.chomp
+    # answer = gets.chomp
     else
     p 'Ok, no errors. Moving on.'
     end
@@ -79,7 +79,7 @@ namespace :super_klazz do
     if warnings.length > 0
       p 'Please check the following Student Exams: ' + warnings.map(&:id).join(', ')
       p 'Press any key to continue'
-      answer = gets.chomp
+      # answer = gets.chomp
     else
       p 'No warnings. Moving on.'
     end
