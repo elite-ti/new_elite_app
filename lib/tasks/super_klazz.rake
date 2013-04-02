@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 namespace :super_klazz do
   task create_attendance_list: :environment do
     p 'Creating attendance list'
