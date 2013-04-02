@@ -29,18 +29,21 @@ namespace :super_klazz do
 
   task create_exam_results: :environment do 
     p 'Creating exam results'
-    CSV.open("/home/charlie/Desktop/exam_results.csv", "wb") do |csv|
+    result_date = '2013-03-23'
+    valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
+    CSV.open("/home/deployer/results/exam_results_#{result_date}.csv", "wb") do |csv|
       StudentExam.includes(
         :student, 
         exam_answers: :exam_question, 
         exam_execution: { super_klazz: [:campus, product_year: :product]}
-      ).where(status: 'Valid').each do |student_exam|
+      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
         csv << [
           student_exam.student.ra, 
           student_exam.student.name, 
           student_exam.exam_execution.super_klazz.product_year.product.name,
           student_exam.exam_execution.super_klazz.campus.name,
-          student_exam.get_exam_answers.join('')
+          student_exam.get_exam_answers.join(''),
+          student_exam.string_of_answers
         ]
       end
     end
