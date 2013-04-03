@@ -112,6 +112,7 @@ namespace :super_klazz do
       end
     end
 
+    pp 'Run the following command to convert: iconv -f utf-8 -t windows-1252 /home/deployer/results/exam_results_2013-03-23.csv > /home/deployer/results/exam_results_2013-03-23_ansi.csv'
     pp 'Convert all files to windows-1252 and run the following command on local machine:\n scp deployer@elitesim.sistemaeliterio.com.br:/home/deployer/results/exam_results_#{result_date}_ansi.csv ~/Elite/resultados/exam_results_#{result_date}_ansi.csv'
 
   end
