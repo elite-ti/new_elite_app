@@ -29,10 +29,21 @@
   * Gerar pesquisas personalizadas para cada turma (PDF's)
   * Processar o resultado das pesquisas e gerar um output analítico
 
-
 ## Urgent
 
 * Create staging environment and deploy daily
+* Also put students that have not attended test into result (use F to indicate absence)
+* Create cross-check functionality built-in
+  * For each Campus+Klazz, the CampusHeadTeacher will inform the number of:
+    * Names in attendance list
+    * Physical Cards
+    * Uploaded Cards (automatic)
+    * Names in result (automatic)
+* Send email regarding grade report importing
+* Automatize CompiledResult (Consolidado)
+* Check and update student list and send it to the campi for conference
+* Create a Google Docs for collect ExamResults Errors
+* Translate to Portuguese
 
 
 ## Later...

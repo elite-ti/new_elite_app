@@ -139,6 +139,7 @@ class StudentExam < ActiveRecord::Base
         exam_question_id: exam_question.id)
     end
 
+    # comment
     if answers_needing_check.any?
       self.status = INVALID_ANSWERS_STATUS
     else
