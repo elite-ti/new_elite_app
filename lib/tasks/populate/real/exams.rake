@@ -2,6 +2,30 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_06ABR: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 6 Apr 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P5'
+        array = [
+          'C - 2ª Série Militar - All - GEO(10): CCABBABCEC',
+          'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25):  DDDDEEADEEBDACEBBCCC ACBBCACDBACCAABDDCACBBBBA ABCCDBBDCADABDDBADBCDCAAC ADCAABBDCDBDDBABDBDBADDCB',
+          'C - 3ª Série + AFA/ESPCEX (ESPCEX), AFA/ESPCEX (ESPCEX) - All - POR(20) + QUI(12) + FIS(12): CAEDBAEEEAECBAECCBEA DCDABCDEAECD DADAEBEEBECA', # MODELO ESPCEX
+          'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): CAEDBAEEEAECBAECCBEA DCDABCDEAECD DADAEBEEBECA',
+          'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): AAECDBCBCECE ACBBCACBACAC EABBDE AADADE', 
+          'C - IME-ITA, 3ª Série + IME-ITA - All - FIS(20): DACBBECDACEADBDCBAB', # + FIS(10)
+          'C - 1ª Série Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): CEDEBAACDBDBABBDBBCA AACADD ACBDCC CBBADE BEDDEB ABCDED',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD',
+          'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD', # MODELO EFOMM
+          'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): CEDEBAACDBDBABBDBBCA AACADD ACBDCC CBBADE EDABCB ABCDED', 
+          'C - Pré-Vestibular, 3ª Série + Pré-Vestibular - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DCAAADBACBBBABA BDBACD DABCAD BCADCC CDDCBA BDADC CCCADE DAADBCBBCB ',
+          'C - 2ª Série Militar - All - MAT(15) + FIS(15): DCBECCDBDBCACCD ADAABAEEEABDCCC',
+          'U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB DEBBED DEDABC',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB BCBEDA DEDABC'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+
       task add_exams_2: :environment do
         p 'Adding exams'
         datetime = 'Sat, 23 Mar 2013 14:00:00 BRT -03:00'
@@ -67,7 +91,7 @@ namespace :db do
         ActiveRecord::Base.transaction do 
           array.each do |line|
             action, product_names, campus_names, exam_attributes = line.split(' - ')
-            product_names = product_names.gsub(/ \(.*\)/, '')
+            product_names = product_names.gsub(/ \(\S*\)/, '')
             product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
             campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
             subjects, correct_answers = exam_attributes.split(': ')
