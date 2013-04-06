@@ -18,7 +18,7 @@ namespace :db do
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD',
           'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD', # MODELO EFOMM
           'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): CEDEBAACDBDBABBDBBCA AACADD ACBDCC CBBADE EDABCB ABCDED', 
-          'C - Pré-Vestibular, 3ª Série + Pré-Vestibular - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DCAAADBACBBBABA BDBACD DABCAD BCADCC CDDCBA BDADC CCCADE DAADBCBBCB ',
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DCAAADBACBBBABA BDBACD DABCAD BCADCC CDDCBA BDADC CCCADE DAADBCBBCB ',
           'C - 2ª Série Militar - All - MAT(15) + FIS(15): DCBECCDBDBCACCD ADAABAEEEABDCCC',
           'U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB DEBBED DEDABC',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB BCBEDA DEDABC'
