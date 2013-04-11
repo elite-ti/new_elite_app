@@ -209,6 +209,26 @@ private
   end
   end
 
+  def ResolveShouldNotBeRepeated(card_processing_id, exam_date)
+    CardProcessing.find(card_processing_id).student_exams.each do |se|
+      if se.status == 'Repeated student'
+        if se.student.student_exams.map(&:card_processing).map(&:exam_date).select {|d| d.to_s == exam_date}.size == 1
+          se.status = 'Valid'
+          se.save
+        end
+      end
+    end
+  end
+
+  def ReprocessCardProcessing(card_processing_id)
+    CardProcessing.find(card_processing_id).student_exams.each do |se|
+      if se.status == 'Being processed'
+        se.scan
+        se.save
+      end
+    end
+  end
+
   def ResolveWrongClass(ra)
   s = Student.where(ra: ra).first
   se = s.student_exams.select{ |se| se.card_processing.exam_date === Date.new(2013,03,16)}.first
