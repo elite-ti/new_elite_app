@@ -49,6 +49,48 @@ namespace :super_klazz do
     end
   end
 
+  task test_student_exams: :environment do
+    result_date = '2013-04-06'
+    valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
+    warnings = []
+    StudentExam.includes(
+    :student,
+    exam_answers: :exam_question,
+    exam_execution: { super_klazz: [:campus, product_year: :product]}
+    ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+      p student_exam.id
+      last = student_exam.string_of_answers.rindex(/[ABCDE]/)
+      if last.nil?
+        last = -1
+      end
+      if (last + 1 - student_exam.exam_execution.exam.exam_questions.size).abs > 3
+      warnings << student_exam
+      end
+    end
+
+    if warnings.length > 0
+      p 'Please check the following Student Exams: ';
+      pp warnings.map{|se| "http://elitesim.sistemaeliterio.com.br/student_exams/" + se.id.to_s + " - " + se.exam_execution.exam_cycle.product_year.name};
+    else
+      p 'No warnings. Moving on.';
+    end
+  end
+
+  task check_student_exams: :environment do
+    result_date = '2013-04-06'
+
+    p 'Creating exam results for ' + result_date.to_s
+    valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
+    errors = StudentExam.where(card_processing_id: valid_card_processing_ids).select {|se| se.status != 'Valid'}.size
+
+    if errors > 0
+    p 'There are still #{errors} errors. Press any key to continue.'
+    answer = gets.chomp
+    else
+    p 'Ok, no errors. Moving on.'
+    end    
+  end
+
   task create_separated_exam_results: :environment do
     result_date = '2013-03-23'
 
