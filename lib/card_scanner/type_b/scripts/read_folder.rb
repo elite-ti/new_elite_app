@@ -5,7 +5,7 @@ require 'find'
 this_path = File.dirname(File.expand_path(__FILE__))
 
 parameters = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3464'
-folder_path = '/Users/pauloacmelo/Elite/Canguru sem fronteiras' # TOFILL
+folder_path = '/Users/pauloacmelo/Elite/CardRunnedByScript/Sondagem_09ABR' # TOFILL
 file_to_be_processed_format = '.tif'
 
 def is_valid_result(result)
@@ -31,6 +31,7 @@ print "=> Scanning cards\n"
 lines = []
 
 Find.find(folder_path) do |file_path|
+  p file_path
   next if File.extname(file_path) != file_to_be_processed_format
 
   normalized_path = File.join(File.dirname(file_path), 
@@ -45,10 +46,11 @@ Find.find(folder_path) do |file_path|
   end
 end
 
-File.open("#{folder_path}/../scanner_result.csv", 'w') do |f2|  
+filename = File.basename(folder_path).gsub(/\s+/,'_')
+File.open("#{folder_path}/../scanner_result_#{filename}.csv", 'w') do |f2| 
   lines.each do |line|
     f2.puts line
   end
 end 
 
-`iconv -f utf-8 -t windows-1252 "#{folder_path}/../scanner_result.csv" > "#{folder_path}/../scanner_result_ansi.csv"`
+`iconv -f utf-8 -t windows-1252 "#{folder_path}/../scanner_result_#{filename}.csv" > "#{folder_path}/../scanner_result_#{filename}_ansi.csv"`
