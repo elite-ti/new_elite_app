@@ -29,7 +29,7 @@ namespace :super_klazz do
 
   task create_exam_results: :environment do 
     p 'Creating exam results'
-    result_date = '2013-03-23'
+    result_date = '2013-04-06'
     valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
     CSV.open("/home/deployer/results/exam_results_#{result_date}.csv", "wb") do |csv|
       StudentExam.includes(
