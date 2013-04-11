@@ -11,6 +11,6 @@ class ExamExecution < ActiveRecord::Base
   validates :exam_cycle, :super_klazz, :exam, presence: :true 
 
   def name
-    exam_cycle.name + ' - ' + super_klazz.name + ' - ' + exam.exam_questions.size + ' questions'
+    exam_cycle.name + ' - ' + super_klazz.name + ' - ' + exam.exam_questions.size.to_s + ' questions'
   end
 end 
