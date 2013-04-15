@@ -8,6 +8,16 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P6'
         array = [
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10):  DEADEEBCBD ECCDCABCDB EEBCCBBACB BACDBDBEDB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end      
+      task add_exams_13ABR: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 13 Apr 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P6'
+        array = [
           'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25):  BBCDABCCAACBCCBDCBCCCCCDB ACBBCACDBACCAABDDCACBBBBA ABCCDBBDCADABDDBADBCDCAAC ADCAABBDCDBDDBABDBDBADDCB',
           'C - 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(11) + ING(12): BBDABACBDCDAAAADDBCC CABCBBBACDEC DAEADEEDDBC DADCCDACDEBC',
           'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): EBAECAEABABDAEDEEBEE DCADCEEDBCCD DAEADDEEDDBC DADCCDACDEBC',
