@@ -2,7 +2,7 @@
 namespace :db do
   namespace :populate do
     namespace :real do
-      task add_exams_13ABR: :environment do
+      task add_exams_13ABR_2: :environment do
         p 'Adding exams'
         datetime = 'Sat, 13 Apr 2013 14:00:00 BRT -03:00'
         cycle_name = 'Ciclo 1 - '
