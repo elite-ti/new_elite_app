@@ -31,12 +31,17 @@ namespace :super_klazz do
     p 'Creating exam results'
     result_date = '2013-04-06'
     valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
+    valid_card_processing_ids.delete(234)
+    count = 1
+    total = StudentExam.where(status: 'Valid', card_processing_id: valid_card_processing_ids).size
     CSV.open("/home/deployer/results/exam_results_#{result_date}.csv", "wb") do |csv|
       StudentExam.includes(
         :student, 
         exam_answers: :exam_question, 
         exam_execution: { super_klazz: [:campus, product_year: :product]}
       ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+        p student_exam.id.to_s + '(' + count.to_s + ' of ' + total.to_s + ')'
+        count += 1
         csv << [
           student_exam.student.ra, 
           student_exam.student.name, 
