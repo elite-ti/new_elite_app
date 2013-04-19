@@ -29,7 +29,7 @@ namespace :super_klazz do
 
   task create_exam_results: :environment do 
     p 'Creating exam results'
-    result_date = '2013-04-06'
+    result_date = ENV['DATE'] #'2013-04-06'
     valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
     valid_card_processing_ids.delete(234)
     count = 1
