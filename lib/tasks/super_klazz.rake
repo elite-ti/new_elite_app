@@ -27,6 +27,54 @@ namespace :super_klazz do
     end
   end
 
+  task create_exam_results_by_klazz: :environment do 
+    p 'Creating exam results'
+    result_date = ENV['DATE'] #'2013-04-06'
+    klazz_id = ENV['KLAZZ'].to_i
+    valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)    
+    count = 1
+    total = StudentExam.where(status: 'Valid', card_processing_id: valid_card_processing_ids).size
+    CSV.open("/home/deployer/results/exam_results_#{result_date}.csv", "wb") do |csv|
+      StudentExam.includes(
+        :student, 
+        exam_answers: :exam_question, 
+        exam_execution: { super_klazz: [:campus, product_year: :product]}
+      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+        p student_exam.id.to_s + '(' + count.to_s + ' of ' + total.to_s + ')'
+        count += 1
+        csv << [
+          student_exam.student.ra, 
+          student_exam.student.name, 
+          student_exam.exam_execution.super_klazz.product_year.product.name,
+          student_exam.exam_execution.super_klazz.campus.name,
+          student_exam.get_exam_answers.join(''),
+          student_exam.string_of_answers
+        ]
+      end
+    end
+  end
+
+  task create_enrollments_list: :environment do
+    date = Date.today
+    CSV.open("/home/deployer/results/enrollments_#{date}.csv", "wb") do |csv|
+      Student.includes(enrollments: { super_klazz: [:campus, product_year: :product]}).each do |student|
+        if student.enrollments.size == 0
+          # do nothing
+        elsif student.enrollments.size == 1
+          p [student.ra, student.name, student.enrollments.first.super_klazz.product_year.product.name, student.enrollments.first.super_klazz.campus.name].map(&:to_s).join(' - ')
+          csv << [student.ra, student.name, student.enrollments.first.super_klazz.product_year.product.name, student.enrollments.first.super_klazz.campus.name]
+        else
+          real_enrollments = student.enrollments.select{|enr| enr.super_klazz.exam_executions.map(&:student_exams).size > 0}
+          real_enrollments.each do |enr|
+            csv << [student.ra, student.name, enr.super_klazz.product_year.product.name, enr.super_klazz.campus.name]
+            p [student.ra, student.name, enr.super_klazz.product_year.product.name, enr.super_klazz.campus.name].map(&:to_s).join(' - ')
+          end
+        end
+      end
+    end
+    p  "/home/deployer/results/enrollments_#{date}.csv" 
+  end  
+
   task create_exam_results: :environment do 
     p 'Creating exam results'
     result_date = ENV['DATE'] #'2013-04-06'
