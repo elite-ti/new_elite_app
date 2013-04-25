@@ -21,9 +21,9 @@ class CardZone
     question_width = @group_width + delta
     question_height = @group_height/@questions_per_group
 
-    question_x = @group_x + (number/@questions_per_group)*@space_between_groups - delta + 10
+    question_x = @group_x + (number/(@questions_per_group + 1)*@space_between_groups - delta + 10
 
-    question_y = @group_y + ((@group_height - @option_height).to_f/(@questions_per_group - 1))*(number - 1)
+    question_y = @group_y + ((@group_height - @option_height).to_f/(@questions_per_group - 1))*((number - 1) % @questions_per_group)
 
     "#{question_width}x#{question_height}+#{question_x}+#{question_y}"
   end
