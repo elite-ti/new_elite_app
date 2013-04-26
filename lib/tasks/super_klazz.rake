@@ -102,6 +102,32 @@ namespace :super_klazz do
     end
   end
 
+  task create_students_list: :environment do 
+    p 'Getting Students'
+
+    CSV.open("/home/elite/output/students_#{DateTime.now.to_s}.csv", "wb") do |csv|
+      Student.find_each  do |st|
+        csv << [
+          st.id,
+          st.ra,
+          st.name,
+          st.email,
+          st.cpf,
+          st.rg,
+          st.rg_expeditor,
+          st.gender,
+          st.date_of_birth,
+          st.number_of_children,
+          st.mother_name,
+          st.father_name,
+          st.telephone,
+          st.cellphone,
+          st.previous_school
+        ]
+      end
+    end
+  end
+
   task test_student_exams: :environment do
     result_date = '2013-04-06'
     valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
