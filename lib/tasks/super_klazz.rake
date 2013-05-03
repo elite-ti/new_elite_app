@@ -125,7 +125,7 @@ namespace :super_klazz do
     valid_card_processing_ids.delete(234)
     count = 1
     total = StudentExam.where(status: 'Valid', card_processing_id: valid_card_processing_ids).size
-    CSV.open("/home/deployer/results/exam_results_#{result_date}.csv", "wb") do |csv|
+    CSV.open("/home/deployer/results/exam_results_#{ENV['DATE']}.csv", "wb") do |csv|
       StudentExam.includes(
         :student, 
         exam_answers: :exam_question, 
@@ -143,6 +143,7 @@ namespace :super_klazz do
         ]
       end
     end
+    `iconv -f utf-8 -t windows-1252 "/home/deployer/results/exam_results_#{ENV['DATE']}.csv"> "/home/deployer/results/exam_results_#{ENV[DATE]}_ansi.csv"`
   end
 
   task create_students_list: :environment do 

@@ -15,11 +15,11 @@ load 'config/recipes/card_scanner'
 load 'config/recipes/carrierwave'
 load 'config/recipes/bkp'
 
-server '50.116.8.31', :web, :app, :db, primary: true
+server '50.116.4.29', :web, :app, :db, primary: true
+# server '50.116.8.31', :web, :app, :db, primary: true
 
 set :user, 'deployer'
 set :application, 'new_elite_app'
-set :repository, "git@github.com:elite-ti/#{application}.git"
 
 set :google_oauth2_client_id, '941270192118-0meb3qbgdppucv72rfc2g2453c5tnguu.apps.googleusercontent.com'
 set :google_oauth2_client_secret, 'KxGSxcsiKP-9tLmyjZvhhYBo'
@@ -29,6 +29,7 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, 'git'
+set :repository, "git@github.com:elite-ti/#{application}.git"
 set :branch, 'production'
 
 default_run_options[:pty] = true

@@ -24,7 +24,8 @@
           This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
         <% end %>
         <span>Student: </span><%= @student_exam.student.try(:name) || 'Not found' %><br />
-        <span>Exam: </span><%= @student_exam.exam_execution.try(:exam).try(:name) || 'Not found' %><br />
+        <span>Exam: </span><%= @student_exam.exam_execution.try(:name) || 'Not found' %><br />
+        <span>Status: </span><%= @student_exam.status %><br />
       </p>
     </div>
     <table id='student_exam_exam_answers' class='display is-datatable'>
