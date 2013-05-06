@@ -1,5 +1,4 @@
 class Subject < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :name, :short_name, :code
 

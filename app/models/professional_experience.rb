@@ -1,5 +1,4 @@
 class ProfessionalExperience < ActiveRecord::Base
-  has_paper_trail
 
   belongs_to :school_role
   belongs_to :teacher

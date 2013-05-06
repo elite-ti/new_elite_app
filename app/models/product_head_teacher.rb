@@ -1,5 +1,4 @@
 class ProductHeadTeacher < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :employee_id, :product_ids
 

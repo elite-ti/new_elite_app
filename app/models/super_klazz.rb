@@ -1,5 +1,4 @@
 class SuperKlazz < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :campus_id, :product_year_id
 

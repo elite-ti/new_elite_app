@@ -1,5 +1,4 @@
 class ExamExecution < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :exam_cycle_id, :super_klazz_id, :exam_id, :datetime
 

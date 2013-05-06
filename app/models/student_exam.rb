@@ -1,5 +1,4 @@
 class StudentExam < ActiveRecord::Base
-  has_paper_trail
 
   BEING_PROCESSED_STATUS = 'Being processed'
   ERROR_STATUS = 'Error'

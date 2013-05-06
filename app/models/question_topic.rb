@@ -1,5 +1,4 @@
 class QuestionTopic < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :question_id, :topic_id
 

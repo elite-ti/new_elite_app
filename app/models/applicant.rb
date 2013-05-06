@@ -1,5 +1,4 @@
 class Applicant < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :number, :bolsao_id, :student_id, :exam_datetime, 
     :exam_campus_id, :subscription_datetime, :super_klazz_id

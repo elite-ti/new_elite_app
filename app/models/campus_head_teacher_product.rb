@@ -1,5 +1,4 @@
 class CampusHeadTeacherProduct < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :campus_head_teacher_id, :product_id
 

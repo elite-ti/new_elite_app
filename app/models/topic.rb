@@ -1,5 +1,4 @@
 class Topic < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :subtopics, :name, :subject_id
 

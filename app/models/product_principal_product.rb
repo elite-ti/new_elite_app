@@ -1,5 +1,4 @@
 class ProductPrincipalProduct < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :product_principal_id, :product_id
 

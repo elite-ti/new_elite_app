@@ -1,5 +1,4 @@
 class Question < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :stem, :model_answer, :topic_ids, :options_attributes
 

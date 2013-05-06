@@ -1,5 +1,4 @@
 class ExamAnswer < ActiveRecord::Base
-  has_paper_trail
 
   ANSWERS_TO_BE_CHECKED = %w[W Z]
 

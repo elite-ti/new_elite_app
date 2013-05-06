@@ -1,5 +1,4 @@
 class Tick < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :period_id, :subject_thread_topic_id
 

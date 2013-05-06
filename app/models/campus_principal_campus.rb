@@ -1,5 +1,4 @@
 class CampusPrincipalCampus < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :campus_principal_id, :campus_id
 

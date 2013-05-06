@@ -1,5 +1,4 @@
 class SubjectThreadTopic < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :subject_thread_id, :topic_id, :weight
 

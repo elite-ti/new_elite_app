@@ -1,5 +1,4 @@
 class Klazz < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :super_klazz_id, :name
 

@@ -1,5 +1,4 @@
 class SchoolRole < ActiveRecord::Base
-  has_paper_trail
 
   has_many :professional_experiences
 

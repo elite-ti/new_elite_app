@@ -1,5 +1,4 @@
 class Year < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :end_date, :number, :start_date
 

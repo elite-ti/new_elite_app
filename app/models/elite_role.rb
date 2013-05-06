@@ -1,5 +1,4 @@
 class EliteRole < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :name, :school_role_id
 

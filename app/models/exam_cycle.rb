@@ -1,5 +1,4 @@
 class ExamCycle < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :end_date, :name, :start_date, :product_year_id, :is_bolsao
 

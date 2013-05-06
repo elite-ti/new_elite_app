@@ -1,6 +1,4 @@
-class Exam < ActiveRecord::Base
-  has_paper_trail
-  
+class Exam < ActiveRecord::Base  
   attr_accessible :name, :options_per_question, :correct_answers
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam

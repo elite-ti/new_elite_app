@@ -1,5 +1,4 @@
 class Period < ActiveRecord::Base
-  has_paper_trail
 
   TIME_ARRAY = [
     '07:00', '07:50', '08:40', '10:00', '10:50', '11:40' ,

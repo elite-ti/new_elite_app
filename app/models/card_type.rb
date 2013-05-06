@@ -1,5 +1,4 @@
 class CardType < ActiveRecord::Base
-  has_paper_trail
 
   CARD_SCANNER_PATH = File.join(Rails.root, 'lib/card_scanner')
   

@@ -1,5 +1,4 @@
 class Teacher < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :employee_id, :nickname, :subject_ids,
     :product_group_preferences_attributes, :campus_ids, :morning, :afternoon, :evening, 

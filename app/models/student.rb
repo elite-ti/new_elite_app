@@ -1,5 +1,4 @@
 class Student < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 

@@ -1,5 +1,4 @@
 class SubjectHeadTeacherSubject < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :subject_head_teacher_id, :subject_id
 

@@ -1,5 +1,4 @@
 class ProductYear < ActiveRecord::Base
-  has_paper_trail
   
   attr_accessible :name, :product_id, :year_id
 

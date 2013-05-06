@@ -1,6 +1,5 @@
 # encoding: UTF-8
 class Employee < ActiveRecord::Base
-  has_paper_trail
 
   GENDERS = ['Masculino', 'Feminino']
   MARITAL_STATUSES = ['Solteiro(a)', 'Casado(a)', 'Separado(a)', 'Divorciado(a)', 'Viúvo(a)']

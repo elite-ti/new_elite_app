@@ -1,5 +1,4 @@
 class CardProcessing < ActiveRecord::Base
-  has_paper_trail
 
   BEING_PROCESSED_STATUS = 'Being processed'
   PROCESSED_STATUS = 'Processed'

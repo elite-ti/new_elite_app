@@ -1,5 +1,4 @@
 class Option < ActiveRecord::Base
-  has_paper_trail
 
   attr_accessible :question_id, :answer, :correct, :letter
 
