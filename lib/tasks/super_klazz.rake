@@ -134,11 +134,11 @@ namespace :super_klazz do
         p student_exam.id.to_s + '(' + count.to_s + ' of ' + total.to_s + ')'
         count += 1
         csv << [
-          student_exam.student.ra, 
-          student_exam.student.name, 
-          student_exam.exam_execution.super_klazz.product_year.product.name,
-          student_exam.exam_execution.super_klazz.campus.name,
-          student_exam.get_exam_answers.join(''),
+          student_exam.student.try(:ra) || "Conferir student exam #{student_exam.id}",
+          student_exam.student.try(:name) || '',
+          student_exam.exam_execution.try(:super_klazz).try(:product_year).try(:product).try(:name) || '',
+          student_exam.exam_execution.try(:super_klazz).try(:campus).try(:name) || '',
+          student_exam.get_exam_answers.join('')
           student_exam.string_of_answers
         ]
       end
