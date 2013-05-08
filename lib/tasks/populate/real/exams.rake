@@ -2,6 +2,22 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_27ABR: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 20 Apr 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P7'
+        array = [
+          'C - AFA/ESPCEX (ESPCEX), 3ª Série + AFA/ESPCEX (ESPCEX) - All - POR(20) + QUI(12) + FIS(12): ADBCEEECDABDAADBEACC DBAEACCEDAAB CDCAAEEDCBCB',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ADBCEEECDABDAADBEACC DBAEACCEDAAB CDCAAEEDCBCB',
+          'C - EsSA - MAT(12) + POR(12) + HIS(6) + GEO(6): EBDECCDAAEBD CADBDBECBDAD CBBADB CEADBC',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
+          'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
+          'C - IME-ITA, 3ª Série + IME-ITA - All - QUI(20): CBBBAEADAECDACCAADDC',
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAAEBDAAAB CCBCEEBCCD EBDEDEDBBB AACCEDCEDD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end      
       task add_exams_20ABR: :environment do
         p 'Adding exams'
         datetime = 'Sat, 20 Apr 2013 14:00:00 BRT -03:00'
