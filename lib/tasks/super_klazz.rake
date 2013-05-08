@@ -138,7 +138,7 @@ namespace :super_klazz do
           student_exam.student.try(:name) || '',
           student_exam.exam_execution.try(:super_klazz).try(:product_year).try(:product).try(:name) || '',
           student_exam.exam_execution.try(:super_klazz).try(:campus).try(:name) || '',
-          student_exam.get_exam_answers.join('')
+          student_exam.get_exam_answers.join(''),
           student_exam.string_of_answers
         ]
       end
