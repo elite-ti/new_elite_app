@@ -2,15 +2,37 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_04MAI: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 04 Mai 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P8'
+        array = [
+          'C - CN/EPCAR, 9º Ano Militar - All - MAT(20): ABEBCAEBADBCBBCCEDCA',
+          'C - 1ª Série Militar - All - MAT(20): ABEBCAEBADBCBBCCEDCA',
+          'C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10): CCAABCDDCA ACEABEBDCC CEADBDDCDC',
+          'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25):  ADCABDDBACBDDBEEABCAACECC CBABBBCCCABBAADDDCDDCCADA AAAACDDCCBDDCCBCCBDBDBCAA BADAADADACCCBABBABDCABDBD',
+          'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(15) + QUI(10) + FIS(15): DDADAAABBAEADEA EACBDADEEB DBDCDEDDCDDABAD',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): ECEDBBBCDECDDCDBCABE ECDECDCABCAD DBDEEDAAEEAD ABECDCEADBCD',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): CBBCCDDDDBDAACEDBEEA BAAECDACBDADBAEDDEBB',
+          'C - 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DBDACCEDDCABCCBDEAAA ECDECDCABCAD DBDEEDAAEEAD ABECDCEADBCD',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20): BADDCEDBDCEDCAEBDCCE BAAECDACBDADBAEDDEBB',
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(40) + ING(5) + MAT(45): CABBAEBEEDDCDDAAEEBCADBBBAEDCDACCBDBDCAE ACCCE EBDECDDEBDBCCCBECAAEBDCCAAAAAADCBCDCBDAEEBCED',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - MAT(20): BCBBCCEDCAABEBCAEBAD',
+          'U - 1ª Série Militar - Madureira III - MAT(20): BCBBCCEDCAABEBCAEBAD',
+          'U - 2ª Série Militar - Madureira I - HIS(10) + GEO(10) + BIO(10): CDDCACCAAB EBDCCACEAB DDCDCCEADB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end            
       task add_exams_27ABR: :environment do
         p 'Adding exams'
-        datetime = 'Sat, 20 Apr 2013 14:00:00 BRT -03:00'
+        datetime = 'Sat, 27 Apr 2013 14:00:00 BRT -03:00'
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P7'
         array = [
           'C - AFA/ESPCEX (ESPCEX), 3ª Série + AFA/ESPCEX (ESPCEX) - All - POR(20) + QUI(12) + FIS(12): ADBCEEECDABDAADBEACC DBAEACCEDAAB CDCAAEEDCBCB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ADBCEEECDABDAADBEACC DBAEACCEDAAB CDCAAEEDCBCB',
-          'C - EsSA - MAT(12) + POR(12) + HIS(6) + GEO(6): EBDECCDAAEBD CADBDBECBDAD CBBADB CEADBC',
+          'C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): EBDECCDAAEBD CADBDBECBDAD CBBADB CEADBC',
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
           'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
           'C - IME-ITA, 3ª Série + IME-ITA - All - QUI(20): CBBBAEADAECDACCAADDC',
