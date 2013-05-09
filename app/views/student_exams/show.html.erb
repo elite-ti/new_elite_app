@@ -23,9 +23,17 @@
         <% if @student_exam.needs_check? %>
           This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
         <% end %>
-        <span>Student: </span><%= @student_exam.student.try(:name) || 'Not found' %><br />
+        <span>Student: </span><%= @student_exam.student.nil? ? 'Not found' : link_to(@student_exam.student.name, student_path(@student_exam.student)) %><br />
         <span>Exam: </span><%= @student_exam.exam_execution.try(:name) || 'Not found' %><br />
-        <span>Status: </span><%= @student_exam.status || 'Not found' %><br />
+        <span>Status: </span><%= (@student_exam.status || 'Not found') %>
+        <% if @student_exam.repeated_student? %>
+          (
+          <% @student_exam.repeated_cards.each_with_index do |repeated, index| %>
+            <%= link_to(repeated.id, student_exam_path(repeated)) %>
+          <% end %>
+          )
+        <% end %>
+        <br />
         <span>Campus: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Not found' %><br />
         <span>Exam Date: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Not found' %><br />
       </p>

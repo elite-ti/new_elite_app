@@ -61,8 +61,20 @@ class StudentExam < ActiveRecord::Base
     status == INVALID_ANSWERS_STATUS
   end
 
+  def repeated_student?
+    status == REPEATED_STUDENT
+  end
+
   def error!
     update_attribute :status, ERROR_STATUS
+  end
+
+  def repeated_cards
+    return_value = []
+    if repeated_student? 
+      return_value = StudentExam.where("id <> #{id}").where(student_id: student._id , exam_execution_id: exam_execution.id)
+    end
+    return return_value
   end
 
   def number_of_marked_options

@@ -4,9 +4,35 @@
 
 <div class='tabs'>
   <ul>
-    <li><a href='#info'>Info</a></li>
     <li><a href='#exams'>Exams</a></li>
+    <li><a href='#info'>Info</a></li>
   </ul>
+
+  <div id='exams'>
+    <table id='student_enrolled_exams' class='display is-datatable'>
+      <thead>
+        <tr>
+          <th>Datetime</th>
+          <th>Exam cycle</th>
+          <th>Card</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @student.enrolled_exam_executions.each do |exam_execution| %>
+        <tr>
+          <td><%= print_date(exam_execution.datetime) %></td>
+          <td><%= exam_execution.exam_cycle.name %></td>
+          <td>
+            <% StudentExam.where(exam_execution_id: exam_execution.id, student_id: @student.id).all.each do |student_exam| %>
+            <%= link_to student_exam.id, student_exam_path(student_exam) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 
   <div id='info'>
     <div class='resource'>
@@ -58,24 +84,5 @@
     </div>
   </div>
 
-  <div id='exams'>
-    <table id='student_enrolled_exams' class='display is-datatable'>
-      <thead>
-        <tr>
-          <th>Exam cycle</th>
-          <th>Datetime</th>
-        </tr>
-      </thead>
 
-      <tbody>
-      <% @student.enrolled_exam_executions.each do |exam_execution| %>
-        <tr>
-          <td><%= exam_execution.exam_cycle.name %></td>
-          <td><%= print_datetime(exam_execution.datetime) %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-  </div>
 </div>
