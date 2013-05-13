@@ -39,4 +39,22 @@ namespace :import_rm do
 		create_enrolled_student(key,value.[0],value[1],value[2])
 	end
   end
+
+  task fix_afaespcex_klazzes: :environment do
+    ok_campus = [2, 5, 7, 13] # => Campo Grande I, Madureira I e Madureira III, Tijuca
+    products = []
+    products << Product.where("name like '%AFA/EN%'").map(&:id)
+    products << Product.where("name like '%ESPCEX%' and name not like '%AFA/ESPCEX%'").map(&:id)
+    products.flatten!
+    SuperKlazz.where(product_year_id: products).select{|sk| !ok_campus.include? (sk.campus_id)}.each do |wrong_super_klazz|
+      correct_super_klazz = SuperKlazz.where(product_year_id: 25, campus_id: wrong_super_klazz.campus_id).first
+      p wrong_super_klazz.name + ' > ' + correct_super_klazz.name + " (#{wrong_super_klazz.enrolled_students.size})"
+      wrong_super_klazz.enrolled_students.each do |student|
+        p '   ' + "#{student.ra} - #{student.name}"
+        student.enrolled_super_klazzes.delete(wrong_super_klazz.id)
+        student.enrolled_super_klazzes << correct_super_klazz.id
+      end
+      wrong_super_klazz.destroy
+    end    
+  end
 end
