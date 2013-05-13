@@ -2,6 +2,24 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_11MAI: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 11 Mai 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P9'
+        array = [
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20) + POR(20) + ING(20): BDDADDBCABACDDADCBCC AADCCDAADABABBADCAAB BCDABCADCABBCCAAADCB DCBCAABAACDBDBABDCBA',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20) + POR(20) + ING(20): BDDADDBCABACDDADCBCC AADCCDAADABABBADCAAB BCDABCADCABBCCAAADCB DCBCAABAACDBDBABDCBA',
+          'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6) + : CECDAADBDCDB BEABBCBADECD CBACDA AACCEE',
+          'C - 1ª Série Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): DAEBAEBBDBDDBADDABBC EBADAA BDBEAB EEABAC ABDECA CDAACE',
+          'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): DAEBAEBBDBDDBADDABBC EBADAA BDBEAB EEABAC ADEBCB CDAACE',
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBDECD AEEACBABDB',
+          'U - 9º Ano Forte - NorteShopping - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBBDECD AEEACBABDB',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BDBDDBADDABBDAEBAEBC AADAEB EABBDB BACEEA BCBADE ACECDA',
+          'U - 1ª Série Militar - Madureira I - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BDBDDBADDABBCDAEBAEB DAAEBA EABBDB BACEEA ECAABD ACECDA',
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end            
       task add_exams_04MAI_2: :environment do
         p 'Adding exams'
         datetime = 'Sat, 04 Mai 2013 14:00:00 BRT -03:00'

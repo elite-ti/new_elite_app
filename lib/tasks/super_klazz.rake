@@ -57,16 +57,15 @@ namespace :super_klazz do
   task check_number_of_errors: :environment do
     result_date = ENV['DATE']
 
-    p 'Creating exam results for ' + result_date.to_s
+    p 'Checking exam results for day ' + result_date.to_s
     valid_card_processing_ids = CardProcessing.where(exam_date: result_date).map(&:id)
-    errors = StudentExam.where(card_processing_id: valid_card_processing_ids).select {|se| se.status != 'Valid'}.size
+    errors = StudentExam.where(card_processing_id: valid_card_processing_ids).select {|se| se.status != 'Valid' || se.student_id.nil? || se.exam_execution_id.nil?}
 
-    if errors > 0
-      p 'There are still #{errors} errors. Press any key to continue.'
-      answer = gets.chomp
+    if errors.size > 0
+      p "There are still #{errors} errors. Check the following Student Exams: "
+      errors.each {|se| p se.id};
     else
-      p 'Ok, no errors. Calling check_number_of_questions task.'
-      check_number_of_questions
+      p 'Ok, no errors.'
     end
   end
 
