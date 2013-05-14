@@ -2,6 +2,7 @@ class CardProcessingsController < ApplicationController
   load_and_authorize_resource
 
   def index
+    @card_processings = @card_processings || CardProcessing.includes(:campus, :card_type, :student_exams).all
   end
 
   def show

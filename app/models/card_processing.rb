@@ -38,21 +38,23 @@ class CardProcessing < ActiveRecord::Base
   end
 
   def needs_check?
-    student_exams.needing_check.any?
+    student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.any?
+    # student_exams.needing_check.any?
   end
 
   def to_be_checked
-    student_exams.needing_check.first
+    student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.first
+    # student_exams.needing_check.first
   end
 
   def total_number_of_cards
-    student_exams.count
+    student_exams.size
+    # student_exams.count
   end
 
   def number_of_errors
-    student_exams.where(status: StudentExam::ERROR_STATUS).count +
-      student_exams.where(status: StudentExam::NEEDS_CHECK).count +
-      student_exams.where(status: StudentExam::REPEATED_STUDENT).count
+    student_exams.select{|se| [StudentExam::ERROR_STATUS, (StudentExam::NEEDS_CHECK), StudentExam::REPEATED_STUDENT].include?(se.status) }.size
+    # student_exams.where(status: [StudentExam::ERROR_STATUS, StudentExam::NEEDS_CHECK, StudentExam::REPEATED_STUDENT).size
   end
 
   def remove_file!
