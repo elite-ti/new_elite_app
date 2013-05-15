@@ -79,7 +79,7 @@ namespace :import_rm do
       p "Preparing to insert #{students_to_insert.size/2} students."
       Hash[*students_to_insert].each do |key, value|
         super_klazz = find_super_klazz_by_campus_and_product_year(value[2], value[1])
-        altered_students << key if create_enrolled_student(key, value[0], super_klazz) unless Student.find_by_ra(key).try(:enrolled_super_klazzes).try(:collect){|p| p.id}.try(:include?, super_klazz_id)
+        altered_students << key if create_enrolled_student(key, value[0], super_klazz) unless Student.find_by_ra(key).try(:enrolled_super_klazzes).try(:collect){|p| p.id}.try(:include?, super_klazz.id)
       end
       if altered_students.size > 0
         p 'The following students (ra) had been created:'
@@ -140,9 +140,9 @@ def translate_rm(students_list)
 end
 
 def create_enrolled_student(ra, name, super_klazz)
-  p "Enrolling #{ra} in #{super_klazz_id}"
+  p "Enrolling #{ra} in #{super_klazz.name}"
   student = Student.find_or_create_by_ra(ra, :name => name)
-  student.enrolled_super_klazz << super_klazz
+  student.enrolled_super_klazzes << super_klazz
   student.save
 end
 
