@@ -53,7 +53,7 @@ class CardProcessing < ActiveRecord::Base
   end
 
   def number_of_errors
-    student_exams.select{|se| [StudentExam::ERROR_STATUS, (StudentExam::NEEDS_CHECK), StudentExam::REPEATED_STUDENT].include?(se.status) }.size
+    student_exams.select{|se| [StudentExam::ERROR_STATUS, (StudentExam::NEEDS_CHECK), StudentExam::REPEATED_STUDENT].flatten.include?(se.status) }.size
     # student_exams.where(status: [StudentExam::ERROR_STATUS, StudentExam::NEEDS_CHECK, StudentExam::REPEATED_STUDENT).size
   end
 
