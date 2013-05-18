@@ -8,19 +8,18 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P10'
         array = [
-          'C - IME-ITA, 3ª Série + IME-ITA - All - QUI(10): ZZZZZZZZZZ',
           'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DBADCCBCDBBCABA DBCBAB DDABBC ABCADC CBCADD DCDBA AAABAB BCCDCDABDB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABBBABEEBCDEBCECCADB DAABEDACAADA ABAAACBEEAAC',
           'C - AFA/EAAr/EFOMM - All - POR(20) + ING(20):  DCADBABCDEBCCBDCBAAE CCDDDBDCBADAEBBDBCED',
           'C - 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): BDACCEEAADEDDBACEAEB DAABEDACAADA ABAAACBEEAAC',
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): DCADBABCDEBCCBDCBAAE CCDDDBDCBADAEBBDBCED',
           'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): DCADBABCDEBCCBDCBAAE CCDDDBDCBADAEBBDBCED',
-          'C - 2ª Série Militar - All - MAT(10) + POR(10) + ING(10): ZZZZZZZZZZ DCBEAAEACC DEBACBACBA',
+          'C - 2ª Série Militar - All - MAT(10) + POR(10) + ING(10): AAAAAAAAAA DCBEAAEACC DEBACBACBA',
           'C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): CDAABCACDADBCBDB CCBADDDBBCDBDCAB CDBABBCADBABBAAB',
           'C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): CDAABCACDADBCBDB CCBADDDBBCDBDCAB CDBABBCADBABBAAB',
           'U - 1ª Série Militar - Madureira III - POR(16) + MAT(16) + ING(16): ABCDACCABCDADBBD BCDBDCABCCBADDDB CADBABBAABCDBABB',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(16) + MAT(16) + ING(16): ABCDACCABCDADBBD BCDBDCABCCBADDDB CADBABBAABCDBABB',
-          'U - 2ª Série Militar - Madureira I - MAT(10) + POR(10) + ING(10): ZZZZZZZZZZ EAADCBAECC BEDCAABCAB'
+          'U - 2ª Série Militar - Madureira I - MAT(10) + POR(10) + ING(10): AAAAAAAAAA EAADCBAECC BEDCAABCAB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end            
