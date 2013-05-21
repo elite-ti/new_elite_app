@@ -280,3 +280,34 @@ namespace :super_klazz do
 
   end
 end
+
+def print_campus_status_report(result_date)
+  p "Processing status for #{result_date}..."
+  campus_status = []
+  CardProcessing.where(exam_date: result_date).each do |cp|
+    status = {}
+    status[:name] = cp.name
+    status[:campus] = cp.campus.name
+    status[:total] = cp.total_number_of_cards
+    status[:total_errors] = cp.number_of_errors
+    cp.student_exams.each do |se|
+      if status.has_key? se.status
+        status[se.status] += 1
+      else
+        status[se.status] = 1
+      end
+    end
+    campus_status << status
+  end
+  print 'Generating file...'
+  CSV.open("/home/deployer/results/status_#{result_date}.csv", "w") do |io|
+    io << ['Filename', 'Campus', 'Total Cards', 'Total Errors', 'Being processed', 'Error', 'Student not found', 'Exam not found', 'Repeated student', 'Invalid answers', 'Valid']
+    campus_status.each do |st|
+      io << [st[:name], st[:campus], st[:total], st[:total_errors], st['Being processed'], st['Error'], st['Student not found'], st['Exam not found'], st['Repeated student'], st['Invalid answers'], st['Valid']]
+    end
+  end
+  print "OK!\n"
+  `iconv -f utf-8 -t windows-1252 "/home/deployer/results/status_#{result_date}.csv" >   "/home/deployer/results/status_#{result_date}_ansi.csv"`
+  p "Run the following command on a local machine:"
+  p "scp deployer@elitesim.sistemaeliterio.com.br:/home/deployer/results/status_#{result_date}_ansi.csv /Users/pauloacmelo/Dropbox/3PiR/Clients/Elite/EliteApp/Resultados/Simulados/#{result_date}"
+end
