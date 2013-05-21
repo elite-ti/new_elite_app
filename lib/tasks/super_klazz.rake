@@ -39,7 +39,7 @@ namespace :super_klazz do
         :student, 
         exam_answers: :exam_question, 
         exam_execution: { super_klazz: [:campus, product_year: :product]}
-      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).find_each do |student_exam|
         p student_exam.id.to_s + '(' + count.to_s + ' of ' + total.to_s + ')'
         count += 1
         csv << [
@@ -77,7 +77,7 @@ namespace :super_klazz do
     :student,
     exam_answers: :exam_question,
     exam_execution: { super_klazz: [:campus, product_year: :product]}
-    ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+    ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).find_each do |student_exam|
       p student_exam.id
       last = student_exam.string_of_answers.rindex(/[ABCDE]/)
       if last.nil?
@@ -99,7 +99,7 @@ namespace :super_klazz do
   task create_enrollments_list: :environment do
     date = Date.today
     CSV.open("/home/deployer/results/enrollments_#{date}.csv", "wb") do |csv|
-      Student.includes(enrollments: { super_klazz: [:campus, product_year: :product]}).each do |student|
+      Student.includes(enrollments: { super_klazz: [:campus, product_year: :product]}).find_each do |student|
         if student.enrollments.size == 0
           # do nothing
         elsif student.enrollments.size == 1
@@ -129,7 +129,7 @@ namespace :super_klazz do
         :student, 
         exam_answers: :exam_question, 
         exam_execution: { super_klazz: [:campus, product_year: :product]}
-      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).each do |student_exam|
+      ).where(status: 'Valid', card_processing_id: valid_card_processing_ids).find_each do |student_exam|
         p student_exam.id.to_s + '(' + count.to_s + ' of ' + total.to_s + ')'
         count += 1
         csv << [
