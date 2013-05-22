@@ -41,6 +41,17 @@ namespace :db do
         ]
         create_exams(array, datetime, cycle_name, exam_name)        
       end            
+      task add_exams_04MAI_3: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 04 Mai 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P8'
+        array = [
+          'C - AFA/EAAr/EFOMM, IME-ITA, 3ª Série + IME-ITA, ESPCEX, 3ª Série + ESPCEX, AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - MAT(10): DDECDCEEED',
+          'C - AFA/EAAr/EFOMM, IME-ITA, 3ª Série + IME-ITA, ESPCEX, 3ª Série + ESPCEX, AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - POR(10): CACDBCDACB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end            
       task add_exams_04MAI_2: :environment do
         p 'Adding exams'
         datetime = 'Sat, 04 Mai 2013 14:00:00 BRT -03:00'
