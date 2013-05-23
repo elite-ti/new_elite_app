@@ -11,23 +11,29 @@ class StudentExamCardUploader < CarrierWave::Uploader::Base
     %w(tif)
   end
 
-  def filename
-    "original.tif" if original_filename
+  def original_url
+    create_original_png unless File.exist?(original_png_path)
+    path_to_url(original_png_path)
   end
 
-  version :png do
-    process convert: :png
+  def original_path
+    File.join(folder_path, 'original.tif')
+  end
 
-    def full_filename(for_file)
-      "original.png"
-    end
+  def original_png_path
+    File.join(folder_path, 'original.png')
   end
 
   def normalized_url
-    path_to_url(normalized_path)
+    create_normalized_png unless File.exist?(normalized_png_path)
+    path_to_url(normalized_png_path)
   end
 
   def normalized_path
+    File.join(folder_path, 'normalized.tif')
+  end
+
+  def normalized_png_path
     File.join(folder_path, 'normalized.png')
   end
 
@@ -63,10 +69,23 @@ private
     File.dirname(current_path)
   end
 
+  def create_original_png
+    image = MiniMagick::Image.open(original_path)
+    image.format('png',0)
+    image.write original_png_path
+  end
+
+  def create_normalized_png
+    image = MiniMagick::Image.open(normalized_path)
+    image.format('png',0)
+    image.write normalized_png_path
+  end
+
   def create_student_png
     image = MiniMagick::Image.open(normalized_path)
     image.crop model.card_type.student_coordinates
     image.resize '50%'
+    image.format('png',0)
     image.write student_path
   end
 
@@ -74,6 +93,7 @@ private
     image = MiniMagick::Image.open(normalized_path)
     image.crop model.card_type.question_coordinates(number)
     image.resize '50%'
+    image.format('png',0)
     image.write question_path(number)
   end
 end

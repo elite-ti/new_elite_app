@@ -4,9 +4,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define ERROR 0.7
-// #define DEBUG // Comment out if not debug version
+//#define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -99,30 +100,50 @@ int test_rotation(File);
 void paint_pixel(File, int, int, int, int, int);
 int adjust_configuration(File);
 
+int find_index(int*, int, int);
+File stretch(File);
+void get_clock_locations(File);
 
 
 Configuration conf;
+int clock_count;
+int *clock_locations;
+
 
 int main(int argc, char* argv[]) {
+  clock_t begin, end;
+  double time_spent;
+
+  begin = clock();
   read_configuration(argc, argv);
+
+  clock_count = (conf.student_zone.questions_per_group + conf.questions_zone.questions_per_group);
 
   File file = read_file();
 
   File rotated_180_file = rotate180(file);
   File rotated_file = rotate(rotated_180_file);
 
-  // write_png(&rotated_file);
-
   File moved_file = move(rotated_file);
 
-  adjust_configuration(moved_file);
 
-  process_file(&moved_file);
-  print_answers(moved_file);
-  write_png(&moved_file);
+  File stretched_file = stretch(moved_file);
 
-  free(moved_file.raster);
+  //adjust_configuration(stretched_file);
+  
 
+  process_file(&stretched_file);
+
+  print_answers(stretched_file);
+
+  write_png(&stretched_file);
+
+  free(stretched_file.raster);
+
+  end = clock();
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+  printf("Time Spent: %f\n", time_spent);
   return 0;
 }
 
@@ -251,8 +272,8 @@ File rotate180(File file) {
     return file;
 
   File rotated_180_file = create_empty_file(file.height, file.width);
-  int j, size = file.height * file.width;
-  for(int i = 0; i < size; i++) {
+  int i, j, size = file.height * file.width;
+  for(i = 0; i < size; i++) {
     j = size - 1 - i;
     rotated_180_file.raster[4*j] = file.raster[4*i];
     rotated_180_file.raster[4*j + 1] = file.raster[4*i + 1];
@@ -289,12 +310,13 @@ File rotate(File file) {
   #endif
 
   File rotated_file = create_empty_file(file.height, file.width);
-  for(int x = 0; x < file.width; x++) {
-    for(int y = 0; y < file.height; y++) {
+  int new_x, new_y;
+  for(int y = 0; y < file.height; y++){
+      for(int x = 0; x < file.width; x++){
       if(is_pixel_filled(file,x,y))
       {
-        int new_x = floor(c*x - s*y);
-        int new_y = floor(s*x + c*y);
+        new_x = floor(c*x - s*y);
+        new_y = floor(s*x + c*y);
         copy_pixel(&file, x, y, &rotated_file, new_x, new_y);
       }
     }
@@ -312,12 +334,16 @@ File move(File file) {
   if(delta_x == 0 && delta_y == 0)
     return file;
 
+  int new_x, new_y;
   File moved_file = create_empty_file(conf.default_card_height, conf.default_card_width);
-  for(int x = 0; x < file.width; x++) {
-    for(int y = 0; y < file.height; y++) {
-      int new_x = x + delta_x;
-      int new_y = y + delta_y;
-      copy_pixel(&file, x, y, &moved_file, new_x, new_y);
+  for(int y = 0; y < file.height; y++) {
+      for(int x = 0; x < file.width; x++){
+      if(is_pixel_filled(file,x,y))
+      {
+        new_x = x + delta_x;
+        new_y = y + delta_y;
+        copy_pixel(&file, x, y, &moved_file, new_x, new_y);
+      }
     }
   }
   free(file.raster);
@@ -349,9 +375,26 @@ void copy_pixel(File *from, int from_x, int from_y, File *to, int to_x, int to_y
 }  
 
 void write_png(File *file) {
-  unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
-  if(error) 
-    stop(3, ERROR_WRITING_FILE);
+  TIFF* tif = TIFFOpen(conf.destination_path, "w");
+  unsigned char *raster;
+
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, (uint32) file->width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, (uint32) file->height);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(tif, -1));
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 4);
+
+    for (int j = 0; j < file->height; j++)
+    {
+        raster = file->raster + (j * file->width * 4);
+        TIFFWriteScanline(tif, raster, j, 0);
+    }
+    TIFFClose(tif);
+  //unsigned error = lodepng_encode32_file(conf.destination_path, file->raster, file->width, file->height);
+  //if(error) 
+  //  stop(3, ERROR_WRITING_FILE);
   
 }
 
@@ -646,6 +689,204 @@ double get_column_density(File file, int x) {
 //   return points;
 // }
 
+int find_index(int* a, int num_elements, int value)
+{
+   int i;
+   for (i=0; i<num_elements; i++)
+   {
+     if (a[i] == value)
+     {
+        return(i);
+     }
+   }
+   return(-1);
+}
+
+File stretch(File file) {
+  get_clock_locations(file);
+
+  #ifdef DEBUG
+    for(int i = 0; i< 2*clock_count; i++)
+    {
+      printf("clock %d: %d\n", i, clock_locations[i]);
+    }
+  #endif  
+
+  File stretched_file = create_empty_file(conf.default_card_height, conf.default_card_width);
+
+  int original_y, blank = 0;
+  for(int y = 0; y < stretched_file.height; y++) {
+    for(int x = 0; x < stretched_file.width; x++) {
+      if(x==0){
+        int height1 = conf.student_zone.group_y;
+        int height2 = height1 + conf.student_zone.questions_per_group*conf.student_zone.option_height + conf.student_zone.vertical_space_between_options*(conf.student_zone.questions_per_group-1);
+        int height3 = conf.questions_zone.group_y;
+        int height4 = height3 + conf.questions_zone.questions_per_group*conf.questions_zone.option_height + (int)conf.questions_zone.vertical_space_between_options*(conf.questions_zone.questions_per_group-1);
+        if(y < height1){
+          blank = 0;
+          original_y = rint(((double)clock_locations[0]/(double)height1)*(double)y);
+        }
+        else if(y < height2)
+        {
+          blank = 0;
+          int n1 = (y-height1)/((int)conf.student_zone.option_height+(int)conf.student_zone.vertical_space_between_options);
+          int d1 = y - height1 - n1*((int)conf.student_zone.option_height+(int)conf.student_zone.vertical_space_between_options);
+          int n2 = d1 >= conf.student_zone.option_height ? 1 : 0;
+          d1 = (n2 == 1) ? (d1 - conf.student_zone.option_height) : d1;
+          int n = 2*n1 + n2;
+
+          original_y = clock_locations[n]+rint((double)d1*(double)(clock_locations[n+1]-clock_locations[n])/(double)(n2==1 ? (int)conf.student_zone.vertical_space_between_options : conf.student_zone.option_height));
+          //int n1 = (int)(y-height1)/((int)conf.student_zone.option_height+(int)conf.student_zone.vertical_space_between_options);
+          //int n2 = (int)((y-height1)%((int)conf.student_zone.option_height+(int)conf.student_zone.vertical_space_between_options)) > (int)conf.student_zone.option_height ? 1 : 0;
+          //int n = 2*n1+n2;
+//
+          //int part1 = (y-n1*(conf.student_zone.option_height+conf.student_zone.vertical_space_between_options)-n2*conf.student_zone.option_height-height1);
+          //int part2 = (n2==0?(int)conf.questions_zone.option_height:(int)conf.questions_zone.vertical_space_between_options);
+          //int part3 = (clock_locations[n+1]-clock_locations[n]);
+//
+          //original_y = clock_locations[n]+rint(((double)part3/(double)part2)*(double)part1);
+          #ifdef DEBUG  
+            printf("y: %d --- original_y: %d --- n1: %d --- n2: %d --- n: %d --- height2: %d\n", y, original_y,n1,n2,n,height2);
+          #endif
+        }
+        else if(y < height3)
+        {
+          blank = 1;
+          //original_y = rint((((double)clock_locations[2*conf.student_zone.questions_per_group]-(double)clock_locations[2*conf.student_zone.questions_per_group-1])/((double)height3-(double)height2))*(double)(y-height2)) + height2;
+        }
+        else if(y < height4)
+        {
+          blank = 0;
+          int n1 = (y-height3)/((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
+          int d1 = y - height3 - n1*((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
+          int n2 = d1 >= conf.questions_zone.option_height ? 1 : 0;
+          d1 = (n2 == 1) ? (d1 - conf.questions_zone.option_height) : d1;
+          int n = 2*n1 + n2 + 2*conf.student_zone.questions_per_group;
+
+          original_y = clock_locations[n]+rint((double)d1*(double)(clock_locations[n+1]-clock_locations[n])/(double)(n2==1 ? (int)conf.questions_zone.vertical_space_between_options : conf.questions_zone.option_height));
+          
+          #ifdef DEBUG
+            printf("y: %d --- original_y: %d --- n1: %d --- n2: %d --- n: %d --- height4: %d\n", y, original_y,n1,n2,n,height4);
+          #endif
+          //int n1 = (int)(y-height3)/((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
+          //int n2 = (int)((y-height3)%((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options)) > (int)conf.questions_zone.option_height ? 1 : 0;
+          //int n = 2*n1+n2 + 2*conf.student_zone.questions_per_group;
+//
+          //int part1 = (y-n1*((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options)-n2*(int)conf.questions_zone.option_height-height3);
+          //int part2 = (n2==0?(int)conf.questions_zone.option_height:(int)conf.questions_zone.vertical_space_between_options);
+          //int part3 = (clock_locations[n+1]-clock_locations[n]);
+          //original_y = clock_locations[n]+rint(((double)part3/(double)part2)*(double)part1);
+//          printf("y: %d --- original_y: %d --- n1: %d --- n2: %d --- n: %d --- p1: %d --- p2: %d --- p3: %d\n", y, original_y, n1, n2, n, part1, part2, part3);
+        }
+        else
+        {
+          blank = 0;
+          original_y++;
+        }
+      }
+      if(original_y<file.height && x<file.height && !blank && is_pixel_filled(file, x, original_y)) copy_pixel(&file, x, original_y, &stretched_file, x, y);
+    }
+  }
+
+//  for(int y = 0; y < file.height; y++) {
+//    for(int x = 0; x < file.width; x++) {
+//      if(x==0)
+//      {
+//        if(((y >= clock_locations[0]) && (y <= clock_locations[2 * inscricao - 1]))||((y >= clock_locations[2 * inscricao]) && (y <= clock_locations[2 * (inscricao + questoes) - 1])))
+//        {
+//          int index = find_index(clock_locations,2 * (inscricao + questoes),y);
+//          if(index == -1){
+//            if(black_white == 0){
+//              current_y = BLACK_SPACE_H*y/(y2-y1) + y1_linha - BLACK_SPACE_H*y1/(y2-y1);
+//            }
+//            else{
+//              current_y = WHITE_SPACE_H*y/(y2-y1) + y1_linha - WHITE_SPACE_H*y1/(y2-y1);
+//            }
+//            printf("%d\n", );
+//          }
+//          else if(index%2==0){
+//            current_y++;
+//            black_white = 0;
+//            y1_linha = current_y;
+//            y1 = y;
+//            y2 = clock_locations[index + 1];
+//          }
+//          else{
+//            current_y++;
+//            black_white = 1;
+//            y1_linha = current_y;
+//            y1 = y;
+//            y2 = clock_locations[index + 1];
+//          }
+//        }
+//        else
+//        {
+//          current_y++;
+//        }
+//      }
+//
+//      copy_pixel(&file, x, y, &stretched_file, x, current_y);
+//    }
+//  }
+  free(file.raster);
+  return stretched_file;
+}
+
+void get_clock_locations(File file)
+{
+  int target_x = -1, target_xx = -1;
+  int count;
+  int i;
+
+  clock_locations = malloc(2*clock_count*sizeof(int));
+
+  // Find start and end for clock in x
+  for(int x = 0; x < file.width && target_xx < 0; x++) {
+    if(target_x < 0) {
+      if(get_column_density(file, x) > 0.3)
+      {
+        count = 1;
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+          count++;
+        if(count > 40)
+          target_x = x;
+      }
+    }
+    else {
+      if (get_column_density(file, x) < 0.3)
+        target_xx = x;
+    }
+  }
+
+  int y=0,c;
+  for(c=0;c < 2*clock_count;){
+    // Find pivot in y
+    for(; y < file.height; y++) {
+      if(get_line_density(file, target_x, target_xx, y) > 0.7) {
+        int matches = 0;
+        for(int z = 0; z < 30; z++)
+          if(get_line_density(file, target_x, target_xx, y + z) > 0.7)
+            matches++;
+        if(matches == 30)
+          break;
+      }
+    }
+
+    clock_locations[c] = y;
+    c++;
+
+    // Starting from pivot, search for blank line
+    for(; y < file.height; y++) {
+      if(get_line_density(file, target_x, target_xx, y) < 0.2)
+      {
+        clock_locations[c] = y;
+        c++;
+        break;
+      }
+    }
+  }
+}
+
 
 void process_file(File *file) {
   file->number_of_questions = 0;
@@ -670,7 +911,7 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
       option_number * (zone.option_width + zone.horizontal_space_between_options) + 
       group_number * zone.space_between_groups;
     int start_y = zone.group_y + 
-      question_number * (zone.option_height + zone.vertical_space_between_options);
+      question_number * (zone.option_height + zone.vertical_space_between_options-1);
     int width = zone.option_width;
     int height = zone.option_height;
 
@@ -817,7 +1058,6 @@ int adjust_configuration(File file){
   // Alignment for header zone
   int start_of_header_y = get_pivot_y(file, 0);
   int end_of_header_y = get_division_between_zones(file);
-
 
   if(abs(start_of_header_y - 540) < 150 && abs(end_of_header_y - 1000) < 150){
     conf.student_zone.group_y = start_of_header_y;
