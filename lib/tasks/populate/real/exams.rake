@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_25MAI: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 25 Mai 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P11'
+        array = [
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAEACCBDBD DABEBEECDE CCCBDBDCDB CBDBADDEBB',
+          'C - 1ª Série Militar - All - MAT(19): EEACEDDDECBCADCBZDBA',
+          'C - CN/EPCAR, 9º Ano Militar - All - MAT(20): EEACDDDDECBCADCBDEBB',
+          'C - AFA/EAAr/EFOMM - All - MAT(20) + FÍS(20): ABCCDAAECBBCCACCBDCA DDCDCCBCBADDCDABAECE',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): CDEAACABECCBACAACBBC BBEABCCBDBDA CEDBABAEBECC BCBDBBBBEAEA',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): CDEAACABECCBACAACBBC BBEABCCBDBDA CEDBABAEBECC BCBDBBBBEAEA',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FÍS(20): CBDCDAAECBBCCACCBDCA DDCDCCBCBADDCDADAECE',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FÍS(20): CBDCDAAECBBCCACCBDCA DDCDCCBCBADDCDADAECE',
+          'C - 2ª Série Militar - All - QUÍ(10) + HIS(10) + GEO(10) + BIO(10): ABABCDECBB BBEABCAAAE EEBACACECE AABDECBBBA',
+          'U - 2ª Série Militar - Madureira I - QUÍ(10) + HIS(10) + GEO(10) + BIO(10): DECBBABABC AAAEBBEABC ACECEEEBAC CBBBAAABDE',
+          'U - 1ª Série Militar - Madureira III - MAT(19): BCADCBZDBAEEACEDDDEC',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - MAT(20): BCADCBDEBBEEACDDDDEC'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end            
       task add_exams_18MAI: :environment do
         p 'Adding exams'
         datetime = 'Sat, 18 Mai 2013 14:00:00 BRT -03:00'

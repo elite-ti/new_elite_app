@@ -90,7 +90,7 @@ namespace :super_klazz do
 
     if warnings.length > 0
       p 'Please check the following Student Exams: ';
-      pp warnings.map{|se| "http://elitesim.sistemaeliterio.com.br/student_exams/" + se.id.to_s + " - " + se.exam_execution.exam_cycle.product_year.name};
+      p warnings.map{|se| "http://elitesim.sistemaeliterio.com.br/student_exams/" + se.id.to_s + " - " + se.exam_execution.exam_cycle.product_year.name};
     else
       p 'No warnings. Moving on.';
     end    
