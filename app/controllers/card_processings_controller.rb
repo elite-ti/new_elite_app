@@ -5,6 +5,10 @@ class CardProcessingsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.xlsx {send_file @card_processing.create_file, :type=>"application/xlsx", :x_sendfile=>true}
+    end
   end
 
   def new
