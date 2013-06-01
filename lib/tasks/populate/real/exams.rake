@@ -2,6 +2,16 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_01JUN: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 01 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P12'
+        array = [
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - MAT(60): DBADCCBCDBBCABADBCBABDDABBCABCADCCBCADDDCDBAAAABABBCCDCDABDB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end            
       task add_exams_25MAI: :environment do
         p 'Adding exams'
         datetime = 'Sat, 25 Mai 2013 14:00:00 BRT -03:00'
