@@ -1,4 +1,7 @@
 EliteApp::Application.routes.draw do
+  resources :card_processing_upload_statuses
+
+
   resources :attendance_lists
   resources :card_processings
   resources :topics

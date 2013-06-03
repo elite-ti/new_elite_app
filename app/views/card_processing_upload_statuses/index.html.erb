@@ -1,0 +1,17 @@
+<%= title 'Card Processing Upload Status' %>
+
+<table id="card_processing_upload_statuses">
+  <thead>
+    <tr>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @possible_dates.each do |date| %>
+    <tr>
+      <td><%= link_to(print_date(date), card_processing_upload_status_path(date)) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

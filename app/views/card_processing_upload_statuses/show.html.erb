@@ -1,0 +1,24 @@
+<%= title 'Card Processing Upload Status',
+  link_to('Back', card_processing_upload_statuses_path) %>
+
+<table id="card_processing_upload_status"  class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Campus</th>
+      <th># of Cards</th>
+      <th># of Valid Cards</th>
+      <th>% of Valid Cards</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% CardProcessingUploadStatus.new(request.fullpath).statuses.each do |status| %>
+    <tr>
+      <td><%= status[0] %></td>
+      <td><%= status[1] %></td>
+      <td><%= status[2] %></td>
+      <td><%= 100*status[2]/status[1] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
