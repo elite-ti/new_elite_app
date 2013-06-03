@@ -17,7 +17,13 @@
       <td><%= status[0] %></td>
       <td><%= status[1] %></td>
       <td><%= status[2] %></td>
-      <td><%= 100*status[2]/status[1] %></td>
+      <td><%= 
+        if status[1] == 0 
+          0
+        else
+          100*status[2]/status[1] 
+        end
+      %></td>
     </tr>
   <% end %>
   </tbody>
