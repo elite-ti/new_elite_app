@@ -117,4 +117,7 @@
       <%= f.submit 'Continue' %>
     </div>
   <% end %>
+
+<% elsif not @student_exam.needs_check? %>
+  <h2>This card don't need to be fixed anymore. </h2>  
 <% end %>
