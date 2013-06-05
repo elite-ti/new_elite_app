@@ -41,7 +41,7 @@ namespace :super_klazz do
         '9º Ano Forte' => ['9º Ano Forte'],
         'IME-ITA' => ['IME-ITA']
       }
-    CSV.open("/home/deployer/results/attendance_report_#{DateTime.today}.csv", "wb") do |csv|
+    CSV.open("/home/deployer/results/attendance_report_#{Date.today}.csv", "wb") do |csv|
       line = ['Exam date']
       lists.each_pair do |name, products|
         line << name
@@ -62,6 +62,52 @@ namespace :super_klazz do
         csv << line
       end
     end
+    `iconv -f utf-8 -t windows-1252 "/home/deployer/results/attendance_report_#{Date.today}.csv" >   "/home/deployer/results/attendance_report_#{Date.today}_ansi.csv"`
+    p 'Use the following command on the local machine:'
+    p "scp deployer@elitesim.sistemaeliterio.com.br:/home/deployer/results/attendance_report_#{Date.today}_ansi.csv /Users/pauloacmelo/Dropbox/3PiR/Clients/Elite/EliteApp/Resultados/"
+  end
+
+  task create_attendance_report_by_campus: :environment do
+    lists = 
+      {
+        'Pré-Vestibular' => ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite'],
+        'ESPCEX' => ['ESPCEX', '3ª Série + ESPCEX'],
+        'AFA/EAAr/EFOMM' => ['AFA/EAAr/EFOMM'],
+        'AFA/EN/EFOMM' => ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM'],
+        'AFA/ESPCEX' => ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX'],
+        '2ª Série Militar' => ['2ª Série Militar'],
+        '1ª Série Militar' => ['1ª Série Militar'],
+        '9º Ano Militar' => ['CN/EPCAR', '9º Ano Militar'],
+        '9º Ano Forte' => ['9º Ano Forte'],
+        'IME-ITA' => ['IME-ITA']
+      }
+    CSV.open("/home/deployer/results/attendance_report_by_campus_#{Date.today}.csv", "wb") do |csv|
+      line = ['Exam date']
+      lists.each_pair do |list_name, products|
+        Campus.all.each do |campus|
+          next if SuperKlazz.where(campus_id: campus.id, product_year_id: products.map{|product_name| ProductYear.find_by_name(product_name + ' - 2013')}.map(&:id)).size == 0
+          line << list_name + ' - ' + campus.name
+        end
+      end
+      csv << line
+      ExamExecution.all.map(&:datetime).map(&:to_date).uniq.sort!.each do |date|
+        valid_ids = CardProcessing.where(exam_date: date).map(&:id)
+        line = [date.to_s]
+        lists.each_pair do |list_name, products|
+          Campus.all.each do |product|
+            sks = SuperKlazz.where(campus_id: campus.id, product_year_id: products.map{|product_name| ProductYear.find_by_name(product_name + ' - 2013')}.map(&:id))
+            next if sks.size == 0
+            ees = ExamExecution.where(super_klazz_id: sks).where("datetime > '#{date}' and datetime < '#{date + 1}'")
+            total = StudentExam.where(card_processing_id: valid_ids, status: 'Valid', exam_execution_id: ees).size
+            line << total.to_s
+          end
+        end
+        csv << line
+      end
+    end
+    `iconv -f utf-8 -t windows-1252 "/home/deployer/results/attendance_report_by_campus_#{Date.today}.csv" >   "/home/deployer/results/attendance_report_by_campus_#{Date.today}_ansi.csv"`
+    p 'Use the following command on the local machine:'
+    p "scp deployer@elitesim.sistemaeliterio.com.br:/home/deployer/results/attendance_report_by_campus_#{Date.today}_ansi.csv /Users/pauloacmelo/Dropbox/3PiR/Clients/Elite/EliteApp/Resultados/"    
   end
 
   task create_exam_results_by_klazz: :environment do 
