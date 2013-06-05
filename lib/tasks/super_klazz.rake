@@ -27,6 +27,43 @@ namespace :super_klazz do
     end
   end
 
+  task create_attendance_report: :environment do
+    lists = 
+      {
+        'Pré-Vestibular': ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite'],
+        'ESPCEX': ['ESPCEX', '3ª Série + ESPCEX'],
+        'AFA/EAAr/EFOMM': ['AFA/EAAr/EFOMM'],
+        'AFA/EN/EFOMM': ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM'],
+        'AFA/ESPCEX': ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX'],
+        '2ª Série Militar': ['2ª Série Militar'],
+        '1ª Série Militar': ['1ª Série Militar'],
+        '9º Ano Militar': ['CN/EPCAR', '9º Ano Militar'],
+        '9º Ano Forte': ['9º Ano Forte'],
+        'IME-ITA': ['IME-ITA']
+      }
+    CSV.open("/home/deployer/results/attendance_report_#{DateTime.today}.csv", "wb") do |csv|
+      line = ['Exam date']
+      lists.each_pair do |name, products|
+        line << name
+      end
+      csv << line
+      ExamExecution.all.map(&:datetime).map(&:to_date).uniq.sort!.each do |date|
+        valid_ids = CardProcessing.where(exam_date: date).map(&:id)
+        line = [date.to_s]
+        lists.each_pair do |name, products|
+          total = 0
+          products.each do |product|
+            sks = SuperKlazz.where(product_year_id: ProductYear.find_by_name(product + ' - 2013')).map(&:id)
+            ees = ExamExecution.where(super_klazz_id: sks).where("datetime > '#{date}' and datetime < '#{date + 1}'")
+            total += StudentExam.where(card_processing_id: valid_ids, status: 'Valid', exam_execution_id: ees).size
+          end
+          line << total.to_s
+        end
+        csv << line
+      end
+    end
+  end
+
   task create_exam_results_by_klazz: :environment do 
     p 'Creating exam results'
     result_date = ENV['DATE'] #'2013-04-06'
