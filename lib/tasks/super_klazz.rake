@@ -30,16 +30,16 @@ namespace :super_klazz do
   task create_attendance_report: :environment do
     lists = 
       {
-        'Pré-Vestibular': ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite'],
-        'ESPCEX': ['ESPCEX', '3ª Série + ESPCEX'],
-        'AFA/EAAr/EFOMM': ['AFA/EAAr/EFOMM'],
-        'AFA/EN/EFOMM': ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM'],
-        'AFA/ESPCEX': ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX'],
-        '2ª Série Militar': ['2ª Série Militar'],
-        '1ª Série Militar': ['1ª Série Militar'],
-        '9º Ano Militar': ['CN/EPCAR', '9º Ano Militar'],
-        '9º Ano Forte': ['9º Ano Forte'],
-        'IME-ITA': ['IME-ITA']
+        'Pré-Vestibular' => ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite'],
+        'ESPCEX' => ['ESPCEX', '3ª Série + ESPCEX'],
+        'AFA/EAAr/EFOMM' => ['AFA/EAAr/EFOMM'],
+        'AFA/EN/EFOMM' => ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM'],
+        'AFA/ESPCEX' => ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX'],
+        '2ª Série Militar' => ['2ª Série Militar'],
+        '1ª Série Militar' => ['1ª Série Militar'],
+        '9º Ano Militar' => ['CN/EPCAR', '9º Ano Militar'],
+        '9º Ano Forte' => ['9º Ano Forte'],
+        'IME-ITA' => ['IME-ITA']
       }
     CSV.open("/home/deployer/results/attendance_report_#{DateTime.today}.csv", "wb") do |csv|
       line = ['Exam date']
