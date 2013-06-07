@@ -15,6 +15,15 @@ class Exam < ActiveRecord::Base
     exam_questions.count
   end
 
+  def exam_subjects
+    exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+  end
+
+  def exam_questions_per_subject
+    exam_questions.includes(:question  => {:topics => :subject}).inject(Hash.new(0)){|h, v| h[v.topics.first.subject] += 1; h}
+  end
+
+
 private
 
   def correct_answers_range
@@ -43,4 +52,8 @@ private
       ExamQuestion.create!(exam_id: self.id, question_id: question.id)
     end
   end
+
+  def get_correct_answers
+    exam_questions.sort{|x, y| x.number <=> y.number}.map(&:question).flatten.map{|q| q.correct_options.map(&:letter).join()}
+  end  
 end

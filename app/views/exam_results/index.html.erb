@@ -1,0 +1,35 @@
+<%= title 'Exam Results' %>
+
+<%= button_tag 'Back', :id => 'back_button' %>
+
+<h3 class="label_div">Choose your options:</h3>    
+
+
+<%= form_tag '/exam_results' do %>
+  <div class="form-inputs">
+    <div class='input'>
+      <%= label_tag :date, 'Date' %>
+      <%= collection_select :exam_result, :date, @possible_dates, :to_s, :to_s %>
+    </div>
+
+    <div class='input'>
+      <%= label_tag :campus_id, 'Campus' %>
+      <%= collection_select :exam_result, :campus_id, @accessible_campuses, :id, :name %>
+    </div>
+
+    <div class='input'>
+      <%= label_tag :product_year_id, 'Product Year' %>
+      <%= collection_select :exam_result, :product_year_id, @lists, :first, :first %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= button_tag :Submit, class: 'btn remote' %>
+  </div>
+<% end %>
+
+<h2 class="klazz_name">Klazz name</h2>
+<h3 class="loading">Loading...</h3>
+<div class="table_div">
+
+</div>    

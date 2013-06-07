@@ -23,12 +23,14 @@ gem 'prawn'
 gem 'mercury-rails'
 
 gem 'sidekiq'
+gem 'unicode_utils'
 
 group :development do 
   gem 'debugger'
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rack-mini-profiler'
 end
 
 group :assets do

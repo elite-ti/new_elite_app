@@ -66,5 +66,6 @@ EliteApp::Application.routes.draw do
   match 'logout', to: 'employee_sessions#destroy', as: 'logout'
 
   get 'home', to: 'home#index', as: 'home'
+  get "exam_results", to: 'exam_results#index'  
   root to: 'home#index'
 end

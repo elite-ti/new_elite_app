@@ -25,6 +25,19 @@ class StudentExam < ActiveRecord::Base
   after_save :mark_conclicts!
   before_create :set_status_to_being_processed
 
+  def total_number_of_questions
+    exam_execution.exam.number_of_questions
+  end
+
+  def number_of_correct_answers(subject_name)
+    # exam_execution.exam.get_correct_answers
+    if subject_name.present?
+      exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.name == subject_name && exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer)}.size
+    else
+      exam_answers.select{|exam_answer| exam_answer.exam_question.question.correct_options.map(&:letter).include? exam_answer.answer}.size
+    end
+  end  
+
   def self.needing_check
     where(status: NEEDS_CHECK)
   end

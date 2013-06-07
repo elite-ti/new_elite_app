@@ -19,3 +19,4 @@
 //= require teacher_absence
 //= require exams
 //= require student_exams
+//= require exam_results
