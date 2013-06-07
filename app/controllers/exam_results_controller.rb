@@ -64,7 +64,7 @@ private
     correct_answers = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
     student_exams.map do |student_exam|
-       {'RA' => ("%07d" % student_exam.student.ra), 'NAME' => UnicodeUtils.upcase(student_exam.student.name, :pt), 'CAMPUS' => UnicodeUtils.upcase(student_exam.campus.name, :pt)}.merge(
+       {'RA' => ("%07d" % student_exam.student.ra), 'NAME' => student_exam.student.name.upcase, 'CAMPUS' => student_exam.campus.name.upcase}.merge(
           subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
         ).merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
     end
