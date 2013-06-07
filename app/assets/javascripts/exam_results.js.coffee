@@ -39,6 +39,7 @@ table_row = (array) ->
   '<tr>' + table_cell(array) + '</tr>'
 
 show_exam_results = (data) ->
+  console.log('Inside show_exam_results')
   destroy_table()
   create_table(Object.keys(data[0]))
   tbody = $('table').find('tbody')
