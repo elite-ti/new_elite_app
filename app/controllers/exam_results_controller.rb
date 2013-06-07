@@ -25,6 +25,7 @@ class ExamResultsController < ApplicationController
       end
       format.json do
         exam_result = params[:exam_result]
+        p 'Call JSON Rendering'
         render json: exam_results_hash(exam_result[:campus_id], exam_result[:product_year_id], exam_result[:date]).to_json 
       end
     end
@@ -32,6 +33,7 @@ class ExamResultsController < ApplicationController
 
 private
   def exam_results_hash(campus_id, product_year_id, date)
+    p 'INSIDE FUNCTION exam_results_hash'
     @lists = [
       ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
       ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
@@ -46,7 +48,6 @@ private
     ]
     
     product_year_ids = @lists.select{|p| p[0] == product_year_id}.first[1].map{|product_year_name| ProductYear.find_by_name(product_year_name + ' - 2013')}.map(&:id)
-    # product_year_ids = product_year_id
     campus_id = Campus.all.map(&:id) if campus_id.to_i == 0 # All campuses
     super_klazzes_ids = SuperKlazz.where(
       product_year_id: product_year_ids,

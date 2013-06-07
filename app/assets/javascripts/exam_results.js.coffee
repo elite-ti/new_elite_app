@@ -66,6 +66,7 @@ jQuery ->
     $('.klazz_name').html($('#exam_result_product_year_id_chzn span').text() + '  •  ' + $('#exam_result_campus_id_chzn span').text() + '  •  ' + $('#exam_result_date_chzn span').text())
     show_back_button()
     form = $(this).closest('form')
+    console.log('calling GET')
     $.get form.attr('action'), form.serialize(), show_exam_results, 'json'
     return false
 
