@@ -2,6 +2,26 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_08JUN: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 08 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P13'
+        array = [
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(16) + FÍS(16) + POR(16) + ING(16): CACDBBDABBDACADC ADBDCCCCABADBADD CADBCDDACBDABCBD BBBABCABACACDBAD',
+          'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): CDBCEDBACBBD ABCDADCEACDE EDDBEA DBCCBA',
+          'C - 1ª Série Militar - All - POR(20) + GEO(5) + HIS(6) + FÍS(6) + QUÍ(6) + BIO(6): EAEBDEBDEADACBCACDED DCAEAB DBCDDA DAADAD AECDCB CADDDC',
+          'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(5) + HIS(6) + FÍS(6) + QUÍ(6) + BIO(6): EAEBDEBDEADACBCACDED DCAEAB DBCDDA DAADAD ECAEDB CADDDC',
+          'C - 2ª Série Militar - All - MAT(10) + FÍS(10) + POR(6) + ING(10): CCCBADACDE ACDCDCDCAD CEDCBADCEA DCBEBAECBE',
+          'C - IME-ITA, 3ª Série + IME-ITA - All - POR(15) + ING(25): CEBADADACCCACBD AAEAEBDACEDBDBDEABEECBDAE',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(16) + FÍS(16) + POR(16) + ING(16): CACDBBDABBDACADC ADBDCCCCABADBADD CADBCDDACBDABCBD BBBABCABACACDBAD',
+          'U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FÍS(6) + QUÍ(6) + BIO(6): ACBCACDEDEAEBDEBDEAD EABDCA DDADBC DADDAA DCBAEC DDCCAD',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FÍS(6) + QUÍ(6) + BIO(6): ACBCACDEDEAEBDEBDEAD AEABDC DDADBC DADDAA AEECDB DDCCAD',
+          'U - 2ª Série Militar - Madureira I - MAT(10) + FÍS(10) + POR(10) + ING(10): DACDECCCBA DCDCADACDC CEABCDAECD BCDECEABEB',
+          'U - 2ª Série Militar - NorteShopping - MAT(10) + FÍS(10) + POR(10) + ING(10): CAAADCCECB CDDADCCCAD ADBACDCECE BDCEEBCABE'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end            
       task add_exams_01JUN: :environment do
         p 'Adding exams'
         datetime = 'Sat, 01 Jun 2013 14:00:00 BRT -03:00'
