@@ -4,6 +4,21 @@ namespace :db do
     namespace :real do
       task add_exams_08JUN: :environment do
         p 'Adding exams'
+        datetime = 'Sat, 15 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P14'
+        array = [
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): DBDBADCCAB CEDDCEEDEB CBDBDBCDBD DCCACBCCAD',
+          'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25): ADDAABDADDBBBCBCCDAACBADA DCDACCDABDCAAADCABBBDBCDD BBACDEDBDEBDABBEABBBBCBEB ABADBAADCCDCBCBADDABACDAA',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): CEADBEDBEDBDACDCBBEB BCCEAEDBCEAC DDBEBDDAAABB',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ECECABDCCCDBDABCCBAA BCCEAEDBCEAC DDBEBDDAAABB',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): ECECABDCCCDBDABCCBAA CDCEDBECAEAAAAABEBAE',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CEADBEDBEDBDACDCBBEB CDCEDBECAEAAAAABEBAE'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+      task add_exams_08JUN: :environment do
+        p 'Adding exams'
         datetime = 'Sat, 08 Jun 2013 14:00:00 BRT -03:00'
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P13'
