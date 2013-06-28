@@ -2,6 +2,20 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_25JUN: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 25 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Prova Bimestral 2º Bimestre'
+        array = [
+          'C - 1ª Série Militar - All - BIO(8) + FIS(8) + GEO(8) + HIS(8) + ING(8) + MAT(8) + POR(8) + QUI(8): ABDEEDAD BBDCEBBE AAACEDDB BADEBCEA ABCBDDCD ABBBADAB EABDDDCA ACDECABE',
+          'C - 2ª Série Militar - All - BIO(8) + FIS(8) + GEO(8) + HIS(8) + ING(8) + MAT(8) + POR(8) + QUI(8): ACECDCDD CEACCEDD EAAEECCB ABECCCEA DBCAEABB BDAEAEBC ABDEEBDC EBBDBBCE',
+          'C - CN/EPCAR, 9º Ano Militar - All - BIO(8) + FIS(8) + GEO(8) + HIS(8) + ING(8) + MAT(8) + POR(8) + QUI(8): ABDEEDAD BBDCEBBE AAACEDDB BADEBCEA EDACBDEC ABBBADAB EABDDDCA ACDECABE ',
+          'U - 1ª Série Militar - Campo Grande II - BIO(8) + FIS(8) + GEO(8) + HIS(8) + ING(8) + MAT(8) + POR(8) + QUI(8): BECADCDC AAEDCCDA BDCAABBC ADEAABCC DDEAEBBC ECCDBABD ABCCBADD CACEDBEA',
+          'U - 2ª Série Militar - Campo Grande I - BIO(8) + FIS(8) + GEO(8) + HIS(8) + ING(8) + MAT(8) + POR(8) + QUI(8): DCDDACEC CEDDCEAC ECCBEAAE CCEAABEC EABBDBCA AEBCBDAE EBDCABDE BBCEEBBD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_15JUN: :environment do
         p 'Adding exams'
         datetime = 'Sat, 15 Jun 2013 14:00:00 BRT -03:00'
