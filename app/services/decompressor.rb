@@ -12,10 +12,12 @@ class Decompressor
     
     folder_path = `mktemp -d`.chop
     
-    if send('decompress_' + format, file_path, folder_path)
+    return_message = send('decompress_' + format, file_path, folder_path)
+    if return_message
       return folder_path
     else
       FileUtils.rm_rf(folder_path)
+      p return_message
       raise DecompressorError.new(ERROR_DECOMPRESSING_FILE_MESSAGE)
     end
   end
