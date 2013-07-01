@@ -8,7 +8,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P16'
         array = [
-          'C - Pré-Vestibular - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(45) + MAT(45): DDCBCDAEBBEACDCCEEBDCDCABEAABAAEBBACCEABEABED AADBABEDCDEDCDBDECBDABDBBABECBBABBCBACBBACCBD'
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(45) + MAT(45): DDCBCDAEBBEACDCCEEBDCDCABEAABAAEBBACCEABEABED AADBABEDCDEDCDBDECBDABDBBABECBBABBCBACBBACCBD'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
