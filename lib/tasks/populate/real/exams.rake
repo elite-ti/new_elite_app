@@ -2,6 +2,38 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_30JUN: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 30 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P16'
+        array = [
+          'C - Pré-Vestibular - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(45) + MAT(45): DDCBCDAEBBEACDCCEEBDCDCABEAABAAEBBACCEABEABED AADBABEDCDEDCDBDECBDABDBBABECBBABBCBACBBACCBD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+      task add_exams_29JUN: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 29 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P15'
+        array = [
+          'C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): CEDCEDDDDABC AEBACBCBCEEB DBAEAC CAEEEC',
+          'C - AFA/EAAr/EFOMM - All - POR(25) + ING(25) + MAT(25) + FIS(25): DCEDABBECABDCAABDBACEECDB BABAEAABBCDEDECBDAEAAACDB CBCDCCCADBBBCDDBBDDBCBBAA BCBECCAAADDBACAABBDAEDDEB',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DADEDDCCDAEACBBCEEAD BCCEDDEADBDA DBDECCCADECB ABEDADCDDBAA',
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(15) + QUI(15) + FIS(15): CBCEEDDDEACBAEAEDE ACDCACBADECCDBACEBBBCA EDB BC ADEBCDAADDCDDCB DCEABDCCCBECBDE EEEDECCBCEBCDAB',
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): CDADBDCDEC DBCCCDBBCB CEEBAEACBB CECDABDEEA',
+          'C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB BADDCBDCCBDAAACB',
+          'C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB DCCCCDABBBAADCCA',
+          'C - 2ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): CCBCEEAB ECDACBCC BAAEDDEE DDADAEEB CDDECDDE DDEABACA DBCDDAAC BDEDAABA',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): DDDEEBAAEABCECBBDDBA ACADBBCDAEBCCCAEDDCD',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DDBBBBCDEDAACADEABCB BCCEDDEADBDA DBDECCCADECB ABEDADCDDBAA',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20): DDDEEBAAEABCECBBDDBA ACADBBCDAEBCCCAEDDCD',
+          'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(16) + MAT(16) + ING(16): BDACBCBABCCDDCDD ABDBDDBBDBABABBA AACBCBDCCBDABADD',
+          'U - 1ª Série Militar - Madureira III - POR(16) + MAT(16) + ING(16): BDACBCBABCCDDCDD ABDBDDBBDBABABBA CCDABBBAADCCADCC'          
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_25JUN: :environment do
         p 'Adding exams'
         datetime = 'Sat, 25 Jun 2013 14:00:00 BRT -03:00'
