@@ -12,6 +12,16 @@ namespace :db do
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
+      task add_exams_29JUN_2: :environment do
+        p 'Adding exams'
+        datetime = 'Sat, 29 Jun 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P15'
+        array = [
+          'C - IME-ITA, 3ª Série + IME-ITA - All - FIS(20): DXACABEECCEDBCDCADAB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_29JUN: :environment do
         p 'Adding exams'
         datetime = 'Sat, 29 Jun 2013 14:00:00 BRT -03:00'
