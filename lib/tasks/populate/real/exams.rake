@@ -2,6 +2,24 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_06JUL: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 06 Jul 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'P17'
+        array = [
+          "C - 1ª Série Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): DDACDADC ADCDEAAC EABBEBDC EECCCABE BCCCDEBA BEADEABD EBBCDDEC BBDCDEAD",
+          "C - CN/EPCAR, 9º Ano Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): DDACDADC ADCDEAAC EACABDEB EECCCABE BCCCDEBA BEADEABD EBBCDDEC BBDCDEAD",
+          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(16) + FIS(16) + POR(16) + ING(16): BBAADDCDADDDBDAD CBDCAECBBDACBACD CACBADDBADBDBADC DCBDADDDCDDABABC",
+          "C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): CAABCEEBECBDECECBCDA CEBEAAEDDBBE DBECEDCDCEAC",
+          "C - IME-ITA, 3ª Série + IME-ITA - All - POR(20) + ING(20): AECAEEAABDCCECDCEAAB CEBDCAEDDAEBCABBDECD",
+          "C - AFA/EAAr/EFOMM - All - MAT(16) + FIS(16) + POR(16) + ING(16): BBAADDCDADDDBDAD CBDCAECBBDACBACD CACBADDBADBDBADC DCBDADDDCDDABABC",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): CAABCEEBECBDECECBCDA CEBEAAEDDBBE DBECEDCDCEAC",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(16) + FIS(16) + POR(16) + ING(16): BBAADDCDADDDBDAD CBDCAECBBDACBACD CACBADDBADBDBADC DCBDADDDCDDABABC",
+          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + ING(8) + ESP(8) + FIL(8) + SOC(8): CBAEDDBE ABEDCACC CCDCDACA EBCDCDDE DDBDDABB DCAEDBBE EDADBACB BCEDBABB CBDBBACA EDEBECAA BCCACCCD"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_30JUN: :environment do
         p 'Adding exams'
         datetime = 'Sun, 30 Jun 2013 14:00:00 BRT -03:00'
