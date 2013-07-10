@@ -8,7 +8,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          "C - 1ª Série Militar - All - MAT(20): EBCDACAAABXAEEBDABEB"
+          "C - 1ª Série Militar - All - MAT(20): EBCDACAAABAAEEBDABEB"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
