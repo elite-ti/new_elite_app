@@ -8,8 +8,8 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Concurso interno AFA'
         array = [
-          "C - 2ª Série Militar - All - MAT(16) + FÍS(16) + POR(16) + ING(16): EBBCACCADDBDCBEB ADBCDDBABDBDDBBC BDCCDADABDCBADDD DCADACDDCADBDDDD",
-          "U - 2ª Série Militar - Bangu - MAT(16) + FÍS(16) + POR(16) + ING(16): DDBDCBEBEBBCACCA BDBDDBBCADBCDDBA DDBDCCDADABDCBAD DCADBDDDDDCADACD"
+          "C - 2ª Série Militar - All - MAT(16) + FIS(16) + POR(16) + ING(16): EBBCACCADDBDCBEB ADBCDDBABDBDDBBC BDCCDADABDCBADDD DCADACDDCADBDDDD",
+          "U - 2ª Série Militar - Bangu - MAT(16) + FIS(16) + POR(16) + ING(16): DDBDCBEBEBBCACCA BDBDDBBCADBCDDBA DDBDCCDADABDCBAD DCADBDDDDDCADACD"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
