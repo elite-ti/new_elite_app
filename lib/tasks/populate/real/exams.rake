@@ -2,6 +2,33 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_13JUL: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 13 Jul 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Recuperação'
+        array = [
+          "C - 1ª Série Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): CBDBDADA DADCDACA DECEADBC DABCBAAD AACADCAE DAEAECEB BEECCDAE BBBBAABA",
+          "C - CN/EPCAR, 9º Ano Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): CBDBDADA DADCDACA CBACCBAE DABCBAAD AACADCAE DAEAECEB BEECCDAE BBBBAABA",
+          "C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): EABBCDECEAECACEA CBBDBBCCDAABCCEA CCADDBBACCDBCDDD",
+          "C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): EABBCDECEAECACEA CBBDBBCCDAABCCEA BACCDBCDDDCEBACA",
+          "C - IME-ITA, 3ª Série + IME-ITA - All - MAT(20): CBDCCEEBBBCBDDCDCBDC",
+          "C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): AADBCDEDDB DECBACCDDC CADBCCDAAB AABCCAACAA EBABCECBBD EDECDDACCB CEDACEBCBD DBCBAZEDCB",
+          "U - 1ª Série Militar - Madureira III - POR(16) + MAT(16) + ING(16): CEDCAEBEACBAEBCB DECAECDEACDCADAE ABCBACABADBABCBA",
+          "U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(16) + MAT(16) + ING(16): AECAABCADDBBCBDB DDCACAEEBCCDDEAB DCDDCCAAABBCDBDE"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+      task add_exams_12JUL: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 12 Jul 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Recuperação'
+        array = [
+          "C - 2ª Série Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): CEAAEEDE ABECDCBD ACAEBCBC BAACEDAE AABDDDCC DCDDACEA ADCABEAD BCABACDD"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_11JUL: :environment do
         p 'Adding exams'
         datetime = 'Sun, 11 Jul 2013 14:00:00 BRT -03:00'
