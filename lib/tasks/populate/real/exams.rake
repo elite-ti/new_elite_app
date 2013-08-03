@@ -2,6 +2,32 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_04AUG: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 04 Aug 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+      task add_exams_04AUG: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 03 Aug 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): EBBCCEBBAEAAAEAEBC DDBDAEBCCCCCCDDBEBEAEAAAEDB DBECBADAEBBDDBE EADDADCCDBCBDBD CABECCADEECADDB",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABCCADCBBDDEEBDBCDCB ACDEDEBABAEB CDACECDEADAA",
+          "C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABCCADCBBDDEEBDBCDCB ACDEDEBABAEB CDACECDEADAA",
+          "C - AFA/EAAr/EFOMM - All - MAT(20) + FIS(20): DCABBBCEEAEAAADCDADC CCDBBCBDECDECADBAAAE",
+          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): DCABBBCEEAEAAADCDADC CCDBBCBDECDECADBAAAE",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20): DCABBBCEEAEAAADCDADC CCDBBCBDECDECADBAAAE",
+          "C - IME-ITA, 3ª Série + IME-ITA - All - MAT(20): BDECDDCCEABBBBEABDCD"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_20JUL_3: :environment do
         p 'Adding exams'
         datetime = 'Sun, 20 Jul 2013 14:00:00 BRT -03:00'
