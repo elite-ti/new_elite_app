@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_08AUG: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 08 Aug 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          "C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): CACDCEEABC ABCEDEACDE DADBBAAECE",
+          "C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10): BDBECBCACD BACEDACCCB CEBBECADBA",
+          "C - IME-ITA, 3ª Série + IME-ITA - All - MAT(15) + FIS(15) + QUI(10): EDBCDBAECDDAEBD CDEABEADBCECDBA CBDCAEDAEE",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DCCDBCCCEEECEBDADDBE AACEEACCEDCB ABCBDCEAEACB BAECCCBDDDEA",
+          "C - AFA/EAAr/EFOMM - All - POR(20) + ING(20): AEDCBEDEACBDBEAECADB EBCDEABDDEEEBBEAECDA",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): BBEEBDCDCACDABBBCDCA ACBCCDDBADADCDBDBCAD",
+          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): BBEEBDCDCACDABBBCDCA ACBCCDDBADADCDBDBCAD",
+          "C - 9º Ano Militar - All - POR(0) + MAT(7) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC DCEACADD",
+          "C - 1ª Série Militar - All - POR(0) + MAT(7) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8):  AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC CEBCBCBB",
+          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD",
+          "C - 2ª Série Militar - Madureira III - HIS(10) + GEO(10) + BIO(10): ECAABEDBBA ECEBCBAEAE AACEBDCECE"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+
       task add_exams_04AUG: :environment do
         p 'Adding exams'
         datetime = 'Sun, 04 Aug 2013 14:00:00 BRT -03:00'
@@ -12,7 +33,7 @@ namespace :db do
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
-      task add_exams_04AUG: :environment do
+      task add_exams_03AUG: :environment do
         p 'Adding exams'
         datetime = 'Sun, 03 Aug 2013 14:00:00 BRT -03:00'
         cycle_name = 'Ciclo 1 - '
