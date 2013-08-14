@@ -2,7 +2,7 @@ class CardProcessingsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @card_processings = @card_processings || CardProcessing.includes(:campus, :card_type, :student_exams).where("exam_date > '2013-05-01'")
+    @card_processings = @card_processings || CardProcessing.includes(:campus, :card_type, :student_exams).where("exam_date > '2013-07-01'")
   end
 
   def show
