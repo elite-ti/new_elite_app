@@ -2,7 +2,24 @@
 namespace :db do
   namespace :populate do
     namespace :real do
-      task add_exams_08AUG: :environment do
+      task add_exams_17AUG: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 17 Aug 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          "C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): AAEABDAAACCD DCABCBCBEBBD ABEACC BDECCA",
+          "C - 1ª Série Militar - All - MAT(20): CEBBCDBEADDDABCCDDBD",
+          "U - 1ª Série Militar - Madureira III - MAT(20): EACEBACBDCABEEABECAB",
+          "C - 9º Ano Militar - All - MAT(20): CEBBCDBEADDDABCCDDBD",
+          "U - 9º Ano Militar - Madureira III - MAT(20): EACEBACBDCABEEABECAB",
+          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDCBCCDCBDCDACC BCBCAD ACDDDB CBCADA BBBCBB BBCAB BDCACA DADDCDBCAD"
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+      end
+
+
+      task add_exams_10AUG: :environment do
         p 'Adding exams'
         datetime = 'Sun, 08 Aug 2013 14:00:00 BRT -03:00'
         cycle_name = 'Ciclo 1 - '
