@@ -8,16 +8,16 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          "AFA/EN/EFOMM - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE",
-          "AFA/ESPCEX (ESPCEX) - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(14) + FIS(7): DBEABADDDDDABCDBADEA ACDCBACBABCBAA DAEEACEBEC",
-          "ESPCEX - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(14) + FIS(7): DBEABADDDDDABCDBADEA ACDCBACBABCBAA DAEEACEBEC",
-          "1ª Série Militar - 1ª Série Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BCECBDCECBCBEDEEEEAD EDAAAA CABBEC DCCEAC CAAEEA CCAEEA",
-          "1ª Série Militar - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): AAABABBCDCEDDEACCBEE ACEBBB EBEADB ACDACE ECBDAE ADECBE",
-          "9º Ano Militar - 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BCECBDCECBCBEDEEEEAD EDAAAA CABBEC DCCEAC CBEDBA CCAEEA",
-          "9º Ano Militar - 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): EABDEAEBACECABACBACE CAECBC ADECBA ECAAEB AEACEC BAEBAC",
-          "2ª Série Militar - 2ª Série Militar - All - POR(10) + ING(10): CDBEEAAEEB ABEDCDDCED",
-          "2ª Série Militar - 2ª Série Militar - Madureira I - POR(10) + ING(10): ABECADCBAE ECACABCABA",
-          "AFA/ESPCEX (EN) - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE"
+          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(14) + FIS(7): DBEABADDDDDABCDBADEA ACDCBACBABCBAA DAEEACEBEC",
+          "C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(14) + FIS(7): DBEABADDDDDABCDBADEA ACDCBACBABCBAA DAEEACEBEC",
+          "C - 1ª Série Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BCECBDCECBCBEDEEEEAD EDAAAA CABBEC DCCEAC CAAEEA CCAEEA",
+          "U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): AAABABBCDCEDDEACCBEE ACEBBB EBEADB ACDACE ECBDAE ADECBE",
+          "C - 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BCECBDCECBCBEDEEEEAD EDAAAA CABBEC DCCEAC CBEDBA CCAEEA",
+          "U - 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): EABDEAEBACECABACBACE CAECBC ADECBA ECAAEB AEACEC BAEBAC",
+          "C - 2ª Série Militar - All - POR(10) + ING(10): CDBEEAAEEB ABEDCDDCED",
+          "U - 2ª Série Militar - Madureira I - POR(10) + ING(10): ABECADCBAE ECACABCABA",
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
