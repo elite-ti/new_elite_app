@@ -17,7 +17,7 @@ namespace :db do
           "U - 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): EABDEAEBACECABACBACE CAECBC ADECBA ECAAEB AEACEC BAEBAC",
           "C - 2ª Série Militar - All - POR(10) + ING(10): CDBEEAAEEB ABEDCDDCED",
           "U - 2ª Série Militar - Madureira I - POR(10) + ING(10): ABECADCBAE ECACABCABA",
-          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE"
+          "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): DEEEBBDBCEBBCABEEBBA EEEBBEADCACBEEABCEEE"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
