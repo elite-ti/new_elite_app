@@ -8,12 +8,12 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
+          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): AAAAAAAAAAAAAAAAAAAA + BBECACABCDBDABBBDDAE",
           "C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25): AAECDCBEDCBADDDCDDDAABCAC ACECEBEBCDBDAEBCADBCEDDAA CADACCBDBABBDCBDBCBADDADD BABAEAAABCDEDECBDAECAACEB",
           "C - 1ª Série Militar - All - MAT(20): DADCBCADEDDBDABBECEA",
           "U - 1ª Série Militar - Madureira III - MAT(20): ADAEEDCACBBEADEEBDCB",
           "C - 9º Ano Militar - All - MAT(20): DADCBCADEDDBDABBECEA",
           "U - 9º Ano Militar - Madureira III - MAT(20): ADAEEDCACBBEADEEBDCB",
-          "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): AAAAAAAAAAAAAAAAAAAA + BBECACABCDBDABBBDDAE",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): ECCDDBDDCDBEDBCAEBCA DAEEECAEEDAE BACAEAACCDCD ACEDBBDEAAAC",
           "C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): ECCDDBDDCDBEDBCAEBCA DAEEECAEEDAE BACAEAACCDCD ACEDBBDEAAAC",
           "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDADCDCABDCDABB ABBDCD CBCCAC CBDABD BDADBC DCDCC ADBAAA DAAABDCCAC",
