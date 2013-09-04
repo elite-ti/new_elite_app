@@ -8,9 +8,9 @@ namespace :db do
         cycle_name = '3º Bimestre - '
         exam_name = 'Teste Bimestral'
         array = [
-          'IME-ITA (Teste Bimestral) - IME-ITA, 3ª Série + IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC BCDDADAB DCBDBDAB CBCDADAE BACBEBEC DBACDEEC BAECCABC DBBDAEDE',
-          'ESPCEX (Teste Bimestral) - ESPCEX, 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC DCBAECBD ABCECBAC ACBDBABC CBEBBCEA EDDCEDCE BDACBCBE DBBDAEDE',
-          'AFA/ESPCEX (Teste Bimestral) - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC DCBAECBD ABCECBAC ACBDBABC CBEBBCEA EDDCEDCE BDACBCBE DBBDAEDE'
+          'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC BCDDADAB DCBDBDAB CBCDADAE BACBEBEC DBACDEEC BAECCABC DBBDAEDE',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC DCBAECBD ABCECBAC ACBDBABC CBEBBCEA EDDCEDCE BDACBCBE DBBDAEDE',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BCEEECAC DCBAECBD ABCECBAC ACBDBABC CBEBBCEA EDDCEDCE BDACBCBE DBBDAEDE'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
