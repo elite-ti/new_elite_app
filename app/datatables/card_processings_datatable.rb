@@ -37,7 +37,7 @@ private
 
   def fetch_products
     card_processings = CardProcessing.order("#{sort_column} #{sort_direction}").includes(:campus, :card_type, :student_exams)
-    card_processings = card_processings.page(page).per_page(per_page)
+    card_processings = card_processings.paginate(:page => page, :per_page => per_page)
     if params[:sSearch].present?
       card_processings = card_processings.where("name like :search or to_char(created_at, 'YYYY-MM-DD HH12-MI-SS') like :search or status like :search or (select name from card_types where id = card_type_id) like :search or to_char(exam_date, 'YYYY-MM-DD') like :search or (select name from campuses where id = campus_id) like :search", search: "%#{params[:sSearch]}%")
     end
