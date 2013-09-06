@@ -25,6 +25,9 @@ gem 'mercury-rails'
 gem 'sidekiq'
 gem 'unicode_utils'
 
+gem 'i18n'
+gem 'will_paginate'
+
 group :development do 
   gem 'debugger'
   gem 'thin'

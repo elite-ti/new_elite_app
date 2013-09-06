@@ -6,6 +6,13 @@ jQuery ->
     sPaginationType: 'full_numbers'
     bJQueryUI: true
 
+  $('.is-remote-datatable').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    bProcessing: true
+    bServerSide: true
+    sAjaxSource: $('#products').data('source')
+
   $('.tabs').tabs()
 
   $('.is-chosen').chosen

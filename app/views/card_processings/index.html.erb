@@ -1,7 +1,7 @@
 <%= title 'Card Processings', 
   link_to('New Card Processing', new_card_processing_path) %>
 
-<table id='card_processings' class='display is-datatable'>
+<table id='card_processings' class='display is-remote-datatable'>
   <thead>
     <tr>
       <th>Name</th>
@@ -14,36 +14,6 @@
       <th>Campus</th>
     </tr>
   </thead>
-
   <tbody>
-  <% @card_processings.each do |card_processing| %>
-    <tr>
-      <td><%= card_processing.name %></td>
-      <td><%= print_datetime(card_processing.created_at) %></td>
-      <td>
-        <%= card_processing.status %>
-        <span>
-          <% if card_processing.processed? %>
-            <%= link_to 'Show', card_processing %> |
-            <% if card_processing.needs_check? %>
-              <%= link_to 'Check', 
-                edit_student_exam_path(card_processing.to_be_checked) %>
-            <% end %>
-          <% end %>
-          <% if can?(:destroy, card_processing) %>
-            | <%= destroy_link(card_processing) %>
-          <% end %>
-        </span>
-      </td>
-      <td>
-        <%= card_processing.number_of_errors %> /
-        <%= card_processing.total_number_of_cards %>
-      </td>
-      <td><%= card_processing.is_bolsao %></td>
-      <td><%= card_processing.card_type.name %></td>
-      <td><%= print_date(card_processing.exam_date) %></td>
-      <td><%= card_processing.campus.name %></td>
-    </tr>
-  <% end %>
   </tbody>
 </table>
