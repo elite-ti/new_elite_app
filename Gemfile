@@ -26,7 +26,7 @@ gem 'sidekiq'
 gem 'unicode_utils'
 
 gem 'i18n'
-gem 'will_paginate'
+gem 'kaminari'
 
 group :development do 
   gem 'debugger'
