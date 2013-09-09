@@ -11,6 +11,15 @@ jQuery ->
     bJQueryUI: true
     bProcessing: true
     bServerSide: true
+    bAutoWidth: false
+    aoColumns: [
+      {sWidth:"35%"},
+      {sWidth:"15%"},
+      {sWidth:"15%"},
+      {sWidth:"10%"},
+      {sWidth:"10%"},
+      {sWidth:"15%"}
+    ]
     sAjaxSource: $('#products').data('source')
 
   $('.tabs').tabs()
