@@ -9,7 +9,7 @@ class StudentExam < ActiveRecord::Base
   REPEATED_STUDENT = 'Repeated student'
   NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
 
-  attr_accessible :card, :card_processing_id
+  attr_accessible :card, :card_processing_id, :exam_answers_as_string
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
 
   belongs_to :exam_execution
