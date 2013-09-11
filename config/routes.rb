@@ -15,7 +15,11 @@ EliteApp::Application.routes.draw do
   resources :exams
   resources :questions
   resources :exam_cycles
-  resources :students
+  resources :students do 
+    member do 
+      get :fix_ra
+    end
+  end
 
   resources :poll_question_types
   resources :poll_question_categories

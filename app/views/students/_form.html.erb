@@ -6,6 +6,9 @@
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :ra %>
+    <% if @student.ra > 1000000 %>
+    <% end %>
+
 
     <h2>Contact</h2>
     <%= f.input :telephone, as: :telephone %>
@@ -42,6 +45,6 @@
   </div>
 
   <div class='form-actions'>
-    <%= f.button :submit %>
+    <%= f.button :submit , confirm: 'Student changes.Are you sure?' %>
   </div>
 <% end %>

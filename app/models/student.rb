@@ -53,4 +53,35 @@ class Student < ActiveRecord::Base
     student.save!
     student
   end
+
+  def fix_temporary_student(new_ra)
+    if Student.find_by_ra(new_ra.to_i).nil?
+      self.ra = new_ra.to_i
+      self.save
+      return
+    end
+    new_id = Student.find_by_ra(new_ra.to_i).id
+    # Change student exams
+    Student.find_by_ra(self.ra).student_exams.each do |se|
+      log_changes 'Mudando StudentExam #' + se.id.to_s + ' de ' + se.student_id.to_s + ' para ' + new_id.to_s
+      se.update_column(:student_id, new_id)
+    end
+    # Change enrollments
+    Student.find_by_ra(self.ra).enrollments.each do |enr|
+      log_changes "Mudando enrollments id #{enr.id.to_s} (sk: #{enr.super_klazz_id.to_s}) de #{enr.student_id.to_s} para #{new_id.to_s}"
+      if Student.find_by_ra(new_ra.to_i).enrollments.map(&:super_klazz_id).include? enr.super_klazz_id
+        enr.destroy
+      else
+        enr.update_column(:student_id, new_id)
+      end
+    end
+    if self.enrollments.size == 0 && self.student_exams.size == 0
+      self.destroy
+    end
+  end
+
+  def log_changes(message)
+    File.open("log.txt", "a"){ |somefile| somefile.puts message }
+  end
+
 end
