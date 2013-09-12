@@ -6,7 +6,8 @@
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :ra %>
-    <% if @student.ra > 1000000 %>
+    <% if @student.ra > 2000000 %>
+      <p>This student is temporary!</p>
     <% end %>
 
 
@@ -45,6 +46,6 @@
   </div>
 
   <div class='form-actions'>
-    <%= f.button :submit , confirm: 'Student changes.Are you sure?' %>
+    <%= f.button :submit %>
   </div>
 <% end %>

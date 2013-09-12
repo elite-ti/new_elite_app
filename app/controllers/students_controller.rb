@@ -21,7 +21,7 @@ class StudentsController < ApplicationController
 
   def update
     @student = Student.find(params[:id].to_i)
-    if(@student.ra != params[:student][:ra])
+    if(@student.ra != params[:student][:ra].to_i)
       @student.fix_temporary_student(params[:student][:ra])      
       new_student = Student.find_by_ra(params[:student][:ra])
       redirect_to edit_student_path(new_student), notice: 'Temporary Student was fixed.'
