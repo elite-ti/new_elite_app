@@ -60,13 +60,20 @@ private
 
     return [{'RA' => '', 'NAME' => '', 'GRADE' => ''}] if student_exams.size == 0
     subjects = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
-    subject_questions = student_exams.first.exam_answers.map(&:exam_question).map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = []); h}
+    subject_questions = student_exams.first.exam_answers.map(&:exam_question).map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
     correct_answers = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
-    student_exams.map do |student_exam|
-       {'RA' => ("%07d" % student_exam.student.ra), 'NAME' => student_exam.student.name.upcase, 'CAMPUS' => student_exam.campus.name.upcase}.merge(
+    arr = student_exams.map do |student_exam|
+      {
+        'RA' => ("%07d" % student_exam.student.ra), 
+        'NAME' => student_exam.student.name.upcase, 
+        'CAMPUS' => student_exam.campus.name.upcase,
+        'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
+      }.merge(
           subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
         ).merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
     end
+    p arr
+    arr
   end  
 end

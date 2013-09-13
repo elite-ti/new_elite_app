@@ -24,7 +24,7 @@ destroy_table = () ->
 table_header = (content_array) ->
   result = ''
   for content in content_array
-    result += '<th>' + content + '</th>'
+    result += '<th>' + content + '</th>' if content != 'LINK'
   result
 
 create_table = (array) ->
@@ -34,7 +34,10 @@ create_table = (array) ->
 table_cell = (content_array) ->
   result = ''
   for property of content_array
-    result += '<td>' + content_array[property] + '</td>'
+    if property == 'NAME'
+      result += '<td>' + content_array[property] + ' ' + content_array['LINK'] + '</td>'
+    else
+      result += '<td>' + content_array[property] + '</td>' if property != 'LINK'
   result
 
 table_row = (array) ->
@@ -56,8 +59,7 @@ show_exam_results = (data) ->
     sPaginationType: 'full_numbers'
     bJQueryUI: true
     bPaginate: false
-    aaSorting: [[ Object.keys(data[0]).length - 1, "desc" ]]
-
+    aaSorting: [[ Object.keys(data[0]).length - 2, "desc" ]]
 
 jQuery ->
     hide_back_button()

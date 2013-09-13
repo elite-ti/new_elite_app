@@ -32,7 +32,7 @@ class StudentExam < ActiveRecord::Base
   def number_of_correct_answers(subject_name)
     # exam_execution.exam.get_correct_answers
     if subject_name.present?
-      exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.name == subject_name && exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer)}.size
+      exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer)}.size
     else
       exam_answers.select{|exam_answer| exam_answer.exam_question.question.correct_options.map(&:letter).include? exam_answer.answer}.size
     end
