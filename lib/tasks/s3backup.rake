@@ -2,22 +2,15 @@
 
 namespace :backup do
   task student_exams: :environment do
-#      "~/apps/new_elite_app/shared/uploads/student_exam/card/"
-    Dir.glob("/Users/PG/Documents/direito/leis/artigos/**/*.tif") do |filename|
-      if (File.basename(File.dirname(File.dirname(filename))) =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/) #check if is a number
-        p File.basename(File.dirname(File.dirname(filename))).to_i*1000+File.basename(File.dirname(filename)).to_i
-        # p File.dirname(File.dirname(filename))
-        # `cp -a #{filename} #{File.dirname(File.dirname(filename)).to_i*1000+File.dirname(filename).to_i}`
+
+    Dir.glob("/home/deployer/apps/new_elite_app/shared/uploads/student_exam/card/") do |filename_std_exm|
+      if (File.basename(File.dirname(File.dirname(filename_std_exm))) =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/) #check if is a number
+        concat_dir_name = file File.basename(File.dirname(File.dirname(filename_std_exm))).to_i*1000+File.basename(File.dirname(filename_std_exm)).to_i
+        `s3cmd put #{filename_std_exm} s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/student_exam/card/#{concat_dir_name.to_s}/`
       else 
-        p File.basename(File.dirname(filename)).to_i
-        p File.dirname(filename)
-        p File.dirname(File.dirname(filename))
-       `cp -P ~/Documents/apps/new_elite_app/shared/uploads/student_exam/card/#{File.basename(File.dirname(filename)).to_i} `
+        dir_name = File.basename(File.dirname(filename_std_exm))
+        `s3cmd put #{filename_std_exm} s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/student_exam/card/#{dir_name.to_s}/`
       end
-      # student_exam_id = 
-      # `s3cmd put --acl-private --recursive ~/apps/new_elite_app/shared/uploads/student_exam/card/#{File.basename(File.dirname(File.dirname(filename)))} s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/student_exam/card/#{File.basename(File.dirname(File.dirname(filename)))}`
-    # filename = File.basename("~/apps/new_elite_app/shared/uploads/student_exam/card/",)
-    # if(filename = "original.tif")      
     end
   end
 end
