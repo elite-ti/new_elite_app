@@ -21,6 +21,7 @@ jQuery ->
       {sWidth:"15%"}
     ]
     sAjaxSource: $('#products').data('source')
+    aaSorting: [[ 1, "desc" ]]    
 
   $('.tabs').tabs()
 
