@@ -48,9 +48,16 @@ private
   end
 
   def fetch_products
-    card_processings = CardProcessing.order("#{sort_column} #{sort_direction}").includes(:campus, :student_exams)
+    card_processings = CardProcessing.where(campus_id: Campus.accessible_by(@view.current_ability).map(&:id)).order("#{sort_column} #{sort_direction}").includes(:campus, :student_exams)
     if params[:sSearch].present?
-      card_processings = card_processings.where("name like :search or to_char(created_at, 'YYYY-MM-DD HH12-MI-SS') like :search or status like :search or (select name from card_types where id = card_type_id) like :search or to_char(exam_date, 'YYYY-MM-DD') like :search or (select name from campuses where id = campus_id) like :search", search: "%#{params[:sSearch]}%")
+      card_processings = card_processings.where(
+        "name || ' ' || 
+        to_char(created_at, 'DD/MM/YYYY HH12-MI-SS') || ' ' || 
+        status || ' ' || 
+        (select name from card_types where id = card_type_id) || ' ' || 
+        to_char(exam_date, 'DD/MM/YYYY') || ' ' || 
+        (select name from campuses where id = campus_id) ilike :search", 
+      search: "%#{params[:sSearch].gsub(/ /, '%')}%")
     end
     @iTotalDisplayRecords = card_processings.size
     card_processings = card_processings.page(page).per(per_page)

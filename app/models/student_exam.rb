@@ -7,7 +7,7 @@ class StudentExam < ActiveRecord::Base
   INVALID_ANSWERS_STATUS = 'Invalid answers'
   VALID_STATUS = 'Valid'
   REPEATED_STUDENT = 'Repeated student'
-  NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS]
+  NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS, REPEATED_STUDENT, ERROR_STATUS]
 
   attr_accessible :card, :card_processing_id, :exam_answers_as_string
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
@@ -202,80 +202,4 @@ private
     end
     true
   end
-
-  # PA - methods I use for fixing things must be removed
-  # TODO: Incorporate them in the application
-#   def ResolveRepeatedStudent (right_card, wrong_card, right_student_for_wrong_card)
-#     ActiveRecord::Base.transaction do
-#       se1 = StudentExam.find(wrong_card)
-#       se1.student_id = right_student_for_wrong_card
-#       se1.status = 'Valid'
-#       se1.save!
-#       se2 = StudentExam.find(right_card)
-#       se2.status = 'Valid'
-#       se2.save!
-#     end
-#     ''
-#   end
-
-#   def ResolveTwiceScanned (card_processing_id)
-#     se_array = CardProcessing.find(card_processing_id).student_exams.map(&:id)
-#     se_array.each do |se_id|
-#       se = StudentExam.find(se_id)
-#       if se.status == 'Repeated student'
-#         se_bro = CardProcessing.find(card_processing_id).student_exams.where("id <> #{se_id}").where(student_id: se.student_id).first
-#       if se_bro.string_of_answers == se.string_of_answers
-#         se.destroy
-#         se_bro.exam_answers.destroy_all
-#         se_bro.set_exam_answers
-#         se_bro.save
-#         end
-#     end
-#   end
-#   end
-
-#   def ResolveShouldNotBeRepeated(card_processing_id, exam_date)
-#     CardProcessing.find(card_processing_id).student_exams.each do |se|
-#       if se.status == 'Repeated student'
-#         if se.student.student_exams.map(&:card_processing).map(&:exam_date).select {|d| d.to_s == exam_date}.size == 1
-#           se.status = 'Valid'
-#           se.save
-#         end
-#       end
-#     end
-#   end
-
-#   def ReprocessCardProcessing(card_processing_id)
-#     CardProcessing.find(card_processing_id).student_exams.each do |se|
-#       if se.status == 'Being processed'
-#         se.scan
-#         se.save
-#       end
-#     end
-#   end
-
-#   def ResolveWrongClass(ra)
-#   s = Student.where(ra: ra).first
-#   se = s.student_exams.select{ |se| se.card_processing.exam_date === Date.new(2013,03,16)}.first
-#   p 'http://elitesim.sistemaeliterio.com.br/student_exams/' + se.id.to_s
-#   p 'Turma: ' + se.exam_execution.exam_cycle.product_year.name
-#   gets.chomp
-#   p 'http://elitesim.sistemaeliterio.com.br/students/' + se.student_id.to_s + '/edit'
-#   gets.chomp
-#   se.exam_answers.destroy_all
-#   se.exam_execution_id = nil
-#   se.set_exam_execution
-#   se.save
-#   ''
-#   end
-
-#   def ResolveWrongCardProcessing(se_id, cp_id)
-#   se = StudentExam.find(se_id)
-#   se.student_id = nil
-#   se.exam_execution_id = nil
-#   se.card_processing_id = cp_id
-#   se.set_student
-#   se.save
-#   se.exam_answers.destroy_all
-#   end  
 end

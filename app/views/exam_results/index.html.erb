@@ -1,7 +1,7 @@
-<%= title 'Exam Results' %>
+<%= title 'Resultados' %>
 
-<%= button_tag 'Back', :id => 'back_button' %>
-<%= button_tag 'Save', :id => 'save_button' %>
+<%= button_tag 'Voltar', :id => 'back_button' %>
+<%= button_tag 'Salvar', :id => 'save_button' %>
 
 <h3 class="label_div">Choose your options:</h3>    
 
@@ -9,28 +9,28 @@
 <%= form_tag '/exam_results' do %>
   <div class="form-inputs">
     <div class='input'>
-      <%= label_tag :date, 'Date' %>
+      <%= label_tag :date, 'Data' %>
       <%= collection_select :exam_result, :date, @possible_dates, :to_s, :to_s %>
     </div>
 
     <div class='input'>
-      <%= label_tag :campus_id, 'Campus' %>
+      <%= label_tag :campus_id, 'Unidade' %>
       <%= collection_select :exam_result, :campus_id, @accessible_campuses, :id, :name %>
     </div>
 
     <div class='input'>
-      <%= label_tag :product_year_id, 'Product Year' %>
+      <%= label_tag :product_year_id, 'Produto' %>
       <%= collection_select :exam_result, :product_year_id, @lists, :first, :first %>
     </div>
   </div>
 
   <div class="form-actions">
-    <%= button_tag :Submit, class: 'btn remote' %>
+    <%= button_tag :OK, class: 'btn remote' %>
   </div>
 <% end %>
 
 <h2 class="klazz_name">Klazz name</h2>
-<h3 class="loading">Loading...</h3>
+<h3 class="loading">Carregando...</h3>
 <div class="table_div">
 
 </div>    
