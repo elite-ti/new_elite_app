@@ -19,12 +19,12 @@
       </thead>
 
       <tbody>
-      <% @student.enrolled_exam_executions.each do |exam_execution| %>
+      <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
         <tr>
-          <td><%= print_date(exam_execution.datetime) %></td>
-          <td><%= exam_execution.exam_cycle.name %></td>
+          <td><%= print_date(datetime) %></td>
+          <td><%= StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).first.try(:exam_execution).try(:exam_cycle).try(:name) || exam_executions.first.exam_cycle.name %></td>
           <td>
-            <% StudentExam.where(exam_execution_id: exam_execution.id, student_id: @student.id).all.each do |student_exam| %>
+            <% StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).all.each do |student_exam| %>
             <%= link_to student_exam.id, student_exam_path(student_exam) %>
             <% end %>
           </td>
