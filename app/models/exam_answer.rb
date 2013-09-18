@@ -7,7 +7,7 @@ class ExamAnswer < ActiveRecord::Base
   belongs_to :student_exam
 
   validates :answer, :exam_question_id, :student_exam_id, presence: true
-  validates :exam_question_id, uniqueness: { scope: :student_exam_id }
+  # validates :exam_question_id, uniqueness: { scope: :student_exam_id }
 
   def need_to_be_checked?
     ANSWERS_TO_BE_CHECKED.include?(answer)
