@@ -14,7 +14,7 @@ namespace :backup do
   end
   
   task card_proc: :environment do
-    Dir.glob("/home/deployer/apps/new_elite_app/shared/uploads/card_processing/file/**/*") do |filename_card_proc|
+    Dir.glob("/home/deployer/apps/new_elite_app/shared/uploads/card_processing/file/**/*.*") do |filename_card_proc|
       dir_name_cp = File.basename(File.dirname(filename_card_proc))
       `s3cmd put #{filename_card_proc} s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/card_processing/file/#{dir_name_cp.to_s}/`
     end
