@@ -2,6 +2,30 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+      task add_exams_21SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 21 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25): DCDCCAADDDBDCBDBCBABDCBBD DABADCBCBDABADDDAACBDBCAC DABCBCAADADABABDACBDAAACD DCDCBCAADCABADDAADCAAACBC',
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): ECEABCEBDE DCDCDDADCA BDBCDADEBB ACADACCAED',
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): BEBBDACDCCEEBAADBBAA DCACAACBCAEBEDEBABAD',
+          'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): BEBBDACDCCEEBAADBBAA DCACAACBCAEBEDEBABAD',
+          'C - IME-ITA, 3ª Série + IME-ITA - POR(15) + ING(25): BDEAADCACBAEBAD CECEAEDBCABCEACBDDACACBDC'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end      
+      task add_exams_20SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 20 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 1 - '
+        exam_name = 'Simulado'
+        array = [
+          'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20): BEBDCDAACEDBBBCEDDDC ACEDDDEBCADEEDADCBDC',
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)        
+      end      
       task add_exams_17SET: :environment do
         p 'Adding exams'
         datetime = 'Sun, 17 Set 2013 14:00:00 BRT -03:00'
