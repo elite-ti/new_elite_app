@@ -13,6 +13,10 @@ class CardProcessingsController < ApplicationController
   end
 
   def new
+    if(params[:exam_execution_id].present?)
+      @specific_exam = true
+      @exam_execution = ExamExecution.find(params[:exam_execution_id])
+    end
     set_campus_select
   end
 

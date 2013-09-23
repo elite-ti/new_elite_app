@@ -128,31 +128,40 @@ class StudentExam < ActiveRecord::Base
   end
 
   def set_exam_execution
-    exam_executions = possible_exam_executions
-    if exam_executions.present? and exam_executions.size == 1
-      self.exam_execution_id = exam_executions.first.id
-      set_exam_answers
-
-    elsif exam_executions.size > 1
-      index = string_of_answers.rindex(/[^Z]/)      
-      if index.present?
-        index = index + 1
-        selected_exam_execution = exam_executions.select do |exam_execution|
-          exam_execution.exam.number_of_questions == index
-        end
-
-        if selected_exam_execution.present? and selected_exam_execution.size == 1
-          self.exam_execution_id = selected_exam_execution.first.id
-          set_exam_answers
-        else
-          self.status = EXAM_NOT_FOUND_STATUS
-        end
+    if card_processing.exam_execution_id.present?
+      if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz)
+        self.exam_execution_id = card_processing.exam_execution_id
+        set_exam_answers
       else
-        self.status = ERROR_STATUS
+        self.status = EXAM_NOT_FOUND_STATUS
       end
-      
     else
-      self.status = EXAM_NOT_FOUND_STATUS
+      exam_executions = possible_exam_executions
+      if exam_executions.present? and exam_executions.size == 1
+        self.exam_execution_id = exam_executions.first.id
+        set_exam_answers
+
+      elsif exam_executions.size > 1
+        index = string_of_answers.rindex(/[^Z]/)      
+        if index.present?
+          index = index + 1
+          selected_exam_execution = exam_executions.select do |exam_execution|
+            exam_execution.exam.number_of_questions == index
+          end
+
+          if selected_exam_execution.present? and selected_exam_execution.size == 1
+            self.exam_execution_id = selected_exam_execution.first.id
+            set_exam_answers
+          else
+            self.status = EXAM_NOT_FOUND_STATUS
+          end
+        else
+          self.status = ERROR_STATUS
+        end
+        
+      else
+        self.status = EXAM_NOT_FOUND_STATUS
+      end
     end
   end 
 

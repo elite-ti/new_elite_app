@@ -12,4 +12,8 @@ class ExamExecution < ActiveRecord::Base
   def name
     exam_cycle.name + ' - ' + super_klazz.name + ' - ' + exam.exam_questions.size.to_s + ' questions'
   end
+
+  def full_name
+    super_klazz.campus.name + ' - ' + datetime.strftime('%d/%m') + ' - ' + exam_cycle.name
+  end
 end 

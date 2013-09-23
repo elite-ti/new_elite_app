@@ -1,0 +1,8 @@
+<%= title 'Calendário' %>
+
+<% @dates.each do |date| %>
+  <h2><%= date.strftime('%d/%m/%y')%></h2>
+  <% @exam_executions.select{|ee| ee.datetime.to_date == date}.sort!.each do |exam_execution| %>
+  <div><%= link_to( exam_execution.full_name, new_card_processing_path(exam_execution_id: exam_execution.id) )%></div>
+  <% end %>
+<% end %>

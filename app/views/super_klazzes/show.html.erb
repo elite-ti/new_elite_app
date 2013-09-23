@@ -1,0 +1,45 @@
+<%= title @super_klazz.name, 
+  (link_to('Edit', edit_super_klazz_path(@super_klazz)) if can?(:update, @klazz)),
+  link_to('Back', klazzes_path) %>
+
+<div class='tabs'>
+  <ul>
+    <li><a href='#info_tab'>Info</a></li>
+    <li><a href='#students_tab'>Students</a></li>
+  </ul>
+
+  <div id='info_tab' class='resource'>
+    <p><span>Super Klazz: </span><%= @super_klazz.name %></p>
+  </div>
+
+    <div id='students_tab'>
+      <table id="students" class="display is-datatable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Ra</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @super_klazz.enrolled_students.each do |student| %>
+          <tr>
+            <td>
+              <%= student.name %>
+              <% if current_employee.admin? %>
+                <span style='float: right;'>
+                  <%= link_to 'Show', student_path(student) %> |
+                  <%= link_to 'Edit', edit_student_path(student) %> |
+                  <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
+                </span>
+              <% end %>
+            </td>
+            <td><%= student.ra %></td>
+            <td><%= student.email %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+</div>
