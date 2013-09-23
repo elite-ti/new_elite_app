@@ -14,7 +14,12 @@ class ExamResultsController < ApplicationController
           ['1ª Série Militar', ['1ª Série Militar']],
           ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
           ['9º Ano Forte', ['9º Ano Forte']],
-          ['IME-ITA', ['IME-ITA']]
+          ['IME-ITA', ['IME-ITA']],
+          ['6º Ano', ['6º Ano']],
+          ['7º Ano', ['7º Ano']],
+          ['8º Ano', ['8º Ano']],
+          ['1ª Série ENEM', ['1ª Série ENEM']],
+          ['2ª Série ENEM', ['2ª Série ENEM']]
         ]
         all_campuses = Campus.new
         all_campuses.id = 0
@@ -45,6 +50,11 @@ private
       ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
       ['9º Ano Forte', ['9º Ano Forte']],
       ['IME-ITA', ['IME-ITA']]
+      ['6º Ano', ['6º Ano']],
+      ['7º Ano', ['7º Ano']],
+      ['8º Ano', ['8º Ano']],
+      ['1ª Série ENEM', ['1ª Série ENEM']],
+      ['2ª Série ENEM', ['2ª Série ENEM']]      
     ]
     
     product_year_ids = @lists.select{|p| p[0] == product_year_id}.first[1].map{|product_year_name| ProductYear.find_by_name(product_year_name + ' - 2013')}.map(&:id)
