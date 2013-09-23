@@ -8,7 +8,7 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 6º Ano - All - MAT(10): AAAAAAAAAA AAAAAAAAAA - Manhã'
+          'C - 6º Ano - All - MAT(10): AAAAAAAAAA - Manhã'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
       end
@@ -18,8 +18,8 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          'C - 9º Ano Militar - MAT(20): AAAAAAAAAAAAAAAAAAAA',
-          'C - 1ª Série Militar - MAT(20): AAAAAAAAAAAAAAAAAAAA'
+          'C - 9º Ano Militar - All - MAT(20): AAAAAAAAAAAAAAAAAAAA',
+          'C - 1ª Série Militar - All - MAT(20): AAAAAAAAAAAAAAAAAAAA'
         ]
         create_exams(array, datetime, cycle_name, exam_name)        
       end
