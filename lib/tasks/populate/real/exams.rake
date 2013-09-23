@@ -8,11 +8,11 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 8º ano - All - MAT(10): CAEBDAECCB - Tarde',
-          'C - 8º ano - All - MAT(10): EADAEDADAA - Manhã',
-          'C - 7º ano - All - MAT(10): ACDABACAEB - Tarde',
-          'C - 7º ano - All - MAT(10): ADABACBBAC - Manhã',
-          'C - 6º ano - All - MAT(10): CCAACEDEDC - Tarde',
+          'C - 8º Ano - All - MAT(10): CAEBDAECCB - Tarde',
+          'C - 8º Ano - All - MAT(10): EADAEDADAA - Manhã',
+          'C - 7º Ano - All - MAT(10): ACDABACAEB - Tarde',
+          'C - 7º Ano - All - MAT(10): ADABACBBAC - Manhã',
+          'C - 6º Ano - All - MAT(10): CCAACEDEDC - Tarde',
           'C - 1ª Série ENEM - All - BIO(10) + LIT(10): BEDBDAAEAE DDECAAEADE - Manhã',
           'C - 1ª Série ENEM - All - BIO(10) + LIT(10): BDDEDBACAE AEADEDECDA - Tarde',
           'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BAABCACDBE CCBACDCABA - Manhã',
