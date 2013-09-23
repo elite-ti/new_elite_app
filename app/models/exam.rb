@@ -10,6 +10,7 @@ class Exam < ActiveRecord::Base
   validate :correct_answers_range, on: :create
 
   after_create :create_questions
+  before_save :update_questions
 
   def number_of_questions
     exam_questions.count
@@ -37,6 +38,14 @@ private
       unless possible_letters.include?(answer) 
         errors.add(:correct_answers, 'invalid answer: ' + answer)
       end
+    end
+  end
+
+  def update_questions
+    self.correct_answers.split('').each_with_index do |correct_letter, i|
+      question_options = self.exam_questions.where(number: i+1).first.question.options
+      question_options.each {|o| o.update_column(:correct, false)}
+      question_options.select{|o| o.letter == correct_letter}.first.update_column(:correct, true)
     end
   end
 

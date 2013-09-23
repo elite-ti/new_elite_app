@@ -5,16 +5,16 @@ class ExamResultsController < ApplicationController
     respond_to do |format|
       format.html do 
         @lists = [
-          ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
-          ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
-          ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
-          ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
-          ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
-          ['2ª Série Militar', ['2ª Série Militar']],
-          ['1ª Série Militar', ['1ª Série Militar']],
-          ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
-          ['9º Ano Forte', ['9º Ano Forte']],
-          ['IME-ITA', ['IME-ITA']],
+          # ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
+          # ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
+          # ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
+          # ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
+          # ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
+          # ['2ª Série Militar', ['2ª Série Militar']],
+          # ['1ª Série Militar', ['1ª Série Militar']],
+          # ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
+          # ['9º Ano Forte', ['9º Ano Forte']],
+          # ['IME-ITA', ['IME-ITA']],
           ['6º Ano', ['6º Ano']],
           ['7º Ano', ['7º Ano']],
           ['8º Ano', ['8º Ano']],
@@ -24,8 +24,9 @@ class ExamResultsController < ApplicationController
         all_campuses = Campus.new
         all_campuses.id = 0
         all_campuses.name = 'Sistema Elite de Ensino'
-        @accessible_campuses = [all_campuses]
+        @accessible_campuses = []
         @accessible_campuses += Campus.accessible_by(current_ability) 
+        @accessible_campuses += [all_campuses]
         @possible_dates = @accessible_campuses.map(&:super_klazzes).flatten.map(&:exam_executions).flatten.map(&:datetime).map(&:to_date).uniq.sort!
       end
       format.json do
@@ -40,16 +41,16 @@ private
   def exam_results_hash(campus_id, product_year_id, date)
     p 'INSIDE FUNCTION exam_results_hash'
     @lists = [
-      ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
-      ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
-      ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
-      ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
-      ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
-      ['2ª Série Militar', ['2ª Série Militar']],
-      ['1ª Série Militar', ['1ª Série Militar']],
-      ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
-      ['9º Ano Forte', ['9º Ano Forte']],
-      ['IME-ITA', ['IME-ITA']]
+      # ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
+      # ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
+      # ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
+      # ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
+      # ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
+      # ['2ª Série Militar', ['2ª Série Militar']],
+      # ['1ª Série Militar', ['1ª Série Militar']],
+      # ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
+      # ['9º Ano Forte', ['9º Ano Forte']],
+      # ['IME-ITA', ['IME-ITA']],
       ['6º Ano', ['6º Ano']],
       ['7º Ano', ['7º Ano']],
       ['8º Ano', ['8º Ano']],
@@ -76,8 +77,8 @@ private
     arr = student_exams.map do |student_exam|
       {
         'RA' => ("%07d" % student_exam.student.ra), 
-        'NAME' => student_exam.student.name.upcase, 
-        'CAMPUS' => student_exam.campus.name.upcase,
+        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
+        'CAMPUS' => student_exam.campus.name,
         'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
       }.merge(
           subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
