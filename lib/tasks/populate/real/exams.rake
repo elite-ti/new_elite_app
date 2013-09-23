@@ -6,9 +6,9 @@ namespace :db do
         p 'Adding exams'
         datetime = 'Sun, 23 Set 2013 14:00:00 BRT -03:00'
         cycle_name = 'P6 - '
-        exam_name = 'Simulado'
+        exam_name = 'Prova'
         array = [
-          'C - 1ª Série ENEM - All - MAT(10) + FIS(10): AAAAAAAAAA AAAAAAAAAA - Manhã'
+          'C - 6º Ano - All - MAT(10): AAAAAAAAAA AAAAAAAAAA - Manhã'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
       end
