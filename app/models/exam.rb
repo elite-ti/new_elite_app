@@ -42,6 +42,7 @@ private
   end
 
   def update_questions
+    return if exam_questions.size == 0
     self.correct_answers.split('').each_with_index do |correct_letter, i|
       question_options = self.exam_questions.where(number: i+1).first.question.options
       question_options.each {|o| o.update_column(:correct, false)}
