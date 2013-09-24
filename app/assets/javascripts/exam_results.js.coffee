@@ -113,6 +113,7 @@ jQuery ->
         type = "Number" 
         type = "String" if j == 1 || j == 2
         text = $.map($("#exam_results").contents().last().contents().eq(i).contents(), jQuery.text)[j]
+        text = $.map($("#exam_results").contents().last().contents().eq(i).contents(), jQuery.text)[j].substring(0, $.map($("#exam_results").contents().last().contents().eq(i).contents(), jQuery.text)[j].length - 5) if j == 1
         text = text.toUpperCase();
         result += "<Cell ss:StyleID=\"xlBody\"><Data ss:Type=\"" + type + "\">" + text + "</Data></Cell>"
         j++

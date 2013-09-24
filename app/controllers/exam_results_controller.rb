@@ -27,7 +27,8 @@ class ExamResultsController < ApplicationController
         @accessible_campuses = []
         @accessible_campuses += Campus.accessible_by(current_ability) 
         @accessible_campuses += [all_campuses]
-        @possible_dates = @accessible_campuses.map(&:super_klazzes).flatten.map(&:exam_executions).flatten.map(&:datetime).map(&:to_date).uniq.sort!
+        @possible_dates = @lists.map{|list| list[1]}.flatten.map{|super_klazz| ProductYear.find_by_name(super_klazz + ' - 2013')}.map{|product_year| product_year.super_klazzes.select{|super_klazz| @accessible_campuses.include?(super_klazz.campus)}}.flatten.map(&:exam_executions).flatten.map(&:datetime).map(&:to_date).uniq.sort!
+        # @possible_dates = @accessible_campuses.map(&:super_klazzes).flatten.map(&:exam_executions).flatten.map(&:datetime).map(&:to_date).uniq.sort!
       end
       format.json do
         exam_result = params[:exam_result]
