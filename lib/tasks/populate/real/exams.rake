@@ -14,17 +14,14 @@ namespace :db do
           'C - 7° Ano - All - POR(10): AECEBEBEBC - Tarde',
           'C - 8° Ano - All - POR(10): DBBAEDCCBE - Manhã',
           'C - 8° Ano - All - POR(10): BDAEBCDEBC - Tarde',
-          'C - 1ª série - All - GEO(10): BDEDCCEABD - Manhã',
-          'C - 1ª série - All - GEO(10): BEEABDAABD - Tarde',
-          'C - 1ª série - All - POR(10): AADBCDAEBE - Manhã',
-          'C - 1ª série - All - POR(10): BCDAEBEAAD - Tarde',
-          'C - 2ª série - All - GEO(10): CECEBECADE - Manhã',
-          'C - 2ª série - All - GEO(10): DBBACEADCE - Tarde',
-          'C - 2ª série - All - POR(10): EBCCDABECD - Manhã',
-          'C - 2ª série - All - POR(10): CEBCBDDACE - Tarde'
+          'C - 1ª Série ENEM - All - POR(10) + GEO(10): AADBCDAEBE BDEDCCEABD - Manhã',
+          'C - 1ª Série ENEM - All - POR(10) + GEO(10): BCDAEBEAAD BEEABDAABD - Tarde',
+          'C - 2ª Série ENEM - All - POR(10) + GEO(10): EBCCDABECD CECEBECADE - Manhã',
+          'C - 2ª Série ENEM - All - POR(10) + GEO(10): CEBCBDDACE DBBACEADCE - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
-        end
+      end
+      task add_exams_23SET_2: :environment do
         p 'Adding exams'
         datetime = 'Sun, 23 Set 2013 14:00:00 BRT -03:00'
         cycle_name = 'P6 - '
@@ -70,7 +67,7 @@ namespace :db do
         exam_name = 'Simulado'
         array = [
           'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25): DCDCCAADDDBDCBDBCBABDCBBD DABADCBCBDABADDDAACBDBCAC DABCBCAADADABABDACBDAAACD DCDCBCAADCABADDAADCAAACBC',
-          'C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): ECEABCEBDE DCDCDDADCA BDBCDADEBB ACADACCAED',
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): ECEABCEBDE DCDCDDADCA BDBCDADEBB ACADACCAED',
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): BEBBDACDCCEEBAADBBAA DCACAACBCAEBEDEBABAD',
           'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): BEBBDACDCCEEBAADBBAA DCACAACBCAEBEDEBABAD',
           'C - IME-ITA, 3ª Série + IME-ITA - POR(15) + ING(25): BDEAADCACBAEBAD CECEAEDBCABCEACBDDACACBDC'
@@ -152,7 +149,7 @@ namespace :db do
         cycle_name = '3º Bimestre - '
         exam_name = 'P5'
         array = [
-          "C - 9º Ano FORte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): DADCDDEDAC ACBCCADACA AEDBDCBDAD CCDABACCAA"
+          "C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): DADCDDEDAC ACBCCADACA AEDBDCBDAD CCDABACCAA"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -196,7 +193,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          "C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10): CACDCEEABC ABCEDEACDE DADBBAAECE",
+          "C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): CACDCEEABC ABCEDEACDE DADBBAAECE",
           "C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10): BDBECBCACD BACEDACCCB CEBBECADBA",
           "C - IME-ITA, 3ª Série + IME-ITA - All - MAT(15) + FIS(15) + QUI(10): EDBCDBAECDDAEBD CDEABEADBCECDBA CBDCAEDAEE",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DCCDBCCCEEECEBDADDBE AACEEACCEDCB ABCBDCEAEACB BAECCCBDDDEA",
@@ -282,7 +279,7 @@ namespace :db do
           "C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): EABBCDECEAECACEA CBBDBBCCDAABCCEA CCADDBBACCDBCDDD",
           "C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): EABBCDECEAECACEA CBBDBBCCDAABCCEA BACCDBCDDDCEBACA",
           "C - IME-ITA, 3ª Série + IME-ITA - All - MAT(20): CBDCCEEBBBCBDDCDCBDC",
-          "C - 9º Ano FORte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): AADBCDEDDB DECBACCDDC CADBCCDAAB AABCCAACAA EBABCECBBD EDECDDACCB CEDACEBCBD DBCBAAEDCB",
+          "C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): AADBCDEDDB DECBACCDDC CADBCCDAAB AABCCAACAA EBABCECBBD EDECDDACCB CEDACEBCBD DBCBAAEDCB",
           "U - 1ª Série Militar - Madureira III - POR(16) + MAT(16) + ING(16): CEDCAEBEACBAEBCB DECAECDEACDCADAE ABCBACABADBABCBA",
           "U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(16) + MAT(16) + ING(16): AECAABCADDBBCBDB DDCACAEEBCCDDEAB DCDDCCAAABBCDBDE"
         ]
@@ -389,7 +386,7 @@ namespace :db do
           'C - AFA/EAAr/EFOMM - All - POR(25) + ING(25) + MAT(25) + FIS(25): DCEDABBECABDCAABDBACEECDB BABAEAABBCDEDECBDAEAAACDB CBCDCCCADBBBCDDBBDDBCBBAA BCBECCAAADDBACAABBDAEDDEB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DADEDDCCDAEACBBCEEAD BCCEDDEADBDA DBDECCCADECB ABEDADCDDBAA',
           'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(15) + QUI(15) + FIS(15): CBCEEDDDEACBAEAEDE ACDCACBADECCDBACEBBBCA EDB BC ADEBCDAADDCDDCB DCEABDCCCBECBDE EEEDECCBCEBCDAB',
-          'C - 9º Ano FORte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): CDADBDCDEC DBCCCDBBCB CEEBAEACBB CECDABDEEA',
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): CDADBDCDEC DBCCCDBBCB CEEBAEACBB CECDABDEEA',
           'C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB BADDCBDCCBDAAACB',
           'C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB DCCCCDABBBAADCCA',
           'C - 2ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): CCBCEEAB ECDACBCC BAAEDDEE DDADAEEB CDDECDDE DDEABACA DBCDDAAC BDEDAABA',
@@ -421,7 +418,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P14'
         array = [
-          'C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): DBDBADCCAB CEDDCEEDEB CBDBDBCDBD DCCACBCCAD',
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10): DBDBADCCAB CEDDCEEDEB CBDBDBCDBD DCCACBCCAD',
           'C - AFA/EAAr/EFOMM - All - MAT(25) + POR(25) + FIS(25) + ING(25): ADDAABDADDBBBCBCCDAACBADA DCDACCDABDCAAADCABBBDBCDD BBACDEDBDEBDABBEABBBBCBEB ABADBAADCCDCBCBADDABACDAA',
           'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): CEADBEDBEDBDACDCBBEB BCCEAEDBCEAC DDBEBDDAAABB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ECECABDCCCDBDABCCBAA BCCEAEDBCEAC DDBEBDDAAABB',
@@ -446,7 +443,7 @@ namespace :db do
           'U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACBCACDEDEAEBDEBDEAD EABDCA DDADBC DADDAA DCBAEC DDCCAD',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACBCACDEDEAEBDEBDEAD AEABDC DDADBC DADDAA AEECDB DDCCAD',
           'U - 2ª Série Militar - Madureira I - MAT(10) + FIS(10) + POR(10) + ING(10): DACDECCCBA DCDCADACDC CEABCDAECD BCDECEABEB',
-          'U - 2ª Série Militar - NORteShopping - MAT(10) + FIS(10) + POR(10) + ING(10): CAAADCCECB CDDADCCCAD ADBACDCECE BDCEEBCABE'
+          'U - 2ª Série Militar - NorteShopping - MAT(10) + FIS(10) + POR(10) + ING(10): CAAADCCECB CDDADCCCAD ADBACDCECE BDCEEBCABE'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end            
@@ -466,7 +463,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P11'
         array = [
-          'C - 9º Ano FORte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAEACCBDBD DABEBEECDE CCCBDBDCDB CBDBADDEBB',
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAEACCBDBD DABEBEECDE CCCBDBDCDB CBDBADDEBB',
           'C - 1ª Série Militar - All - MAT(20): EEACEDDDECBCADCBADBA',
           'C - CN/EPCAR, 9º Ano Militar - All - MAT(20): EEACDDDDECBCADCBDEBB',
           'C - AFA/EAAr/EFOMM - All - MAT(20) + FIS(20): ABCCDAAECBBCCACCBDCA DDCDCCBCBADDCDABAECE',
@@ -513,8 +510,8 @@ namespace :db do
           'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6) + : CECDAADBDCDB BEABBCBADECD CBACDA AACCEE',
           'C - 1ª Série Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): DAEBAEBBDBDDBADDABBC EBADAA BDBEAB EEABAC ABDECA CDAACE',
           'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): DAEBAEBBDBDDBADDABBC EBADAA BDBEAB EEABAC ADEBCB CDAACE',
-          'C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBDECD AEEACBABDB',
-          'U - 9º Ano FORte - NORteShopping - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBBDECD AEEACBABDB',
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBDECD AEEACBABDB',
+          'U - 9º Ano Forte - NorteShopping - QUI(10) + FIS(10) + HIS(10): DDCADCCBBB DEDEBBDECD AEEACBABDB',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BDBDDBADDABBDAEBAEBC AADAEB EABBDB BACEEA BCBADE ACECDA',
           'U - 1ª Série Militar - Madureira I - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): BDBDDBADDABBCDAEBAEB DAAEBA EABBDB BACEEA ECAABD ACECDA',
         ]
@@ -537,7 +534,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P8'
         array = [
-          'C - 9º Ano FORte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): CDACACDBCD ABCCCDDBCD EABDADCBCD DDECBAAAAE ADCADEDBCA AEDBABCCDD EADDCCEEAD ACDCEBADAC',
+          'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): CDACACDBCD ABCCCDDBCD EABDADCBCD DDECBAAAAE ADCADEDBCA AEDBABCCDD EADDCCEEAD ACDCEBADAC',
           'C - AFA/EAAr/EFOMM, IME-ITA, 3ª Série + IME-ITA, ESPCEX, 3ª Série + ESPCEX, AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - MAT(10) + POR(10): DDECDCEEED CACDBCDACB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)        
@@ -576,7 +573,7 @@ namespace :db do
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
           'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CECDEEDACBCDABCACBCE CCDAAABDACEDEECDACAA',
           'C - IME-ITA, 3ª Série + IME-ITA - All - QUI(20): CBBBAEADAECDACCAADDC',
-          'C - 9º Ano FORte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAAEBDAAAB CCBCEEBCCD EBDEDEDBBB AACCEDCEDD'
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): BAAEBDAAAB CCBCEEBCCD EBDEDEDBBB AACCEDCEDD'
         ]
         create_exams(array, datetime, cycle_name, exam_name)        
       end      
@@ -604,7 +601,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P6'
         array = [
-          'C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10) + ING(10):  DEADEEBCBD ECCDCABCDB EEBCCBBACB BACDBDBEDB'
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10) + ING(10):  DEADEEBCBD ECCDCABCDB EEBCCBBACB BACDBDBEDB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end      
@@ -654,7 +651,7 @@ namespace :db do
         exam_name = 'P3'
         array = [
           'C - CN/EPCAR, 9º Ano Militar - All - MAT(20): DDDDEEADEEBDACEBBCCC', 
-          'C - 9º Ano FORte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC',
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC',
           'C - 1ª Série Militar - All - MAT(20): DDDDEEADEEBDACEBBCCC', 
           'C - 2ª Série Militar - All - QUI(10) + HIS(10) + BIO(10): BCABECDBAA DBBEEEEBCB ADAEABACEB',
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20) + POR(20) + ING(20): BECCBDECDAACBBCDCBBD DEAEBCADADEACBADBEEB CBABBBCCADCBADACACAA CBCCCDDABCDEDECBDAEC', 
@@ -665,7 +662,7 @@ namespace :db do
           'U - 1ª Série Militar - Madureira III - MAT(20): BDACEBBCCCDDDDEEADEE',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - MAT(20): BDACEBBCCCDDDDEEADEE',
           'U - 2ª Série Militar - Madureira I - QUI(10) + HIS(10) + BIO(10): ECDBAABCAB EEEBCBDBBE BACEBADAEA',
-          'U - 9º Ano FORte - São Gonçalo II - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC'
+          'U - 9º Ano Forte - São Gonçalo II - POR(10) + BIO(10) + MAT(10) + GEO(10): EDCDCDDDCB ECDABBDEAD BBAEDABEAD CCBAACABDC'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -687,7 +684,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P2'
         array = [
-          'C - 9º Ano FORte - All - QUI(10) + FIS(10) + HIS(10): BCBABEBBBD BDDEEDDBAB BAADBDACBB']
+          'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10): BCBABEBBBD BDDEEDDBAB BAADBDACBB']
         create_exams(array, datetime, cycle_name, exam_name)
       end
 
@@ -709,19 +706,19 @@ namespace :db do
       end
 
       def create_exams(array, datetime, cycle_name, exam_name)
-        ActiveRecORd::Base.transaction do 
+        ActiveRecord::Base.transaction do 
           array.each do |line|
             action, product_names, campus_names, exam_attributes = line.split(' - ')
             product_names = product_names.gsub(/ \(\S*\)/, '')
             p product_names
             product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
             campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
-            subjects, cORrect_answers = exam_attributes.split(': ')
+            subjects, correct_answers = exam_attributes.split(': ')
             subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
-            cORrect_answers = cORrect_answers.gsub(' ', '')
+            correct_answers = correct_answers.gsub(' ', '')
             exam = Exam.create!(
               name: cycle_name + exam_name, 
-              cORrect_answers: cORrect_answers, 
+              correct_answers: correct_answers, 
               options_per_question: 5)
 
             starting_at = 1
@@ -736,7 +733,7 @@ namespace :db do
 
               subject_topic = 
                 Topic.where(name: subject.name, subject_id: subject.id).
-                first_OR_create!(subtopics: 'All')
+                first_or_create!(subtopics: 'All')
 
               subject_question_ids.each do |subject_question_id|
                 QuestionTopic.create!(
@@ -748,7 +745,7 @@ namespace :db do
 
             product_years.each do |product_year|
               exam_cycle = ExamCycle.where(
-                name: cycle_name + product_year.name).first_OR_create!(
+                name: cycle_name + product_year.name).first_or_create!(
                 is_bolsao: false, product_year_id: product_year.id)
 
               campuses.each do |campus|
@@ -772,20 +769,20 @@ namespace :db do
       end
 
       def create_exams_school(array, datetime, cycle_name, exam_name)
-        ActiveRecORd::Base.transaction do 
+        ActiveRecord::Base.transaction do 
           array.each do |line|
             action, product_names, campus_names, exam_attributes, shift = line.split(' - ')
             product_names = product_names.gsub(/ \(\S*\)/, '')
             p product_names
             product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
             campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
-            subjects, cORrect_answers = exam_attributes.split(': ')
+            subjects, correct_answers = exam_attributes.split(': ')
             p subjects
             subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
-            cORrect_answers = cORrect_answers.gsub(' ', '')
+            correct_answers = correct_answers.gsub(' ', '')
             exam = Exam.create!(
               name: cycle_name + exam_name, 
-              cORrect_answers: cORrect_answers, 
+              correct_answers: correct_answers, 
               options_per_question: 5)
 
             starting_at = 1
@@ -800,7 +797,7 @@ namespace :db do
 
               subject_topic = 
                 Topic.where(name: subject.name, subject_id: subject.id).
-                first_OR_create!(subtopics: 'All')
+                first_or_create!(subtopics: 'All')
 
               subject_question_ids.each do |subject_question_id|
                 QuestionTopic.create!(
@@ -812,7 +809,7 @@ namespace :db do
 
             product_years.each do |product_year|
               exam_cycle = ExamCycle.where(
-                name: cycle_name + product_year.product.name + " (#{shift}) - #{subjects}").first_OR_create!(
+                name: cycle_name + product_year.product.name + " (#{shift}) - #{subjects}").first_or_create!(
                 is_bolsao: false, product_year_id: product_year.id)
 
               campuses.each do |campus|
