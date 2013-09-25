@@ -6,10 +6,6 @@
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :ra %>
-    <% if @student.ra > 2000000 %>
-      <p>This student is temporary!</p>
-    <% end %>
-
 
     <h2>Contact</h2>
     <%= f.input :telephone, as: :telephone %>

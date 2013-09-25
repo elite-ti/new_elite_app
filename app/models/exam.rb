@@ -46,7 +46,11 @@ private
     self.correct_answers.split('').each_with_index do |correct_letter, i|
       question_options = self.exam_questions.where(number: i+1).first.question.options
       question_options.each {|o| o.update_column(:correct, false)}
-      question_options.select{|o| o.letter == correct_letter}.first.update_column(:correct, true)
+      if correct_letter == 'X'
+        question_options.each{|option| option.update_column(:correct, true)}
+      else
+        question_options.select{|o| o.letter == correct_letter}.first.update_column(:correct, true)
+      end
     end
   end
 

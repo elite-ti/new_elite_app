@@ -59,7 +59,7 @@
       <p>
         <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
         <strong>Student: </strong><%= @student_exam.student.name %><br />
-        <strong>Exam Execution: </strong><%= @student_exam.card_processing.exam_execution.full_name %><br />
+        <strong>Exam Execution: </strong><%= @student_exam.card_processing.exam_execution.try(&:full_name) || 'Non-fixed' %><br />
       </p>
 
       <%= simple_form_for(@student_exam) do |f| %>

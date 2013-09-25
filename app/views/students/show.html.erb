@@ -19,16 +19,18 @@
       </thead>
 
       <tbody>
-      <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
-        <tr>
-          <td><%= print_date(datetime) %></td>
-          <td><%= StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).first.try(:exam_execution).try(:exam_cycle).try(:name) || exam_executions.first.exam_cycle.name %></td>
-          <td>
-            <% StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).all.each do |student_exam| %>
-            <%= link_to student_exam.id, student_exam_path(student_exam) %>
-            <% end %>
-          </td>
-        </tr>
+      <% @student.enrolled_exam_executions.size > 0 %>
+        <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
+          <tr>
+            <td><%= print_date(datetime) %></td>
+            <td><%= StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).first.try(:exam_execution).try(:exam_cycle).try(:name) || exam_executions.first.exam_cycle.name %></td>
+            <td>
+              <% StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).all.each do |student_exam| %>
+              <%= link_to student_exam.id, student_exam_path(student_exam) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
       <% @student.student_exams.select{|se| !@student.enrolled_exam_executions.include?(se.exam_execution)}.each do |student_exam| %>
         <tr>
