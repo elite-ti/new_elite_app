@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_25SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 25 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'P6 - '
+        exam_name = 'Prova'
+        array = [
+          'C - 1ª Série ENEM - All - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA - Manhã',
+          'U - 1ª Série ENEM - São Gonçalo II - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA - Manhã',
+          'C - 1ª Série ENEM - All - FIS(10) + ING(10): EDCECDDEDA DAADEEBCCA - Tarde',
+          'C - 2ª Série ENEM - All - FIS(10) + ING(10): AEEEAADCDD BDDCDDBDAE - Manhã',
+          'C - 2ª Série ENEM - All - FIS(10) + ING(10): ACAEBBEBEE DCCDDDCEBA - Tarde',
+          'C - 6º Ano - All - CIE(10): DABCEECCAA - Manhã',
+          'U - 6º Ano - Bangu - CIE(10): DABCEECCAA - Manhã',
+          'C - 6º Ano - All - CIE(10): DCBCEEACAA - Tarde',
+          'C - 7º Ano - All - CIE(10): EDACDEADAA - Manhã',
+          'C - 7º Ano - All - CIE(10): EDACADADAA - Tarde',
+          'C - 8º Ano - All - CIE(10): CAACEDBCBA - Manhã',
+          'C - 8º Ano - All - CIE(10): CBBCBCAECA - Tarde'
+        ]
+        create_exams_school(array, datetime, cycle_name, exam_name)
+      end
       task add_exams_24SET: :environment do
         p 'Adding exams'
         datetime = 'Sun, 24 Set 2013 14:00:00 BRT -03:00'
