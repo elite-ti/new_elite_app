@@ -19,7 +19,7 @@
       </thead>
 
       <tbody>
-      <% @student.enrolled_exam_executions.size > 0 %>
+      <% if @student.enrolled_exam_executions.size > 0 %>
         <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
           <tr>
             <td><%= print_date(datetime) %></td>
