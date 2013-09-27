@@ -8,11 +8,11 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-        'C - 1ª Série ENEM - All - HIS(10) + QUÍ(10): ABCBBADCAC DCDCEAEDBE - Tarde',
-        'C - 2ª Série ENEM - All - HIS(10) + QUÍ(10): BCEDBCDAAC BACABECDCE - Tarde',
-        'C - 6º Ano - All - GEO(10): AEDABDCAAB - Tarde',
-        'C - 7º Ano - All - GEO(10): DCACBBAACB - Tarde',
-        'C - 8º Ano - All - GEO(10): AEEEBBDAAD - Tarde' 
+          'C - 1ª Série ENEM - All - HIS(10) + QUI(10): ABCBBADCAC DCDCEAEDBE - Tarde',
+          'C - 2ª Série ENEM - All - HIS(10) + QUI(10): BCEDBCDAAC BACABECDCE - Tarde',
+          'C - 6º Ano - All - GEO(10): AEDABDCAAB - Tarde',
+          'C - 7º Ano - All - GEO(10): DCACBBAACB - Tarde',
+          'C - 8º Ano - All - GEO(10): AEEEBBDAAD - Tarde' 
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -22,11 +22,11 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-        'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCCCBEBECE EBEBABCACA - Manhã',
-        'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CEDDBACAEC DBCECCAEDD - Manhã',
-        'C - 6º Ano - All - GEO(10): CDABABCEEB - Manhã',
-        'C - 7º Ano - All - GEO(10): BDABDBECAB - Manhã',
-        'C - 8º Ano - All - GEO(10): DAEDAAAABE - Manhã'
+          'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCCCBEBECE EBEBABCACA - Manhã',
+          'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CEDDBACAEC DBCECCAEDD - Manhã',
+          'C - 6º Ano - All - GEO(10): CDABABCEEB - Manhã',
+          'C - 7º Ano - All - GEO(10): BDABDBECAB - Manhã',
+          'C - 8º Ano - All - GEO(10): DAEDAAAABE - Manhã'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
         end
