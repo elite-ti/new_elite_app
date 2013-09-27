@@ -836,6 +836,7 @@ namespace :db do
         end 
       end
 
+
       def create_exams_school(array, datetime, cycle_name, exam_name)
         ActiveRecord::Base.transaction do 
           array.each do |line|
