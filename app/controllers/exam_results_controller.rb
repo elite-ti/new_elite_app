@@ -67,25 +67,26 @@ private
     date = Date.parse(date)
 
     date_interval = (date.beginning_of_day)..(date.end_of_day)
-    exam_executions = ExamExecution.where(datetime: date_interval, super_klazz_id: super_klazzes_ids)
-    student_exams = StudentExam.where(exam_execution_id: exam_executions.map(&:id)).includes(:student, {:card_processing => :campus}, {:exam_answers => {:exam_question => {:question => [:options, {:topics => :subject}]}}})
+    all_exam_executions = ExamExecution.where(datetime: date_interval, super_klazz_id: super_klazzes_ids)
+    arr = []
+    all_exam_executions.group_by(&:exam_id).each do |exam_id, exam_executions|
+      student_exams = StudentExam.where(exam_execution_id: exam_executions.map(&:id)).includes(:student, {:card_processing => :campus}, {:exam_answers => {:exam_question => {:question => [:options, {:topics => :subject}]}}})
 
-    return [{'RA' => '', 'NAME' => '', 'GRADE' => ''}] if student_exams.size == 0
-    subjects = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
-    subject_questions = student_exams.first.exam_answers.map(&:exam_question).map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
-    correct_answers = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
+      subjects = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+      subject_questions = student_exams.first.exam_answers.map(&:exam_question).map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
+      correct_answers = student_exams.first.exam_answers.map(&:exam_question).map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
-    arr = student_exams.map do |student_exam|
-      {
-        'RA' => ("%07d" % student_exam.student.ra), 
-        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
-        'CAMPUS' => student_exam.campus.name,
-        'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
-      }.merge(
-          subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
-        ).merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+      arr += student_exams.map do |student_exam|
+        {
+          'RA' => ("%07d" % student_exam.student.ra), 
+          'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
+          'CAMPUS' => student_exam.campus.name,
+          'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
+        }.merge(
+            subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
+          ).merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+      end
     end
-    p arr
     arr
   end  
 end
