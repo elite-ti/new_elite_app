@@ -5,22 +5,26 @@ class ExamResultsController < ApplicationController
     respond_to do |format|
       format.html do 
         @lists = [
-          # ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
-          # ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
-          # ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
-          # ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
-          # ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
-          # ['2ª Série Militar', ['2ª Série Militar']],
-          # ['1ª Série Militar', ['1ª Série Militar']],
-          # ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
-          # ['9º Ano Forte', ['9º Ano Forte']],
-          # ['IME-ITA', ['IME-ITA']],
           ['6º Ano', ['6º Ano']],
           ['7º Ano', ['7º Ano']],
           ['8º Ano', ['8º Ano']],
           ['1ª Série ENEM', ['1ª Série ENEM']],
           ['2ª Série ENEM', ['2ª Série ENEM']]
         ]
+        if current_employee.admin?
+          @lists += [
+            ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
+            ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
+            ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
+            ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
+            ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
+            ['2ª Série Militar', ['2ª Série Militar']],
+            ['1ª Série Militar', ['1ª Série Militar']],
+            ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
+            ['9º Ano Forte', ['9º Ano Forte']],
+            ['IME-ITA', ['IME-ITA']]          
+          ]
+        end
         all_campuses = Campus.new
         all_campuses.id = 0
         all_campuses.name = 'Sistema Elite de Ensino'
@@ -42,16 +46,16 @@ private
   def exam_results_hash(campus_id, product_year_id, date)
     p 'INSIDE FUNCTION exam_results_hash'
     @lists = [
-      # ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
-      # ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
-      # ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
-      # ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
-      # ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
-      # ['2ª Série Militar', ['2ª Série Militar']],
-      # ['1ª Série Militar', ['1ª Série Militar']],
-      # ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
-      # ['9º Ano Forte', ['9º Ano Forte']],
-      # ['IME-ITA', ['IME-ITA']],
+      ['Pré-Vestibular', ['Pré-Vestibular Manhã', '3ª Série + Pré-Vestibular Manhã', 'Pré-Vestibular Biomédicas', '3ª Série + Pré-Vestibular Biomédicas', 'Pré-Vestibular Noite']],
+      ['ESPCEX', ['ESPCEX', '3ª Série + ESPCEX']],
+      ['AFA/EAAr/EFOMM', ['AFA/EAAr/EFOMM']],
+      ['AFA/EN/EFOMM', ['AFA/EN/EFOMM', '3ª Série + AFA/EN/EFOMM']],
+      ['AFA/ESPCEX', ['AFA/ESPCEX', '3ª Série + AFA/ESPCEX']],
+      ['2ª Série Militar', ['2ª Série Militar']],
+      ['1ª Série Militar', ['1ª Série Militar']],
+      ['9º Ano Militar', ['CN/EPCAR', '9º Ano Militar']],
+      ['9º Ano Forte', ['9º Ano Forte']],
+      ['IME-ITA', ['IME-ITA']],
       ['6º Ano', ['6º Ano']],
       ['7º Ano', ['7º Ano']],
       ['8º Ano', ['8º Ano']],
