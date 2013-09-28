@@ -19,8 +19,7 @@ namespace :db do
         exam_name = 'Prova Bimestral'
         array = [
           'C - 2ª Série Militar - All - MAT(8) + POR(8) + ING(8) + FIS(8): ABCDCDAB DBEBDDBB CBABEAEE DAACCDCE',
-          'C - AFA/EFOMM/ESPCEX, 3ª Série + AFA/EFOMM/ESPCEX, ESPCEX, 3ª Série + ESPCEX - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): ACDBCDDB EDACBABB EDEECEEB BBEEEBCD'
-                                                      
+          'C - AFA/EFOMM/ESPCEX, 3ª Série + AFA/EFOMM/ESPCEX, ESPCEX, 3ª Série + ESPCEX - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): ACDBCDDB EDACBABB EDEECEEB BBEEEBCD'                                              
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -30,8 +29,7 @@ namespace :db do
         cycle_name = '3º Bimestre - '
         exam_name = 'Prova Bimestral'
         array = [
-          'C - AFA/EFOMM/ESPCEX, 3 Série + AFA/EFOMM/ESPCEX, ESPCEX ,3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE',
-          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE'
+          'C - AFA/EFOMM/ESPCEX, 3 Série + AFA/EFOMM/ESPCEX, ESPCEX ,3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -54,7 +52,7 @@ namespace :db do
         cycle_name = 'Ciclo 4 - '
         exam_name = 'Simulado'
         array = [
-          'C - AFA/EEAR/EFFOM - All - POR(25) + ING(25) + MAT(25) + FIS(25): BDBDABCDCBDCDBDEAACCBEBED CAEDCDBCEEBECCECDEAECCDBD CADBCACDEACBCBBDBEBADDEBD AECDADDDCDABECDDEADDCDCEC'
+          'C - AFA/EAAr/EFFOM - All - POR(25) + ING(25) + MAT(25) + FIS(25): BDBDABCDCBDCDBDEAACCBEBED CAEDCDBCEEBECCECDEAECCDBD CADBCACDEACBCBBDBEBADDEBD AECDADDDCDABECDDEADDCDCEC'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -74,7 +72,7 @@ namespace :db do
         cycle_name = 'Ciclo 10 - '
         exam_name = 'Simulado'
         array = [
-          'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): BBBBDCBBCECE CECCDAECDBCB DDEECC EECAEB'
+          'C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): BBBBDCBBCECE CECCDAECDBCB DDEECC EECAEB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
