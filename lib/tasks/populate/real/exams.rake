@@ -2,6 +2,103 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_27SET_2: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 27 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Prova Bimestral'
+        array = [
+          'C - 2ª Série Militar - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): CDCABCEC DEACEDBC AAACCBD BDEEADCD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_26SET_3: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 26 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Prova Bimestral'
+        array = [
+          'C - 2ª Série Militar - All - MAT(8) + POR(8) + ING(8) + FIS(8): ABCDCDAB DBEBDDBB CBABEAEE DAACCDCE',
+          'C - AFA/EFOMM/EsPCEx, 3ª Série + EsPCEx  - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): ACDBCDDB EDACBABB EDEECEEB BBEEEBCD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_25SET_2: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 25 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Prova Bimestral'
+        array = [
+          'C - AFA/EFOMM/EsPCEx, 3ª Série + EsPCEx - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_30SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 30 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Prova Bimestral'
+        array = [
+          'C - 1ª Série Militar - All - FIS(8) + GEO(8) + HIS(8) + QUI(8): BCEADBBA BBEABACE BBBEDADC ADEDDCAA',
+          'C - 1ª Série Militar - All - QUI(8): CCAEBDDB',
+          'C - CN, 9º Ano Militar - All - FIS(8) + GEO(8) + HIS(8) + QUI(8): BCEADBBA BBEABACE BBBEDADC ADEDDCAA',
+          'C - CN, 9º Ano Militar - All - QUI(8): CCAEBDDB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_28SET_4: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 28 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 4 - '
+        exam_name = 'Simulado'
+        array = [
+          'C - AFA/EEAR/EFFOM - All - POR(25) + ING(25) + MAT(25) + FIS(25): BDBDABCDCBDCDBDEAACCBEBED CAEDCDBCEEBECCECDEAECCDBD CADBCACDEACBCBBDBEBADDEBD AECDADDDCDABECDDEADDCDCEC'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_28SET_3: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 28 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 6 - '
+        exam_name = 'Simulado'
+        array = [
+          'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(15) + QUI(10) + FIS(15): EDADEAEDDDDBABA BDBACCEDDA BDEACDCDBCEACEA' 
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_28SET_2: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 28 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 10 - '
+        exam_name = 'Simulado'
+        array = [
+          'C - ESSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): BBBBDCBBCECE CECCDAECDBCB DDEECC EECAEB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+         task add_exams_28SET_1: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 28 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'P6 - '
+        exam_name = 'Prova'
+        array = [ 
+          'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): DCBCEEDEEA BACEACBCEB BACDEDAABD BBCBBAAEDE'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_28SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 28 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Prova Bimestral'
+        array = [
+          'C - 2ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): BACEDCCB EACCBEAA DACABCEC AAECBEBE BBCEADEA ECDAECAE DAABBCAC BDEEBDDA',
+          'C - 1ª Série Militar - All - MAT(8) + BIO(8) + ING(8) + POR(8): DDDBACBB BDBEBDBC BCDBCECC DAEBAECA',
+          'C - 9º Ano Militar - All - MAT(8) + BIO(8) + ING(8) + POR(8): DDDBACBB BDBEBDBC BCAEDADE DAEBAECA',
+          'C - 3ª Série IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDBBBAAD BCEADEDB AECDBEBE EEBCBDDA DDEAACDD DBAEACAA DDAEBBDC BBEEEBCD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_27SET: :environment do
         p 'Adding exams'
         datetime = 'Sun, 27 Set 2013 14:00:00 BRT -03:00'
@@ -835,7 +932,6 @@ namespace :db do
           end
         end 
       end
-
 
       def create_exams_school(array, datetime, cycle_name, exam_name)
         ActiveRecord::Base.transaction do 
