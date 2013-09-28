@@ -19,7 +19,8 @@ namespace :db do
         exam_name = 'Prova Bimestral'
         array = [
           'C - 2ª Série Militar - All - MAT(8) + POR(8) + ING(8) + FIS(8): ABCDCDAB DBEBDDBB CBABEAEE DAACCDCE',
-          'C - AFA/EFOMM/EsPCEx, 3ª Série + EsPCEx  - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): ACDBCDDB EDACBABB EDEECEEB BBEEEBCD'
+          'C - AFA/EFOMM/ESPCEX, 3ª Série + AFA/EFOMM/ESPCEX, ESPCEX, 3ª Série + ESPCEX - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): ACDBCDDB EDACBABB EDEECEEB BBEEEBCD'
+                                                      
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -29,7 +30,8 @@ namespace :db do
         cycle_name = '3º Bimestre - '
         exam_name = 'Prova Bimestral'
         array = [
-          'C - AFA/EFOMM/EsPCEx, 3ª Série + EsPCEx - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE'
+          'C - AFA/EFOMM/ESPCEX, 3 Série + AFA/EFOMM/ESPCEX, ESPCEX ,3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE',
+          'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + FIS(8): CDBEECBA CADAECAE BCABBAEE BCBCCDCE'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -41,8 +43,8 @@ namespace :db do
         array = [
           'C - 1ª Série Militar - All - FIS(8) + GEO(8) + HIS(8) + QUI(8): BCEADBBA BBEABACE BBBEDADC ADEDDCAA',
           'C - 1ª Série Militar - All - QUI(8): CCAEBDDB',
-          'C - CN, 9º Ano Militar - All - FIS(8) + GEO(8) + HIS(8) + QUI(8): BCEADBBA BBEABACE BBBEDADC ADEDDCAA',
-          'C - CN, 9º Ano Militar - All - QUI(8): CCAEBDDB'
+          'C - CN/EPCAR, 9º Ano Militar - All - FIS(8) + GEO(8) + HIS(8) + QUI(8): BCEADBBA BBEABACE BBBEDADC ADEDDCAA',
+          'C - CN/EPCAR, 9º Ano Militar - All - QUI(8): CCAEBDDB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -95,7 +97,7 @@ namespace :db do
           'C - 2ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): BACEDCCB EACCBEAA DACABCEC AAECBEBE BBCEADEA ECDAECAE DAABBCAC BDEEBDDA',
           'C - 1ª Série Militar - All - MAT(8) + BIO(8) + ING(8) + POR(8): DDDBACBB BDBEBDBC BCDBCECC DAEBAECA',
           'C - 9º Ano Militar - All - MAT(8) + BIO(8) + ING(8) + POR(8): DDDBACBB BDBEBDBC BCAEDADE DAEBAECA',
-          'C - 3ª Série IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDBBBAAD BCEADEDB AECDBEBE EEBCBDDA DDEAACDD DBAEACAA DDAEBBDC BBEEEBCD'
+          'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDBBBAAD BCEADEDB AECDBEBE EEBCBDDA DDEAACDD DBAEACAA DDAEBBDC BBEEEBCD'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
