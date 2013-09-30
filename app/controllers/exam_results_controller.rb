@@ -92,6 +92,10 @@ private
           ).merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
       end
     end
-    arr
+    if arr.size == 0
+      return [{'RA' => '', 'NAME' => '', 'GRADE' => ''}]
+    else
+      return arr
+    end
   end  
 end
