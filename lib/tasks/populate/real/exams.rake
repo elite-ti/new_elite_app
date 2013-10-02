@@ -2,6 +2,52 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_16SET: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 16 Set 2013 14:00:00 BRT -03:00'
+        cycle_name = 'P6 - '
+        exam_name = 'Prova'
+        array = [
+          'C - 1ª Série ENEM - All - FIL(10): DCACBADBDA - Tarde',
+          'C - 1ª Série ENEM - All - SOC(10): BACDDCDBEC - Tarde',
+          'C - 1ª Série ENEM - All - FIL(10): CDAADBCCAE - Manhã',
+          'C - 1ª Série ENEM - All - SOC(10): EEDAEBABCD - Manhã',
+          'C - 2ª Série ENEM - All - FIL(10): DCBABDCABD - Manhã',
+          'C - 2ª Série ENEM - All - SOC(10): EDCCADDDAB - Manhã',
+          'C - 2ª Série ENEM - All - FIL(10): DAABBACABD - Tarde',
+          'C - 2ª Série ENEM - All - SOC(10): BECAEDCCAE - Tarde'
+        ]
+        create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_02OUT: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 02 Out 2013 14:00:00 BRT -03:00'
+        cycle_name = 'P6 - '
+        exam_name = 'Prova'
+        array = [
+          'C - 1ª Série ENEM - All - EDF(10): ACEEDCABCD - Manhã',
+          'C - 1ª Série ENEM - All - EDF(10): DAECBADBAB - Tarde',
+          'C - 1ª Série ENEM - All - RED(8): CECCEBDA - Manhã',
+          'C - 1ª Série ENEM - All - RED(8): EBCEBCEC - Tarde',
+          'C - 2ª Série ENEM - All - EDF(10): BDEAEDBCDE - Manhã',
+          'C - 2ª Série ENEM - All - EDF(10): DAEEBADEAB - Tarde',
+          'C - 2ª Série ENEM - All - RED(8): CCDAAECD - Manhã',
+          'C - 2ª Série ENEM - All - RED(8): EBCEBDEA - Tarde',
+          'C - 6º Ano - All - ESP(10): BEEACBDABC - Manhã',
+          'C - 6º Ano - All - ESP(10): AECDDCBEBA - Tarde',
+          'C - 6º Ano - All - ING(10): ABABCABAEB - Manhã',
+          'C - 6º Ano - All - ING(10): DACAABBBEB - Tarde',
+          'C - 7º Ano - All - ESP(10): EBDCADBEEB - Manhã',
+          'C - 7º Ano - All - ESP(10): DAABBADDCE - Tarde',
+          'C - 7º Ano - All - ING(10): ADBEEABCBA - Manhã',
+          'C - 7º Ano - All - ING(10): AAEBCDDBCA - Tarde',
+          'C - 8º Ano - All - ESP(10): DCAADBBEAC - Manhã',
+          'C - 8º Ano - All - ESP(10): ABDECACDCE - Tarde',
+          'C - 8º Ano - All - ING(10): ACBDABCDDC - Manhã',
+          'C - 8º Ano - All - ING(10): ADBDAEBCAB - Tarde'
+        ]
+        create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_27SET_2: :environment do
         p 'Adding exams'
         datetime = 'Sun, 27 Set 2013 14:00:00 BRT -03:00'
