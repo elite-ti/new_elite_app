@@ -32,6 +32,16 @@ class StudentExamsController < ApplicationController
     redirect_to @student_exam.card_processing, notice: 'Student exam was marked as error.'
   end
 
+  def new
+    respond_to do |format|
+      format.pdf do
+        pdf = TypeACardPdfPrawn.new(StudentExam.new)
+        pdf.paint_options(params[:student_id]) if !params[:student_id].nil?
+        send_data pdf.render, filename: 'HelloWorld.pdf', type: "application/pdf", disposition: "inline"
+      end
+    end
+  end
+
 private
 
   def check_student_exams
