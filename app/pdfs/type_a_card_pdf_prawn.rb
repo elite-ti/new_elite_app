@@ -1,29 +1,35 @@
 #encoding: UTF-8
 
 class TypeACardPdfPrawn < Prawn::Document
-  def initialize(student_exam)
-    @student_exam = student_exam
+  def initialize(exam_execution_id, student_id)
+    @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
+    @student = Student.find(student_id) if !student_id.nil?
     super(page_size: "A4", page_layout: :portrait, top_margin: 20)
     set_default_parameters
-    header
-    content
-    markers
-    bottom
-  end
-
-  def paint_options student_id
-    student = Student.find(student_id)
-    return if student.nil?
-    ra = "%06d" % student.ra
-    group = 0
-    ra.split('').each_with_index do |char, index|
-      rectangle [170 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
-      fill
-      draw_text char, at: [170 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
+    if !@exam_execution.nil? && !@student.nil?
+      page(@student)
+    elsif !@exam_execution.nil?
+      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.each do |student|
+        page(student)
+      end
+    else
+      page(nil)
     end
   end
 
 private
+  def page(student)
+    if @first_page
+      @first_page = false
+    else
+      start_new_page
+    end
+    header
+    content
+    paint_options(student) if(!student.nil?)
+    markers
+    bottom    
+  end
   def set_default_parameters
     font "Helvetica"
     self.line_width = 0.1
@@ -32,6 +38,7 @@ private
     @horizontal_space_between_options = 5
     @vertical_space_between_options = 3
     @horizontal_space_between_groups = 40
+    @first_page = true
   end
 
   def header
@@ -47,7 +54,6 @@ private
     text "Data: ", size: 12
     draw_blank_line 40, 100
     move_up 5
-    # move_down 10
     text 'Preencha o seu RA', size: 12, :align => :center
   end
 
@@ -90,5 +96,18 @@ private
     fill
     rectangle [525, 0], 20, 20
     fill
+  end
+
+  def paint_options student
+    ra = "%06d" % student.ra
+    group = 0
+    ra.split('').each_with_index do |char, index|
+      rectangle [170 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
+      fill
+      draw_text char, at: [170 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
+    end
+    draw_text student.name, at: [45, 725], size: 12
+    draw_text @exam_execution.full_name, at: [45, 701], size: 12
+    draw_text @exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 677], size: 12
   end
 end

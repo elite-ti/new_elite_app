@@ -35,9 +35,15 @@ class StudentExamsController < ApplicationController
   def new
     respond_to do |format|
       format.pdf do
-        pdf = TypeACardPdfPrawn.new(StudentExam.new)
-        pdf.paint_options(params[:student_id]) if !params[:student_id].nil?
-        send_data pdf.render, filename: 'HelloWorld.pdf', type: "application/pdf", disposition: "inline"
+        pdf = TypeACardPdfPrawn.new(params[:exam_execution_id], params[:student_id])
+        if !params[:exam_execution_id].nil? && !params[:student_id].nil?
+          filename = 'CartaoResposta - ' + Student.find(params[:student_id]).name + ' - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
+        elsif !params[:exam_execution_id].nil?
+          filename = 'CartoesResposta - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
+        else
+          filename = 'CartaoResposta_Branco.pdf'
+        end
+        send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
       end
     end
   end

@@ -6,6 +6,11 @@ jQuery ->
     sPaginationType: 'full_numbers'
     bJQueryUI: true
 
+  $('.is-datatable-desc').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    aaSorting: [[ 0, "desc" ]]    
+
   $('.is-remote-datatable').dataTable
     sPaginationType: 'full_numbers'
     bJQueryUI: true

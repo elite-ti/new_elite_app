@@ -14,7 +14,6 @@ EliteApp::Application.routes.draw do
     end
   end
   get 'student_exams/new/', to: 'student_exams#new'
-  get 'student_exams/new/:student_id', to: 'student_exams#new'
 
   resources :exam_answers
   resources :exams
