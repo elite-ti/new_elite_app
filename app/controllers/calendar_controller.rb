@@ -11,4 +11,7 @@ class CalendarController < ApplicationController
     @exam_executions = SuperKlazz.where(product_year_id: products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq
     # @dates = @exam_executions.map(&:datetime).map(&:to_date).uniq.sort
   end
+
+  def attendance
+  end
 end
