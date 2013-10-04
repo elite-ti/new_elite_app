@@ -104,12 +104,15 @@ class StudentExam < ActiveRecord::Base
   end
 
   def scan
-    self.student_number, self.string_of_answers = card_type.scan(card.png.path, card.normalized_path) 
-    set_student
-    save!
-  rescue => e
-    logger.warn e.message
-    update_attribute :status, ERROR_STATUS
+    begin
+      self.student_number, self.string_of_answers = 
+        card_type.scan(card.png.path, card.normalized_path) 
+      set_student
+      save!
+    rescue => e
+      logger.warn e.message
+      update_attribute :status, ERROR_STATUS
+    end
   end
 
   def set_student
