@@ -78,6 +78,10 @@ class StudentExam < ActiveRecord::Base
     status == REPEATED_STUDENT
   end
 
+  def error?
+    status == ERROR_STATUS
+  end
+
   def error!
     update_attribute :status, ERROR_STATUS
   end
@@ -100,15 +104,12 @@ class StudentExam < ActiveRecord::Base
   end
 
   def scan
-    begin
-      self.student_number, self.string_of_answers = 
-        card_type.scan(card.png.path, card.normalized_path) 
-      set_student
-      save!
-    rescue => e
-      logger.warn e.message
-      update_attribute :status, ERROR_STATUS
-    end
+    self.student_number, self.string_of_answers = card_type.scan(card.png.path, card.normalized_path) 
+    set_student
+    save!
+  rescue => e
+    logger.warn e.message
+    update_attribute :status, ERROR_STATUS
   end
 
   def set_student
@@ -165,8 +166,7 @@ class StudentExam < ActiveRecord::Base
     end
   end 
 
-  def set_exam_answers
-    
+  def set_exam_answers   
     exam_execution.exam.exam_questions.each do |exam_question|
       exam_answers.build(
         answer: string_of_answers[exam_question.number - 1], 

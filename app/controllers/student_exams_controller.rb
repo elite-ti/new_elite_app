@@ -46,7 +46,7 @@ private
   end
 
   def set_form_objects
-    if @student_exam.student_not_found?
+    if @student_exam.student_not_found? || @student_exam.error? || @student_exam.repeated_student?
       @possible_students = @student_exam.possible_students
       @new_student = @student_exam.student || @student_exam.build_student
     end

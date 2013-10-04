@@ -143,6 +143,107 @@
     </div>
   <% end %>
 
+<% elsif @student_exam.error? %>
+  <h2>Error</h2>
+  <div style='height: 10px;'></div>
+  <div class='tabs'>
+    <ul>
+      <li><a href='#existing_student'>Existing Student</a></li>
+      <li><a href='#new_student'>New Student</a></li>
+    </ul>
+
+    <div id='existing_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <div class='input'>
+            <%= label :mock, :student_id %>
+            <%= collection_select :mock, :student_ra, @possible_students, :id, :ra, include_blank: true %>
+            <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
+            <%= f.input :string_of_answers , label: "Answers"%>
+            <%= label :mock, :exam_execution_id %>
+            <%= f.collection_select :exam_execution_id, @student_exam.campus.super_klazzes.map(&:exam_executions).flatten, :id, :full_name, include_blank: true %>            
+          </div>
+        </div>
+
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Continue' %>
+        </div>
+      <% end %>
+    </div>
+      
+    <div id='new_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <%= f.simple_fields_for @new_student do |ff| %>
+            <%= ff.input :name %>
+            <%= f.input :string_of_answers , label: "Answers"%>
+            <%= ff.association :enrolled_super_klazzes, 
+              collection: @student_exam.campus.super_klazzes,
+              label: 'SuperKlazz',
+              label_method: :product_year_name, 
+              input_html: { multiple: false } %>
+          <% end %>
+        </div>
+
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Continue' %>
+        </div>
+      <% end %>
+    </div>
+  <%= image_tag @student_exam.card.normalized_url, width: '500'%>
+  </div>
+
+<% elsif @student_exam.repeated_student? %>
+  <h2>Repeated Student</h2>
+  <%= image_tag @student_exam.card.student_url %>
+  <div style='height: 50px;'></div>
+  <div class='tabs'>
+    <ul>
+      <li><a href='#existing_student'>Existing Student</a></li>
+      <li><a href='#new_student'>New Student</a></li>
+    </ul>
+
+    <div id='existing_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <div class='input'>
+            <%= f.label :student_id %>
+            <%= collection_select :mock, :student_ra, @possible_students, :id, :ra, include_blank: true %>
+            <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
+          </div>
+        </div>
+
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Continue' %>
+        </div>
+      <% end %>
+    </div>
+      
+    <div id='new_student'>
+      <%= simple_form_for(@student_exam) do |f| %>
+        <div class='form-inputs'>
+          <%= f.simple_fields_for @new_student do |ff| %>
+            <%= ff.input :name %>
+            <%= ff.association :enrolled_super_klazzes, 
+              collection: @student_exam.campus.super_klazzes,
+              label: 'SuperKlazz',
+              label_method: :product_year_name, 
+              input_html: { multiple: false } %>
+          <% end %>
+        </div>
+
+        <div class='form-actions'>
+          <%= f.submit 'Finish', class: 'btn' %>
+          <%= f.submit 'Continue' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+
 <% elsif not @student_exam.needs_check? %>
   <h2>This card don't need to be fixed anymore. </h2>  
 <% end %>
