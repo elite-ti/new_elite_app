@@ -106,7 +106,7 @@ namespace :db do
         cycle_name = '3º Bimestre - '
         exam_name = 'Prova Bimestral'
         array = [
-          'C - 2ª Série Militar - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): CDCABCEC DEACEDBC AAACCBD BDEEADCD'
+          'C - 2ª Série Militar - All - GEO(8) + HIS(8) + QUI(8) + BIO(8): CDCABCEC DEACEDBC AAACCCBD BDEEADCD'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
