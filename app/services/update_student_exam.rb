@@ -97,7 +97,7 @@ private
     student_exam.student_id = student_id
     student_exam.set_exam_execution
     student_exam.status = StudentExam::VALID_STATUS
-    student_exam.save!(validates: false)
+    student_exam.save!(validate: false)
   end
 
   def update_and_create_new_repeated_student(student)
@@ -106,6 +106,6 @@ private
     student = Student.create_temporary_student!(name, super_klazz_id)
     update_student(student.id)
     student_exam.status = StudentExam::VALID_STATUS
-    student_exam.save!(validates: false)
+    student_exam.save!(validate: false)
   end
 end
