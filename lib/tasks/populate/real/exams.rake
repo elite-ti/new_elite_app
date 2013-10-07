@@ -2,6 +2,58 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_06OUT: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 06 Out 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Ciclo 4 - '
+        exam_name = '2º Simulado'
+        array = [
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): BCABE DADDDEBBCAEAAACAEDBAADCCACABAACADCEDDACE DCADDBECADEDDDCEBDBEACEECCBDDADCECCAAECDABEBA',
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_05OUT: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 05 Out 2013 14:00:00 BRT -03:00'
+        cycle_name = 'Simulado Especial - '
+        exam_name = '2º Simulado'
+        array = [
+          'C - 9º Ano Militar - All - MAT(20): DCBDCBAEEBEDDBCACCDB',
+          'C - 1ª Série Militar - All - MAT(20): DCBDCBAEEBEDDBCACCDB'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        cycle_name = 'Ciclo 4 - '
+        exam_name = '1º Simulado'
+        array = [
+          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): DAECDDBECECDDDABDA ADCECBDDBADDACACCDDAEBECADD ABADDDBACAAEECE ECDBEACEDEDBADE EACECCEECDCBAED',
+          'C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10) + QUI(10): BCCBDCEBEA CECECCEBDD BCBEABCECC ADEBCCBCDA',
+          'U - 2ª Série Militar - Madureira III - HIS(10) + GEO(9) + BIO(10) + QUI(10): DABEABDACD CBACAABACA AECACEADAB BCAEAEABAE'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        cycle_name = 'Ciclo 4 - '
+        exam_name = '1º Simulado'
+        array = [
+          'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): DEABCCBBAA BACDCDDCBB DDCBBAECBE BABADBDDAC CBBAACACAC BAADDCCAEC BACABBADDC ACCCBBAECD'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        cycle_name = 'Ciclo 6 - '
+        exam_name = '2º Simulado'
+        array = [
+          'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(15) + QUI(8) + FIS(15): CCEDECEDABDECCA EEAAABCDA BECEDBACDDBCEEA'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_04OUT: :environment do
+        p 'Adding exams'
+        datetime = 'Sun, 04 Out 2013 14:00:00 BRT -03:00'
+        cycle_name = '3º Bimestre - '
+        exam_name = '2ª Chamada'
+        array = [
+          'C - 1ª Série Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): EAEECCCA DCBCDBAA ABADDEEB BEDBDEAA DBCAECEB CBCCBCEC EBDBAABC DDDBBCCA',
+          'C - 9º Ano Militar - All - MAT(10) + POR(4) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): EAEECCCA DCBCDBAA ADEBCEDB BEDBDEAA DBCAECEB CBCCBCEC AEBDCACB DDDBBCCA'
+        ]
+        create_exams(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_16SET: :environment do
         p 'Adding exams'
         datetime = 'Sun, 16 Set 2013 14:00:00 BRT -03:00'
