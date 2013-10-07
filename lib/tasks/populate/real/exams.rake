@@ -30,8 +30,8 @@ namespace :db do
           'U - 2ª Série Militar - Madureira III - HIS(10) + GEO(9) + BIO(10) + QUI(10): DABEABDACD CBACAABACA AECACEADAB BCAEAEABAE'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
-        cycle_name = 'Ciclo 4 - '
-        exam_name = '1º Simulado'
+        cycle_name = '3º Bimestre - '
+        exam_name = 'Substitutiva P5/P6'
         array = [
           'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): DEABCCBBAA BACDCDDCBB DDCBBAECBE BABADBDDAC CBBAACACAC BAADDCCAEC BACABBADDC ACCCBBAECD'
         ]
