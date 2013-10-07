@@ -27,6 +27,7 @@ gem 'unicode_utils'
 
 gem 'i18n'
 gem 'kaminari'
+gem 'newrelic_rpm'
 
 group :development do 
   gem 'debugger'
