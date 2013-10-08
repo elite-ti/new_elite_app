@@ -192,7 +192,7 @@
         </div>
       <% end %>
     </div>
-  <%= image_tag @student_exam.card.normalized_url, width: '500'%>
+    <%= image_tag @student_exam.card.png.url, width: '500' %>
   </div>
 
 <% elsif @student_exam.repeated_student? %>
