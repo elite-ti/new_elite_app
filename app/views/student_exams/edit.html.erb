@@ -52,7 +52,7 @@
 </div>
   
 <% elsif @student_exam.exam_not_found? %>
-  <% if @student_exam.possible_exam_executions.size > 1 %>
+  <% if !@student_exam.card_processing.exam_execution.nil? %>
       <h2>No exams available for this student</h2>
 
       <%= image_tag @student_exam.card.student_url %>
