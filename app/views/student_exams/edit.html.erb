@@ -145,6 +145,7 @@
 
 <% elsif @student_exam.error? %>
   <h2>Error</h2>
+  <% @student_exam.card_processing.student_exams.select {|s| s.status.include?"Valid"}.first.exam_execution.try(&:full_name) %>
   <div style='height: 10px;'></div>
   <div class='tabs'>
     <ul>

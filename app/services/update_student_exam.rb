@@ -65,7 +65,7 @@ private
     super_klazz_id = student[:enrolled_super_klazz_ids]
     student = Student.create_temporary_student!(name, super_klazz_id)
     update_student(student.id)
-    student_exam.string_of_answers = string_of_answers
+    student_exam.string_of_answers = string_of_answers.upcase
     student_exam.set_exam_execution
     student_exam.status = StudentExam::VALID_STATUS    
     student_exam.save!
@@ -74,7 +74,7 @@ private
   def update_student_answers(student_id, string_of_answers, exam_execution_id)
     student_exam.student_id = student_id
     student_exam.student_number = Student.find(student_id).ra
-    student_exam.string_of_answers = string_of_answers
+    student_exam.string_of_answers = string_of_answers.upcase
     student_exam.exam_execution_id = exam_execution_id
     student_exam.set_exam_answers
     student_exam.status = StudentExam::VALID_STATUS
