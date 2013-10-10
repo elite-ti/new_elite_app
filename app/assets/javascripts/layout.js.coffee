@@ -6,10 +6,26 @@ jQuery ->
     sPaginationType: 'full_numbers'
     bJQueryUI: true
 
+  $('.is-one-page-datatable').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    bPaginate: false
+    aaSorting: [[ $(".is-one-page-datatable").find("th").length - 1, "desc" ]]
+
   $('.is-datatable-desc').dataTable
     sPaginationType: 'full_numbers'
     bJQueryUI: true
     aaSorting: [[ 0, "desc" ]]    
+
+  $('.is-datatable-exam-executions').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    aaSorting: [[ 0, "desc" ]]    
+    aoColumns: [
+      {sWidth:"5%"},
+      {sWidth:"57%"},
+      {sWidth:"38%"}
+    ]
 
   $('.is-remote-datatable').dataTable
     sPaginationType: 'full_numbers'
@@ -33,7 +49,7 @@ jQuery ->
   $('.is-chosen').chosen
     allow_single_deselect: true
 
-
+  $('.date').mask('99/99/9999')
   $('.telephone_input').mask('(99) 9999-9999')
   $('.cpf_input').mask('999.999.999-99')
   $('.cep_input').mask('99.999-999')

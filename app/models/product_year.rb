@@ -1,6 +1,9 @@
+#encoding: utf-8
+
 class ProductYear < ActiveRecord::Base
   
   attr_accessible :name, :product_id, :year_id
+  SCHOOL_PRODUCT_NAMES = ['6º Ano - 2013', '7º Ano - 2013', '8º Ano - 2013', '1ª Série ENEM - 2013', '2ª Série ENEM - 2013']
 
   belongs_to :product
   belongs_to :year
@@ -11,4 +14,20 @@ class ProductYear < ActiveRecord::Base
 
   validates :product_id, :name, :year_id, presence: true
   validates :name, uniqueness: true 
+
+  def is_school_product?
+    SCHOOL_PRODUCT_NAMES.include?(name)
+  end
+
+  def is_free_course_product?
+    !SCHOOL_PRODUCT_NAMES.include?(name)
+  end
+
+  def self.school_products
+    ProductYear.where(name: SCHOOL_PRODUCT_NAMES)
+  end
+
+  def self.free_course_products
+    ProductYear.where("name not in (?)", SCHOOL_PRODUCT_NAMES)
+  end
 end

@@ -1,10 +1,10 @@
-<%= title 'Alunos', link_to('New Student', new_student_path) %>
+<%= title @is_bolsao ? 'Candidatos' : 'Alunos', link_to(@is_bolsao ? 'Novo Candidato' : 'Novo Aluno', new_student_path(is_bolsao: @is_bolsao)) %>
 
 <table id="students" class="display is-datatable">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Ra</th>
+      <th>Nome</th>
+      <th><%= @is_bolsao? 'Inscrição' : 'RA' %></th>
       <th>Email</th>
     </tr>
   </thead>
@@ -15,16 +15,18 @@
       <td>
         <%= student.name %>
         <span style='float: right;'>
-          <%= link_to 'Show', student_path(student) %>
-          <% if can?(:update, student) %>          
-             | <%= link_to 'Edit', edit_student_path(student) %>
+          <% if !@is_bolsao %>
+            <%= link_to 'Mostrar', student_path(student) %> |
           <% end %>          
-          <% if can?(:destroy, student) %>          
-             | <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
+          <% if can?(:update, student) %>          
+            <%= link_to 'Editar', edit_student_path(student, is_bolsao: true) %>
+          <% end %>          
+          <% if can?(:destroy, student) %>
+            | <%= link_to 'Deletar', student, {method: :delete, confirm: 'Are you sure?'} %>
           <% end %>
         </span>
       </td>
-      <td><%= student.ra %></td>
+      <td><%= @is_bolsao? student.number : student.ra %></td>
       <td><%= student.email %></td>
     </tr>
   <% end %>

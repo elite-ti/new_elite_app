@@ -1,8 +1,8 @@
-<%= f.input :cep, as: :cep %>
-<%= f.input :street %>
-<%= f.input :number %>
-<%= f.input :complement %>
-<%= f.input :suburb %>
-<%= f.input :city %>
-<%= f.input :state, as: :select, collection: Address::STATES %>
+<%= f.input :cep, as: :cep, label: 'CEP' %>
+<%= f.input :street, label: 'Logradouro' %>
+<%= f.input :number, label: 'Número' %>
+<%= f.input :complement, label: 'Complemento' %>
+<%= f.input :suburb, label: 'Bairro' %>
+<%= f.input :city, label: 'Cidade' %>
+<%= f.input :state, as: :select, collection: Address::STATES, label: 'Estado' %>
 <%= f.hidden_field :country, value: 'Brasil' %>

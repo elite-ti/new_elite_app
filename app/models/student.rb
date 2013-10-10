@@ -1,9 +1,11 @@
+#encoding: utf-8
+
 class Student < ActiveRecord::Base
   
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids
+    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids, :number
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :enrolled_super_klazzes, through: :enrollments, source: :super_klazz
@@ -29,10 +31,20 @@ class Student < ActiveRecord::Base
       where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
   end
 
-  def self.create_temporary_student!(name, super_klazz_id)
-    super_klazz = SuperKlazz.find(super_klazz_id)
+  def number
+    applicants.map(&:number).try(:first)
+  end
 
-    min_temporary_ra = '9' + super_klazz.campus.code + super_klazz.product_year.product.code + '00'
+  def number= value
+    applicants.each do |applicant|
+      applicant.number = value
+      applicant.save
+    end
+  end
+
+  def calculate_temporary_ra(super_klazz_id, variable_digits)
+    super_klazz = SuperKlazz.find(super_klazz_id)
+    min_temporary_ra = '9' + super_klazz.campus.code + super_klazz.product_year.product.code + ('0' * variable_digits)
     min_temporary_ra = min_temporary_ra.to_i - 1
     max_ra = super_klazz.enrolled_students.maximum(:ra)
     ra = 0
@@ -45,10 +57,13 @@ class Student < ActiveRecord::Base
     while Student.where(ra: ra).size > 0
       ra = ra + 1  
     end
+    ra
+  end
 
+  def self.create_temporary_student!(name, super_klazz_id)
     student = Student.new
     student.name = name
-    student.ra = ra
+    student.ra = calculate_temporary_ra(super_klazz_id, 2)
     student.enrolled_super_klazz_ids = [super_klazz_id]
     student.save!
     student

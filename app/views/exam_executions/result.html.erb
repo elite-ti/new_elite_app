@@ -1,0 +1,47 @@
+<%= title 'Resultados', 
+  link_to('Voltar', 
+    exam_executions_path(
+      if @exam_execution.is_bolsao
+        {filter_by: 'is_bolsao'}
+      elsif ProductYear.school_products.include?(@exam_execution.super_klazz.product_year)
+        {filter_by: 'school'}
+      elsif ProductYear.free_course_products.include?(@exam_execution.super_klazz.product_year)
+        {filter_by: 'free_course'}
+      end
+    )
+  )
+%>
+
+<h2><%= @exam_execution.full_name %></h2>
+<table id="results" class="display is-one-page-datatable">
+  <thead>
+    <tr>
+      <th>RA</th>
+      <th>Nome</th>
+      <th>Unidade</th>
+      <% @subjects.each do |subject| %>
+        <th><%= subject.code.capitalize %></th>
+      <% end %>
+      <th>Total</th>
+   </tr>
+  </thead>
+
+  <tbody>
+  <% @student_exams.each do |student_exam| %>
+    <tr>
+      <td><%= "%06d" % student_exam.student.ra %></td>
+      <td><%= student_exam.student.name.split(' ').map(&:capitalize).join(' ') %>
+        <span style='float: right;'>
+          <%= link_to 'Mostrar', student_exam_path(student_exam), target: '_blank' %>        
+        </span>
+      </td>
+      <td><%= student_exam.campus.name %></td>
+      <% sum = 0 %>
+      <% student_exam.grades_by_subject.each do |grade, index| %>
+        <td><%= grade %><% sum += grade %></td>
+      <% end %>
+      <td><%= sum %></td>      
+    </tr>
+  <% end %>
+  </tbody>
+</table>

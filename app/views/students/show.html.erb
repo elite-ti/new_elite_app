@@ -1,6 +1,6 @@
 <%= title @student.name + (@student.ra.to_s.blank? ? '' : ' - ' + @student.ra.to_s), 
-  link_to('Edit', edit_student_path(@student)),
-  link_to('Back', students_path) %>
+  link_to('Editar', edit_student_path(@student, is_bolsao: @student.applicants.size > 0)),
+  link_to('Voltar', students_path, is_bolsao: @student.applicants.size > 0) %>
 
 <div class='tabs'>
   <ul>
@@ -9,7 +9,7 @@
   </ul>
 
   <div id='exams'>
-    <table id='student_enrolled_exams' class='display is-datatable'>
+    <table id='student_enrolled_exams' class='display is-datatable-desc'>
       <thead>
         <tr>
           <th>Datetime</th>
@@ -22,7 +22,7 @@
       <% if @student.enrolled_exam_executions.size > 0 %>
         <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
           <tr>
-            <td><%= print_date(datetime) %></td>
+            <td><%= datetime.strftime('%Y-%m-%d') %></td>
             <td><%= StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).first.try(:exam_execution).try(:exam_cycle).try(:name) || exam_executions.first.exam_cycle.name %></td>
             <td>
               <% StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).all.each do |student_exam| %>

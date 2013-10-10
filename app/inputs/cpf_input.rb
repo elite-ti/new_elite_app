@@ -1,6 +1,8 @@
+#encoding: utf-8
+
 class CpfInput < SimpleForm::Inputs::StringInput
   def input
-    input_html_options[:placeholder] = 'Only numbers'
+    input_html_options[:placeholder] = 'Somente números'
     super
   end
   

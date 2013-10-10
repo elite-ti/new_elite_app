@@ -1,0 +1,33 @@
+<%= simple_form_for(@student) do |f| %>
+  <%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <h2>Informações Candidato</h2>
+    <%= f.input :name, label: 'Nome' %>
+    <%= f.input :date_of_birth, as: :date, label: 'Data de Nascimento' %>
+    <%= f.input :email, label: 'Email' %>
+    <%= f.input :telephone, as: :telephone, label: 'Telefone' %>
+    <%= f.input :cellphone, as: :telephone, label: 'Celular' %>
+    <%= f.input :cpf, as: :cpf, label: 'CPF' %>
+    <% if !@student.id.nil? %>
+      <%= f.input :number, label: 'Inscrição' %>
+    <% else %>
+      <%= f.hidden_field :number, value: '-1' %>
+    <% end %>
+
+    <h2>Informações Responsável</h2>
+    <%= f.input :mother_name, label: 'Nome da Mãe' %>
+    <%= f.input :father_name, label: 'Nome do Pai' %>
+    <%= f.input :own_cpf, label: 'CPF Responsável' %>
+
+    <h2>Inscrições Bolsão</h2>
+    <%= f.association :applied_super_klazzes, 
+        collection: SuperKlazz.all,
+        label_method: :label_method,
+        label: 'Turmas' %>
+  </div>
+
+  <div class='form-actions'>
+    <%= f.button :submit %>
+  </div>
+<% end %>

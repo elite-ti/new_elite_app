@@ -9,14 +9,16 @@
       <%= f.input :exam_date, 
         as: :date, 
         readonly: true, 
-        input_html: {value: @exam_execution.datetime.to_date.to_s} %>
+        label: 'Data de aplicação',
+        input_html: {value: @exam_execution.datetime.to_date.strftime('%d/%m/%Y')} %>
+      <%= f.hidden_field :is_bolsao, value: @exam_execution.is_bolsao %>
     <% else %>
-      <%= f.input :name %>
-      <%= f.input :exam_date, as: :date %>
-      <!--  <%= f.input :is_bolsao %> -->
+      <%= f.input :name, label: 'Nome' %>
+      <%= f.input :exam_date, as: :date, label: 'Data de aplicação' %>
+      <%= f.hidden_field :is_bolsao, value: false %>
     <% end %>
-    <%= f.input :file, hint: '.rar, .zip ou .tif' %>
-    <%= f.association :card_type, collection: CardType.order('created_at ASC'), include_blank: false %>
+    <%= f.input :file, hint: '.rar, .zip ou .tif', label: 'Arquivo' %>
+    <%= f.association :card_type, collection: CardType.order('created_at ASC'), include_blank: false, label: 'Tipo de cartão' %>
     <% if @specific_exam %>
       <%= f.hidden_field :campus_id, 
         value:  @exam_execution.super_klazz.campus_id %>
@@ -25,7 +27,7 @@
     <% else %>
       <%= f.association :campus, 
         collection: @accessible_campuses,
-        include_blank: @campus_include_blank %>
+        include_blank: @campus_include_blank, label: 'Unidade' %>
     <% end %>
   </div>
 

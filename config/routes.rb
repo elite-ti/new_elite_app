@@ -6,6 +6,12 @@ EliteApp::Application.routes.draw do
   resources :card_processings
   get 'card_processings/new/:exam_execution_id', to: 'card_processings#new'
   get 'calendar/', to: 'calendar#index'
+
+  get 'exam_executions/', to: 'exam_executions#index'
+  get 'exam_executions/:exam_execution_id/result', to: 'exam_executions#result', as: 'result_exam_execution'
+  get 'exam_executions/:exam_execution_id/attendance', to: 'exam_executions#attendance', as: 'attendance_exam_execution'
+  get 'exam_executions/:exam_execution_id/cards', to: 'exam_executions#cards', as: 'cards_exam_execution'
+
   resources :topics
   resources :card_types
   resources :student_exams do 

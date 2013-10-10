@@ -1,0 +1,29 @@
+<%= title 'Calendário de Provas' + @filter_by %>
+
+<table id="exam_executions" class="display is-datatable-exam-executions">
+  <thead>
+    <tr>
+      <th>Data Aplicação</th>
+      <th>Prova</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @exam_executions.sort_by(&:datetime).reverse.each do |exam_execution| %>
+    <tr>
+      <td><%= exam_execution.datetime.to_date.strftime('%Y-%m-%d') %></td>
+      <td><%= exam_execution.full_name %></td>
+      <td>
+        <span style='float: right;'>
+          <%= link_to( 'Enviar', new_card_processing_path(exam_execution_id: exam_execution.id), :target => '_blank' )%>
+          | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank' %>
+          | <%= link_to 'Resultado', result_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank' %>
+          | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
+          | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
+        </span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

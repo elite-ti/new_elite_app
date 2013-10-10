@@ -1,0 +1,55 @@
+<%= title 'Cartões-Resposta', 
+  (link_to('Checar', edit_student_exam_path(@exam_execution.to_be_checked)) if @exam_execution.needs_check?),
+  link_to('Voltar', 
+          exam_executions_path(filter_by: (
+            @exam_execution.is_bolsao ? 
+              'is_bolsao' : 
+              (@exam_execution.super_klazz.product_year.is_school_product? ? 
+                'school' : 
+                'free_course'
+              )
+          ))
+  ) %>
+
+<div class='resource'>
+  <p>
+    <span>Prova: </span><%= @exam_execution.full_name %><br />
+    <span>Data: </span><%= @exam_execution.datetime.strftime('%d/%m/%Y') %><br />
+    <span>Bolsao: </span><%= @exam_execution.is_bolsao ? 'Sim' : 'Não' %><br />
+    <span>Unidade: </span><%= @exam_execution.super_klazz.campus.name %><br />
+  </p>
+</div>
+
+<table id='exam_execution_student_exams' class='display is-datatable'>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Filename</th>
+      <th>Student</th>
+      <th>Exam</th>
+      <th>Scanned Student Number</th>
+      <th>Scanned Answers</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @student_exams.each do |student_exam| %>
+    <tr>
+      <td>
+        <%= student_exam.status %>
+        <span class='float-right'>
+          <%= link_to 'Mostrar', student_exam %>
+          <% if student_exam.needs_check? %>
+            | <%= link_to 'Checar', edit_student_exam_path(student_exam) %>
+          <% end %>
+        </span>
+      </td> 
+      <td><%= File.basename student_exam.card.path %></td>
+      <td><%= student_exam.student.try(:name) || 'Sem aluno' %></td>
+      <td><%= student_exam.exam_execution.try(:exam).try(:name) || 'Sem prova' %></td>
+      <td><%= student_exam.student_number %></td>
+      <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

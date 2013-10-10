@@ -1,3 +1,17 @@
-<%= title 'New Card Processing', link_to('Back', card_processings_path) %>
+<%= title 'Envio de Cartões-Resposta', 
+  link_to('Voltar', 
+    exam_executions_path(
+      if !@specific_exam.nil?
+        if @exam_execution.is_bolsao
+          {filter_by: 'is_bolsao'}
+        elsif ProductYear.school_products.include?(@exam_execution.super_klazz.product_year)
+          {filter_by: 'school'}
+        elsif ProductYear.free_course_products.include?(@exam_execution.super_klazz.product_year)
+          {filter_by: 'free_course'}
+        end
+      end
+    )
+  )
+%>
 
 <%= render 'form' %>

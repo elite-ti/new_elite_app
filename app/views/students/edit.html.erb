@@ -1,5 +1,11 @@
-<%= title 'Edit Student',
-  link_to('Show', @student),
-  link_to('Back', students_path) %>
 
-<%= render 'form' %>
+<% if @is_bolsao %>
+  <%= title 'Editar Candidato',
+    link_to('Voltar', students_path(is_bolsao: @is_bolsao)) %>
+  <%= render 'form_bolsao' %>
+<% else %>
+  <%= title 'Editar Aluno',
+    link_to('Mostrar', @student),
+    link_to('Voltar', students_path(is_bolsao: @is_bolsao)) %>
+  <%= render 'form' %>
+<% end %>

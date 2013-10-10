@@ -1,4 +1,9 @@
-<%= title 'New Student',
-  link_to('Back', students_path) %>
-
-<%= render 'form' %>
+<% if @is_bolsao %>
+  <%= title  'Novo Aluno',
+    link_to('Voltar', students_path(is_bolsao: @is_bolsao)) %>
+  <%= render 'form_bolsao' %>
+<% else %>
+  <%= title 'Novo Candidato',
+    link_to('Voltar', students_path(is_bolsao: @is_bolsao)) %>
+  <%= render 'form' %>
+<% end %>
