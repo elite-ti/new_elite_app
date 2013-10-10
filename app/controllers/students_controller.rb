@@ -8,7 +8,8 @@ class StudentsController < ApplicationController
       @students = Applicant.all.map(&:student).uniq
       @is_bolsao = true
     else
-      @students = Student.select{|student| student.applied_super_klazzes.size == 0}
+      # @students = Student.select{|student| student.applied_super_klazzes.size == 0}
+      @students = Student.all
       @is_bolsao = false      
     end
   end
