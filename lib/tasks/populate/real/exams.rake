@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_19OUT: :environment do
+          p 'Adding exams'
+          datetime = 'Sun, 19 Oct 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Bolsão 2014 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 6º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 1ª Série ENEM, 1ª Série ENEM, 2ª Série ENEM, 2ª Série ENEM - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 3ª Série + ESPCEX, 3ª Série + IME-ITA, 3ª Série + AFA/ESPCEX, 3ª Série + AFA/EN/EFOMM, AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, IME-ITA Especial, AFA/ESPCEX - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 3ª Série + Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
+            'C - 6º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
+            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
+            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
+            'C - 1ª Série ENEM, 1ª Série ENEM, 2ª Série ENEM, 2ª Série ENEM - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
+            'C - 3ª Série + ESPCEX, 3ª Série + IME-ITA, 3ª Série + AFA/ESPCEX, 3ª Série + AFA/EN/EFOMM, AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, IME-ITA Especial, AFA/ESPCEX - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
+            'C - 3ª Série + Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde'
+          ]
+          create_exams_bolsao(array, datetime, cycle_name, exam_name)
+        end      
         task add_exams_08OUT: :environment do
         p 'Adding exams'
         datetime = 'Sun, 08 Out 2013 14:00:00 BRT -03:00'
@@ -1100,8 +1121,13 @@ namespace :db do
             end
 
             product_years.each do |product_year|
+              if shift.nil?
+                shift_string = ''
+              else
+                shift_string = " (#{shift})"
+              end
               exam_cycle = ExamCycle.where(
-                name: cycle_name + product_year.product.name + (shift.nil? '' : " (#{shift})") + + " - #{subjects}").first_or_create!(
+                name: cycle_name + product_year.product.name + shift_string + " - #{subjects}").first_or_create!(
                 is_bolsao: false, product_year_id: product_year.id)
 
               campuses.each do |campus|
@@ -1123,6 +1149,76 @@ namespace :db do
           end
         end 
       end
+
+      def create_exams_bolsao(array, datetime, cycle_name, exam_name)
+        ActiveRecord::Base.transaction do 
+          array.each do |line|
+            action, product_names, campus_names, exam_attributes, shift = line.split(' - ')
+            product_names = product_names.gsub(/ \(\S*\)/, '')
+            p product_names
+            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
+            campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
+            subjects, correct_answers = exam_attributes.split(': ')
+            p subjects
+            subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+            correct_answers = correct_answers.gsub(' ', '')
+            exam = Exam.create!(
+              name: cycle_name + exam_name, 
+              correct_answers: correct_answers, 
+              options_per_question: 5)
+
+            starting_at = 1
+            subject_hash.each_pair do |subject_code, number_of_questions|
+              number_of_questions = number_of_questions.to_i
+              subject = Subject.where(code: subject_code).first!
+
+              subject_question_ids = 
+                ExamQuestion.where(
+                  number: (starting_at..(starting_at + number_of_questions - 1)),
+                  exam_id: exam.id).map(&:question).map(&:id)
+
+              subject_topic = 
+                Topic.where(name: subject.name, subject_id: subject.id).
+                first_or_create!(subtopics: 'All')
+
+              subject_question_ids.each do |subject_question_id|
+                QuestionTopic.create!(
+                  question_id: subject_question_id,
+                  topic_id: subject_topic.id)
+              end
+              starting_at = starting_at + number_of_questions
+            end
+
+            product_years.each do |product_year|
+              if shift.nil?
+                shift_string = ''
+              else
+                shift_string = " (#{shift})"
+              end              
+              exam_cycle = ExamCycle.where(
+                name: cycle_name + product_year.product.name + shift_string + " - #{subjects}").first_or_create!(
+                is_bolsao: true, product_year_id: product_year.id)
+
+              campuses.each do |campus|
+                super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+                next if super_klazz.nil?
+                
+                if action == 'C'
+                  ExamExecution.create!(
+                    exam_cycle_id: exam_cycle.id, 
+                    super_klazz_id: super_klazz.id,
+                    datetime: datetime,
+                    exam_id: exam.id)
+                elsif action == 'U'
+                  exam_execution = ExamExecution.where(exam_cycle_id: exam_cycle.id, super_klazz_id: super_klazz.id).first
+                  exam_execution.update_attribute :exam_id, exam.id
+                end
+              end
+            end
+          end
+        end 
+      end
+
     end
   end
 end
