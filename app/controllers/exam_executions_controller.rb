@@ -41,19 +41,19 @@ class ExamExecutionsController < ApplicationController
   end
 
   def result
-    @exam_execution = ExamExecution.find(params[:exam_execution_id])
-    @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS)
-    @subjects = @exam_execution.exam.exam_subjects    
+    @exam_execution = ExamExecution.where(id: params[:exam_execution_id].to_i).includes(:exam => {:exam_questions => {:question => [:options, {:topics => :subject}]}}).first
+    @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS).includes({:card_processing => :campus}, :student, :exam_answers)
+    @subjects = @exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+
     subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
     correct_answers = @exam_execution.exam.exam_questions.map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
-    @results = []
-    @results += @student_exams.map do |student_exam|
+    @results = @student_exams.map do |student_exam|
       {
-        'RA' => ("%07d" % student_exam.student.ra), 
-        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
+        'RA' => ("%07d" % student_exam.student.ra),
+        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '),
         'CAMPUS' => student_exam.campus.name,
-        'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
+        'ID' => student_exam.id
       }.merge(
           @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
         )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
