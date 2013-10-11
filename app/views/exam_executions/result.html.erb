@@ -13,6 +13,7 @@
 %>
 
 <h2><%= @exam_execution.full_name %></h2>
+
 <table id="results" class="display is-one-page-datatable">
   <thead>
     <tr>
@@ -27,20 +28,20 @@
   </thead>
 
   <tbody>
-  <% @student_exams.each do |student_exam| %>
+  <% @results.each do |result| %>
     <tr>
-      <td><%= "%06d" % student_exam.student.ra %></td>
-      <td><%= student_exam.student.name.split(' ').map(&:capitalize).join(' ') %>
+      <td><%= "%06d" % result['RA'].to_i %></td>
+      <td><%= result['NAME'].split(' ').map(&:capitalize).join(' ') %>
         <span style='float: right;'>
-          <%= link_to 'Mostrar', student_exam_path(student_exam), target: '_blank' %>        
+          <%= result['LINK'] %>
         </span>
       </td>
-      <td><%= student_exam.campus.name %></td>
+      <td><%= result['CAMPUS'] %></td>
       <% sum = 0 %>
-      <% student_exam.grades_by_subject.each do |grade, index| %>
-        <td><%= grade %><% sum += grade %></td>
+      <% @subjects.each do |subject| %>
+        <td><%= grade = result[subject.code] %><% sum += grade %></td>
       <% end %>
-      <td><%= sum %></td>      
+      <td><%= sum %></td>
     </tr>
   <% end %>
   </tbody>

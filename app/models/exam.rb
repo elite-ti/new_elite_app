@@ -17,7 +17,8 @@ class Exam < ActiveRecord::Base
   end
 
   def exam_subjects
-    exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+    # exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+    exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
   end
 
   def exam_questions_per_subject

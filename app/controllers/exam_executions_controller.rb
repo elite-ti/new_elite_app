@@ -42,8 +42,22 @@ class ExamExecutionsController < ApplicationController
 
   def result
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
-    @subjects = @exam_execution.exam.exam_subjects
     @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS)
+    @subjects = @exam_execution.exam.exam_subjects    
+    subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
+    correct_answers = @exam_execution.exam.exam_questions.map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
+
+    @results = []
+    @results += @student_exams.map do |student_exam|
+      {
+        'RA' => ("%07d" % student_exam.student.ra), 
+        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
+        'CAMPUS' => student_exam.campus.name,
+        'LINK' => view_context.link_to('Show', student_exam, target:"_blank")
+      }.merge(
+          @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
+        )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+    end
   end
 
   def consolidated_by_cicle
