@@ -1,4 +1,5 @@
 <%= title 'Resultados', 
+  link_to('Salvar', '#', :id => 'save_button_exam_execution'),
   link_to('Voltar', 
     exam_executions_path(
       if @exam_execution.is_bolsao
@@ -12,7 +13,7 @@
   )
 %>
 
-<h2><%= @exam_execution.full_name %></h2>
+<h2 class="klazz_name_exam_execution"><%= @exam_execution.exam_cycle.name + ' • ' + @exam_execution.super_klazz.campus.name + ' • ' + @exam_execution.datetime.strftime('%d/%m/%Y') %></h2>
 
 <table id="results" class="display is-one-page-datatable">
   <thead>
