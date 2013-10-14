@@ -78,16 +78,22 @@ File rotate180(File);
 int is_upside_down(File);
 
 File rotate(File);
+File rotate_again(File);
 double get_tangent(File);
+double get_tangent2(File);
+int test_rotation(File);
+int test_rotation2(File);
 
 File move(File);
-Pixel get_pivot(File);
-int get_pivot_x(File file);
-int get_pivot_y(File file, int x);
+File fine_move(File);
+
+File interpolate(File);
+
+void get_clock_locations(File file);
 
 void process_file(File *);
-void process_zone(File *, Zone);
-void process_question(File *, Zone, int, int);
+void process_zone(File *, Zone, int);
+void process_question(File *, Zone, int, int, int);
 double process_option(File, int, int, int, int);
 
 void print_answers(File);
@@ -98,16 +104,15 @@ void copy_pixel(File *, int, int, File *, int, int);
 double get_column_density(File, int);
 double get_line_density(File, int, int, int);
 void set_pixel_to_red(File, int, int);
-int test_rotation(File);
 void paint_pixel(File, int, int, int, int, int);
 int adjust_configuration(File);
-
-
 
 Configuration conf;
 int mark_position_x[2][2];
 int mark_position_y[2][2];
 int mark_radius[2][2];
+int *clock_locations;
+int use_customized_clocks;
 
 int main(int argc, char* argv[]) {
   read_configuration(argc, argv);
@@ -117,20 +122,19 @@ int main(int argc, char* argv[]) {
   file = locate_marks(file);
 
   File rotated_180_file = rotate180(file);
-  // write_png(&rotated_180_file);
-
   File rotated_file = rotate(rotated_180_file);
-  // write_png(&rotated_file);
 
   File moved_file = move(rotated_file);
-  // write_png(&moved_file);
 
-  // adjust_configuration(moved_file);
+  File intepolated_file = interpolate(moved_file);
 
-  process_file(&moved_file);
-  print_answers(moved_file);
-  write_png(&moved_file);
-  free(moved_file.raster);
+  File intepolated_file2 = fine_move(intepolated_file);
+
+  get_clock_locations(intepolated_file2);
+  process_file(&intepolated_file2);
+  print_answers(intepolated_file2);
+  write_png(&intepolated_file2);
+  free(intepolated_file2.raster);
 
   // process_file(&rotated_180_file);
   // print_answers(rotated_180_file);
@@ -144,6 +148,7 @@ int main(int argc, char* argv[]) {
 void read_configuration(int argc, char* argv[]) {
   // TODO: hard code this paremeters
   // 0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454
+  use_customized_clocks = 0;
 
   if(argc != 30) 
     stop(1, WRONG_NUMBER_OF_ARGUMENTS);
@@ -344,19 +349,24 @@ File locate_marks(File file) {
       paint_pixel(file, x + radius, y + i, 0, 0, 255);      
   }
 
+  #ifdef DEBUG
+    printf("mark00: %d %d\n", mark_position_x[0][0], mark_position_y[0][0]);
+    printf("mark01: %d %d\n", mark_position_x[0][1], mark_position_y[0][1]);
+    printf("mark10: %d %d\n", mark_position_x[1][0], mark_position_y[1][0]);
+    printf("mark11: %d %d\n", mark_position_x[1][1], mark_position_y[1][1]);
+  #endif
+
   return file;
 }
 
 void find_mark(File file, int coord_x, int coord_y) {
-  // int mark00_position_x = 0;
-  // int mark00_position_y = 0;
   int signal_x = coord_x ? -1 : 1;
   int signal_y = coord_y ? -1 : 1;
   int start_x = coord_x ? file.width : 0;
   int start_y = coord_y ? file.height : 0;
 
   int break_flag = 0;
-  for(int sum = 300; sum < 500 && !break_flag; sum++)
+  for(int sum = 300; sum < 800 && !break_flag; sum++)
     for(int x = 1; x < sum && !break_flag; x++)
     {
       if(is_pixel_filled(file, start_x + signal_x * x, start_y + signal_y * (sum - x)))
@@ -373,7 +383,7 @@ void find_mark(File file, int coord_x, int coord_y) {
           for(int i = 0; i < radius; i++)
             if(is_pixel_filled(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x + radius)))
               pixels_filled++;
-        }while(pixels_filled > 0.9 * ((double) 2 * radius - 1));
+        }while(pixels_filled > 0.7 * ((double) 2 * radius - 1));
 
         if(radius > 90)
         {
@@ -400,7 +410,6 @@ void find_mark(File file, int coord_x, int coord_y) {
 }
 
 File rotate(File file) {
-
   if(test_rotation(file) == 1) return file;
 
   double tg = get_tangent(file);
@@ -440,20 +449,18 @@ File rotate(File file) {
 }
 
 File move(File file) {
-  // Pixel pivot = get_pivot(file);
-
   int delta_x = mark_position_x[0][0];
   int delta_y = mark_position_y[0][0];
 
-  int default_card_width = mark_position_x[1][1] - mark_position_x[0][0];
-  int default_card_height = mark_position_y[0][1] - mark_position_y[0][0];
+  int calculated_card_width = mark_position_x[1][1] - mark_position_x[0][0];
+  int calculated_card_height = mark_position_y[0][1] - mark_position_y[0][0];
 
   if(delta_x == 0 && delta_y == 0)
     return file;
 
-  File moved_file = create_empty_file(default_card_height, default_card_width);
-  for(int x = 0; x < default_card_width - 1; x++) {
-    for(int y = 0; y < default_card_height - 1; y++) {
+  File moved_file = create_empty_file(calculated_card_height, calculated_card_width);
+  for(int x = 0; x < calculated_card_width - 1; x++) {
+    for(int y = 0; y < calculated_card_height - 1; y++) {
       int old_x = x + delta_x;
       int old_y = y + delta_y;
       copy_pixel(&file, old_x, old_y, &moved_file, x, y);
@@ -461,6 +468,82 @@ File move(File file) {
   }
   free(file.raster);
   return moved_file;
+}
+
+File fine_move(File file) {
+  int start_y = ceil(
+    (double) conf.student_zone.group_y + 
+    conf.student_zone.questions_per_group * 
+      (conf.student_zone.option_height + 
+      conf.student_zone.vertical_space_between_options)
+    ) + conf.student_zone.option_height;
+  int found_y = 0;
+  for (int i = 0; i < 200; ++i){
+    double density = get_line_density(file, 0, file.width - 1, start_y + i);
+    if(found_y == 0 && density > 0.1){
+      for (int j = 0; j < file.width; ++j)
+        paint_pixel(file, j, start_y + i, 0, 255, 0);
+      found_y = start_y + i;
+      break;
+    }
+  }
+
+  int start_x = (double) conf.questions_zone.group_x - 20;
+  int found_x = -1;
+  int count = 0;
+  for (int i = 0; i < 40; ++i){
+    double density = get_column_density(file, start_x + i);
+    if(found_x == -1 && density < 0.1){
+      if(count < 5)
+        count++;
+      else
+        found_x = 0;
+    }
+    else
+      count = 0;
+    if(found_x == 0 && density > 0.1){
+      for (int j = 0; j < file.height; ++j)
+        paint_pixel(file, start_x + i, j, 0, 255, 0);
+      found_x = start_x + i;
+      break;
+    }
+  }
+
+  int delta_y = found_y == 0 ? 0 : conf.questions_zone.group_y - found_y;
+  int delta_x = found_x == 0 ? 0 : conf.questions_zone.group_x - found_x;
+
+  if(delta_y == 0)
+    return file;
+
+  File moved_file = create_empty_file(file.height, file.width);
+  for(int x = 0; x < file.width - 1; x++) {
+    for(int y = 0; y < file.height - 1; y++) {
+      int new_x = x + delta_x;
+      int new_y = y + delta_y;
+      copy_pixel(&file, x, y, &moved_file, new_x, new_y);
+    }
+  }
+  free(file.raster);
+  return moved_file;
+}
+
+File interpolate(File file) {
+  int difference_card_width = abs(file.width - conf.default_card_width);
+  int difference_card_height = abs(file.height - conf.default_card_height);
+
+  if(difference_card_width + difference_card_height < 5)
+    return file;
+
+  File interpolated_file = create_empty_file(conf.default_card_height, conf.default_card_width);
+  for(int x = 0; x < conf.default_card_width - 1; x++) {
+    for(int y = 0; y < conf.default_card_height - 1; y++) {
+      int new_x = abs(((double)x * file.width) / (double) conf.default_card_width);
+      int new_y = abs(((double)y * file.height) / (double) conf.default_card_height);
+      copy_pixel(&file, new_x, new_y, &interpolated_file, x, y);
+    }
+  }
+  free(file.raster);
+  return interpolated_file;
 }
 
 File create_empty_file(int height, int width) {
@@ -516,154 +599,24 @@ void paint_big_pixel(File file, int x, int y, int R, int G, int B, int radius) {
 }
 
 double get_tangent(File file) {
-  // int SUMxx = mark_position_x[0][1] - mark_position_x[0][0];
-  // int SUMxy = mark_position_y[0][1] - mark_position_y[0][0];
-  // double tg = ((double)SUMxx/(double)SUMxy);
-  // return tg;
+  // int SUMxx = mark_position_x[1][1] - mark_radius[1][1] - (mark_position_x[0][0] + mark_radius[0][0]);
+  // int SUMxy = mark_position_y[1][1] - mark_radius[1][1] - (mark_position_y[0][0] + mark_radius[0][0]);
+  // double tg1 = ((double)SUMxx/(double)SUMxy);
+  // double tg2 = ((double)file.width/(double)file.height);
 
-  int SUMxx = mark_position_x[1][1] - mark_position_x[0][0];
-  int SUMxy = mark_position_y[1][1] - mark_position_y[0][0];
+  // return (tg1 - tg2)/(1 - tg1 * tg2);
+
+  int SUMxx = mark_position_x[0][1] + mark_radius[0][1] - (mark_position_x[0][0] + mark_radius[0][0]);
+  int SUMxy = mark_position_y[0][1] - mark_radius[0][1] - (mark_position_y[0][0] + mark_radius[0][0]);
   double tg_real = ((double)SUMxx/(double)SUMxy);
-  double tg_default = ((double)2905/(double)4223);
 
-  double tg = (tg_real - tg_default)/(1 + tg_real*tg_default);
-  return tg;
-}
+  // printf("tg_all: %g\n", ((double)file.width/(double)file.height));
+  // SUMxx = mark_position_x[1][1] - mark_radius[1][1] - (mark_position_x[0][0] + mark_radius[0][0]);
+  // SUMxy = mark_position_y[1][1] - mark_radius[1][1] - (mark_position_y[0][0] + mark_radius[0][0]);
 
-Pixel get_pivot(File file) {
-  Pixel pivot;
+  // printf("tg_real: %g\n", ((double)SUMxx/(double)SUMxy));
 
-  // double density, max_density = 0;
-  // int target_x = -1, target_xx = -1; 
-  // for(int x = 0; x < file.width && target_xx < 0; x++) {
-  //   if(target_x < 0) {
-  //     if(get_column_density(file, x) > 0.4)
-  //       target_x = x; 
-  //   }
-  //   else {
-  //     if (get_column_density(file, x) < 0.4)
-  //       target_xx = x;
-  //   }
-  // }
-  // target_x = (target_x + target_xx)/2;
-
-  // for(int y = 0; y < file.height/2; y++) {
-  //   if(is_pixel_filled(file, target_x, y) && is_in_mark(file, target_x, y)) {
-  //     while(is_pixel_filled(file, target_x, y))
-  //       target_x++;
-  //     pivot.x = target_x--;
-  //     pivot.y = y;
-  //     return pivot;
-  //   }
-  // }
-  // stop(4, PIVOT_NOT_FOUND);
-  // // #ifdef DEBUG
-  //   printf("Pivot: %d %d\n", pivot.x, pivot.y);
-  //   paint_big_pixel(file, pivot.x, pivot.y, 0, 255, 255);
-  // // #endif
-
-  pivot.x = get_pivot_x(file);
-  pivot.y = get_pivot_y(file, pivot.x);
-
-  return pivot;
-}
-
-int get_pivot_x(File file) {
-  int target_x = -1, target_xx = -1; 
-  int count = 0;
-
-  // for(int x = 0; x < 100; x++) {  
-  //   printf("%g\n", get_column_density(file, x + count));
-  // }
-  for(int x = 0; x < file.width && target_xx < 0; x++) {
-    if(target_x < 0) {
-      if(get_column_density(file, x) > 0.3)
-      {
-        count = 1;
-        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
-          count++;
-        if(count > 40)
-          target_x = x;
-      }
-    }
-    else {
-      if (get_column_density(file, x) < 0.3)
-        return x;
-    }
-  }
-  // printf("%d %d\n", target_x, target_xx);
-  stop(4, PIVOT_X_NOT_FOUND);
-}
-
-int get_pivot_y(File file, int start_y) {
-  int target_x = -1, target_xx = -1; 
-  int count = 0;
-  for(int x = 0; x < file.width && target_xx < 0; x++) {
-    if(target_x < 0) {
-      if(get_column_density(file, x) > 0.3)
-      {
-        count = 1;
-        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
-          count++;
-        if(count > 40)
-          target_x = x;
-      }
-    }
-    else {
-      if (get_column_density(file, x) < 0.3)
-        target_xx = x;
-    }
-  }
-
-  for (int i = 0; i < file.height; ++i)
-  {
-    paint_pixel(file, target_x, i, 0, 0, 255);
-    paint_pixel(file, target_xx, i, 0, 0, 255);
-  }
-  for(int y = start_y; y < file.height; y++) {
-    if(get_line_density(file, target_x, target_xx, y) > 0.7) {
-      int matches = 0;
-      for(int z = 0; z < 30; z++)
-        if(get_line_density(file, target_x, target_xx, y + z) > 0.7)
-          matches++;
-      if(matches == 30)
-        return y;
-    }
-  }
-  stop(4, PIVOT_Y_NOT_FOUND);
-}
-
-int get_reverse_pivot_y(File file, int start_y) { 
-  int target_x = -1, target_xx = -1; 
-  int count;
-  for(int x = 0; x < file.width && target_xx < 0; x++) {
-    if(target_x < 0) {
-      if(get_column_density(file, x) > 0.3)
-      {
-        count = 1;
-        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
-          count++;
-        if(count > 40)
-          target_x = x;
-      }
-    }
-    else {
-      if (get_column_density(file, x) < 0.3)
-        target_xx = x;
-    }
-  }
-
-  for(int y = start_y; y >= 0; y--) {
-    if(get_line_density(file, target_x, target_xx, y) > 0.7) {
-      int matches = 0;
-      for(int z = 0; z < 30; z++)
-        if(get_line_density(file, target_x, target_xx, y - z) > 0.7)
-          matches++;
-      if(matches == 30)
-        return y;
-    }
-  }
-  stop(4, PIVOT_REVERSE_Y_NOT_FOUND);
+  return tg_real;
 }
 
 double get_line_density(File file, int start_x, int end_x, int y) {
@@ -687,77 +640,71 @@ double get_column_density(File file, int x) {
   return (double)match / (double)count;
 }
 
-// Pixel *get_clock_locations(File file){
-//   Pixel points[57];
-//   int index = 0;
-//   int start_y = 0, width = 75, height = 40;
-//   // double  percentage_before = 0, percentage_now = 0;
-//   int start_x = -1, end_x = -1, target_x;
-
-//   for(int x = 0; x < file.width && end_x < 0; x++) {
-//     if(start_x < 0) {
-//       if(get_column_density(file, x) > 0.3)
-//         start_x = x; 
-//     }
-//    else {
-//      if (get_column_density(file, x) < 0.3)
-//        end_x = x;
-//    }
-//   }
-
-//   target_x = (start_x + end_x)/2;
-
-//   for(int y = 0; y < file.height; y++) {
-//       if(get_line_density(file, start_x, end_x, y) > 0.8) {
-//         int matches = 0;
-//         for(int z = 0; z < 40; z++)
-//           if(get_line_density(file, start_x, end_x, y + z) > 0.8)
-//             matches++;
-//         if(matches >= 25)
-//         {
-//             Pixel p;
-//             p.x = target_x;
-//             p.y = y;
-//             points[index] = p; 
-//             y = y + 40;
-//         }
-//       }
-//   }
-//     // for (int i = start_y; i < file.height; ++i)
-//     // {
-//     //   percentage_now = process_option(file,start_x,i,width,height);
-
-//     // }
-//   return points;
-// }
-
+void get_clock_locations(File file) {
+  int status = 0; // 0: outside, 1: inside
+  int index = 0;
+  int *temporary_clock_locations = (int*)malloc(2*conf.questions_zone.questions_per_group*sizeof(int));
+  int group_end_y = conf.questions_zone.group_y + conf.questions_zone.questions_per_group * (conf.questions_zone.vertical_space_between_options + conf.questions_zone.option_height) - conf.questions_zone.vertical_space_between_options;
+  for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 30; ++i){
+    double density = get_line_density(file, conf.questions_zone.group_x - 80, conf.questions_zone.group_x - 30, i);
+    if(status == 0 && density > 0.05){
+      #ifdef DEBUG
+      for (int j = conf.questions_zone.group_x - 85; j < conf.questions_zone.group_x - 30; ++j)
+        paint_pixel(file, j, i, 0, 0, 255);
+      #endif
+      status = 1;
+      temporary_clock_locations[index] = i - 3;
+      index++;
+    }
+    if(status == 1 && density < 0.05){
+      #ifdef DEBUG
+      for (int j = conf.questions_zone.group_x - 85; j < conf.questions_zone.group_x - 30; ++j)
+        paint_pixel(file, j, i - 1, 0, 0, 255);
+      #endif
+      status = 0;
+      temporary_clock_locations[index] = i + 1;
+      index++;
+    }
+  }
+  if(index == 2*conf.questions_zone.questions_per_group){
+    clock_locations = temporary_clock_locations;
+    use_customized_clocks = 1;
+  }
+}
 
 void process_file(File *file) {
   file->number_of_questions = 0;
 
-  process_zone(file, conf.student_zone);
-  process_zone(file, conf.questions_zone);
+  process_zone(file, conf.student_zone, 0);
+  process_zone(file, conf.questions_zone, use_customized_clocks);
 }
 
-void process_zone(File *file, Zone zone) {
+void process_zone(File *file, Zone zone, int customized_clocks) {
   for(int group_number = 0; group_number < zone.number_of_groups; group_number++) {
     for(int question_number = 0; question_number < zone.questions_per_group; question_number++)
-      process_question(file, zone, group_number, question_number);
+      process_question(file, zone, group_number, question_number, customized_clocks);
   }
 }
 
-void process_question(File *file, Zone zone, int group_number, int question_number) {
+void process_question(File *file, Zone zone, int group_number, int question_number, int customized_clocks) {
   char answer = 'Z';
 
   for(int option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
     int start_x = ceil((double) zone.group_x + 
       option_number * (zone.option_width + zone.horizontal_space_between_options) + 
       group_number * zone.space_between_groups);
-    int start_y = ceil((double) zone.group_y + 
-      question_number * (zone.option_height + zone.vertical_space_between_options));
-    // printf("%d: %lf %d\n", question_number, ((double) zone.group_y) + question_number * (zone.option_height + zone.vertical_space_between_options), start_y);
     int width = zone.option_width;
-    int height = zone.option_height;
+    int start_y;
+    int height;
+    if(customized_clocks){
+      start_y = clock_locations[question_number*2];
+      height = clock_locations[question_number*2 + 1] - clock_locations[question_number*2];
+    }
+    else{
+      start_y = ceil((double) zone.group_y + 
+        question_number * (zone.option_height + zone.vertical_space_between_options));
+      height = zone.option_height;      
+    }
 
     if(process_option(*file, start_x, start_y, width, height) > conf.threshold) {
       if(answer == 'Z')
@@ -888,56 +835,6 @@ int get_division_between_zones(File file){
     if(matches == 45)
       return y - 44;
   }
-}
-
-int adjust_configuration(File file){
-  // Alignment for header zone
-  int start_of_header_y = get_pivot_y(file, 0);
-  int end_of_header_y = get_division_between_zones(file);
-
-
-  if(abs(start_of_header_y - 540) < 150 && abs(end_of_header_y - 1000) < 150){
-    conf.student_zone.group_y = start_of_header_y;
-    conf.student_zone.vertical_space_between_options = ((double)(end_of_header_y - start_of_header_y - conf.student_zone.questions_per_group * conf.student_zone.option_height))/((double) (conf.student_zone.questions_per_group - 1));    
-  }
-  else
-    printf("Erro alinhamento!");
-
-  // Alignment for answers zone
-  int start_of_answer_y = get_pivot_y(file, end_of_header_y);  
-  int end_of_answer_y = get_reverse_pivot_y(file, file.height - 1);
-
-  if(abs(start_of_answer_y - 1060) < 150 && abs(end_of_answer_y - 4500) < 150){
-    conf.questions_zone.group_y = start_of_answer_y;
-    conf.questions_zone.vertical_space_between_options = ((double)(end_of_answer_y - start_of_answer_y - conf.questions_zone.questions_per_group * conf.questions_zone.option_height))/((double) (conf.questions_zone.questions_per_group - 1));
-  }
-  else
-    printf("Erro alinhamento!");
-
-  #ifdef DEBUG
-    printf("\n", start_of_header_y);
-    printf("Start Header: %d\n", start_of_header_y);
-    printf("End of Header: %d\n", end_of_header_y);
-    printf("Start of Answers: %d\n", start_of_answer_y);
-    printf("End of Answers: %d\n", end_of_answer_y);
-    printf("Questions Header: %d\n", conf.student_zone.questions_per_group);
-    printf("Option Height Header: %d\n", conf.student_zone.option_height);
-    printf("Vertical Space Header: %g\n", conf.student_zone.vertical_space_between_options);
-      
-    for (int i = 0; i < 500; ++i)
-    {
-      paint_pixel(file, i, start_of_header_y, 0, 0, 255);
-      paint_pixel(file, i, end_of_header_y, 0, 0, 255);
-    }
-
-    for (int i = 0; i < 500; ++i)
-    {
-      paint_pixel(file, i, start_of_answer_y, 0, 0, 255);
-      paint_pixel(file, i, end_of_answer_y, 0, 0, 255);
-    }
-  #endif
-
-  return 0;
 }
 
 void paint_pixel(File file, int x, int y, int R, int G, int B) {

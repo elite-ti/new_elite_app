@@ -24,17 +24,17 @@ class StudentsController < ApplicationController
   end
 
   def create
-    if params[:student][:applied_super_klazz_ids][1] =~ /^[-+]?[0-9]+$/
+    @is_bolsao = !params[:student][:number].nil?
+    if @is_bolsao && !(params[:student][:applied_super_klazz_ids][1] =~ /^[-+]?[0-9]+$/)
+      flash[:notice] = 'Informe a turma na qual o aluno deseja cursar.'
+      render 'new'
+    else
       @student.number = @student.calculate_temporary_ra(params[:student][:applied_super_klazz_ids][1].to_i, 1)
       if @student.save
         redirect_to students_url(is_bolsao: !params[:student][:number].nil?), notice: (@is_bolsao? 'Candidato' : 'Aluno' ) + ' criado com sucesso.'
       else
         render 'new'
       end
-    else
-      @is_bolsao = !params[:student][:number].nil?
-      flash[:notice] = 'Informe a turma na qual o aluno deseja cursar.'
-      render 'new'
     end
   end
 
