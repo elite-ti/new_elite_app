@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
-// #define DEBUG // Comment out if not debug version
+#define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -89,7 +89,8 @@ File fine_move(File);
 
 File interpolate(File);
 
-void get_clock_locations(File file);
+// File stretch(File);
+int get_clock_locations(File file);
 
 void process_file(File *);
 void process_zone(File *, Zone, int);
@@ -129,6 +130,7 @@ int main(int argc, char* argv[]) {
   File intepolated_file = interpolate(moved_file);
 
   File intepolated_file2 = fine_move(intepolated_file);
+  // File intepolated_file2 = stretch(intepolated_file1);
 
   get_clock_locations(intepolated_file2);
   process_file(&intepolated_file2);
@@ -485,7 +487,7 @@ File fine_move(File file) {
   int start_x = (double) conf.questions_zone.group_x - 20;
   int found_x = -1;
   int count = 0;
-  for (int i = 0; i < 40; ++i){
+  for (int i = 0; i < 50; ++i){
     double density = get_column_density(file, start_x + i);
     if(found_x == -1 && density < 0.1){
       if(count < 5)
@@ -634,12 +636,64 @@ double get_column_density(File file, int x) {
   return (double)match / (double)count;
 }
 
-void get_clock_locations(File file) {
+// File stretch(File file) {
+//   int success = get_clock_locations(file);
+
+//   if(!success)
+//     return file;
+
+//   File stretched_file = create_empty_file(conf.default_card_height, conf.default_card_width);
+
+//   int height1 = conf.student_zone.group_y+1;
+//   int height2 = height1 + conf.student_zone.questions_per_group*conf.student_zone.option_height + conf.student_zone.vertical_space_between_options*(conf.student_zone.questions_per_group-1);
+//   int height3 = conf.questions_zone.group_y;
+//   int height4 = height3 + conf.questions_zone.questions_per_group*conf.questions_zone.option_height + (int)conf.questions_zone.vertical_space_between_options*(conf.questions_zone.questions_per_group-1);
+//   printf("h1:%d|h2:%d|h3:%d|h4:%d\n", height1, height2, height3, height4);
+  
+//   int original_y, blank = 0;
+//   for(int y = 0; y < stretched_file.height; y++) {
+//     for(int x = 0; x < stretched_file.width; x++) {
+//       if(x==0){
+//         if(y < height2 + 10){
+//           blank = 0;
+//           original_y = y;//round(((double)clock_locations[0]/(double)height1)*(double)y);
+//         }
+//         else if(y < height3 - 10)
+//         {
+//           blank = 1;
+//         }
+//         else if(y < height4)
+//         {
+//           blank = 0;
+//           int n1 = (y-height3)/((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
+//           int d1 = y - height3 - n1*((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
+//           int n2 = d1 >= conf.questions_zone.option_height ? 1 : 0;
+//           d1 = (n2 == 1) ? (d1 - conf.questions_zone.option_height) : d1;
+//           int n = 2*n1 + n2;
+
+//           original_y = clock_locations[n]+round((double)d1*(double)(clock_locations[n+1]-clock_locations[n])/(double)(n2==1 ? (int)conf.questions_zone.vertical_space_between_options : conf.questions_zone.option_height));
+//         }
+//         else
+//         {
+//           blank = 0;
+//           original_y++;
+//         }
+//       }
+//       if(original_y<file.height && x<file.width && !blank && is_pixel_filled(file, x, original_y))
+//         copy_pixel(&file, x, original_y, &stretched_file, x, y);
+//     }
+//   }
+
+//   free(file.raster);
+//   return stretched_file;
+// }
+
+int get_clock_locations(File file) {
   int status = 0; // 0: outside, 1: inside
   int index = 0;
   int *temporary_clock_locations = (int*)malloc(2*conf.questions_zone.questions_per_group*sizeof(int));
   int group_end_y = conf.questions_zone.group_y + conf.questions_zone.questions_per_group * (conf.questions_zone.vertical_space_between_options + conf.questions_zone.option_height) - conf.questions_zone.vertical_space_between_options;
-  for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 30; ++i){
+  for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 100; ++i){
     double density = get_line_density(file, conf.questions_zone.group_x - 80, conf.questions_zone.group_x - 30, i);
     if(status == 0 && density > 0.05){
       #ifdef DEBUG
@@ -663,7 +717,9 @@ void get_clock_locations(File file) {
   if(index == 2*conf.questions_zone.questions_per_group){
     clock_locations = temporary_clock_locations;
     use_customized_clocks = 1;
+    return 1;
   }
+  return 0;
 }
 
 void process_file(File *file) {
