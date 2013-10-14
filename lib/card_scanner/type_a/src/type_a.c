@@ -136,12 +136,6 @@ int main(int argc, char* argv[]) {
   write_png(&intepolated_file2);
   free(intepolated_file2.raster);
 
-  // process_file(&rotated_180_file);
-  // print_answers(rotated_180_file);
-  // write_png(&rotated_180_file);
-
-  // free(rotated_file.raster);
-
   return 0;
 }
 
@@ -480,7 +474,7 @@ File fine_move(File file) {
   int found_y = 0;
   for (int i = 0; i < 200; ++i){
     double density = get_line_density(file, 0, file.width - 1, start_y + i);
-    if(found_y == 0 && density > 0.1){
+    if(found_y == 0 && density > 0.05){
       for (int j = 0; j < file.width; ++j)
         paint_pixel(file, j, start_y + i, 0, 255, 0);
       found_y = start_y + i;
