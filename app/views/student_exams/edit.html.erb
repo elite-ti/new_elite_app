@@ -162,7 +162,7 @@
             <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
             <%= f.input :string_of_answers , label: "Answers"%>
             <%= label :mock, :exam_execution_id %>
-            <%= f.collection_select :exam_execution_id, @student_exam.campus.super_klazzes.map(&:exam_executions).flatten, :id, :full_name, include_blank: true %>            
+            <%= f.collection_select :exam_execution_id, ExamExecution.where(super_klazz_id: @student_exam.campus.super_klazzes.map(&:id), datetime: (@student_exam.exam_date.beginning_of_day)..(@student_exam.exam_date.end_of_day)), :id, :full_name, include_blank: true %>            
           </div>
         </div>
 
