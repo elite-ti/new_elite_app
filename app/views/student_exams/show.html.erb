@@ -36,14 +36,35 @@
         <br />
         <span>Campus: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Not found' %><br />
         <span>Exam Date: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Not found' %><br />
+        <br />
+        <span>Nota Total: </span>
+        <%= 
+            if @student_exam.exam_answers.present?
+              (10.0 * @student_exam.number_of_correct_answers.to_f/@student_exam.total_number_of_questions.to_f).to_s + ' (' + @student_exam.number_of_correct_answers.to_s + '/' + @student_exam.total_number_of_questions.to_s + ')'
+            else
+              'Not found'
+            end
+        %>
+        <br />
+        <% if @student_exam.exam_answers.present? %>
+          <% @student_exam.exam_execution.exam.exam_subjects.each do |subject| %>        
+            <span style='margin-left:20px'><%= "\t#{subject.code}: " %></span>
+            <%= 
+              (10.0 * @student_exam.number_of_correct_answers(subject.name).to_f/@student_exam.total_number_of_questions(subject.name).to_f).to_s + ' (' + @student_exam.number_of_correct_answers(subject.name).to_s + '/' + @student_exam.total_number_of_questions(subject.name).to_s + ')'
+            %>
+            <br />
+          <% end %>
+        <% end %>
       </p>
     </div>
     <table id='student_exam_exam_answers' class='display is-datatable'>
       <thead>
         <tr>
           <th>Question Number</th>
+          <th>Subject</th>
           <th>Correct Option</th>
           <th>Marked Option</th>
+          <th></th>
         </tr>
       </thead>
 
@@ -51,8 +72,16 @@
       <% @student_exam.exam_answers.each do |exam_answer| %>
         <tr>
           <td><%= exam_answer.exam_question.number.to_s %></td> 
+          <td><%= exam_answer.exam_question.question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
           <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
           <td><%= exam_answer.answer %></td> 
+          <td>
+              <% if exam_answer.exam_question.question.correct_options.map(&:letter).include? exam_answer.answer %>
+                <%= image_tag('correct16.png', id: 'correct_check') %>
+              <% else %>
+                <%= image_tag('wrong16.png', id: 'wrong_check') %>
+              <% end %>
+          </td>
         </tr>
       <% end %>
       </tbody>
