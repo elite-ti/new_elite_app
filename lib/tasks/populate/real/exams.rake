@@ -5,7 +5,7 @@ namespace :db do
         task add_exams_16OUT: :environment do
           p 'Adding exams'
           datetime = 'Sun, 16 Out 2013 14:00:00 BRT -03:00'
-          cycle_name = 'Concurso interno - IME'
+          cycle_name = 'Concurso interno - IME - '
           exam_name = 'Prova'
           array = [
             'C - 2ª Série Militar - All - MAT(15) + FIS(15) + QUI(10): EDBCDBAECDDAEBD BDDCCCABCAACEDC CBDEDAACED',
