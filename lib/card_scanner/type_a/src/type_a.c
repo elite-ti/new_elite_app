@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
-// #define DEBUG // Comment out if not debug version
+#define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -487,7 +487,7 @@ File fine_move(File file) {
     }
   }
 
-  int start_x = (double) conf.questions_zone.group_x - 50;
+  int start_x = (double) conf.questions_zone.group_x - 30;
   int found_x = -1;
   int count = 0;
   for (int i = 0; i < 50; ++i){

@@ -9,6 +9,7 @@ class CardConfiguration
   end
 
   def parse_result(result)
+    p result
     raise InvalidResult.new('wrong number of questions') if result.size != number_of_questions
 
     student_result = result[0, student_zone.number_of_questions]
