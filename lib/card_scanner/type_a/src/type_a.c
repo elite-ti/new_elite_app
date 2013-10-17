@@ -11,9 +11,7 @@
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
 #define ERROR_WRITING_FILE "Error: could not write png."
-#define PIVOT_X_NOT_FOUND "Error: pivot x not found."
-#define PIVOT_Y_NOT_FOUND "Error: pivot y not found."
-#define PIVOT_REVERSE_Y_NOT_FOUND "Error: reverse pivot y not found."
+#define MARK_NOT_FOUND "Could not find all marks."
 
 #define get_index(file, x, y) (((y) * (file).width + (x))*4)
 #define is_in_file(file, x, y) ((x) >= 0 && (y) >= 0 && (x) < (file).width && (y) < (file).height)
@@ -72,7 +70,7 @@ File read_png();
 File read_tif();
 
 File locate_marks(File);
-void find_mark(File, int, int);
+int find_mark(File, int, int);
 
 File rotate180(File);
 int is_upside_down(File);
@@ -325,27 +323,30 @@ File locate_marks(File file) {
       mark_radius[i][j] = 0;      
     }
 
-  find_mark(file, 0, 0);
-  find_mark(file, 0, 1);
-  find_mark(file, 1, 0);
-  find_mark(file, 1, 1);
+  int number_of_marks = 0;
+  number_of_marks += find_mark(file, 0, 0);
+  number_of_marks += find_mark(file, 0, 1);
+  number_of_marks += find_mark(file, 1, 0);
+  number_of_marks += find_mark(file, 1, 1);
 
-  if(mark_position_x[1][0] == 0 && mark_position_y[1][0] == 0)
-  {
-    int radius = 110;
-    int x = mark_position_x[0][0] + mark_position_x[1][1] - mark_position_x[0][1];
-    int y = mark_position_y[0][0] + mark_position_y[1][1] - mark_position_y[0][1];
-    for(int i = 0; i < radius; i++)
-      paint_pixel(file, x + i, y, 0, 0, 255);
-    for(int i = 0; i <= radius; i++)
-      paint_pixel(file, x + i, y + radius, 0, 0, 255);
-    for(int i = 0; i < radius; i++)
-      paint_pixel(file, x, y + i, 0, 0, 255);
-    for(int i = 0; i < radius; i++)
-      paint_pixel(file, x + radius, y + i, 0, 0, 255);      
-  }
+  if(number_of_marks != 3)
+    stop(3, MARK_NOT_FOUND);
 
   #ifdef DEBUG
+    if(mark_position_x[1][0] == 0 && mark_position_y[1][0] == 0)
+    {
+      int radius = 110;
+      int x = mark_position_x[0][0] + mark_position_x[1][1] - mark_position_x[0][1];
+      int y = mark_position_y[0][0] + mark_position_y[1][1] - mark_position_y[0][1];
+      for(int i = 0; i < radius; i++)
+        paint_pixel(file, x + i, y, 0, 0, 255);
+      for(int i = 0; i <= radius; i++)
+        paint_pixel(file, x + i, y + radius, 0, 0, 255);
+      for(int i = 0; i < radius; i++)
+        paint_pixel(file, x, y + i, 0, 0, 255);
+      for(int i = 0; i < radius; i++)
+        paint_pixel(file, x + radius, y + i, 0, 0, 255);      
+    }
     printf("mark00: %d %d\n", mark_position_x[0][0], mark_position_y[0][0]);
     printf("mark01: %d %d\n", mark_position_x[0][1], mark_position_y[0][1]);
     printf("mark10: %d %d\n", mark_position_x[1][0], mark_position_y[1][0]);
@@ -355,14 +356,14 @@ File locate_marks(File file) {
   return file;
 }
 
-void find_mark(File file, int coord_x, int coord_y) {
+int find_mark(File file, int coord_x, int coord_y) {
   int signal_x = coord_x ? -1 : 1;
   int signal_y = coord_y ? -1 : 1;
   int start_x = coord_x ? file.width : 0;
   int start_y = coord_y ? file.height : 0;
 
   int break_flag = 0;
-  for(int sum = 300; sum < 800 && !break_flag; sum++)
+  for(int sum = 30; sum < 1100 && !break_flag; sum++)
     for(int x = 1; x < sum && !break_flag; x++)
     {
       if(is_pixel_filled(file, start_x + signal_x * x, start_y + signal_y * (sum - x)))
@@ -399,10 +400,12 @@ void find_mark(File file, int coord_x, int coord_y) {
           //   paint_pixel(file, start_x + signal_x * (x + radius), start_y + signal_y * (sum - x + i), 0, 0, 255);
           paint_pixel(file, start_x + signal_x * x, start_y + signal_y * (sum - x), 0, 255, 0);
           break_flag = 1;
+          return 1;
           break;
         }
       }
     }
+  return 0;
 }
 
 File rotate(File file) {
@@ -484,7 +487,7 @@ File fine_move(File file) {
     }
   }
 
-  int start_x = (double) conf.questions_zone.group_x - 20;
+  int start_x = (double) conf.questions_zone.group_x - 50;
   int found_x = -1;
   int count = 0;
   for (int i = 0; i < 50; ++i){
