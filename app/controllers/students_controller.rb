@@ -26,12 +26,19 @@ class StudentsController < ApplicationController
   end
 
   def create
+    p 'Bolsao: ' + params[:student][:number].to_s
     @is_bolsao = !params[:student][:number].nil?
     if @is_bolsao && !(params[:student][:applied_super_klazz_ids][1] =~ /^[-+]?[0-9]+$/)
       flash[:notice] = 'Informe a turma na qual o aluno deseja cursar.'
       render 'new'
     else
-      @student.number = @student.calculate_temporary_ra(params[:student][:applied_super_klazz_ids][1].to_i, 1)
+      if @is_bolsao
+        if params[:student][:number] == -1
+          @student.number = @student.calculate_temporary_ra(params[:student][:applied_super_klazz_ids][1].to_i, 1)
+        else
+          @student.number = params[:student][:number]
+        end
+      end
       if @student.save
         redirect_to students_url(is_bolsao: !params[:student][:number].nil?), notice: (@is_bolsao? 'Candidato' : 'Aluno' ) + ' criado com sucesso.'
       else
@@ -42,10 +49,15 @@ class StudentsController < ApplicationController
 
   def update
     @is_bolsao = @student.applicants.size > 0
+    # @student.number = params[:student][:number]    
     @student = Student.find(params[:id].to_i)
     @number = @student.number
     if @student.update_attributes(params[:student])
-      @student.number = @number if !@number.nil?
+      p '============'
+      p @number
+      if @is_bolsao && !params[:student][:number].nil? && params[:student][:number] =~ /^[-+]?[0-9]+$/
+          @student.number = params[:student][:number]
+      end
       redirect_to students_url(is_bolsao: @is_bolsao), notice: 'Aluno editado com sucesso.'
     else
       render 'edit'

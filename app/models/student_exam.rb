@@ -181,7 +181,7 @@ class StudentExam < ActiveRecord::Base
     end
 
     # comment
-    if answers_needing_check.any?
+    if answers_needing_check.any? && !is_bolsao
       self.status = INVALID_ANSWERS_STATUS
     else
       self.status = VALID_STATUS
