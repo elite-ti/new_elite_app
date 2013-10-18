@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
 
   def index
     if !params[:is_bolsao].nil? && params[:is_bolsao] == 'true'
-      @students = Applicant.all.map(&:student).uniq
+      @students = Applicant.all.map(&:student).compact.uniq
       @is_bolsao = true
     else
       # @students = Student.select{|student| student.applied_super_klazzes.size == 0}
