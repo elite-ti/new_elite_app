@@ -72,18 +72,18 @@ namespace :db do
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
-            'C - 6º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 1ª Série ENEM, 1ª Série ENEM, 2ª Série ENEM, 2ª Série ENEM - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 3ª Série + ESPCEX, 3ª Série + IME-ITA, 3ª Série + AFA/ESPCEX, 3ª Série + AFA/EN/EFOMM, AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, IME-ITA Especial, AFA/ESPCEX - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 3ª Série + Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Manhã',
-            'C - 6º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
-            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
-            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
-            'C - 1ª Série ENEM, 1ª Série ENEM, 2ª Série ENEM, 2ª Série ENEM - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
-            'C - 3ª Série + ESPCEX, 3ª Série + IME-ITA, 3ª Série + AFA/ESPCEX, 3ª Série + AFA/EN/EFOMM, AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, IME-ITA Especial, AFA/ESPCEX - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde',
-            'C - 3ª Série + Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): ABCDEABCDEABCDE ABCDEABCDEABCDE - Tarde'
+            'C - 6º Ano - All - MAT(15) + POR(15): ECBCDAEECCBDECD BDDEABBDDACEBCD - Manhã',
+            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
+            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - MAT(15) + POR(15): BAADEDCEBEDACDC DBDDBABBBACEDEA - Manhã',
+            'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - MAT(15) + POR(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA - Manhã',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): DEBCCBBCBEACEAB BCADBECADAABAEA - Manhã',
+            'C - 6º Ano - All - MAT(15) + POR(15): ADCDEBAEDDEBECB DEABBDABCEDBDDC - Tarde',
+            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
+            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - MAT(15) + POR(15): CBAEAEDECEEBDED DDDBABBABCBEAED - Tarde',
+            'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - MAT(15) + POR(15): CBBEEEDACEADADE DADBDCBDADADAAE - Tarde',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end      
