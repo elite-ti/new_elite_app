@@ -18,7 +18,7 @@
       <%= f.hidden_field :is_bolsao, value: false %>
     <% end %>
     <%= f.input :file, hint: '.rar, .zip ou .tif', label: 'Arquivo' %>
-    <%= f.association :card_type, collection: CardType.order('created_at ASC'), include_blank: false, label: 'Tipo de cartão' %>
+    <%= f.association :card_type, collection: CardType.order('created_at DESC'), include_blank: false, label: 'Tipo de cartão'%>
     <% if @specific_exam %>
       <%= f.hidden_field :campus_id, 
         value:  @exam_execution.super_klazz.campus_id %>

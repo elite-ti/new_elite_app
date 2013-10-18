@@ -32,7 +32,7 @@ class Student < ActiveRecord::Base
   end
 
   def number
-    applicants.map(&:number).try(:first)
+    applicants.map{|ap| ap.try(:number) || ''}.try(:first)
   end
 
   def number= value

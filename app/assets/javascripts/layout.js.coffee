@@ -20,7 +20,7 @@ jQuery ->
   $('.is-datatable-exam-executions').dataTable
     sPaginationType: 'full_numbers'
     bJQueryUI: true
-    aaSorting: [[ 0, "desc" ]]    
+    aaSorting: [[ 0, "desc" ], ["1", "asc"]]    
     aoColumns: [
       {sWidth:"5%"},
       {sWidth:"54%"},
