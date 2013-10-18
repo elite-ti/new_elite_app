@@ -205,7 +205,7 @@ private
   end
 
   def mark_conclicts!
-    if student.present? and exam_execution.present?
+    if student.present? and exam_execution.present? and !is_bolsao
       conflics = StudentExam.where(
         student_id: student.id, 
         exam_execution_id: exam_execution.id

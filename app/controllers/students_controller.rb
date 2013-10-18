@@ -34,7 +34,7 @@ class StudentsController < ApplicationController
     else
       if @is_bolsao
         if params[:student][:number] == "-1"
-          @student.number = @student.calculate_temporary_ra(params[:student][:applied_super_klazz_ids][1].to_i, 1)
+          @student.number = @student.calculate_temporary_number(params[:student][:applied_super_klazz_ids][1].to_i, 1)
         else
           @student.number = params[:student][:number]
         end
