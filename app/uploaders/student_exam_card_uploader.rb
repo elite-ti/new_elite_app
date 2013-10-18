@@ -68,14 +68,22 @@ private
   end
 
   def create_student_png
-    image = MiniMagick::Image.open(normalized_path)
+    if File.exist? normalized_path
+      image = MiniMagick::Image.open(normalized_path)
+    else
+      image = MiniMagick::Image.open(png.path)
+    end
     image.crop model.card_type.student_coordinates
     image.resize '50%'
     image.write student_path
   end
 
   def create_question_png(number)
-    image = MiniMagick::Image.open(normalized_path)
+    if File.exist? normalized_path
+      image = MiniMagick::Image.open(normalized_path)
+    else
+      image = MiniMagick::Image.open(png.path)
+    end
     image.crop model.card_type.question_coordinates(number)
     image.resize '50%'
     image.write question_path(number)
