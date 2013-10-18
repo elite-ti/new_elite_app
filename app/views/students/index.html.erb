@@ -26,8 +26,8 @@
           <% end %>
         </span>
       </td>
-      <td><%= @is_bolsao? student.number : student.ra %></td>
-      <td><%= student.email %></td>
+      <td><%= @is_bolsao? student.try(:number) : student.try(:ra) %></td>
+      <td><%= student.try(:email) %></td>
     </tr>
   <% end %>
   </tbody>
