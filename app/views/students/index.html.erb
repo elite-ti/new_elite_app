@@ -13,7 +13,7 @@
   <% @students.each do |student| %>
     <tr>
       <td>
-        <%= student.name %>
+        <%= student.try(:name) || '' %>
         <span style='float: right;'>
           <% if !@is_bolsao %>
             <%= link_to 'Mostrar', student_path(student) %> |

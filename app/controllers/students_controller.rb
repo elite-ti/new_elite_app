@@ -16,11 +16,13 @@ class StudentsController < ApplicationController
 
   def new
     @student.build_address
+    @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
     @is_bolsao = params[:is_bolsao] == 'true'
   end
 
   def edit
     @is_bolsao = params[:is_bolsao] == 'true'
+    @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
   end
 
   def create

@@ -22,7 +22,7 @@
 
     <h2>Inscrições Bolsão</h2>
     <%= f.association :applied_super_klazzes, 
-        collection: SuperKlazz.all,
+        collection: @accessible_super_klazzes,
         label_method: :label_method,
         label: 'Turmas' %>
   </div>
