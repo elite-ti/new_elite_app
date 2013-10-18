@@ -137,7 +137,7 @@ class StudentExam < ActiveRecord::Base
 
   def set_exam_execution
     if card_processing.exam_execution_id.present?
-      if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz)
+      if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz) || is_bolsao
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers
       else

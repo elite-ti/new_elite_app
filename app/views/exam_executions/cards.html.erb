@@ -36,7 +36,7 @@
   <% @student_exams.each do |student_exam| %>
     <tr>
       <td>
-        <%= student_exam.status %>
+        <%= @translations[student_exam.status] %>
         <span class='float-right'>
           <%= link_to 'Mostrar', student_exam %>
           <% if student_exam.needs_check? %>

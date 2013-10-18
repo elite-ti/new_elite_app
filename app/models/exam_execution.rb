@@ -30,7 +30,13 @@ class ExamExecution < ActiveRecord::Base
   end
 
   def all_student_exams
-    (card_processings.map(&:student_exams).flatten + student_exams).uniq
+    card_processing_ids = card_processings.map(&:id).join(',')
+    if card_processing_ids.present?
+      @all_student_exams = @all_student_exams || StudentExam.where("card_processing_id in (#{card_processing_ids}) or exam_execution_id = #{id}")
+    else
+      @all_student_exams = @all_student_exams || StudentExam.where("exam_execution_id = #{id}")
+    end
+      # (card_processings.map(&:student_exams).flatten + student_exams).uniq
   end
 
   def number_of_errors
@@ -38,12 +44,12 @@ class ExamExecution < ActiveRecord::Base
   end
 
   def needs_check?
-    student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.any?
+    all_student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.any?
     # student_exams.needing_check.any?
   end
 
   def to_be_checked
-    student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.first
+    all_student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.first
     # student_exams.needing_check.first
   end
 end 

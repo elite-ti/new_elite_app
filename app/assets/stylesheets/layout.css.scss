@@ -13,6 +13,12 @@ html {
     font-size: 15px;
     line-height: 25px;
     color: #555;
+    .alert-error {
+      color: #D00;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
 
     #header {
       height: 100px;

@@ -23,8 +23,8 @@ jQuery ->
     aaSorting: [[ 0, "desc" ]]    
     aoColumns: [
       {sWidth:"5%"},
-      {sWidth:"57%"},
-      {sWidth:"38%"}
+      {sWidth:"54%"},
+      {sWidth:"41%"}
     ]
 
   $('.is-remote-datatable').dataTable

@@ -38,11 +38,13 @@ class ExamExecutionsController < ApplicationController
   def cards
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
     @student_exams = (@exam_execution.card_processings.map(&:student_exams).flatten + @exam_execution.student_exams).uniq
+    @translations = {'Being processed' => 'Em processamento', 'Error' => 'Erro', 'Student not found' => 'Aluno não encontrado', 'Exam not found' => 'Prova não encontrada', 'Invalid answers' => 'Respostas inválidas', 'Valid' => 'Válido', 'Repeated student' => 'Aluno Repetido'}
   end
 
   def result
     @exam_execution = ExamExecution.where(id: params[:exam_execution_id].to_i).includes(:exam => {:exam_questions => {:question => [:options, {:topics => :subject}]}}).first
     @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS).includes({:card_processing => :campus}, :student, :exam_answers)
+    @has_errors = @exam_execution.student_exams.where("status != '#{StudentExam::VALID_STATUS}'").size > 0
     @subjects = @exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
 
     subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
