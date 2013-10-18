@@ -28,6 +28,7 @@ gem 'unicode_utils'
 gem 'i18n'
 gem 'kaminari'
 gem 'newrelic_rpm'
+gem 'mysql2'
 
 group :development do 
   gem 'debugger'
