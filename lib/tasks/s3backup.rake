@@ -69,18 +69,19 @@ namespace :backup do
     end
   end
 
-    task copy_card_proc: :environment do
+  task copy_card_proc: :environment do
     last_upload_cp = `tail -n 1 /home/deployer/apps/new_elite_app/s3_backup_cp_log.txt`
     IO.foreach('/home/deployer/apps/new_elite_app/s3_backup_cp_log.txt') do |line|
-    if line.include?"file don't exist"
-      last_cp_id = (line.split(',')[0]).split(' ')[1].to_i
-      card_proc = CardProcessing.find(last_cp_id).sort
-      file = card_proc.file
-      folder = ("%06d" % last_cp_id).to_s.scan(/.../)
-      filename_cp = File.basename(card_proc.file.to_s)
-      `s3cmd mv s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/card_processing/file/#{last_cp_id}/#{filename_cp} s3://elitesim.sistemaeliterio.com.br/card_processing/#{folder[0]}/#{folder[1]}/#{filename_cp}`
-      p "id: " + card_proc.id.to_s + ", file: card_processing/" + folder[0] + "/" + folder[1] + "/" + filename_cp
-      line.puts "id: " + last_cp_id.to_s + ", file " + filename_cp.to_s + " moved from another bucket"
+      if line.include?"file don't exist"
+        last_cp_id = (line.split(',')[0]).split(' ')[1].to_i
+        card_proc = CardProcessing.find(last_cp_id).sort
+        file = card_proc.file
+        folder = ("%06d" % last_cp_id).to_s.scan(/.../)
+        filename_cp = File.basename(card_proc.file.to_s)
+        `s3cmd mv s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/card_processing/file/#{last_cp_id}/#{filename_cp} s3://elitesim.sistemaeliterio.com.br/card_processing/#{folder[0]}/#{folder[1]}/#{filename_cp}`
+        p "id: " + card_proc.id.to_s + ", file: card_processing/" + folder[0] + "/" + folder[1] + "/" + filename_cp
+        line.puts "id: " + last_cp_id.to_s + ", file: " + filename_cp.to_s + " moved from another bucket"
+      end
     end
   end
 end
