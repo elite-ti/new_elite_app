@@ -696,6 +696,7 @@ int get_clock_locations(File file) {
   int index = 0;
   int *temporary_clock_locations = (int*)malloc(2*conf.questions_zone.questions_per_group*sizeof(int));
   int group_end_y = conf.questions_zone.group_y + conf.questions_zone.questions_per_group * (conf.questions_zone.vertical_space_between_options + conf.questions_zone.option_height) - conf.questions_zone.vertical_space_between_options;
+  int tolerance = 0;
   for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 100; ++i){
     double density = get_line_density(file, conf.questions_zone.group_x - 80, conf.questions_zone.group_x - 30, i);
     if(status == 0 && density > 0.05){
@@ -708,13 +709,25 @@ int get_clock_locations(File file) {
       index++;
     }
     if(status == 1 && density < 0.05){
-      #ifdef DEBUG
-      for (int j = conf.questions_zone.group_x - 85; j < conf.questions_zone.group_x - 30; ++j)
-        paint_pixel(file, j, i - 1, 0, 0, 255);
-      #endif
-      status = 0;
-      temporary_clock_locations[index] = i + 1;
-      index++;
+      if(tolerance < 5)
+      {
+        #ifdef DEBUG
+        for (int j = conf.questions_zone.group_x - 85; j < conf.questions_zone.group_x - 30; ++j)
+          paint_pixel(file, j, i - 1, 255, 0, 255);
+        #endif
+        tolerance++;
+      }
+      else
+      {
+        tolerance = 0;
+        #ifdef DEBUG
+        for (int j = conf.questions_zone.group_x - 85; j < conf.questions_zone.group_x - 30; ++j)
+          paint_pixel(file, j, i - 4, 0, 0, 255);
+        #endif
+        status = 0;
+        temporary_clock_locations[index] = i - 4;
+        index++;
+      }
     }
   }
   if(index == 2*conf.questions_zone.questions_per_group){
