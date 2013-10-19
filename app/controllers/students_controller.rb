@@ -21,14 +21,22 @@ class StudentsController < ApplicationController
   end
 
   def new
-    @student.build_address
-    @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
     @is_bolsao = params[:is_bolsao] == 'true'
+    @student.build_address
+    if @is_bolsao
+      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability, product_year_id: Year.find_by_number(2014).product_years.map(&:id)).map(&:id))
+    else
+      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+    end
   end
 
   def edit
     @is_bolsao = params[:is_bolsao] == 'true'
-    @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+    if @is_bolsao
+      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability, product_year_id: Year.find_by_number(2014).product_years.map(&:id)).map(&:id))
+    else
+      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+    end
   end
 
   def create

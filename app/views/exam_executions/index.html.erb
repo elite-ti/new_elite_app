@@ -24,11 +24,7 @@
         </span>
         <span style='float: left;margin-top: 3px;'>
           <% if exam_execution.all_student_exams.size > 0 %>
-            <% if exam_execution.needs_check? %>
-              <%= image_tag('wrong16.png', id: 'wrong_check') %>
-            <% else %>
               <%= image_tag('correct16.png', id: 'correct_check') %>
-            <% end %>                      
           <% end %>
         </span>
       </td>
