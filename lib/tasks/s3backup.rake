@@ -26,7 +26,7 @@ namespace :backup do
   end
 
   task copy_student_exams: :environment do
-    last_upload_se = `tail -n 1 /home/deployer/apps/new_elite_app/s3_backup_se_log.txt`
+    last_upload_se = ``
     last_se_id = (last_upload_se.split(',')[0]).split(' ')[1].to_i
     new_std_exms = StudentExam.where("id > #{last_se_id}").sort
     new_std_exms.each do |std_exm|
@@ -35,7 +35,7 @@ namespace :backup do
       filename_se = File.basename(std_exm.card.to_s)
       if File.exist?('/home/deployer/apps/new_elite_app/shared'+card.to_s)
         `s3cmd mv s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/student_exam/card/#{std_exm.id}/#{filename_se} s3://elitesim.sistemaeliterio.com.br/student_exam/#{folder[0]}/#{folder[1]}/#{folder[2]}/#{filename_se}`
-        p "id: " + std_exm.id.to_s + ", card: apps/new_elite_app/shared/uploads/student_exam/card/" + std_exm.id.to_s + filename_se + " to student_exam/" + folder[0] + "/" + folder[1] + "/" + folder[2] + "/" + filename_se
+        p "id: " + std_exm.id.to_s + ", card: apps/new_elite_app/shared/uploads/student_exam/card/" + std_exm.id.to_s + "/" + filename_se + " to student_exam/" + folder[0] + "/" + folder[1] + "/" + folder[2] + "/" + filename_se
         line = "id: " + std_exm.id.to_s + ", card: student_exam/" + folder[0] + "/" + folder[1] + "/" + folder[2] + "/" + filename_se + "\n"
       else
         p "Don't exist card for id: " + std_exm.id.to_s
@@ -74,7 +74,7 @@ namespace :backup do
     IO.foreach('/home/deployer/apps/new_elite_app/s3_backup_cp_log.txt') do |line|
       if line.include?"file don't exist"
         last_cp_id = (line.split(',')[0]).split(' ')[1].to_i
-        card_proc = CardProcessing.find(last_cp_id).sort
+        card_proc = CardProcessing.find(last_cp_id)
         file = card_proc.file
         folder = ("%06d" % last_cp_id).to_s.scan(/.../)
         filename_cp = File.basename(card_proc.file.to_s)
