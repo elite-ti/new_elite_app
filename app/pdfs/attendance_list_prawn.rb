@@ -13,14 +13,14 @@ class AttendanceListPrawn < Prawn::Document
             student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
             ''
           ]
-        end.sort_by{|row| row[1]} + [['', '', '']]*30
+        end.sort_by{|row| row[1]} + [['', '', '']]*65
     else
       @students += @exam_execution.super_klazz.enrolled_students.map do |student| 
           ["%06d" % student.ra, 
             student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
             ''
           ]
-        end.sort_by{|row| row[1]} + [['', '', '']]*30
+        end.sort_by{|row| row[1]} + [['', '', '']]*65
     end
     @product_name = ExamExecution.find(exam_execution_id).super_klazz.product_year.product.name
     @campus_name = ExamExecution.find(exam_execution_id).super_klazz.campus.name

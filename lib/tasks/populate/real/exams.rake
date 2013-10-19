@@ -1220,7 +1220,7 @@ namespace :db do
             action, product_names, campus_names, exam_attributes, shift = line.split(' - ')
             product_names = product_names.gsub(/ \(\S*\)/, '')
             p product_names
-            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
+            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2014').first! end
             campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
             subjects, correct_answers = exam_attributes.split(': ')
             p subjects
@@ -1257,10 +1257,10 @@ namespace :db do
               if shift.nil?
                 shift_string = ''
               else
-                shift_string = " (#{shift})"
+                shift_string = "#{shift} - "
               end              
               exam_cycle = ExamCycle.where(
-                name: cycle_name + product_year.product.name + shift_string + " - #{subjects}").first_or_create!(
+                name: cycle_name + shift_string + product_year.product.name + " - #{subjects}").first_or_create!(
                 is_bolsao: true, product_year_id: product_year.id)
 
               campuses.each do |campus|
