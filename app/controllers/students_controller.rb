@@ -5,13 +5,19 @@ class StudentsController < ApplicationController
 
   def index
     if !params[:is_bolsao].nil? && params[:is_bolsao] == 'true'
-      @students = Applicant.all.map(&:student).compact.uniq
+      super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+      @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => :applicants).map(&:student).compact.uniq
+      # @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => {:applicants => {:super_klazz => [:campus, :product_year] }}).map(&:student).compact.uniq
       @is_bolsao = true
     else
       # @students = Student.select{|student| student.applied_super_klazzes.size == 0}
       @students = Student.all
       @is_bolsao = false      
     end
+  end
+
+  def show
+    @is_bolsao = @student.applicants.size > 0
   end
 
   def new
@@ -40,7 +46,11 @@ class StudentsController < ApplicationController
         end
       end
       if @student.save
-        redirect_to students_url(is_bolsao: !params[:student][:number].nil?), notice: (@is_bolsao? 'Candidato' : 'Aluno' ) + ' criado com sucesso.'
+        if @is_bolsao
+          redirect_to student_url(@student, is_bolsao: true), notice: 'Candidato criado com sucesso.'
+        else
+          redirect_to students_url(), notice: 'Aluno criado com sucesso.'
+        end
       else
         render 'new'
       end
