@@ -70,7 +70,7 @@ File read_png();
 File read_tif();
 
 File locate_marks(File);
-int find_mark(File, int, int);
+int find_mark(File, int, int, int);
 
 File rotate180(File);
 int is_upside_down(File);
@@ -324,13 +324,34 @@ File locate_marks(File file) {
     }
 
   int number_of_marks = 0;
-  number_of_marks += find_mark(file, 0, 0);
-  number_of_marks += find_mark(file, 0, 1);
-  number_of_marks += find_mark(file, 1, 0);
-  number_of_marks += find_mark(file, 1, 1);
+  number_of_marks += find_mark(file, 0, 0, 0.7);
+  number_of_marks += find_mark(file, 0, 1, 0.7);
+  number_of_marks += find_mark(file, 1, 1, 0.7);
 
-  if(number_of_marks != 3)
-    stop(3, MARK_NOT_FOUND);
+  if(number_of_marks < 3)
+    number_of_marks += find_mark(file, 1, 0, 0.7);
+
+  if(number_of_marks < 3)
+  {
+    for (int i = 0; i < 2; ++i)
+      for (int j = 0; j < 2; ++j)
+      {
+        mark_position_x[i][j] = 0;
+        mark_position_y[i][j] = 0;
+        mark_radius[i][j] = 0;      
+      }    
+    number_of_marks = 0;
+    number_of_marks += find_mark(file, 0, 0, 0.5);
+    number_of_marks += find_mark(file, 0, 1, 0.5);
+    number_of_marks += find_mark(file, 1, 0, 0.5);
+    number_of_marks += find_mark(file, 1, 1, 0.5);
+
+    #ifdef DEBUG
+      printf("nMarks: %d\n", number_of_marks);
+    #endif
+    if(number_of_marks != 3)
+      stop(3, MARK_NOT_FOUND);
+  }
 
   #ifdef DEBUG
     if(mark_position_x[1][0] == 0 && mark_position_y[1][0] == 0)
@@ -356,7 +377,7 @@ File locate_marks(File file) {
   return file;
 }
 
-int find_mark(File file, int coord_x, int coord_y) {
+int find_mark(File file, int coord_x, int coord_y, int mark_threshold) {
   int signal_x = coord_x ? -1 : 1;
   int signal_y = coord_y ? -1 : 1;
   int start_x = coord_x ? file.width : 0;
@@ -380,7 +401,7 @@ int find_mark(File file, int coord_x, int coord_y) {
           for(int i = 0; i < radius; i++)
             if(is_pixel_filled(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x + radius)))
               pixels_filled++;
-        }while(pixels_filled > 0.7 * ((double) 2 * radius - 1));
+        }while(pixels_filled > mark_threshold * ((double) 2 * radius - 1));
 
         if(radius > 90)
         {
