@@ -3,9 +3,15 @@ jQuery ->
     $('#student_exam_student_id').val($(this).val())
     $('#student_exam_student_id').trigger("liszt:updated")
     
+  $('#mock_student_number').change ->
+    $('#student_exam_student_id').val($(this).val())
+    $('#student_exam_student_id').trigger("liszt:updated")
+
   $('#student_exam_student_id').change ->
     $('#mock_student_ra').val($(this).val())
     $('#mock_student_ra').trigger("liszt:updated")
+    $('#mock_student_number').val($(this).val())
+    $('#mock_student_number').trigger("liszt:updated")
 
   $('.edit_student_exam').submit ->
     $('.error').remove()

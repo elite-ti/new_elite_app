@@ -17,7 +17,11 @@
         <div class='form-inputs'>
           <div class='input'>
             <%= f.label :student_id %>
+            <% if @student_exam.is_bolsao %>            
+            <%= collection_select :mock, :student_number, @possible_students, :id, :number, include_blank: true %>
+            <% else %>
             <%= collection_select :mock, :student_ra, @possible_students, :id, :ra, include_blank: true %>
+            <% end %>            
             <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
           </div>
         </div>
@@ -34,11 +38,20 @@
         <div class='form-inputs'>
           <%= f.simple_fields_for @new_student do |ff| %>
             <%= ff.input :name %>
-            <%= ff.association :enrolled_super_klazzes, 
-              collection: @student_exam.campus.super_klazzes,
-              label: 'SuperKlazz',
-              label_method: :product_year_name, 
-              input_html: { multiple: false } %>
+            <% if @student_exam.is_bolsao %>
+              <% ff.object.applied_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
+              <%= ff.association :applied_super_klazzes, 
+                collection: @student_exam.campus.super_klazzes,
+                label: 'SuperKlazz',
+                label_method: :product_year_name, 
+                input_html: { multiple: false } %>
+            <% else %>
+              <%= ff.association :enrolled_super_klazzes, 
+                collection: @student_exam.campus.super_klazzes,
+                label: 'SuperKlazz',
+                label_method: :product_year_name, 
+                input_html: { multiple: false } %>              
+            <% end %>
           <% end %>
         </div>
 
