@@ -49,7 +49,7 @@ namespace :backup do
     if File.exist?('/home/deployer/apps/new_elite_app/s3_backup_cp_log.txt')
       last_upload_cp = `tail -n 1 /home/deployer/apps/new_elite_app/s3_backup_cp_log.txt`
     else
-      last_upload_se = File.open('/home/deployer/apps/new_elite_app/s3_backup_cp_log.txt',"w"){}
+      last_upload_cp = File.open('/home/deployer/apps/new_elite_app/s3_backup_cp_log.txt',"w"){}
     end
     last_cp_id = (last_upload_cp.split(',')[0]).split(' ')[1].to_i
     new_card_procs = CardProcessing.where("id > #{last_cp_id}").sort
@@ -81,6 +81,23 @@ namespace :backup do
         `s3cmd mv s3://elitesim.sistemaeliterio.com.br/apps/new_elite_app/shared/uploads/card_processing/file/#{last_cp_id}/#{filename_cp} s3://elitesim.sistemaeliterio.com.br/card_processing/#{folder[0]}/#{folder[1]}/#{filename_cp}`
         p "id: " + card_proc.id.to_s + ", file: card_processing/" + folder[0] + "/" + folder[1] + "/" + filename_cp
         line.puts "id: " + last_cp_id.to_s + ", file: " + filename_cp.to_s + " moved from another bucket"
+      end
+    end
+  end
+
+  task clear_blank_se: :environment do
+    last_upload_se = `tail -n 1 /home/deployer/apps/new_elite_app/s3_backup_se_last.txt`
+    last_se_id = (last_upload_se.split(',')[0]).split(' ')[1].to_i
+    new_std_exms = StudentExam.where("id < #{last_se_id}")
+    new_std_exms.each do |std_exm|
+      if StudentExam.where(id: std_exm.id).empty?
+        card = std_exm.card
+        folder = File.dirname(std_exm.card.to_s)
+        filename_se = File.basename(std_exm.card.to_s)
+        `rm /home/deployer/apps/new_elite_app/shared#{folder}/*`
+        p "id: " + std_exm.id.to_s + ", blank card deleted."
+        line = "id: " + std_exm.id.to_s + ", blank card deleted."
+        File.open('/home/deployer/apps/new_elite_app/s3_backup_se_log.txt', 'a') {|log| log.write(line)}
       end
     end
   end
