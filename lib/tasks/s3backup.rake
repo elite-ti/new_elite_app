@@ -87,13 +87,11 @@ namespace :backup do
 
   task clear_blank_se: :environment do
     last_upload_se = `tail -n 1 /home/deployer/apps/new_elite_app/s3_backup_se_last.txt`
-    last_se_id = (last_upload_se.split(',')[0]).split(' ')[1].to_i
-    new_std_exms = StudentExam.where("id < #{last_se_id}")
+    new_std_exms = StudentExam.where("id < #{last_upload_se}")
     new_std_exms.each do |std_exm|
       if StudentExam.where(id: std_exm.id).empty?
         card = std_exm.card
         folder = File.dirname(std_exm.card.to_s)
-        filename_se = File.basename(std_exm.card.to_s)
         `rm /home/deployer/apps/new_elite_app/shared#{folder}/*`
         p "id: " + std_exm.id.to_s + ", blank card deleted."
         line = "id: " + std_exm.id.to_s + ", blank card deleted."
