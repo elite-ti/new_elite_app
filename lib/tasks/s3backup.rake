@@ -58,7 +58,7 @@ namespace :backup do
       folder = ("%06d" % card_proc.id).to_s.scan(/.../)
       filename_cp = File.basename(card_proc.file.to_s)
       if File.exist?('/home/deployer/apps/new_elite_app/shared'+file.to_s)
-        `s3cmd mv s3://elitesim.sistemaeliterio.com.br/shared#{file} s3://elitesim.sistemaeliterio.com.br/card_processing/#{folder[0]}/#{folder[1]}/`
+        `s3cmd put /home/deployer/apps/new_elite_app/shared#{file} s3://elitesim.sistemaeliterio.com.br/card_processing/#{folder[0]}/#{folder[1]}/`
         p "id: " + card_proc.id.to_s + ", file: card_processing/" + folder[0] + "/" + folder[1] + "/" + filename_cp
         line = "id: " + card_proc.id.to_s + ", file: card_processing/" + folder[0] + "/" + folder[1] + "/" + filename_cp + "\n"
       else
