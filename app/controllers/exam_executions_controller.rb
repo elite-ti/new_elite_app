@@ -10,14 +10,69 @@ class ExamExecutionsController < ApplicationController
     elsif params[:filter_by] == 'is_bolsao'
       @exam_executions = ExamExecution.all.select{|ee| ee.is_bolsao && Campus.accessible_by(current_ability).include?(ee.super_klazz.campus)}
       @filter_by = ' - Bolsão'
+    elsif params[:filter_by].include?'is_bolsao_'
+      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+      @exam_executions = ExamExecution.all.select{|ee| ee.is_bolsao && campuz == ee.super_klazz.campus}
+      @filter_by = ' - Bolsão - ' + campuz.name
     elsif params[:filter_by] == 'free_course'
       @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       @filter_by = ' - Curso'
+    elsif params[:filter_by].include?'free_course_'
+      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      @filter_by = ' - Curso - '+ campuz.name
     elsif params[:filter_by] == 'school'
       @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       @filter_by = ' - Colégio'
+    elsif params[:filter_by].include? 'school_'
+      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz_id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      @filter_by = ' - Colégio - ' + campuz.name
     else
       render :file => 'public/404.html', :status => :not_found, :layout => false      
+    end
+  end
+
+  def translate input
+    translations = {
+      'bangu' => '1',
+      'bg' => '1',
+      'b' => '1',
+      'cg1' => '2',
+      'cgi' => '2',
+      'cg2' => '3',
+      'cgii' => '3',
+      'ig' => '4',
+      'ilha' => '4',
+      'mad1' => '5',
+      'm1' => '5',
+      'mad2' => '6',
+      'm2' => '6',
+      'mad3' => '7',
+      'm3' => '7',
+      'norteshopping' => '8',
+      'ns' => '8',
+      'novaiguacu' => '9',
+      'ni' => '9',
+      'sg1' => '10',
+      'sgi' => '10',
+      'sg2' => '11',
+      'sgii' => '11',
+      'taquara' => '12',
+      't' => '12',
+      'tq' => '12',
+      'r9' => '12',
+      'tijuca' => '13',
+      'tj' => '13',
+      'valqueire' => '14',
+      'v' => '14',
+      'vv' => '14',
+      'val' => '14'
+    }
+    if translations.keys.include? input
+      translations[input]
+    else
+      input
     end
   end
 

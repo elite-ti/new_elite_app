@@ -57,7 +57,7 @@ class StudentsController < ApplicationController
         if @is_bolsao
           redirect_to student_url(@student, is_bolsao: true), notice: 'Candidato criado com sucesso.'
         else
-          redirect_to students_url(), notice: 'Aluno criado com sucesso.'
+          redirect_to students_url(@student).gsub(/(\.)/,"/"), notice: 'Aluno criado com sucesso.'
         end
       else
         render 'new'
@@ -76,7 +76,11 @@ class StudentsController < ApplicationController
       if @is_bolsao && !params[:student][:number].nil? && params[:student][:number] =~ /^[-+]?[0-9]+$/
           @student.number = params[:student][:number]
       end
-      redirect_to students_url(is_bolsao: @is_bolsao), notice: 'Aluno editado com sucesso.'
+      if @is_bolsao
+        redirect_to student_url(@student, is_bolsao: true), notice: 'Candidato editado com sucesso.'
+      else
+        redirect_to students_url(@student).gsub(/(\.)/,"/"), notice: 'Aluno editado com sucesso.'
+      end
     else
       render 'edit'
     end

@@ -24,7 +24,7 @@ class Student < ActiveRecord::Base
   accepts_nested_attributes_for :address
 
   validates :name, presence: true
-  validates :email, :ra, uniqueness: true, allow_blank: true
+  validates :ra, uniqueness: true, allow_blank: true
 
   def possible_exam_executions(is_bolsao, exam_date)
     (is_bolsao ? applied_exam_executions : enrolled_exam_executions).
