@@ -24,8 +24,8 @@ class ExamExecutionsController < ApplicationController
     elsif params[:filter_by] == 'school'
       @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       @filter_by = ' - Colégio'
-    elsif params[:filter_by].include? 'school_'
-      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+    elsif params[:filter_by].include?'school_'
+      campuz = Campus.find(translate(params[:filter_by].split('_')[1]))
       @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       @filter_by = ' - Colégio - ' + campuz.name
     else
