@@ -26,7 +26,7 @@ class ExamExecutionsController < ApplicationController
       @filter_by = ' - Colégio'
     elsif params[:filter_by].include? 'school_'
       campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
-      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz_id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       @filter_by = ' - Colégio - ' + campuz.name
     else
       render :file => 'public/404.html', :status => :not_found, :layout => false      
