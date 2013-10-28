@@ -2,13 +2,25 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_22OUT: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 22 Oct 2013 14:00:00 BRT -03:00'
+          cycle_name = '3º Bimestre - 2ª Chamada - '
+          exam_name = 'Prova'
+          array = [
+            'C - ESPCEX ,3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): ACEABEBA ADBAACCA BDDAEBAC BADABBEB EDACBDAC BBCAEABC CBBAEDCD BABCEECE',
+            'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): ACEABEBA ADBAACCA BDACDADB BADABBEB EDACBDAC BBCAEABC CDEAEBAA BABCEECE',
+            'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): ACEABEBA CBDAEBCD CABEACED CDBABDAE EBEDAAED BBCAEABC CDEAEBAA BABCEECE'
+          ]
+          create_exams(array, datetime, cycle_name, exam_name)
+        end      
         task add_exams_25OUT: :environment do
           p 'Adding exams'
           datetime = 'Sun, 25 Out 2013 14:00:00 BRT -03:00'
           cycle_name = 'Simulado EN - '
           exam_name = 'Prova'
           array = [
-            'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, AFA/ESPCEX, 3ª Série + AFA/ESPCEX, IME-ITA, 3ª Série + IME-ITA - All  - MAT(20) + FIS(20): CCCADCDABADCEDABBBBA DBAEABACCEDBAAEBBCDD'
+            'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, AFA/ESPCEX, 3ª Série + AFA/ESPCEX, IME-ITA, 3ª Série + IME-ITA - All - MAT(20) + FIS(20): CCCADCDABADCEDABBBBA DBAEABACCEDBAAEBBCDD'
           ]
           create_exams(array, datetime, cycle_name, exam_name)
         end      
@@ -18,7 +30,7 @@ namespace :db do
           cycle_name = 'Simulado EN - '
           exam_name = 'Prova'
           array = [
-            'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, AFA/ESPCEX, 3ª Série + AFA/ESPCEX, IME-ITA, 3ª Série + IME-ITA - All  - POR(20) + ING(20): BAAEDAEDACBBCDADCBDE AEACADCEBBECABDEACCD'
+            'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM, AFA/ESPCEX, 3ª Série + AFA/ESPCEX, IME-ITA, 3ª Série + IME-ITA - All - POR(20) + ING(20): BAAEDAEDACBBCDADCBDE AEACADCEBBECABDEACCD'
           ]
           create_exams(array, datetime, cycle_name, exam_name)
         end      
