@@ -61,7 +61,7 @@ class Student < ActiveRecord::Base
     ra
   end
 
-  def calculate_temporary_ra(super_klazz_id, variable_digits)
+  def self.calculate_temporary_ra(super_klazz_id, variable_digits)
     super_klazz = SuperKlazz.find(super_klazz_id)
     min_temporary_ra = '9' + super_klazz.campus.code + super_klazz.product_year.product.code + ('0' * variable_digits)
     min_temporary_ra = min_temporary_ra.to_i - 1
