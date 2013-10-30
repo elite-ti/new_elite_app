@@ -1,10 +1,10 @@
-<%= title 'Schedule Info' %>
+<%= title 'Pré-Disponibilidade 2014' %>
 
 <%= simple_form_for(@teacher, url: schedule_info_path(@teacher)) do |f| %>
   <%= f.error_notification %>
 
   <div class='form-inputs'>
-    <p>Qual é o segmento de sua preferência?</p>
+    <p>Quais são os segmentos de sua preferência?</p>
     <table id='product_group_preferences'>
       <colgroup span='1'></colgroup>
       <tr>
@@ -30,36 +30,40 @@
     </table>
 
     <p>Escolha quais são as Unidades de sua preferência.</p>
-    <%= f.association :campuses, label: false,
+    <%= f.association :preferred_campuses, label: 'Unidade',
       wrapper_html: { id: 'campus_preferences' } %>
 
-    <p>Marque a seguir a sua disponibilidade para o ano de 2013.</p>
-    <%= period_input f, :morning %>
-    <%= period_input f, :afternoon %>
-    <%= period_input f, :evening %>
-    
-    <table id='weekend'>
-      <tr>
-        <td class='first'>Sábado</td>
-        <td><%= f.input :saturday_moning, label: 'Manhã' %></td>
-        <td><%= f.input :saturday_afternoon, label: 'Tarde' %></td>
+    <p>Marque a seguir a sua disponibilidade para o ano de 2014.</p>
+    <% translation = {morning: 'Manhã (7h -  12h30)', afternoon: 'Tarde (13h30 -  19h)', evening: 'Noite (19h -  22h40)', 'Monday' => 'Segunda', 'Tuesday' => 'Terça', 'Wednesday' => 'Quarta', 'Thursday' => 'Quinta', 'Friday' => 'Sexta', 'Saturday' => 'Sábado'} %>
+    <table id='timetable_preferences'>
+      <colgroup span='1'></colgroup>
+        <tr>
+        <th></th>        
+        <% Date::DAYNAMES[1..-1].each do |day_of_week| %>
+          <th><%= translation[day_of_week] %></th>
+        <% end %>
       </tr>
-      <tr>
-        <td class='first'>Domingo</td>
-        <td><%= f.input :sunday_morning, label: 'Manhã' %></td>
-        <td><%= f.input :sunday_afternoon, label: 'Tarde' %></td>
-      </tr>
+      <% [:morning, :afternoon, :evening].each do |shift| %>
+        <tr>
+          <td><p><%= translation[shift] %></p></td>
+          <% Date::DAYNAMES[1..-1].each do |day_of_week| %>
+            <td><%= f.input (day_of_week.downcase + '_' + shift.to_s), as: :boolean, label: '', input_html: { class: 'squaredThree' }, label_html: {style: 'margin-left=45px'} %></td>
+          <% end %>
+        </tr>        
+      <% end %> 
     </table>
-    
+
+    <br/>
     <%= f.input :administrative_job, :as => :radio_buttons,
       collection: [['Sim', true], ['Não', false]], label: 'Você tem interesse em Cargos Adminstrativos?', 
       wrapper_html: { id: 'administrative_job_wrapper' } %>
   </div>
+  <br/>
 
   <div class='form-actions'>
     <table>
       <tr>
-        <th><%= f.submit %></th>
+        <th><%= f.submit 'Enviar informações' %></th>
         <td>
           <%= f.input :agree_with_terms, wrapper_html: { id: 'agree_with_terms_wrapper' },
             label: 'Declaro concordar com as informações fornecidas cadastradas, tendo ciência de que a Instituição se reserva ao direito de não atender às expectativas fornecidas.' %>

@@ -1,37 +1,32 @@
-<%= title 'Personal Info' %>
+<%= title 'Informações Pessoais' %>
 
 <%= simple_form_for(@employee, html: { multipart: true }, url: personal_info_path(@employee)) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name, placeholder: "Nome completo, sem abreviações" %>
+    <%= f.input :name, placeholder: "Nome completo, sem abreviações", label: 'Nome' %>
 
-    <%= f.input :address, :as => :string, placeholder: "Coloque seu endereço aqui" %>
-    <%= f.input :suburb, placeholder: "Coloque seu bairro aqui" %>
-    <%= f.input :city, placeholder: "Coloque sua cidade aqui" %>
-    <%= f.input :state, as: :select, collection: Employee::STATES %>
+    <%= f.simple_fields_for :address do |builder| %>
+      <%= render 'addresses/fields', f: builder %>
+    <% end %>
+    <%= f.input :personal_email, placeholder: "Coloque seu email pessoal aqui", label: 'Email pessoal' %>
 
-    <%= f.input :personal_email, placeholder: "Coloque seu email pessoal aqui" %>
-
-    <%= f.input :identification, placeholder: "Número do RG" %>
-    <%= f.input :expeditor, placeholder: "Orgão Exp." %>
-    <%= f.input :cpf, placeholder: "Apenas números" %>
+    <%= f.input :identification, placeholder: "Número do RG", label: 'RG' %>
+    <%= f.input :expeditor, placeholder: "Orgão Exp.", label: 'órgão Exp.' %>
+    <%= f.input :cpf, placeholder: "Apenas números", label: 'CPF' %>
 
     <%= f.input :cellphone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input" } %>
+      input_html: { class: "telephone_input", label: 'Celular' } %>
     <%= f.input :alternative_cellphone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input" } %>
+      input_html: { class: "telephone_input", label: 'Celular alternativo' } %>
     <%= f.input :telephone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input" } %>
+      input_html: { class: "telephone_input", label: 'Telefone' } %>
       <%= f.input :alternative_telephone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input" } %>
-    <%= f.input :contact_telephone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input" } %>
-    <%= f.input :contact_name, placeholder: "Ex.: Mãe" %>
+      input_html: { class: "telephone_input", label: 'Telefone alternativo' } %>
 
     <div id="image">
       <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
-      <%= f.input :photo, wrapper_html: { id: "photo_wrapper" } %>
+      <%= f.input :photo, wrapper_html: { id: "photo_wrapper" }, label: 'Foto' %>
       <% if @employee.photo? %>
         <label id="remove_label"><%= f.check_box :remove_photo %><%= t(:remove) %></label>
       <% end %>
@@ -39,7 +34,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, 'Próximo' %>
   </div>
 <% end %>
 

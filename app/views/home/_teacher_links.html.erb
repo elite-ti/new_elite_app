@@ -1,8 +1,7 @@
 <div id="teacher">
-  <%= link_to 'Klazzes', klazzes_path %><br />
-  <% if false %>
-  <%= link_to 'Personal Info', edit_personal_info_path(current_employee) %><br />
-  <%= link_to 'Professional Info', edit_professional_info_path(current_employee.teacher) %><br />
-  <%= link_to 'Schedule Info', edit_schedule_info_path(current_employee.teacher) %><br />
-  <% end %>
+
+<div class="bootstrapButton">
+  <%= link_to 'Preencha a Pré-Disponibilidade 2014', edit_personal_info_path(current_employee), id: 'button_text' %>
+</div>
+
 </div>

@@ -6,7 +6,7 @@ class Teacher < ActiveRecord::Base
     :agree_with_terms, :administrative_job,
     :graduated, :major_id, :institute, :bachelor, :cref, :time_teaching, 
     :post_graduated, :post_graduated_comment, :professional_experiences, 
-    :professional_experiences_attributes, :campus_preference_ids
+    :professional_experiences_attributes, :campus_preference_ids, :preferred_campus_ids, :has_tablet
 
   belongs_to :employee
   belongs_to :major
@@ -39,4 +39,20 @@ class Teacher < ActiveRecord::Base
       end
     end
   end
+
+  Date::DAYNAMES[1..-1].each_with_index do |dayname, index|
+    [:morning, :afternoon, :evening].each do |shift|
+      define_method dayname.downcase + '_' + shift.to_s do
+        ((self.send(shift) || 0)/(2**(5-index)))%2 == 1
+      end
+      define_method dayname.downcase + '_' + shift.to_s + '=' do |argument|
+        if argument == "1"
+          self.send(shift.to_s + '=', (self.send(shift) || 0) + 2**(5-index)) if ((self.send(shift) || 0)/(2**(5-index)))%2 == 0
+        else
+          self.send(shift.to_s + '=', (self.send(shift) || 0) - 2**(5-index)) if ((self.send(shift) || 0)/(2**(5-index)))%2 == 1
+        end
+      end
+      attr_accessible dayname.downcase + '_' + shift.to_s
+    end
+  end   
 end

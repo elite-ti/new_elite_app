@@ -81,6 +81,20 @@
   }
 }
 
+#timetable_preferences {
+  @include has-border; 
+  margin-left: 30px;
+  text-align: center;
+
+  th, td {
+    width: 100px; 
+    p {
+      width: 150px; 
+    }
+  }
+  label.checkbox { margin-left: 50px; }
+}
+
 #teacher_campus_ids, #teacher_campus_ids_chzn {
   margin-bottom: 10px;
   margin-left: 180px;

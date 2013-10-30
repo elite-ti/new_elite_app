@@ -1,7 +1,9 @@
 <%= f.input :cep, as: :cep, label: 'CEP' %>
-<%= f.input :street, label: 'Logradouro' %>
-<%= f.input :number, label: 'Número' %>
-<%= f.input :complement, label: 'Complemento' %>
+<%= f.input :street, label: 'Endereço' %>
+<% if false %>
+  <%= f.input :number, label: 'Número' %>
+  <%= f.input :complement, label: 'Complemento' %>
+<% end %>
 <%= f.input :suburb, label: 'Bairro' %>
 <%= f.input :city, label: 'Cidade' %>
 <%= f.input :state, as: :select, collection: Address::STATES, label: 'Estado' %>

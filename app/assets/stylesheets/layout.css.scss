@@ -214,3 +214,27 @@ ul.ui-autocomplete {
 .template {
   display: none;
 }
+
+#button_text {
+    text-align: center;
+    vertical-align: middle;
+    display: block;
+    color: #FFF;
+    font-size: 26px;
+    text-decoration: none;
+    padding-top: 12px;
+}
+
+.bootstrapButton {
+  width: 500px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #428bca;  
+}
+
+.bootstrapButton:hover {
+  width: 500px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #2a6496;
+}

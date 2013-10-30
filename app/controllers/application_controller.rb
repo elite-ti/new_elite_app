@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     if current_employee.present?
       logger.warn '!!AccessDenied!!'
-      logger.warn 'Employee email: ' + current_employee.email
+      logger.warn 'Employee email: ' + (current_employee.email || '')
       logger.warn 'Current role: ' + current_role
     else
       logger.warn '!!AccessDenied!!'
