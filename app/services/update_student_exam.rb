@@ -106,6 +106,7 @@ private
 
   def update_repeated_student(student_id)
     student_exam.student_id = student_id
+    student_exam.exam_answers.destroy_all
     student_exam.set_exam_execution
     student_exam.save!
     student_exam.status = StudentExam::VALID_STATUS
