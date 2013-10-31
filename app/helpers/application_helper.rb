@@ -50,4 +50,10 @@ module ApplicationHelper
   def destroy_link(object)
     link_to 'Destroy', object, method: :delete, confirm: 'Are you sure?'
   end
+
+  def tooltip(content, options = {}, html_options = {}, *parameters_for_method_reference)
+    html_options[:title] = options[:tooltip]
+    html_options[:class] = html_options[:class] || 'tooltip'
+    content_tag("span", content, html_options) 
+  end
 end

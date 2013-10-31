@@ -1,7 +1,16 @@
 <div id="teacher">
 
-<div class="bootstrapButton">
+<% if current_employee.teacher.updated_at < '2013-10-30'.to_date %>
+<div class="bootstrapButton-green">
   <%= link_to 'Preencha a Pré-Disponibilidade 2014', edit_personal_info_path(current_employee), id: 'button_text' %>
 </div>
+<% else %>
+<p>Obrigado por enviar a sua Pré-Disponibilidade para o ano de 2014!</p>
+<p>Você poderá editá-la até o dia 15 de novembro utilizando o botão abaixo.</p>
+<br/>
+<div class="bootstrapButton">
+  <%= link_to 'Edite sua Pré-Disponibilidade 2014', edit_personal_info_path(current_employee), id: 'button_text' %>
+</div>
+<% end %>
 
 </div>

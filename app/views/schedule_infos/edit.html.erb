@@ -29,11 +29,11 @@
       <% end %>
     </table>
 
-    <p>Escolha quais são as Unidades de sua preferência.</p>
+    <p>Escolha quais são as Unidades de sua preferência:</p>
     <%= f.association :preferred_campuses, label: 'Unidade',
       wrapper_html: { id: 'campus_preferences' } %>
 
-    <p>Marque a seguir a sua disponibilidade para o ano de 2014.</p>
+    <p>Marque a seguir a sua disponibilidade para o ano de 2014:</p>
     <% translation = {morning: 'Manhã (7h -  12h30)', afternoon: 'Tarde (13h30 -  19h)', evening: 'Noite (19h -  22h40)', 'Monday' => 'Segunda', 'Tuesday' => 'Terça', 'Wednesday' => 'Quarta', 'Thursday' => 'Quinta', 'Friday' => 'Sexta', 'Saturday' => 'Sábado'} %>
     <table id='timetable_preferences'>
       <colgroup span='1'></colgroup>
@@ -52,8 +52,12 @@
         </tr>        
       <% end %> 
     </table>
-
     <br/>
+
+    <p>Digite a carga horária pretendida para o ano de 2014:</p>
+    <%= f.input :wanted_workload, label: 'Carga em tempos', placeholder: 'Ex. 15' %>
+    <br/>
+
     <%= f.input :administrative_job, :as => :radio_buttons,
       collection: [['Sim', true], ['Não', false]], label: 'Você tem interesse em Cargos Adminstrativos?', 
       wrapper_html: { id: 'administrative_job_wrapper' } %>

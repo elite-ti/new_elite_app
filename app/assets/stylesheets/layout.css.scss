@@ -238,3 +238,22 @@ ul.ui-autocomplete {
   border-radius: 10px;
   background-color: #2a6496;
 }
+
+.bootstrapButton-green {
+  width: 500px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #42ca8b;  
+}
+
+.bootstrapButton-green:hover {
+  width: 500px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #2a9664;
+}
+
+.mytooltip {
+  cursor: help;
+  border-bottom: 1px dotted green 
+}
