@@ -16,13 +16,13 @@
     <%= f.input :cpf, placeholder: "Apenas números", label: 'CPF' %>
 
     <%= f.input :cellphone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input", label: 'Celular' } %>
+      input_html: { class: "telephone_input" }, label: 'Celular' %>
     <%= f.input :alternative_cellphone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input", label: 'Celular alternativo' } %>
+      input_html: { class: "telephone_input" }, label: 'Celular alternativo' %>
     <%= f.input :telephone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input", label: 'Telefone' } %>
+      input_html: { class: "telephone_input" }, label: 'Telefone' %>
       <%= f.input :alternative_telephone, placeholder: "Apenas números",
-      input_html: { class: "telephone_input", label: 'Telefone alternativo' } %>
+      input_html: { class: "telephone_input" }, label: 'Telefone alternativo' %>
 
     <div id="image">
       <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
