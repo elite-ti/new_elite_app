@@ -11,6 +11,12 @@ toggle_post_graduated_fields = () ->
   toggle_fields($('#teacher_post_graduated_false'), $('#teacher_post_graduated_comment'))
 
 jQuery ->
+  $("#teacher_subject_ids").on "change", ->
+    if $("#teacher_subject_ids_chzn ul").html().indexOf("EDUCAÇÃO FÍSICA") != -1
+      $("#has_cref").show()
+    else
+      $("#has_cref").hide()
+
   # Toggle fields
   toggle_graduated_fields()
   $('#teacher_graduated').click -> toggle_graduated_fields()

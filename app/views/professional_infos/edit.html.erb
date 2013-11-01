@@ -10,7 +10,6 @@
     <%= f.association :major, label: 'Graduação' %>
     <%= f.input :institute, placeholder: "Ex: UFRJ", label: 'Instituição' %>
     <%= f.input :bachelor, as: :radio_buttons, collection: [['Sim', true], ['Não', false]], label: 'Bacharelado' %>
-    <%= f.input :cref, as: :radio_buttons, collection: [['Sim', true], ['Não', false]], label: 'Possui CREF?', inner_html: {title: "this is my tooltip"} %>
     <%= f.input :time_teaching, placeholder: "Ex: 10 anos", label: 'Tempo de magistério' %>    
 
     <% if false %>
@@ -23,6 +22,9 @@
     <% end %>
 
     <%= f.association :subjects, label: 'Disciplinas' %>
+    <div id="has_cref" style="display:none">
+      <%= f.input :cref, as: :radio_buttons, collection: [['Sim', true], ['Não', false]], label: 'Possui CREF?' %>
+    </div>
   </div>
 
   <div class="form-actions">
