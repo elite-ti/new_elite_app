@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 namespace :db do
   namespace :populate do
     namespace :real do 
@@ -26,7 +28,7 @@ namespace :db do
         end
       end
 
-      task populate: :environment do
+      task add_teachers: :environment do
         p 'Populating Teachers'
         create_teacher 'Andre Melo', 'Francisco Andre Melo Farias', ' francisco.andre@sistemaeliterio.com.br', 'andremelofarias@hotmail.com'
         create_teacher 'Eduardo Cesar', 'Eduardo Cesar Nogueira Coutinho', ' eduardo.cesar@sistemaeliterio.com.br', 'eduardocesar93@hotmail.com'
