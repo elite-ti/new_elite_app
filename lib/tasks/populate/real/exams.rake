@@ -229,7 +229,7 @@ namespace :db do
         exam_name = '2ª Chamada'
         array = [
           'C - 1ª Série Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): EAEECCCA DCBCDBAA ABADDEEB BEDBDEAA DBCAECEB CBCCBCEC EBDBAABC DDDBBCCA',
-          'C - 9º Ano Militar - All - MAT(10) + POR(4) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): EAEECCCA DCBCDBAA ADEBCEDB BEDBDEAA DBCAECEB CBCCBCEC AEBDCACB DDDBBCCA'
+          'C - 9º Ano Militar - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): EAEECCCA DCBCDBAA ADEBCEDB BEDBDEAA DBCAECEB CBCCBCEC AEBDCACB DDDBBCCA'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -642,8 +642,8 @@ namespace :db do
           "C - AFA/EAAr/EFOMM - All - POR(20) + ING(20): AEDCBEDEACBDBEAECADB EBCDEABDDEEEBBEAECDA",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + ING(20): BBEEBDCDCACDABBBCDCA ACBCCDDBADADCDBDBCAD",
           "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): BBEEBDCDCACDABBBCDCA ACBCCDDBADADCDBDBCAD",
-          "C - 9º Ano Militar - All - POR(0) + MAT(7) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC DCEACADD",
-          "C - 1ª Série Militar - All - POR(0) + MAT(7) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8):  AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC CEBCBCBB",
+          "C - 9º Ano Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC DCEACADD",
+          "C - 1ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8):  AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC CEBCBCBB",
           "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD",
           "C - 2ª Série Militar - Madureira III - HIS(10) + GEO(10) + BIO(10): ECAABEDBBA ECEBCBAEAE AACEBDCECE"
         ]
