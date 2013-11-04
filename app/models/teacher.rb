@@ -6,7 +6,7 @@ class Teacher < ActiveRecord::Base
     :agree_with_terms, :administrative_job,
     :graduated, :major_id, :institute, :bachelor, :cref, :time_teaching, 
     :post_graduated, :post_graduated_comment, :professional_experiences, 
-    :professional_experiences_attributes, :campus_preference_ids, :preferred_campus_ids, :has_tablet, :wanted_workload
+    :professional_experiences_attributes, :campus_preference_ids, :preferred_campus_ids, :has_tablet, :wanted_workload, :observations
 
   belongs_to :employee
   belongs_to :major
