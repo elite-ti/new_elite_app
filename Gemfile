@@ -30,6 +30,7 @@ gem 'i18n'
 gem 'kaminari'
 gem 'newrelic_rpm'
 
+gem 'airbrake'
 
 group :development do 
   gem 'debugger'
