@@ -37,3 +37,6 @@ ssh_options[:forward_agent] = true
 after 'deploy', 'deploy:cleanup'
 
 
+
+        require './config/boot'
+        require 'airbrake/capistrano'
