@@ -209,7 +209,7 @@
     <% if File.exist?('/home/deployer/apps/new_elite_app/shared' + @student_exam.card.to_s) %>
       <%= image_tag @student_exam.card.png.url, width: '500' %>
     <% else %>  
-      <%= image_tag File.dirname(@student_exam.card.to_s) + '/normalized.png', width: '500' %>
+      <%= image_tag @student_exam.card.normalized_url, width: '500' %>
     <% end %>
   </div>
 
