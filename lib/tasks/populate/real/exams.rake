@@ -13,6 +13,16 @@ namespace :db do
            ]
            create_exams(array, datetime, cycle_name, exam_name)          
          end
+         task add_exams_04NOV_2: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 04 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = '4º Bimestre - Prova Bimestral - '
+           exam_name = 'Prova'
+           array = [
+             'C - 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDDAEBCC BCDBEBAB BEBBDBEC BDEEBECA DEBAAECD EDDDECBD CBDEDDEA DDADBAAA'
+           ]
+           create_exams(array, datetime, cycle_name, exam_name)          
+         end
          task add_exams_04NOV: :environment do
            p 'Adding exams'
            datetime = 'Mon, 04 Nov 2013 14:00:00 BRT -03:00'
@@ -22,6 +32,16 @@ namespace :db do
              'C - 3ª Série + IME-ITA - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDDAEBCC BCDAEBAC ACDBBCAE BDEEBECA DEBAAECD CBCAEDCD AEDEDEDD DDADBAAA',
              'C - 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDDAEBCC BCDBEBAB BEBBDBEC CECBCDDA DEBAAECD ADACDECE EBCBDBAD DDADBAAA',
              'C - 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8): BDDAEBCC BCDBEBAB BEBBDBEC BDEEBECA DEBAAECD EDDDECBD CBDEDDEA DDADBAAA'
+           ]
+           create_exams(array, datetime, cycle_name, exam_name)          
+         end
+         task add_exams_14OUT_2: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 14 Oct 2013 14:00:00 BRT -03:00'
+           cycle_name = '4º Bimestre - Teste Bimestral - '
+           exam_name = 'Prova'
+           array = [
+             'C - 3ª Série + AFA/ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8):  CEADAAEA CBCDDADC CDCACEBD CDEDCCCA DDCCCDDE BEADABDD ADAABBDB EACADCAB'
            ]
            create_exams(array, datetime, cycle_name, exam_name)          
          end
