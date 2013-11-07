@@ -32,6 +32,8 @@ gem 'newrelic_rpm'
 
 gem 'airbrake'
 
+gem 'whenever', require: false
+
 group :development do 
   gem 'debugger'
   gem 'thin'

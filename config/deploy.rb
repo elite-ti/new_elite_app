@@ -1,6 +1,9 @@
 require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 
+set :whenever_command, "bundle exec whenever"
+require 'whenever/capistrano'
+
 load 'config/recipes/base'
 load 'config/recipes/check'
 load 'config/recipes/rbenv'
