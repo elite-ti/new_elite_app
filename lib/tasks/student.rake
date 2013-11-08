@@ -49,6 +49,7 @@ namespace :student do
     # get id bolsao
     p 'Bolsao #' + ENV['BOLSAO_ID'].to_s
     bolsao_id = ENV['BOLSAO_ID'].to_i
+    results = client.query("SELECT * FROM wp_inscricao_bolsao_2014 where bolsao = 78")
 
     # run query to get all applicants
     p 'Running query:'
