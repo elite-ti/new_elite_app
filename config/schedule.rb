@@ -53,5 +53,5 @@ every :day, at: "0:03 AM" do
 end
 
 every :day, at: "1:00 AM" do
-	rake 'student:select_table'
+	rake 'student:sync_applicants'
 end
