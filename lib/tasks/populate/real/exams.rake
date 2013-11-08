@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+         task add_exams_09NOV: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 09 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = 'Bolsão 2014 - '
+           exam_name = 'Prova'
+           array = [
+             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15):  CACDBCECAECCEDC EEEDECBCECDCDCD - Manhã',
+             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  DBDECCEDBADCAED DECEEEBECCCDDDC - Tarde',
+             'C - 6º Ano - All - POR(15) + MAT(15):  ADBCEEBCBDEEAAD DBBAADCDBCCBBCA - Manhã',
+             'C - 6º Ano - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  CEBABCEDDDEBBDE CEBEBDCADDDAABB - Tarde',
+             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15):  ACEBABAEDBACADE DBBAADCDBCDBEEC - Manhã',
+             'C - 7º Ano, 8º Ano - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  BEDDDCABEBCDACB CEBEBDCABDDCDEC - Tarde',
+             'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15):  BCDEBCACEABEBCA ABBADCBBDBEEBDD - Manhã',
+             'C - 9º Ano Militar, 9º Ano Forte - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  CDEABDACABBECDA BEBBAADCBBEDBDD - Tarde',
+             'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15):  ECBEEDACADDACBA DEDCDEDCEBCEBBB - Manhã',
+             'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  ADCAAEBDBADBDBB EDDDECECDBECBBB - Tarde',
+             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15):  ECBEEDACADDACBA BEDCDEECEECEBBC - Manhã',
+             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca -  POR(15) + MAT(15):  DBBDDDEBACDCABD EBCDEEDCCEEEBCB - Tarde'
+           ]
+           create_exams_bolsao(array, datetime, cycle_name, exam_name)          
+         end
          task add_exams_05NOV: :environment do
            p 'Adding exams'
            datetime = 'Mon, 05 Nov 2013 14:00:00 BRT -03:00'

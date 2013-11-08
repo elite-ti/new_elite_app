@@ -13,14 +13,15 @@ namespace :student do
 
   task select_table: :environment do
     client = Mysql2::Client.new(
-      :host => "mysql.sistemaeliterio.com.br", 
+      # :host => "mysql.sistemaeliterio.com.br", 
+      :host => "189.38.85.61", 
       :database => "sistemaeliteri04",
       :username => "sistemaeliteri04",
       :encoding => 'latin1',
       :password => "2elite29sistema95"
     )
 
-    results = client.query("SELECT * from wp_inscricao_bolsao_2014 where bolsao = 77")
+    results = client.query("SELECT * from wp_inscricao_bolsao_2014 where bolsao = 78")
     # results = client.query("SELECT wp_rel_segmento_turma.*, wp_rel_bolsao_segmento.*, wp_bolsoes_opcao.* FROM wp_rel_segmento_turma " + 
     #                         "inner join wp_rel_bolsao_segmento on wp_rel_bolsao_segmento.id = wp_rel_segmento_turma.rel_id " + 
     #                         "inner join wp_bolsoes_opcao on wp_bolsoes_opcao.tipo = 'turma' and wp_bolsoes_opcao.id = wp_rel_segmento_turma.opcao_id"
@@ -36,6 +37,7 @@ namespace :student do
   end
 
   task sync_applicants: :environment do
+    # create client for communicating with remote database
     client = Mysql2::Client.new(
       :host => "mysql.sistemaeliterio.com.br", 
       :database => "sistemaeliteri04",
@@ -44,76 +46,93 @@ namespace :student do
       :password => "2elite29sistema95"
     )
 
-    results = client.query("SELECT * FROM wp_inscricao_bolsao_2014 where bolsao = 77")
+    # get id bolsao
+    p 'Bolsao #' + ENV['BOLSAO_ID'].to_s
+    bolsao_id = ENV['BOLSAO_ID'].to_i
 
-    header = []
-    first = true
-    # ignore = [97]
+    # run query to get all applicants
+    p 'Running query:'
+    p "SELECT * FROM wp_inscricao_bolsao_2014 where bolsao = #{bolsao_id}"
+    results = client.query("SELECT * FROM wp_inscricao_bolsao_2014 where bolsao = #{bolsao_id}")
+
+    # iterate over results
     ignored = []
-    i = 1
-    # focus = [97, 323, 327, 355, 388, 389, 509, 581, 767, 788, 789, 840, 946, 1010, 1152, 1182, 1239, 1267, 1273, 1299, 1307, 1437, 1447, 1461, 1462, 1480, 1578, 1658, 1708, 1724, 1736, 1759, 1768, 1778, 1793, 1817, 1847, 1890, 1964, 1976, 2008, 2066, 2114, 2133, 2184, 2248, 2289, 2475, 2478, 2494, 2644, 2671, 2686, 2726, 2809, 2856, 2944, 2947, 2948, 2949, 2950, 3081, 3090, 3192, 3195, 3202, 3231, 3240, 3392, 3406, 3556, 3712, 3713, 3735, 3767, 3770, 3771, 3908, 3971, 3989, 4007, 4091, 4140, 4144, 4149, 4223, 4235, 4239, 4249, 4255, 4263, 4268, 4275, 4284, 4303, 4304, 4316, 4317, 4336, 4337, 4354, 4357, 4374, 4375, 4382, 4397, 4403, 4415, 4431, 4454, 4460, 4501, 4502, 4513, 4530, 4536, 4539, 4542, 4559, 4562, 4572, 4581, 4583, 4587, 4588, 4594, 4595, 4631, 4660, 4664, 4697, 4704, 4705, 4715, 4735, 4757, 4779, 4785, 4787, 4802, 4835, 4836, 4840, 4841, 4844, 4869, 4870, 4883, 4885, 4886, 4897, 4907, 4913, 4926, 4951, 4955, 4959, 4974, 4975, 4983, 4984, 4987, 4988, 5048, 5050, 5059, 5060, 5067, 5082, 5086, 5114, 5155, 5158, 5164, 5186, 5193, 5198, 5206, 5263, 5265, 5284, 5293, 5304, 5309, 5329, 5336, 5339, 5348, 5350, 5358, 5360, 5368, 5399, 5400, 5404, 5423, 5431, 5487, 5522, 5527, 5534, 5543, 5582, 5583, 5632, 5654, 5660, 5663, 5696, 5699, 5701, 5703, 5725, 5729, 5782, 5784, 5794, 5818, 5819, 5824, 5837, 5873, 5886, 5888, 5895, 5931, 5934, 5941, 5944, 5951, 5952, 5955, 5957, 5964, 5965, 5974, 6026, 6049, 6055, 6057, 6061, 6076, 6077, 6083, 6087, 6099, 6108, 6115, 6121, 6125, 6128, 6151, 6178, 6179, 6193, 6194, 6196, 6202, 6206, 6248, 6250, 6270, 6272, 6273, 6280, 6285, 6311, 6322, 6357, 6373, 6383, 6393, 6398, 6400, 6402, 6403, 6429, 6452, 6455, 6463, 6465, 6473, 6474, 6490, 6505, 6508, 6509, 6517, 6518, 6526, 6529, 6532, 6534, 6535, 6543, 6544, 6556, 6571, 6576, 6583, 6590, 6594, 6623, 6627, 6634, 6637, 6642, 6643, 6644, 6645, 6673, 6737, 6768, 6769, 6784, 6794, 6808, 6821, 6832, 6839, 6842, 6844, 6894, 6900, 6919, 6929, 6932, 6940, 6948, 6952, 6966, 6971, 7002, 7019, 7030, 7037, 7058, 7067, 7080, 7084, 7089, 7094, 7095, 7112, 7119, 7120, 7138, 7140, 7144, 7157, 7169, 7171, 7177, 7205, 7222, 7233, 7248, 7283, 7284, 7304, 7313, 7348, 7353, 7364, 7384, 7409, 7419, 7448, 7449, 7514, 7515, 7529, 7531, 7566, 7573, 7583, 7586, 7632, 7637, 7641, 7657, 7659, 7662, 7687, 7710, 7733, 7745, 7752, 7756, 7757, 7761, 7775, 7782, 7790, 7803, 7834, 7841, 7852, 7860, 7862, 7874, 7884, 7901, 7908, 7909, 7910, 7911, 7914, 7940, 7967, 7978, 7993, 8019, 8031, 8057, 8061, 8073, 8077, 8091, 8115, 8124, 8125, 8153, 8168, 8171, 8173, 8196, 8201, 8207, 8215, 8225, 8232, 8233, 8237, 8243, 8245, 8255, 8272, 8289, 8290, 8304, 8314, 8318, 8325, 8329, 8396, 8403, 8412, 8450, 8463, 8471, 8475, 8485, 8520, 8524, 8530, 8563, 8564, 8584, 8585, 8590, 8656, 8661, 8682, 8693, 8706, 8715, 8718, 8745, 8772, 8793, 8812, 8821, 8837, 8838, 8879, 8886, 8893, 8925, 8959, 8960, 8977, 8989, 9018, 9026, 9029, 9053, 9066, 9067, 9071, 9075, 9095, 9097, 9118, 9121, 9150, 9152, 9170, 9182, 9204, 9216, 9229, 9264, 9267, 9288, 9309, 9323, 9327, 9337, 9341, 9349, 9402, 9430, 9432, 9524, 9547, 9554, 9573, 9577, 9579, 9604, 9634, 9643, 9655, 9657, 9679, 9698, 9701, 9702, 9704, 9721, 9729, 9730, 9733, 9747, 9748, 9785, 9789, 9803, 9807, 9832, 9839, 9857, 9871, 9883, 9893, 9899, 9904, 9913, 9923, 9930, 9958, 9982, 9991, 10023, 10025, 10032, 10040, 10049, 10079, 10087, 10089, 10098, 10103, 10106, 10110, 10111, 10143, 10145, 10149, 10153, 10156, 10190, 10198, 10206, 10215, 10227, 10231, 10234, 10240, 10289, 10302, 10305, 10306, 10314, 10325, 10334, 10342, 10348, 10349, 10358, 10377, 10404, 10409, 10410, 10411, 10417, 10436, 10445, 10448, 10454, 10456, 10461, 10475, 10485, 10494, 10497, 10506, 10518, 10522, 10531, 10540, 10545, 10550, 10551, 10554, 10555, 10557, 10560, 10562, 10564, 10575, 10597, 10598, 10599, 10600, 10602, 10609, 10630, 10631, 10634, 10635, 10687, 10690, 10713, 10727, 10745, 10756, 10764, 10767, 10781, 10783, 10784, 10796, 10832, 10842, 10850, 10859, 10868, 10877, 10903, 10920, 10952, 10981, 10982, 10985, 10993, 11004, 11010, 11035, 11042, 11055, 11058, 11066, 11089, 11092, 11110, 11113, 11121, 11132, 11138, 11153, 11156, 11167, 11169, 11179, 11180, 11186, 11188, 11199, 11206, 11217, 11220, 11234, 11280, 11284, 11301, 11305, 11320, 11333, 11337, 11339, 11341, 11347, 11353, 11358, 11361, 11362, 11373, 11378, 11399, 11402, 11428, 11437, 11439, 11452, 11481, 11502, 11507, 11508, 11513, 11530, 11565, 11572, 11581, 11591, 11609, 11616, 11644, 11654, 11657, 11671, 11672, 11686, 11687, 11702, 11727, 11728, 11765, 11778, 11781, 11784, 11787, 11791, 11817, 11819, 11820, 11823, 11839, 11843, 11847, 11848, 11850, 11857, 11858, 11862, 11869, 11913, 11921, 11934, 11979, 11999, 12004, 12007, 12020, 12023, 12031, 12044]
-    focus = [97,355,1437,1724,1759,1768,1847,1890,2066,2114,2184,2289,2475,2494,2686,3231,3735,3971,4460,5265,5888,5895,6248,6473,6532,6594,7583,8091,9643,10411,11702,11817,11862]
+    to_ignore = [15077]
+    existent_numbers = Applicant.all.map(&:number)
     results.each do |row|
-      # if first = true
-        # applicant = Applicant.where(number: row["id"]).first_or_create
-        # if applicant.id != nil
-        #   p "Already found #{row["id"]}"
-        #   next
-        # end
-        # p "Create row #{row["id"]}"
-        
-        # p row
-        # next if ignore.include? row["id"]
-        next if focus.include? row["id"]
-        next if !row["nome_candidato"].present? || !row["turma"].present? || !row["unidade"].present? || !row["horario"].present?
+      # p ''
+      
+      next if to_ignore.include? row["id"]
 
-        campus_id = Campus.where("name like '%#{translate(row['unidade'])}'").map(&:id)
-        # p 'campus_id: ' + campus_id.to_s
-        product_year_id = ProductYear.where("name like '#{translate(row['turma'])}%2014'").map(&:id) || -1
-        # p 'product_year_id: ' + product_year_id.to_s
+      # skip bad rows
+      if !row["nome_candidato"].present? || !row["turma"].present? || !row["unidade"].present? || !row["horario"].present?
+        p "   Skipped Applicant number ##{row["id"]} for lack of some field"
+        p row
+        next
+      end
+
+      # adjust column turma for pré-vest cases
+      if ['Pré-Vestibular ', '3ª Série + Pré-Vestibular '].include? translate(row['turma'])
+        row['turma'] = row['turma'] + row['turno']
+      elsif ['Pré-Vestibular', '3ª Série + Pré-Vestibular'].include? translate(row['turma'])
+        row['turma'] = row['turma'] + ' ' + row['turno']
+      end
+
+      # check database existance
+      
+      next if existent_numbers.include? row["id"]
+
+      # translate remote database's strings to local ids
+      campus_id = Campus.where("name like '%#{translate(row['unidade'].strip)}'").map(&:id)
+      product_year_id = ProductYear.where("name like '#{translate(row['turma'].strip)} - 2014'").map(&:id) || -1
+      sk_ids = SuperKlazz.where(product_year_id: product_year_id, campus_id: campus_id).map(&:id)
+      ees = ExamExecution.where(exam_cycle_id: ExamCycle.where(is_bolsao: true).where("name like '%Bolsão 2014 -  #{translate(row['horario'].strip)}%'").map(&:id).uniq, super_klazz_id: sk_ids || -1)
+
+      # applicant should have only one super_klazz
+      if sk_ids.size == 0
+        p '   Found no klazz for him'
+        campus_id = Campus.where("name like '%#{translate(row['unidade'].strip)[0..-3]}%'").map(&:id)
+        p campus_id
+        product_year_id = ProductYear.where("name like '%#{translate(row['turma'].strip)}% - 2014' and not (name like '%3_ S_rie + %')").map(&:id) || -1
+        p product_year_id
         sk_ids = SuperKlazz.where(product_year_id: product_year_id, campus_id: campus_id).map(&:id)
-        # p 'sk_ids: ' + sk_ids.to_s
-        ees = ExamExecution.where(exam_cycle_id: ExamCycle.where(is_bolsao: true).where("name like '%Bolsão 2014 -  #{translate(row['horario'])}%'").map(&:id).uniq, super_klazz_id: sk_ids || -1)
-        if ees.size > 1
-          ees = ees.select{|ee| ee.super_klazz.product_year.name.include? translate(row["turno"])}
-        end
-        bla = false
-        if ees.size > 1
-          # p 'Deu pau!' + translate(row["id"]).to_s + " , " + translate(row["turma"]).to_s + " , " + translate(row["unidade"]).to_s + " , " + translate(row["horario"]).to_s + " , " + i.to_s
-          i += 1
-          bla = true
-        end
-        names = ''
-        names = ees.map(&:full_name).join ',' if ees.present?
-        p names if bla
-        # p "(#{translate(row["turma"])}, #{translate(row["unidade"])}, #{translate(row["horario"])} = #{names})" if !names.present?
-        p "(#{translate(row["id"])}, #{translate(row["nome_candidato"])}, #{translate(row["turma"])}, #{translate(row["unidade"])}, #{translate(row["turno"])} = #{names})"
-        # break if !names.present?
-        ignored << row["id"] if !names.present?
+        p sk_ids.map{|id| SuperKlazz.find(id).name}.join(',')
+        p row
+        break if sk_ids.size != 1
+        p '   Managed it!'
+      elsif sk_ids.size > 1
+        p '   Found more than one klazz for him: ' + sk_ids.map{|id| SuperKlazz.find(id).name}.join(',')
+        p row
+        break
+      end
 
-        #   "bolsao"=>77
-        #   "data_bolsao"=>Sat, 19 Oct 2013
-        #   ""=>"1ª Série Militar"
-        #   ""=>"Bangu"
-        #   "turno"=>"Manhã"
-        #   "horario"=>"10:00"
-        #   "data_inscricao"=>2013-10-15 00:46:40 -0300
-        std = Student.new(
-          email: row["email"],
-          name: row["nome_candidato"],
-          cpf: row["cpf_candidato"] || row["cpf_responsavel"],
-          own_cpf: row["responsavel"] == 1,
-          date_of_birth: row["data_nascimento"],
-          number_of_children: row["dependentes_responsavel"],
-          mother_name: (row["parentesco_responsavel"] == 'Mãe' ? row["nome_responsavel"] : nil),
-          father_name: (row["parentesco_responsavel"] == 'Pai' ? row["nome_responsavel"] : nil),
-          telephone: row["celular_candidato"],
-          cellphone: row["telefone"]
-        )
-        std.applied_super_klazz_ids = sk_ids
-        std.save
-        std.number = row["id"]
-        std.save
+      # create student
+      std = Student.new(
+        email: row["email"],
+        name: row["nome_candidato"],
+        cpf: row["cpf_candidato"] || row["cpf_responsavel"],
+        own_cpf: row["responsavel"].to_i == 1,
+        date_of_birth: row["data_nascimento"],
+        number_of_children: row["dependentes_responsavel"],
+        mother_name: (row["parentesco_responsavel"] == 'Mãe' ? row["nome_responsavel"] : nil),
+        father_name: (row["parentesco_responsavel"] == 'Pai' ? row["nome_responsavel"] : nil),
+        telephone: row["celular_candidato"],
+        cellphone: row["telefone"]
+      )
+      std.save
+
+      # create applicant
+      applicant = Applicant.new(
+        number: row["id"].to_i,
+        subscription_datetime: row["data_inscricao"].to_datetime,
+        exam_datetime: (row["data_bolsao"].to_s + ' ' + row["horario"].to_s).to_datetime,
+        exam_campus_id: campus_id.first,
+        student_id: std.id,
+        bolsao_id: bolsao_id,
+        super_klazz_id: sk_ids.first
+      )
+      applicant.save
+      p "   Created applicant ##{applicant.number}"
     end
     p ignored
     client.close
@@ -168,6 +187,11 @@ namespace :student do
       '3? S?rie + Biom?dicas' => 'Pré-Vestibular Biomédicas',
       'Col?gio Naval + EPCAr' => '9º Ano Militar',
       'IME/ITA' => 'IME-ITA',
+      # Bizarrices
+      '3ª Série + Pré-Vestibular Noite' => 'Pré-Vestibular Noite',
+      'Pré-Vestibular Tarde' => 'Pré-Vestibular Biomédicas',
+      '3ª Série + AFA/EFOMM' => 'AFA/ESPCEX',
+
       '3? S?rie + IME/ITA' => 'IME-ITA',
       '9º Ano Forte (Lista de espera)' => '9º Ano Forte',
       'Pré-Vestibular Taquara Manhã (Lista de espera)' => 'Pré-Vestibular Manhã',
@@ -176,15 +200,25 @@ namespace :student do
       'AFA / ESPCEX' => 'AFA/ESPCEX',
       'S?o Gon?alo II' => 'São Gonçalo II',
       'S?o Gon?alo I' => 'São Gonçalo I',
+      '07:00' => 'Manhã',
+      '07:30' => 'Manhã',
+      '08:00' => 'Manhã',
       '08:30' => 'Manhã',
       '09:00' => 'Manhã',
       '09:30' => 'Manhã',
       '10:00' => 'Manhã',
       '10:30' => 'Manhã',
+      '11:00' => 'Manhã',
+      '11:30' => 'Manhã',
+      '12:00' => 'Manhã',
+      '12:30' => 'Tarde',
       '13:00' => 'Tarde',
       '13:30' => 'Tarde',
       '14:00' => 'Tarde',
       '14:30' => 'Tarde',      
+      '15:00' => 'Tarde',      
+      '15:30' => 'Tarde',      
+      '16:00' => 'Tarde',
       '1718' => '1ª Série ENEM',
       '1719' => '1ª Série Militar',
       '1720' => '2ª Série ENEM',

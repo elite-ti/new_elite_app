@@ -1,0 +1,119 @@
+<% if @is_bolsao %>
+  <%= title @student.name + (@student.number.to_s.blank? ? '' : ' - ' + @student.number.to_s), 
+    link_to('Editar', edit_student_path(@student, is_bolsao: true)),
+    link_to('Cadastrar Novo Candidato', new_student_path(is_bolsao: @is_bolsao)),
+    link_to('Voltar', students_path(is_bolsao: true)) %>
+
+    <h2>Informações</h2>
+    <p>
+      <span style="font-weight:bold;">Nome: </span><%= @student.name || '' %><br />
+      <span style="font-weight:bold;">Número de Inscrição: </span><%= @student.number || '' %><br />
+      <span style="font-weight:bold;">Turmas Inscritas: </span><%= (@student.applicants.map(&:super_klazz).map(&:name).join(', ')  || '' ) %><br />
+      <span style="font-weight:bold;">Data de Nascimento: </span><%= @student.date_of_birth || '' %><br />
+      <span style="font-weight:bold;">Email: </span><%= (@student.email  || '' ) %><br />
+      <span style="font-weight:bold;">Telefone: </span><%= (@student.telephone  || '' ) %><br />
+      <span style="font-weight:bold;">Celular: </span><%= (@student.cellphone  || '' ) %><br />
+      <span style="font-weight:bold;">CPF: </span><%= (@student.cpf  || '' ) %><br />
+      <span style="font-weight:bold;">Nome da Mãe: </span><%= (@student.mother_name  || '' ) %><br />
+      <span style="font-weight:bold;">Nome do Pai: </span><%= (@student.father_name  || '' ) %><br />
+    </p>
+
+<% else %>
+  <%= title @student.name + (@student.ra.to_s.blank? ? '' : ' - ' + @student.ra.to_s), 
+    link_to('Editar', edit_student_path(@student)),
+    link_to('Voltar', students_path) %>
+
+  <div class='tabs'>
+    <ul>
+      <li><a href='#exams'>Exams</a></li>
+      <li><a href='#info'>Info</a></li>
+    </ul>
+
+    <div id='exams'>
+      <table id='student_enrolled_exams' class='display is-datatable-desc'>
+        <thead>
+          <tr>
+            <th>Datetime</th>
+            <th>Exam cycle</th>
+            <th>Card</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% if @student.enrolled_exam_executions.size > 0 %>
+          <% @student.enrolled_exam_executions.group_by(&:datetime).each do |datetime, exam_executions| %>
+            <tr>
+              <td><%= datetime.strftime('%Y-%m-%d') %></td>
+              <td><%= StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).first.try(:exam_execution).try(:exam_cycle).try(:name) || exam_executions.first.exam_cycle.name %></td>
+              <td>
+                <% StudentExam.where(exam_execution_id: exam_executions.map(&:id), student_id: @student.id).all.each do |student_exam| %>
+                <%= link_to student_exam.id, student_exam_path(student_exam) %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% @student.student_exams.select{|se| !@student.enrolled_exam_executions.include?(se.exam_execution)}.each do |student_exam| %>
+          <tr>
+            <td><%= print_date(student_exam.exam_date) %></td>
+            <td><%= student_exam.exam_execution.try(:exam_cycle).try(:name) || 'Prova não encontrada' %></td>
+            <td>
+              <%= link_to student_exam.id, student_exam_path(student_exam) %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id='info'>
+      <div class='resource'>
+        <%= show_group 'Contact',
+          {
+            'Email' => @student.email,
+            'Telephone' => @student.telephone,
+            'Cellphone' => @student.cellphone
+          }
+        %>
+        <%= show_group 'Documents',
+          {
+            'Cpf' => @student.cpf,
+            'Own_cpf' => @student.own_cpf,
+            'RG' => @student.rg,
+            'Expeditor' => @student.rg_expeditor
+          }
+        %>
+        <%= show_group 'Personal',
+          {
+            'Gender' => @student.gender,
+            'Date of birth' => @student.date_of_birth
+          }
+        %>
+        <%= show_group 'Family',
+          {
+            'Number of children' => @student.number_of_children,
+            'Mother' => @student.mother_name,
+            'Father' => @student.father_name
+          }
+        %>
+        <% if @student.address.present? %>
+          <%= show_group 'Address',
+            {
+              'Street' => @student.address.street,
+              'Number' => @student.address.number,
+              'Complement' => @student.address.complement,
+              'Suburb' => @student.address.suburb,
+              'City' => @student.address.city,
+              'State' => @student.address.state
+            } 
+          %>
+        <% end %>
+        <%= show_group 'General',
+          {
+            'Previous School' => @student.previous_school
+          }
+        %>
+      </div>
+    </div>
+  </div>  
+<% end %>

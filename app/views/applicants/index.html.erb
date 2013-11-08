@@ -1,0 +1,33 @@
+<%= title 'Candidatos', 
+  link_to('Novo Candidato', new_applicant_path) %>
+
+<table id="applicants" class="display is-datatable">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Inscrição</th>
+      <th>Turma</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @applicants.each do |applicant| %>
+    <tr>
+      <td>
+        <%= applicant.name || '' %>
+        <span style='float: right;'>
+          <%= link_to 'Mostrar', applicant_path(applicant) %>
+          <% if can?(:update, applicant) %>          
+            | <%= link_to 'Editar', edit_applicant_path(applicant) %>
+          <% end %>          
+          <% if can?(:destroy, applicant) %>
+            | <%= link_to 'Deletar', applicant, {method: :delete, confirm: 'Você tem certeza?'} %>
+          <% end %>
+        </span>
+      </td>
+      <td><%= applicant.number %></td>
+      <td><%= applicant.super_klazz.try(:name) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

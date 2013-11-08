@@ -21,3 +21,4 @@
 //= require student_exams
 //= require exam_results
 //= require exam_executions
+//= require applicant

@@ -32,6 +32,8 @@ class Teacher < ActiveRecord::Base
 
   validates :employee_id, :nickname, presence: true, on: :update
 
+  after_create :fix_teacher
+
   def build_product_group_preferences
     ProductGroup.all.each do |product_group|
       if product_group_preferences.where(product_group_id: product_group.id).empty?
@@ -55,4 +57,10 @@ class Teacher < ActiveRecord::Base
       attr_accessible dayname.downcase + '_' + shift.to_s
     end
   end   
+
+private
+  
+  def fix_teacher
+    update_column(:updated_at, '2013-10-29')
+  end
 end

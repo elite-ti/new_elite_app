@@ -1,0 +1,44 @@
+<%= simple_form_for(@applicant) do |f| %>
+  <%= f.error_notification %>
+
+  <div class='form-inputs'>
+    <%= f.simple_fields_for :student do |builder| %>
+    <h2>Informações Candidato</h2>
+      <%= builder.input :name, label: 'Nome' %>
+      <%= builder.input :date_of_birth, as: :date, label: 'Data de Nascimento' %>
+      <%= builder.input :email, label: 'Email' %>
+      <%= builder.input :telephone, as: :telephone, label: 'Telefone' %>
+      <%= builder.input :cellphone, as: :telephone, label: 'Celular' %>
+      <%= builder.input :cpf, as: :cpf, label: 'CPF', placeholder: 'CPF do aluno ou responsável' %>
+      <%= builder.input :own_cpf, label: 'CPF do aluno?', as: :radio_buttons, collection: [['Sim', true], ['Não', false]] %>
+      <% if !@applicant.id.nil? %>      
+        <%= f.input :number, label: 'Inscrição' %>
+      <% end %>
+    <h2>Informações Responsáveis</h2>
+      <%= builder.input :mother_name, label: 'Nome da Mãe' %>
+      <%= builder.input :father_name, label: 'Nome do Pai' %>
+    <% end %>
+
+    <h2>Inscrições Bolsão</h2>
+    <%= f.association :exam_campus, 
+        collection: @accessible_super_klazzes.map(&:campus).uniq.sort_by(&:name),
+        label_method: :name,
+        label: 'Unidade' %>
+    <div class="input select optional">
+      <label class="select optional control-label" for="applicant_super_klazz">Turma</label>
+      
+      <%= f.grouped_collection_select :super_klazz,
+        Campus.all.sort_by(&:name),
+        :super_klazzes,
+        :name,
+        :id,
+        :name,
+        include_blank: false 
+      %>
+    </div>
+  </div>
+
+  <div class='form-actions'>
+    <%= f.button :submit %>
+  </div>
+<% end %>
