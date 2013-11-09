@@ -6,6 +6,7 @@ class StudentsController < ApplicationController
   def index
     if !params[:is_bolsao].nil? && params[:is_bolsao] == 'true'
       super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+      date = Date.parse(params[:exam_date]  || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.max.to_s)
       @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => :applicants).map(&:student).compact.uniq
       # @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => {:applicants => {:super_klazz => [:campus, :product_year] }}).map(&:student).compact.uniq
       @is_bolsao = true
@@ -26,7 +27,7 @@ class StudentsController < ApplicationController
     # if @is_bolsao
     #   @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability, product_year_id: Year.find_by_number(2014).product_years.map(&:id)).map(&:id))
     # else
-      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+      @accessible_super_klazzes = SuperKlazz.where(product_year_id: Year.find_by_number((Date.today + 6.months).year).product_years.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id))
     # end
   end
 
@@ -35,7 +36,7 @@ class StudentsController < ApplicationController
     # if @is_bolsao
     #   @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability, product_year_id: Year.find_by_number(2014).product_years.map(&:id)).map(&:id))
     # else
-      @accessible_super_klazzes = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
+      @accessible_super_klazzes = SuperKlazz.where(product_year_id: Year.find_by_number((Date.today + 6.months).year).product_years.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id))
     # end
   end
 

@@ -6,8 +6,8 @@ class ApplicantsController < ApplicationController
   def index
     
     if !params[:exam_date].nil?
-      date = Date.parse(params[:exam_date])
-      @applicants = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day)).includes(:student => :applicants)
+      date = Date.parse(params[:exam_date]  || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.max.to_s)
+      @applicants = Applicant.where(exam_campus_id: Campus.accessible_by(current_ability).map(&:id),exam_datetime: (date.beginning_of_day..date.end_of_day)).includes(:student => :applicants)      
     else
       @applicants = []
     end
