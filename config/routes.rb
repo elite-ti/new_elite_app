@@ -25,6 +25,7 @@ EliteApp::Application.routes.draw do
   resources :exams
   resources :questions
   resources :exam_cycles
+  resources :applicants
   resources :students do 
     member do 
       get :fix_ra

@@ -2,8 +2,9 @@
 
 namespace :student do
   task create_attendance_lists: :environment do
+    date = ENV['BOLSAO_DATE'].to_date
     `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
-    ExamCycle.where(is_bolsao: true).map(&:exam_executions).flatten.uniq.each do |exam_execution|
+    ExamCycle.where(is_bolsao: true).map(&:exam_executions).flatten.select{|e| e.datetime.to_date == date}.uniq.each do |exam_execution|
       p exam_execution.full_name
       pdf = AttendanceListPrawn.new(exam_execution.id)
       filename = File.join(Rails.root,'public/lists', 'ListaPresença - ' + exam_execution.full_name.split('-')[3].strip + ' - ' + exam_execution.super_klazz.campus.name + ' - ' + exam_execution.super_klazz.product_year.product.name.gsub(/\//,'-') + '.pdf')
