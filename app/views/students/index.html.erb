@@ -7,6 +7,7 @@
         ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.sort.reverse,
         params[:exam_date])
     %>
+    <%= hidden_field_tag :is_bolsao, true %>
     <%= submit_tag "Filtrar", :name => nil %>
   </p>
 <% end %>
