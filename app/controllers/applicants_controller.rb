@@ -7,7 +7,7 @@ class ApplicantsController < ApplicationController
     
     if !params[:exam_date].nil?
       date = Date.parse(params[:exam_date])
-      @applicants = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day))
+      @applicants = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day)).includes(:student => :applicants)
     else
       @applicants = []
     end
