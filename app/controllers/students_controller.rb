@@ -50,6 +50,11 @@ class StudentsController < ApplicationController
       if @is_bolsao
         if params[:student][:number] == "-1"
           @student.number = @student.calculate_temporary_number(params[:student][:applied_super_klazz_ids][1].to_i, 1)
+          @student.applicants.first.bolsao_id = 78
+          @student.applicants.first.exam_campus_id = SuperKlazz.find(@student.applicants.first.super_klazz_id).campus_id
+          @student.applicants.first.exam_datetime = '2013-11-09 9:00'.to_datetime
+          @student.applicants.first.subscription_datetime = @student.applicants.first.created_at
+          @student.applicants.first.save          
         else
           @student.number = params[:student][:number]
         end
