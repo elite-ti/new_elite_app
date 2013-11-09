@@ -1,15 +1,38 @@
+#encoding: utf-8
 require 'find'
 
 class CardProcessor
   attr_accessor :card_processing
 
-  def initialize(card_processing_id)
+  def initialize(card_processing_id, email)
     @card_processing = CardProcessing.find(card_processing_id)
+    @email = email
   end
   
   def process
     create_student_exams
     scan
+    ActionMailer::Base.mail(
+      from: 'elitesim@sistemaeliterio.com.br',
+      to: @email,
+      subject: "Envio arquivo ##{@card_processing.id}",
+      body: <<-eos
+      Olá,
+
+      Você acaba de enviar um arquivo para o EliteSim.
+
+      Prova: #{@card_processing.name}
+      Data prova: #{@card_processing.exam_date.strftime('%d/%m/%Y')}
+      Data Envio: #{@card_processing.created_at.strftime('%d/%m/%Y %H:%M')}
+      Unidade: #{@card_processing.campus.name}
+      Tipo de Cartão: #{@card_processing.card_type.name}
+      Quantidade de cartões: #{@card_processing.student_exams.size}
+      Quantidade de erros: #{@card_processing.number_of_errors}
+
+      --
+      Central de Resultados
+      eos
+    ).deliver
   end 
 
 private

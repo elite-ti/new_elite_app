@@ -11,7 +11,8 @@ class AttendanceListPrawn < Prawn::Document
 
     @students = [['Código', 'Aluno', 'Assinatura']]
     if @exam_execution.is_bolsao
-      pre_students = @exam_execution.super_klazz.applicant_students
+      exam_date = @exam_execution.datetime.to_date
+      pre_students = @exam_execution.super_klazz.applicant_students.select{|s| s.applicants.first.exam_datetime > exam_date.beginning_of_day && s.applicants.first.exam_datetime < exam_date.end_of_day}
       if @exam_execution.full_name =~ /.*Bolsão 2014 - Tarde.*/
         pre_students = pre_students.select{|student| student.applicants.first.exam_datetime.nil? || student.applicants.first.exam_datetime > (@date + ' 12:00').to_datetime}
         @shift = 'Tarde'
