@@ -7,7 +7,7 @@ class StudentsController < ApplicationController
     if !params[:is_bolsao].nil? && params[:is_bolsao] == 'true'
       super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
       date = Date.parse(params[:exam_date]  || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.max.to_s)
-      @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => :applicants).map(&:student).compact.uniq
+      @students = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day), super_klazz_id: super_klazz_ids).includes(:student => :applicants).map(&:student).compact.uniq
       # @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => {:applicants => {:super_klazz => [:campus, :product_year] }}).map(&:student).compact.uniq
       @is_bolsao = true
     else
