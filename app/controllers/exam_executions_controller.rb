@@ -8,7 +8,8 @@ class ExamExecutionsController < ApplicationController
       @exam_executions = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq
       @filter_by = ''
     elsif params[:filter_by] == 'is_bolsao'
-      @exam_executions = ExamExecution.all.select{|ee| ee.is_bolsao && Campus.accessible_by(current_ability).include?(ee.super_klazz.campus)}
+      date = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.max
+      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id), datetime: date.beginning_of_day..date.end_of_day)
       @filter_by = ' - Bolsão'
     elsif params[:filter_by].include?'is_bolsao_'
       campuz = Campus.find(translate(params[:filter_by].split('_')[2]))

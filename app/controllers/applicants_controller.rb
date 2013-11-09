@@ -4,11 +4,12 @@ class ApplicantsController < ApplicationController
   # load_and_authorize_resource
 
   def index
+    
     if !params[:exam_date].nil?
       date = Date.parse(params[:exam_date])
-      @applicants = Applicant.where(exam_date: (date.beginning_of_day..date.end_of_day))
+      @applicants = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day))
     else
-      @applicants = Applicant.all
+      @applicants = []
     end
   end
 

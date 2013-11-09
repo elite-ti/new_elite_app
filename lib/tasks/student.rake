@@ -50,7 +50,6 @@ namespace :student do
     # get id bolsao
     p 'Bolsao #' + ENV['BOLSAO_ID'].to_s
     bolsao_id = ENV['BOLSAO_ID'].to_i
-    results = client.query("SELECT * FROM wp_inscricao_bolsao_2014 where bolsao = 78")
 
     # run query to get all applicants
     p 'Running query:'
@@ -100,12 +99,12 @@ namespace :student do
         sk_ids = SuperKlazz.where(product_year_id: product_year_id, campus_id: campus_id).map(&:id)
         p sk_ids.map{|id| SuperKlazz.find(id).name}.join(',')
         p row
-        break if sk_ids.size != 1
+        # break if sk_ids.size != 1
         p '   Managed it!'
       elsif sk_ids.size > 1
         p '   Found more than one klazz for him: ' + sk_ids.map{|id| SuperKlazz.find(id).name}.join(',')
         p row
-        break
+        # break
       end
 
       # create student

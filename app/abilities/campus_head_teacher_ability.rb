@@ -12,6 +12,7 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can :read, Klazz, super_klazz: { campus_id: accessible_campus_ids }
     can :read, Teacher, id: accessible_teacher_ids
     can [:read, :update, :create], Student
+    can [:read, :update, :create], Applicant, exam_campus_id: accessible_campus_ids
 
     can :create, CardProcessing 
     can :read, CardProcessing, campus_id: accessible_campus_ids
