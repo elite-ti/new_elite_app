@@ -70,7 +70,7 @@ File read_png();
 File read_tif();
 
 File locate_marks(File);
-int find_mark(File, int, int, int);
+int find_mark(File, int, int, double);
 
 File rotate180(File);
 int is_upside_down(File);
@@ -320,7 +320,7 @@ File locate_marks(File file) {
     {
       mark_position_x[i][j] = 0;
       mark_position_y[i][j] = 0;
-      mark_radius[i][j] = 0;      
+      mark_radius[i][j] = 0;
     }
 
   int number_of_marks = 0;
@@ -338,8 +338,8 @@ File locate_marks(File file) {
       {
         mark_position_x[i][j] = 0;
         mark_position_y[i][j] = 0;
-        mark_radius[i][j] = 0;      
-      }    
+        mark_radius[i][j] = 0;
+      }
     number_of_marks = 0;
     number_of_marks += find_mark(file, 0, 0, 0.5);
     number_of_marks += find_mark(file, 0, 1, 0.5);
@@ -354,20 +354,20 @@ File locate_marks(File file) {
   }
 
   #ifdef DEBUG
-    if(mark_position_x[1][0] == 0 && mark_position_y[1][0] == 0)
-    {
-      int radius = 110;
-      int x = mark_position_x[0][0] + mark_position_x[1][1] - mark_position_x[0][1];
-      int y = mark_position_y[0][0] + mark_position_y[1][1] - mark_position_y[0][1];
-      for(int i = 0; i < radius; i++)
-        paint_pixel(file, x + i, y, 0, 0, 255);
-      for(int i = 0; i <= radius; i++)
-        paint_pixel(file, x + i, y + radius, 0, 0, 255);
-      for(int i = 0; i < radius; i++)
-        paint_pixel(file, x, y + i, 0, 0, 255);
-      for(int i = 0; i < radius; i++)
-        paint_pixel(file, x + radius, y + i, 0, 0, 255);      
-    }
+    // if(mark_position_x[1][0] == 0 && mark_position_y[1][0] == 0)
+    // {
+    //   int radius = 110;
+    //   int x = mark_position_x[0][0] + mark_position_x[1][1] - mark_position_x[0][1];
+    //   int y = mark_position_y[0][0] + mark_position_y[1][1] - mark_position_y[0][1];
+    //   for(int i = 0; i < radius; i++)
+    //     paint_pixel(file, x + i, y, 0, 0, 255);
+    //   for(int i = 0; i <= radius; i++)
+    //     paint_pixel(file, x + i, y + radius, 0, 0, 255);
+    //   for(int i = 0; i < radius; i++)
+    //     paint_pixel(file, x, y + i, 0, 0, 255);
+    //   for(int i = 0; i < radius; i++)
+    //     paint_pixel(file, x + radius, y + i, 0, 0, 255);      
+    // }
     printf("mark00: %d %d\n", mark_position_x[0][0], mark_position_y[0][0]);
     printf("mark01: %d %d\n", mark_position_x[0][1], mark_position_y[0][1]);
     printf("mark10: %d %d\n", mark_position_x[1][0], mark_position_y[1][0]);
@@ -377,14 +377,14 @@ File locate_marks(File file) {
   return file;
 }
 
-int find_mark(File file, int coord_x, int coord_y, int mark_threshold) {
+int find_mark(File file, int coord_x, int coord_y, double mark_threshold) {
   int signal_x = coord_x ? -1 : 1;
   int signal_y = coord_y ? -1 : 1;
   int start_x = coord_x ? file.width : 0;
   int start_y = coord_y ? file.height : 0;
 
   int break_flag = 0;
-  for(int sum = 30; sum < 1100 && !break_flag; sum++)
+  for(int sum = 0; sum < 1100 && !break_flag; sum++)
     for(int x = 1; x < sum && !break_flag; x++)
     {
       if(is_pixel_filled(file, start_x + signal_x * x, start_y + signal_y * (sum - x)))
@@ -401,24 +401,24 @@ int find_mark(File file, int coord_x, int coord_y, int mark_threshold) {
           for(int i = 0; i < radius; i++)
             if(is_pixel_filled(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x + radius)))
               pixels_filled++;
-        }while(pixels_filled > mark_threshold * ((double) 2 * radius - 1));
+        }while(((double) pixels_filled) > mark_threshold * ((double) 2 * radius - 1) && radius < 180);
 
         if(radius > 90)
         {
           mark_position_x[coord_x][coord_y] = start_x + signal_x * (x + radius/2);
           mark_position_y[coord_x][coord_y] = start_y + signal_y * (sum - x + radius/2);
           mark_radius[coord_x][coord_y] = radius;
-          // for (int i = -5; i <= 5; ++i)
-          //   for (int j = -5; j <= 5; ++j)
-          //     paint_pixel(file, mark_position_x[coord_x][coord_y] + i, mark_position_y[coord_x][coord_y] + j, 0, 0, 255);
-          // for(int i = 0; i < radius; i++)
-          //   paint_pixel(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x), 0, 0, 255);
-          // for(int i = 0; i <= radius; i++)
-          //   paint_pixel(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x + radius), 0, 0, 255);
-          // for(int i = 0; i < radius; i++)
-          //   paint_pixel(file, start_x + signal_x * x, start_y + signal_y * (sum - x + i), 0, 0, 255);
-          // for(int i = 0; i < radius; i++)
-          //   paint_pixel(file, start_x + signal_x * (x + radius), start_y + signal_y * (sum - x + i), 0, 0, 255);
+          for (int i = -5; i <= 5; ++i)
+            for (int j = -5; j <= 5; ++j)
+              paint_pixel(file, mark_position_x[coord_x][coord_y] + i, mark_position_y[coord_x][coord_y] + j, 0, 0, 255);
+          for(int i = 0; i < radius; i++)
+            paint_pixel(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x), 0, 0, 255);
+          for(int i = 0; i <= radius; i++)
+            paint_pixel(file, start_x + signal_x * (x + i), start_y + signal_y * (sum - x + radius), 0, 0, 255);
+          for(int i = 0; i < radius; i++)
+            paint_pixel(file, start_x + signal_x * x, start_y + signal_y * (sum - x + i), 0, 0, 255);
+          for(int i = 0; i < radius; i++)
+            paint_pixel(file, start_x + signal_x * (x + radius), start_y + signal_y * (sum - x + i), 0, 0, 255);
           paint_pixel(file, start_x + signal_x * x, start_y + signal_y * (sum - x), 0, 255, 0);
           break_flag = 1;
           return 1;
@@ -508,13 +508,20 @@ File fine_move(File file) {
     }
   }
 
-  int start_x = (double) conf.questions_zone.group_x - 30;
-  int found_x = -1;
+  int start_x = (double) conf.questions_zone.group_x - 100;
+
+  int found_x = -2;
   int count = 0;
-  for (int i = 0; i < 50; ++i){
+  for (int i = 0; i < 150; ++i){
     double density = get_column_density(file, start_x + i);
+    if(found_x == -2){
+      if(density > 0.1)
+        found_x = -1;
+      else
+        continue;
+    }
     if(found_x == -1 && density < 0.1){
-      if(count < 5)
+      if(count < 10)
         count++;
       else
         found_x = 0;

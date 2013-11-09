@@ -81,6 +81,11 @@ class StudentsController < ApplicationController
       p @number
       if @is_bolsao && !params[:student][:number].nil? && params[:student][:number] =~ /^[-+]?[0-9]+$/
           @student.number = params[:student][:number]
+          @student.applicants.first.bolsao_id = 78
+          @student.applicants.first.exam_campus_id = SuperKlazz.find(@student.applicants.first.super_klazz_id).campus_id
+          @student.applicants.first.exam_datetime = '2013-11-09 9:00'.to_datetime
+          @student.applicants.first.subscription_datetime = @student.applicants.first.created_at
+          @student.applicants.first.save          
       end
       if @is_bolsao
         redirect_to student_url(@student, is_bolsao: true), notice: 'Candidato editado com sucesso.'
