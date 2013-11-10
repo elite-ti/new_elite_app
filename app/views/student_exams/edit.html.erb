@@ -1,15 +1,15 @@
-<%= title 'Check Student Exam', 
-  (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
-  link_to('Back', @student_exam.card_processing) %>
+<%= title 'Checagem Cartão-resposta', 
+  (link_to('Marcar como Erro', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
+  link_to('Voltar', @student_exam.card_processing) %>
 
 <% if @student_exam.student_not_found? %>
-  <h2>Student was not found</h2>
+  <h2>Aluno não encontrado</h2>
   <%= image_tag @student_exam.card.student_url %>
   <div style='height: 50px;'></div>
   <div class='tabs'>
     <ul>
-      <li><a href='#existing_student'>Existing Student</a></li>
-      <li><a href='#new_student'>New Student</a></li>
+      <li><a href='#existing_student'>Aluno Existente</a></li>
+      <li><a href='#new_student'>Novo Aluno</a></li>
     </ul>
 
     <div id='existing_student'>
@@ -27,8 +27,8 @@
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
@@ -42,13 +42,13 @@
               <% ff.object.applied_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
               <%= ff.association :applied_super_klazzes, 
                 collection: @student_exam.campus.super_klazzes,
-                label: 'SuperKlazz',
+                label: 'Turma',
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>
             <% else %>
               <%= ff.association :enrolled_super_klazzes, 
                 collection: @student_exam.campus.super_klazzes,
-                label: 'SuperKlazz',
+                label: 'Turma',
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>              
             <% end %>
@@ -56,8 +56,8 @@
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
@@ -84,13 +84,13 @@
           <% end %>
         </div> 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>    
   <% else %>
     <% if @student_exam.possible_exam_executions.size > 1 %>
-      <h2>More than one exam is possible for this student</h2>
+      <h2>Foi encontrado mais de uma prova possível para este aluno</h2>
       <p>
         <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
         <strong>Student: </strong><%= @student_exam.student.name %><br />
@@ -106,12 +106,12 @@
             collection: @student_exam.possible_exam_executions %>
         </div> 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     <% else %>
-      <h2>No exams available for this student</h2>
+      <h2>Não foram encontradas provas para este aluno</h2>
 
       <%= image_tag @student_exam.card.student_url %>
       <p>
@@ -128,15 +128,15 @@
           <% end %>
         </div> 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     <% end %>
   <% end %>
 
 <% elsif @student_exam.invalid_answers? %>
-  <h2>Some answers were zero or wrong</h2>
+  <h2>Algumas respostas não foram encontradas</h2>
 
   <%= simple_form_for(@student_exam) do |f| %>
     <%= f.error_notification %>
@@ -152,18 +152,18 @@
     </div>
   
     <div class='form-actions'>
-      <%= f.submit 'Finish', class: 'btn' %>
-      <%= f.submit 'Continue' %>
+      <%= f.submit 'Finalizar', class: 'btn' %>
+      <%= f.submit 'Continuar' %>
     </div>
   <% end %>
 
 <% elsif @student_exam.error? %>
-  <h2>Error</h2>
+  <h2>Houve um erro de processamento</h2>
   <div style='height: 10px;'></div>
   <div class='tabs'>
     <ul>
-      <li><a href='#existing_student'>Existing Student</a></li>
-      <li><a href='#new_student'>New Student</a></li>
+      <li><a href='#existing_student'>Aluno Existente</a></li>
+      <li><a href='#new_student'>Novo Aluno</a></li>
     </ul>
 
     <div id='existing_student'>
@@ -171,17 +171,23 @@
         <div class='form-inputs'>
           <div class='input'>
             <%= label :mock, :student_id %>
+
+            <% if @student_exam.is_bolsao %>            
+            <%= collection_select :mock, :student_number, @possible_students, :id, :number, include_blank: true %>
+            <% else %>
             <%= collection_select :mock, :student_ra, @possible_students, :id, :ra, include_blank: true %>
+            <% end %>
+            
             <%= f.collection_select :student_id, @possible_students, :id, :name, include_blank: true %>
-            <%= f.input :string_of_answers , label: "Answers"%>
+            <%= f.input :string_of_answers , label: "Respostas"%>
             <%= label :mock, :exam_execution_id %>
             <%= f.collection_select :exam_execution_id, ExamExecution.where(super_klazz_id: @student_exam.campus.super_klazzes.map(&:id), datetime: (@student_exam.exam_date.beginning_of_day)..(@student_exam.exam_date.end_of_day)), :id, :full_name, include_blank: true %>            
           </div>
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
@@ -191,18 +197,18 @@
         <div class='form-inputs'>
           <%= f.simple_fields_for @new_student do |ff| %>
             <%= ff.input :name %>
-            <%= f.input :string_of_answers , label: "Answers"%>
+            <%= f.input :string_of_answers , label: "Respostas"%>
             <%= ff.association :enrolled_super_klazzes, 
               collection: @student_exam.campus.super_klazzes,
-              label: 'SuperKlazz',
+              label: 'Turma',
               label_method: :product_year_name, 
               input_html: { multiple: false } %>
           <% end %>
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
@@ -234,8 +240,8 @@
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
@@ -254,8 +260,8 @@
         </div>
 
         <div class='form-actions'>
-          <%= f.submit 'Finish', class: 'btn' %>
-          <%= f.submit 'Continue' %>
+          <%= f.submit 'Finalizar', class: 'btn' %>
+          <%= f.submit 'Continuar' %>
         </div>
       <% end %>
     </div>
