@@ -2,6 +2,34 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_18NOV_2: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 18 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = 'P8 - '
+           exam_name = 'Prova'
+           array = [
+            'C - 1ª Série ENEM - All - BIO(10) + LIT(10): CCCCBBADAB ABECDCEABC - Manhã',
+            'C - 1ª Série ENEM - All - RED(8): CDACECAC - Manhã',
+            'C - 1ª Série ENEM - All - BIO(10) + LIT(10): CCECDBADDB BAECABECDC - Tarde',
+            'C - 1ª Série ENEM - All - RED(8): BDDECDAC - Tarde',
+            'C - 2ª Série ENEM - All - BIO(10) + LIT(10): ABDDBBDDEE DACCEEDAAB - Manhã',
+            'C - 2ª Série ENEM - All - RED(8): DDCBCACC - Manhã',
+            'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BBDBBBDAEA BBEEDCDEEA - Tarde',
+            'C - 2ª Série ENEM - All - RED(8): CACBACCA - Tarde',
+            'C - 6º Ano - All - MAT(10): ACDAECACDA - Manhã',
+            'C - 6º Ano - All - MAT(10): BDEBCABABE - Tarde',
+            'C - 6º Ano - All - RED(8): EBACBCCD - Manhã',
+            'C - 6º Ano - All - RED(8): BABCBDAC - Tarde',
+            'C - 7º Ano - All - MAT(10): AACBEBCAAD - Manhã',
+            'C - 7º Ano - All - MAT(10): CBEABEDBEE - Tarde',
+            'C - 7º Ano - All - RED(8): ACBBDEAA - Manhã',
+            'C - 7º Ano - All - RED(8): BADBADEA - Tarde',
+            'C - 8º Ano - All - MAT(10): DCCDBCADBC - Manhã',
+            'C - 8º Ano - All - RED(8): ACBEDABA - Manhã',
+            'C - 8º Ano - All - RED(8): BEAECDAD - Tarde'
+           ]
+           create_exams_school(array, datetime, cycle_name, exam_name)          
+        end
          task add_exams_18NOV: :environment do
            p 'Adding exams'
            datetime = 'Mon, 18 Nov 2013 14:00:00 BRT -03:00'
@@ -1415,7 +1443,7 @@ namespace :db do
               end
               starting_at = starting_at + number_of_questions
             end
-
+a
             product_years.each do |product_year|
               if shift.nil?
                 shift_string = ''
