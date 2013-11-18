@@ -4,6 +4,18 @@ namespace :db do
     namespace :real do
          task add_exams_11NOV: :environment do
            p 'Adding exams'
+           datetime = 'Mon, 18 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = '4º Bimestre - Prova Bimestral - '
+           exam_name = 'Prova'
+           array = [
+            'C - 1ª Série Militar - All - POR(10) + MAT(10) + ING(10): CDCEAEDADC BDCDBBBADA AECECBBADA',
+            'C - 2ª Série Militar - All - POR(10) + MAT(10) + ING(10): EBBDADEACA CCBAAAABBD EBEDBADDED',
+            'C - 9º Ano Militar - All - POR(10) + MAT(10) + ING(10): DEDBCDCEEC EDCDBBBCDB CAEDCDBCDA'
+           ]
+           create_exams_school(array, datetime, cycle_name, exam_name)          
+         end
+         task add_exams_11NOV: :environment do
+           p 'Adding exams'
            datetime = 'Mon, 11 Nov 2013 14:00:00 BRT -03:00'
            cycle_name = '4º Bimestre - 2ª Chamada - '
            exam_name = 'Prova'
