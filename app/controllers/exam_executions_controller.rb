@@ -16,18 +16,30 @@ class ExamExecutionsController < ApplicationController
       @exam_executions = ExamExecution.all.select{|ee| ee.is_bolsao && campuz == ee.super_klazz.campus}
       @filter_by = ' - Bolsão - ' + campuz.name
     elsif params[:filter_by] == 'free_course'
-      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:id)
+      exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)
+      @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
       @filter_by = ' - Curso'
     elsif params[:filter_by].include?'free_course_'
+      # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
-      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:id)
+      exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)
+      @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
       @filter_by = ' - Curso - '+ campuz.name
     elsif params[:filter_by] == 'school'
-      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:id)
+      exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)      
+      @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
       @filter_by = ' - Colégio'
     elsif params[:filter_by].include?'school_'
+      # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
       campuz = Campus.find(translate(params[:filter_by].split('_')[1]))
-      @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
+      super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:id)
+      exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)
+      @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
       @filter_by = ' - Colégio - ' + campuz.name
     else
       render :file => 'public/404.html', :status => :not_found, :layout => false      
