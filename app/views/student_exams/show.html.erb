@@ -76,7 +76,7 @@
           <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
           <td><%= exam_answer.answer %></td> 
           <td>
-              <% if exam_answer.exam_question.question.correct_options.map(&:letter).include? exam_answer.answer %>
+              <% if exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer) %>
                 <%= image_tag('correct16.png', id: 'correct_check') %>
               <% else %>
                 <%= image_tag('wrong16.png', id: 'wrong_check') %>
