@@ -21,6 +21,25 @@ namespace :db do
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)          
         end
+        task add_exams_18NOV_4: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 18 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'P8 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): CCCCBBADAB ABECDCEABC CDACECAC - Manhã',
+            'C - 1ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): CCECDBADDB BAECABECDC BDDECDAC - Tarde',
+            'C - 2ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): ABDDBBDDEE DACCEEDAAB DDCBCACC - Manhã',
+            'C - 2ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): BBDBBBDAEA BBEEDCDEEA CACBACCA - Tarde',
+            'C - 6º Ano - Madureira II - MAT(10) + RED(8): ACDAECACDA EBACBCCD - Manhã',
+            'C - 6º Ano - Madureira II - MAT(10) + RED(8): BDEBCABABE BABCBDAC - Tarde',
+            'C - 7º Ano - Madureira II - MAT(10) + RED(8): AACBEBCAAD ACBBDEAA - Manhã',
+            'C - 7º Ano - Madureira II - MAT(10) + RED(8): CBEABEDBEE BADBADEA - Tarde',
+            'C - 8º Ano - Madureira II - MAT(10) + RED(8): DCCDBCADBC ACBEDABA - Manhã',
+            'C - 8º Ano - Madureira II - MAT(10) + RED(8): EDBDCABBAD BEAECDAD - Tarde'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)          
+        end
         task add_exams_18NOV_3: :environment do
           p 'Adding exams'
           datetime = 'Mon, 18 Nov 2013 14:00:00 BRT -03:00'
@@ -1482,7 +1501,7 @@ namespace :db do
               end
               starting_at = starting_at + number_of_questions
             end
-a
+
             product_years.each do |product_year|
               if shift.nil?
                 shift_string = ''
