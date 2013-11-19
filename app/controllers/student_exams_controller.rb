@@ -11,13 +11,13 @@ class StudentExamsController < ApplicationController
   def update
     update_student_exam = UpdateStudentExam.new(params[:student_exam], @student_exam)
     if update_student_exam.update
-      if params[:commit] == 'Finish'
+      if params[:commit] == 'Finalizar'
         redirect_to @student_exam.card_processing, notice: 'Changes applied!'
       else
         check_student_exams
       end
     else
-      if params[:commit] == 'Finish'
+      if params[:commit] == 'Finalizar'
         redirect_to @student_exam.card_processing, notice: 'Changes not applied.'
       else
         set_form_objects

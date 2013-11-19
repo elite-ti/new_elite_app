@@ -1,15 +1,17 @@
 <%= title @is_bolsao ? 'Candidatos' : 'Alunos', link_to(@is_bolsao ? 'Novo Candidato' : 'Novo Aluno', new_student_path(is_bolsao: @is_bolsao)) %>
 
-<%= form_tag students_path(is_bolsao: @is_bolsao), :method => 'get' do %>
-  <p>
-    <%= select_tag :exam_date, 
-      options_for_select(
-        ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.sort.reverse,
-        params[:exam_date])
-    %>
-    <%= hidden_field_tag :is_bolsao, true %>
-    <%= submit_tag "Filtrar", :name => nil %>
-  </p>
+<% if @is_bolsao == true %>
+  <%= form_tag students_path(is_bolsao: @is_bolsao), :method => 'get' do %>
+    <p>
+      <%= select_tag :exam_date, 
+        options_for_select(
+          ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.sort.reverse,
+          params[:exam_date])
+      %>
+      <%= hidden_field_tag :is_bolsao, true %>
+      <%= submit_tag "Filtrar", :name => nil %>
+    </p>
+  <% end %>
 <% end %>
 
 <table id="students" class="display is-datatable">
@@ -22,7 +24,7 @@
   </thead>
 
   <tbody>
-  <% @students.find_each do |student| %>
+  <% @students.each do |student| %>
     <tr>
       <td>
         <%= student.try(:name) || '' %>
