@@ -118,6 +118,16 @@ namespace :db do
            ]
            create_exams(array, datetime, cycle_name, exam_name)          
          end
+         task add_exams_14OUT_3: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 14 Oct 2013 14:00:00 BRT -03:00'
+           cycle_name = '4º Bimestre - Teste Bimestral - '
+           exam_name = 'Prova'
+           array = [
+             'C - 3ª Série + ESPCEX - All - MAT(8) + POR(8) + ING(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8):  CEADAAEA CBCDDADC CDCACEBD CDEDCCCA DDCCCDDE BEADABDD CBACDDBA EACADCAB'
+           ]
+           create_exams(array, datetime, cycle_name, exam_name)          
+         end
          task add_exams_14OUT_2: :environment do
            p 'Adding exams'
            datetime = 'Mon, 14 Oct 2013 14:00:00 BRT -03:00'
