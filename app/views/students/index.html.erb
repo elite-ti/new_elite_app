@@ -22,7 +22,7 @@
   </thead>
 
   <tbody>
-  <% @students.each do |student| %>
+  <% @students.find_each do |student| %>
     <tr>
       <td>
         <%= student.try(:name) || '' %>
