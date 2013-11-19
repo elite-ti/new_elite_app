@@ -19,6 +19,9 @@
     </p>
 
 <% else %>
+  <%= title @student.name + (@student.ra.to_s.blank? ? '' : ' - ' + @student.ra.to_s), 
+    link_to('Editar', edit_student_path(@student)),
+    link_to('Voltar', students_path) %>
   <div class='tabs'>
     <ul>
       <li><a href='#exams'>Exams</a></li>
