@@ -2,6 +2,18 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_19NOV_2: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 19 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '4º Bimestre - Prova Bimestral - '
+          exam_name = 'Prova'
+          array = [
+            'C - 9º Ano Militar - All - HIS(10) + GEO(10) + BIO(10): DEBAAECBEC DECCBEDDBC DBDEAEDCDD',
+            'C - 1ª Série Militar - All - HIS(10) + GEO(10) + BIO(10): DEBAAECBEC DECCBEDDBC DBDEAEDCDD',
+            'C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10): CAAEABAACD CACECCBEBD ABCBAAAABC'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)          
+        end
         task add_exams_19NOV: :environment do
           p 'Adding exams'
           datetime = 'Mon, 19 Nov 2013 14:00:00 BRT -03:00'
