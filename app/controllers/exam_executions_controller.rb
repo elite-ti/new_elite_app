@@ -125,7 +125,7 @@ class ExamExecutionsController < ApplicationController
         'CAMPUS' => student_exam.campus.name,
         'ID' => student_exam.id
       }.merge(
-          @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size; h}
+          @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
         )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
     end
   end
