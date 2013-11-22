@@ -1,7 +1,6 @@
 EliteApp::Application.routes.draw do
   resources :card_processing_upload_statuses
 
-
   resources :attendance_lists
   resources :card_processings
   get 'card_processings/new/:exam_execution_id', to: 'card_processings#new'
