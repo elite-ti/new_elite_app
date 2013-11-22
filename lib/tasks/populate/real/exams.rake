@@ -2,6 +2,65 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_23NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 23 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Bolsão 2014 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): BAADEDCEBEDACDC DBDDBABBBACEDEA - Manhã',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): CBAEAEDECEEBDED DDDBABBABCBEAED - Tarde',
+            'C - 6º Ano - All - POR(15) + MAT(15): ECBCDAEECCDBECD BDDEABBDDACEBCD - Manhã',
+            'C - 6º Ano - All - POR(15) + MAT(15): ADCDEBAEDDEBECB DEABBDABCEDBDDC - Tarde',
+            'C - 7º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
+            'C - 7º Ano - All - POR(15) + MAT(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
+            'C - 8º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
+            'C - 8º Ano - All - POR(15) + MAT(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
+            'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
+            'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA - Manhã',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CBBEEEDACEADADE DADBDCBDADADAAE - Tarde',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): DEBCCBBCBEACEAB BCADBECADAABAEA - Manhã',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
+          ]
+          create_exams_bolsao(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_21NOV_2: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '4º Bimestre - Prova Bimestral - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar - All - RED(10): CBDDBCCDCD',
+            'C - 2ª Série Militar - All - RED(10): ACCADCCBBC',
+            'C - 9º Ano Militar - All - RED(10): CBDDBCCDCD',
+            'C - 1ª Série Militar - All - QUI(10) + FIS(10): EBEABCCCBA ADDADBDACE',
+            'C - 2ª Série Militar - All - QUI(10) + FIS(10): CADBEBBADC BABBEEDBBE',
+            'C - 9º Ano Militar - All - QUI(10) + FIS(10): CAEDEBCCDA ADDADCDACE'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_21NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'P8 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - FIS(10) + ING(10): CBBBCCBEBD DABBCCBEED - Manhã',
+            'C - 1ª Série ENEM - All - FIS(10) + ING(10): AAAAAAAAAA AAAAAAAAAA - Tarde',
+            'C - 2ª Série ENEM - All - FIS(10) + ING(10): DDADBEDABD DCCCACAADB - Manhã',
+            'C - 2ª Série ENEM - All - FIS(10) + ING(10): ABBBEBBEAB CACAADBDCC - Tarde',
+            'C - 6º Ano - All - CIE(10): ACCDCAECBB - Manhã',
+            'C - 6º Ano - All - CIE(10): ACCDCAEECB - Tarde',
+            'C - 7º Ano - All - CIE(10): EBCDEADADE - Manhã',
+            'C - 7º Ano - All - CIE(10): EBCDCADBBE - Tarde',
+            'C - 8º Ano - All - CIE(10): CBAEECDCDD - Manhã',
+            'C - 8º Ano - All - CIE(10): CCAECECECA - Tarde',
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_19NOV_3: :environment do
           p 'Adding exams'
           datetime = 'Mon, 19 Nov 2013 14:00:00 BRT -03:00'
@@ -10,7 +69,7 @@ namespace :db do
           array = [
             'C - 9º Ano Forte - All - HIS(10) + FIS(10) + QUI(10) + ING(10):  EADABAEBBE DECCDCBDCD DDBDABDCBA CEBCADCDBA - Manhã',
             'C - 9º Ano Forte - All - HIS(10) + FIS(10) + QUI(10) + ING(10):  DEABABAEEB CDECCDCBDD BDDBDABDCA BCEACCDADB - Tarde',
-            'C - Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(4) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10) + FIL(3) + SOC(2):  ABCCAACBCDDAABA BAAC ZDCAD DDBBCB CADBBD DABDD CAAAAA BDADCABCCB AAE BA'
+            'C - Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(4) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10) + FIL(3) + SOC(2):  ABCCAACBCDDAABA BAAC CDCADC DDBBCB CADBBD DABDD CAAAAA BDADCABCCB AAE BA'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
