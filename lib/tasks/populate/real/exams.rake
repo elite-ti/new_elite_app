@@ -49,7 +49,7 @@ namespace :db do
           exam_name = 'Prova'
           array = [
             'C - 1ª Série ENEM - All - FIS(10) + ING(10): CBBBCCBEBD DABBCCBEED - Manhã',
-            'C - 1ª Série ENEM - All - FIS(10) + ING(10): AAAAAAAAAA AAAAAAAAAA - Tarde',
+            'C - 1ª Série ENEM - All - FIS(10) + ING(10): AAACCEBDAC DBABBEBCCE - Tarde',
             'C - 2ª Série ENEM - All - FIS(10) + ING(10): DDADBEDABD DCCCACAADB - Manhã',
             'C - 2ª Série ENEM - All - FIS(10) + ING(10): ABBBEBBEAB CACAADBDCC - Tarde',
             'C - 6º Ano - All - CIE(10): ACCDCAECBB - Manhã',
