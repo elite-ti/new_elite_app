@@ -74,6 +74,7 @@ class StudentsController < ApplicationController
 
   def update
     @is_bolsao = @student.applicants.size > 0
+    @date = params[:exam_date] || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).map(&:to_s).uniq.max || '2001-01-01'
     # @student.number = params[:student][:number]    
     @student = Student.find(params[:id].to_i)
     @number = @student.number
@@ -84,7 +85,7 @@ class StudentsController < ApplicationController
           @student.number = params[:student][:number]
           @student.applicants.first.bolsao_id = 78
           @student.applicants.first.exam_campus_id = SuperKlazz.find(@student.applicants.first.super_klazz_id).campus_id
-          @student.applicants.first.exam_datetime = '2013-11-09 9:00'.to_datetime
+          @student.applicants.first.exam_datetime = (@date + ' 9:00').to_datetime
           @student.applicants.first.subscription_datetime = @student.applicants.first.created_at
           @student.applicants.first.save          
       end
