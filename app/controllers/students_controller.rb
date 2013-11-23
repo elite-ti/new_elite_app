@@ -43,6 +43,7 @@ class StudentsController < ApplicationController
   def create
     p 'Bolsao: ' + params[:student][:number].to_s
     @is_bolsao = !params[:student][:number].nil?
+    @date = params[:exam_date] || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).map(&:to_s).uniq.max || '2001-01-01'
     if @is_bolsao && !(params[:student][:applied_super_klazz_ids][1] =~ /^[-+]?[0-9]+$/)
       flash[:notice] = 'Informe a turma na qual o aluno deseja cursar.'
       render 'new'
@@ -52,7 +53,7 @@ class StudentsController < ApplicationController
           @student.number = @student.calculate_temporary_number(params[:student][:applied_super_klazz_ids][1].to_i, 1)
           @student.applicants.first.bolsao_id = 78
           @student.applicants.first.exam_campus_id = SuperKlazz.find(@student.applicants.first.super_klazz_id).campus_id
-          @student.applicants.first.exam_datetime = '2013-11-09 9:00'.to_datetime
+          @student.applicants.first.exam_datetime = (@date + ' 9:00').to_datetime
           @student.applicants.first.subscription_datetime = @student.applicants.first.created_at
           @student.applicants.first.save          
         else
