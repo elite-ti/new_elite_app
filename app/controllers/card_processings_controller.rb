@@ -39,7 +39,7 @@ class CardProcessingsController < ApplicationController
 
   def destroy
     @card_processing.destroy
-    redirect_to card_processings_url, notice: 'Card processing was successfully destroyed.'
+    redirect_to card_processings_url, notice: 'Cartões destruidos com sucesso.'
   end
 
 private
