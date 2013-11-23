@@ -10,6 +10,7 @@
       <h2>Provas</h2>
       <div class='link'><%= link_to 'Calendário - Colégio', exam_executions_path(filter_by: 'school') %></div>
       <div class='link'><%= link_to 'Calendário - Curso', exam_executions_path(filter_by: 'free_course') %></div>
+      <div class='link'><%= link_to 'Arquivos enviados', card_processings_path %></div>
       <div class='link'><%= link_to 'Cartão-Resposta em Branco', new_student_exam_path(format: :pdf), :target => '_blank' %></div>
     </div>
 
@@ -17,6 +18,7 @@
     <h2>Bolsão</h2>
     <div class='link'><%= link_to 'Calendário - Bolsão', exam_executions_path(filter_by: 'is_bolsao') %></div>
     <div class='link'><%= link_to 'Candidatos', students_path(is_bolsao: true) %></div>
+    <div class='link'><%= link_to 'Quantidades enviadas', card_processing_upload_statuses_path() %></div>
   </div>
   </div>
   </div>

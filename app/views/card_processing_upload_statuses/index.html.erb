@@ -1,16 +1,31 @@
-<%= title 'Card Processing Upload Status' %>
+<%= title 'Status de Envio de Cartões',
+  link_to('Back', card_processing_upload_statuses_path) %>
 
-<table id="card_processing_upload_statuses">
+<%= form_tag card_processing_upload_statuses_path(group_by: 'super_klazz', filter_by: params[:filter_by]), :method => 'get' do %>
+  <p>
+    <%= select_tag :exam_date, 
+      options_for_select(@possible_dates, @exam_date)
+    %>
+    <%= hidden_field_tag :is_bolsao, true %>
+    <%= submit_tag "Filtrar", :name => nil %>
+  </p>
+<% end %>
+
+<table id="card_processing_upload_status"  class='display is-datatable'>
   <thead>
     <tr>
-      <th></th>
+      <% @titles.each do |title| %>
+        <th><%= title %></th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
-  <% @possible_dates.each do |date| %>
+  <% @statuses.each do |status| %>
     <tr>
-      <td><%= link_to(print_date(date), card_processing_upload_status_path(date)) %></td>
+      <% status.each do |field| %>
+        <td><%= field %></td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>

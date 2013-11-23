@@ -1,14 +1,14 @@
-<%= title 'Card Processing', 
-  (link_to('Check', edit_student_exam_path(@card_processing.to_be_checked)) if @card_processing.needs_check?),
-  link_to('Back', card_processings_path) %>
+<%= title 'Cartões-Resposta', 
+  (link_to('Checar', edit_student_exam_path(@card_processing.to_be_checked)) if @card_processing.needs_check?),
+  link_to('Voltar', card_processings_path) %>
 
 <div class='resource'>
   <p>
-    <span>Name: </span><%= @card_processing.name %><br />
-    <span>Exam date: </span><%= print_date(@card_processing.exam_date) %><br />
-    <span>Is Bolsao: </span><%= @card_processing.is_bolsao ? 'True' : 'False' %><br />
-    <span>Card Type: </span><%= @card_processing.card_type.name %><br />
-    <span>Campus: </span><%= @card_processing.campus.name %><br />
+    <span>Nome: </span><%= @card_processing.name %><br />
+    <span>Data de aplicação: </span><%= print_date(@card_processing.exam_date) %><br />
+    <span>É Bolsao?: </span><%= @card_processing.is_bolsao ? 'True' : 'False' %><br />
+    <span>Tipo de cartão: </span><%= @card_processing.card_type.name %><br />
+    <span>Unidade: </span><%= @card_processing.campus.name %><br />
   </p>
 </div>
 
@@ -16,9 +16,7 @@
   <thead>
     <tr>
       <th>Status</th>
-      <th>Filename</th>
-      <th>Student</th>
-      <th>Exam</th>
+      <th>Aluno</th>
       <th>Scanned Student Number</th>
       <th>Scanned Answers</th>
     </tr>
@@ -28,17 +26,15 @@
   <% @card_processing.student_exams.each do |student_exam| %>
     <tr>
       <td>
-        <%= student_exam.status %>
+        <%= @translations[student_exam.status] %>
         <span class='float-right'>
-          <%= link_to 'Show', student_exam %>
+          <%= link_to 'Mostrar', student_exam %>
           <% if student_exam.needs_check? %>
-            | <%= link_to 'Check', edit_student_exam_path(student_exam) %>
+            | <%= link_to 'Checar', edit_student_exam_path(student_exam) %>
           <% end %>
         </span>
       </td> 
-      <td><%= File.basename student_exam.card.path %></td>
       <td><%= student_exam.student.try(:name) || 'No student' %></td>
-      <td><%= student_exam.exam_execution.try(:exam).try(:name) || 'No exam' %></td>
       <td><%= student_exam.student_number %></td>
       <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
     </tr>

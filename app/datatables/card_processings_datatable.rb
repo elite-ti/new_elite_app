@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 class CardProcessingsDatatable
   delegate :params, :h, :link_to, :number_to_currency, :print_datetime, :print_date, :edit_student_exam_path, :can?, :destroy_link, to: :@view
 
@@ -31,9 +33,9 @@ private
   def links(card_processing)
     links = []
     if card_processing.processed?
-      links << link_to('Show', card_processing)
+      links << link_to('Cartões', card_processing)
       if card_processing.needs_check?
-        links << link_to('Check', edit_student_exam_path(card_processing.to_be_checked))
+        links << link_to('Checar', edit_student_exam_path(card_processing.to_be_checked))
       end
     end
     if can?(:destroy, card_processing)

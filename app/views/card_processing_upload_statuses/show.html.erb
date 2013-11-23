@@ -1,29 +1,31 @@
-<%= title 'Card Processing Upload Status',
+<%= title 'Status de Envio de Cartões',
   link_to('Back', card_processing_upload_statuses_path) %>
+
+<%= form_tag card_processing_upload_statuses_path(group_by: 'super_klazz'), :method => 'get' do %>
+  <p>
+    <%= select_tag :exam_date, 
+      options_for_select(@possible_dates, @exam_date)
+    %>
+    <%= hidden_field_tag :is_bolsao, true %>
+    <%= submit_tag "Filtrar", :name => nil %>
+  </p>
+<% end %>
 
 <table id="card_processing_upload_status"  class='display is-datatable'>
   <thead>
     <tr>
-      <th>Campus</th>
-      <th># of Cards</th>
-      <th># of Valid Cards</th>
-      <th>% of Valid Cards</th>
+      <% @titles.each do |title| %>
+        <th><%= title %></th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
-  <% CardProcessingUploadStatus.new(request.fullpath).statuses.each do |status| %>
+  <% @statuses.each do |status| %>
     <tr>
-      <td><%= status[0] %></td>
-      <td><%= status[1] %></td>
-      <td><%= status[2] %></td>
-      <td><%= 
-        if status[1] == 0 
-          0
-        else
-          100*status[2]/status[1] 
-        end
-      %></td>
+      <% status.each do |field| %>
+        <td><%= field %></td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>
