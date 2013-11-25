@@ -2,6 +2,44 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_25NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'P8 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - ESP(10) + MAT(10): CEABAECAED CBBDEBDECA - Manhã',
+            'C - 1ª Série ENEM - All - ESP(10) + MAT(10): BBECDAEBBB ACBEDDEDCA - Tarde',
+            'C - 2ª Série ENEM - All - ESP(10) + MAT(10): AECEECAEBD BEBEADADAD - Manhã',
+            'C - 2ª Série ENEM - All - ESP(10) + MAT(10): EBDDCBAEAD EADAEDDADA - Tarde',
+            'C - 6º Ano - All - HIS(10): CAEBBDDACB - Manhã',
+            'C - 6º Ano - All - HIS(10): BEDBBAEDDC - Tarde',
+            'C - 7º Ano - All - HIS(10): DAEEBCADCC - Manhã',
+            'C - 7º Ano - All - HIS(10): BECADCCCDA - Tarde',
+            'C - 8º Ano - All - HIS(10): ACAACAAABE - Manhã',
+            'C - 8º Ano - All - HIS(10): BAACDBECBA - Tarde'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_22NOV_1: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 22 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'P8 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCDDDDADBB ACCAECEDEB - Manhã',
+            'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CDAEBCCAEC AECACECBCD - Tarde',
+            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CBBAECADEC ACCDDEDCDB - Manhã',
+            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): ADCAECAADB BDACADDECA - Tarde',
+            'C - 6º Ano - GEO(10): DDBBBAAADD - Manhã',
+            'C - 6º Ano - GEO(10): BABABBACAD - Tarde',
+            'C - 7º Ano - GEO(10): DCEABDCACB - Manhã',
+            'C - 7º Ano - GEO(10): BBCCABACBA - Tarde',
+            'C - 8º Ano - GEO(10): BBBDCBADEA - Manhã',
+            'C - 8º Ano - GEO(10): BACCAEABCA - Tarde'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_23NOV_1: :environment do
           p 'Adding exams'
           datetime = 'Mon, 23 Nov 2013 14:00:00 BRT -03:00'
