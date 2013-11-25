@@ -31,12 +31,12 @@ namespace :db do
             'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CDAEBCCAEC AECACECBCD - Tarde',
             'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CBBAECADEC ACCDDEDCDB - Manhã',
             'C - 2ª Série ENEM - All - HIS(10) + QUI(10): ADCAECAADB BDACADDECA - Tarde',
-            'C - 6º Ano - GEO(10): DDBBBAAADD - Manhã',
-            'C - 6º Ano - GEO(10): BABABBACAD - Tarde',
-            'C - 7º Ano - GEO(10): DCEABDCACB - Manhã',
-            'C - 7º Ano - GEO(10): BBCCABACBA - Tarde',
-            'C - 8º Ano - GEO(10): BBBDCBADEA - Manhã',
-            'C - 8º Ano - GEO(10): BACCAEABCA - Tarde'
+            'C - 6º Ano - All - GEO(10): DDBBBAAADD - Manhã',
+            'C - 6º Ano - All - GEO(10): BABABBACAD - Tarde',
+            'C - 7º Ano - All - GEO(10): DCEABDCACB - Manhã',
+            'C - 7º Ano - All - GEO(10): BBCCABACBA - Tarde',
+            'C - 8º Ano - All - GEO(10): BBBDCBADEA - Manhã',
+            'C - 8º Ano - All - GEO(10): BACCAEABCA - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
