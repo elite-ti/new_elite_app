@@ -124,6 +124,18 @@ namespace :db do
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end
+        task add_exams_21NOV_3: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '4º Bimestre - Prova Bimestral - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar - Tijuca, Madureira III - QUI(10) + FIS(10) + RED(10): EBEABCCCBA ADDADBDACE CBDDBCCDCD',
+            'C - 2ª Série Militar - Tijuca, Madureira III - QUI(10) + FIS(10) + RED(10): CADBEBBADC BABBEEDBBE ACCADCCBBC',
+            'C - 9º Ano Militar - Tijuca, Madureira I - QUI(10) + FIS(10) + RED(10): CAEDEBCCDA ADDADCDACE CBDDBCCDCD'            
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_21NOV_2: :environment do
           p 'Adding exams'
           datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
