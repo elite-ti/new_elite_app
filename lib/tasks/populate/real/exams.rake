@@ -2,6 +2,41 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_25NOV_2: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'P8 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - EDU(10): DBACAEBCEC - Manhã',
+            'C - 1ª Série ENEM - All - EDU(10): ECEEEAEBEC - Tarde',
+            'C - 2ª Série ENEM - All - EDU(10): AACAECBCEB - Manhã',
+            'C - 2ª Série ENEM - All - EDU(10): EEEAECBECE - Tarde',
+            'C - 6º Ano - All - ESP(10): ACBCDEDABC - Manhã',
+            'C - 6º Ano - All - ESP(10): BCEBBAEBEC - Tarde',
+            'C - 6º Ano - All - ING(10): DEABCCDEAB - Manhã',
+            'C - 6º Ano - All - ING(10): ACCDEABCDE - Tarde',
+            'C - 7º Ano - All - ESP(10): DBBBCADCCC - Manhã',
+            'C - 7º Ano - All - ESP(10): DCDEADBBEE - Tarde',
+            'C - 7º Ano - All - ING(10): DAEBCABCDE - Manhã',
+            'C - 7º Ano - All - ING(10): DEEDCABCDE - Tarde',
+            'C - 8º Ano - All - ESP(10): AADCCEBABB - Manhã',
+            'C - 8º Ano - All - ESP(10): ACDABECEBE - Tarde',
+            'C - 8º Ano - All - ING(10): DBADBCBCBD - Manhã',
+            'C - 8º Ano - All - ING(10): BCCBAABDBD - Tarde'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_25NOV_1: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '1º Simulado - Ciclo 7 - '
+          exam_name = 'Prova'
+          array = [
+            'C - IME-ITA, 3ª Série + IME-ITA - All - FIS(20): DACDEBBCAACCEEDCBDCD'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_25NOV: :environment do
           p 'Adding exams'
           datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
@@ -30,7 +65,7 @@ namespace :db do
             'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCDDDDADBB ACCAECEDEB - Manhã',
             'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CDAEBCCAEC AECACECBCD - Tarde',
             'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CBBAECADEC ACCDDEDCDB - Manhã',
-            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): ADCAECAADB BDACADDECA - Tarde',
+            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): ADCAACAADB BDACADDECA - Tarde',
             'C - 6º Ano - All - GEO(10): DDBBBAAADD - Manhã',
             'C - 6º Ano - All - GEO(10): BABABBACAD - Tarde',
             'C - 7º Ano - All - GEO(10): DCEABDCACB - Manhã',
