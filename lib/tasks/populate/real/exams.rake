@@ -124,15 +124,27 @@ namespace :db do
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end
+        task add_exams_21NOV_5: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '4º Bimestre - Prova Bimestral - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar - Ilha do Governador - QUI(10) + FIS(10) + RED(10): EBEABCCCBA ADDADBDACE CBDDBCCDCD',
+            'C - 2ª Série Militar - Ilha do Governador - QUI(10) + FIS(10) + RED(10): CADBEBBADC BABBEEDBBE ACCADCCBBC',
+            'C - 9º Ano Militar - Ilha do Governador - QUI(10) + FIS(10) + RED(10): CAEDEBCCDA ADDADCDACE CBDDBCCDCD'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_21NOV_4: :environment do
           p 'Adding exams'
           datetime = 'Mon, 21 Nov 2013 14:00:00 BRT -03:00'
           cycle_name = '4º Bimestre - Prova Bimestral - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série Militar - Ilha de Governador - QUI(10) + FIS(10) + RED(10): EBEABCCCBA ADDADBDACE CBDDBCCDCD',
-            'C - 2ª Série Militar - Ilha de Governador, Madureira I - QUI(10) + FIS(10) + RED(10): CADBEBBADC BABBEEDBBE ACCADCCBBC',
-            'C - 9º Ano Militar - Ilha de Governador, Madureira III - QUI(10) + FIS(10) + RED(10): CAEDEBCCDA ADDADCDACE CBDDBCCDCD'            
+            'C - 1ª Série Militar - Ilha do Governador - QUI(10) + FIS(10) + RED(10): EBEABCCCBA ADDADBDACE CBDDBCCDCD',
+            'C - 2ª Série Militar - Ilha do Governador, Madureira I - QUI(10) + FIS(10) + RED(10): CADBEBBADC BABBEEDBBE ACCADCCBBC',
+            'C - 9º Ano Militar - Ilha do Governador, Madureira III - QUI(10) + FIS(10) + RED(10): CAEDEBCCDA ADDADCDACE CBDDBCCDCD'            
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
