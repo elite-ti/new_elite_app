@@ -4,7 +4,7 @@ namespace :db do
     namespace :real do
         task add_exams_27NOV: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          datetime = 'Mon, 27 Nov 2013 14:00:00 BRT -03:00'
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
@@ -220,10 +220,10 @@ namespace :db do
         task add_exams_11OUT_3: :environment do
           p 'Adding exams'
           datetime = 'Fri, 11 Oct 2013 14:00:00 BRT -03:00'
-          cycle_name = '3º Bimestre - 2ª Chamada'
+          cycle_name = '3º Bimestre - 2ª Chamada (Alternativa) - '
           exam_name = 'Prova'
           array = [
-            'U - 9º Ano Militar, 1ª Série Militar - Tijuca - HIS(8) + FIS(8) + QUI(8): AABECEDA ECDECEEB DCABBAAB'
+            'C - 9º Ano Militar, 1ª Série Militar - Tijuca - FIS(8) + BIO(8) + HIS(8): ACBECEDA ECDECEEB DCABBAAB'
           ]
           create_exams(array, datetime, cycle_name, exam_name)
         end      
