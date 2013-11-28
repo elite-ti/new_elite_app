@@ -2,6 +2,52 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_29NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 29 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - BIO(10) + QUI(10): BCEBBACEDD CEDEAECDCE',
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - BIO(10) + QUI(10): BCEBBACEDD DBECAAEEBD'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_28NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 28 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - FIL(10) + SOC(10): BCEADCADEA BCACDCDEAB',
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - FIL(10) + SOC(10): BBACBCCEAB CCCACCBBBC',
+            'C - 3ª Série + IME-ITA, IME-ITA - All - EDU(10): AAADBAEBEE',
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - EDU(10): AAADBAEBEE'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_27NOV_1: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 27 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - HIS(10) + GEO(10): EECCCCABAC AECDDABBBD',
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - HIS(10) + GEO(10): EECCCCABAC BEABCDDECD'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_25NOV_3: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - MAT(10) + FIS(10): DBEBDAEECE ACEBCCDCBE',
+            'C - 3ª Série + IME-ITA, IME-ITA - All - MAT(10) + FIS(10): DBEBDAEECE CABDAADDCA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_27NOV: :environment do
           p 'Adding exams'
           datetime = 'Mon, 27 Nov 2013 14:00:00 BRT -03:00'
