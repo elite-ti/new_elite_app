@@ -21,8 +21,8 @@ namespace :db do
           array = [
             'C - 3ª Série + IME-ITA, IME-ITA - All - FIL(10) + SOC(10): BCEADCADEA BCACDCDEAB',
             'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - FIL(10) + SOC(10): BBACBCCEAB CCCACCBBBC',
-            'C - 3ª Série + IME-ITA, IME-ITA - All - EDU(10): AAADBAEBEE',
-            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - EDU(10): AAADBAEBEE'
+            'C - 3ª Série + IME-ITA, IME-ITA - All - EDF(10): AAADBAEBEE',
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - EDF(10): AAADBAEBEE'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
