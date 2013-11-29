@@ -56,4 +56,8 @@ module ApplicationHelper
     html_options[:class] = html_options[:class] || 'tooltip'
     content_tag("span", content, html_options) 
   end
+
+  def proper_greeting
+    return ["Bom noite", "Bom dia", "Boa tarde", "Boa noite"][DateTime.now.in_time_zone("Brasilia").strftime('%H').to_i/6]
+  end
 end

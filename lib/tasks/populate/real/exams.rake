@@ -54,6 +54,17 @@ namespace :db do
           cycle_name = 'Recuperação - 4º Bimestre - '
           exam_name = 'Prova'
           array = [
+            'C - 3ª Série + ESPCEX - All - POR(10) + ING(10) + RED(10): BCBCBEBECE DCBCACDACE EADCECDDAB',
+            'C - 3ª Série + IME-ITA - All - POR(10) + ING(10): BCBCBEBBCE CADBDDEEDD'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_25NOV_3: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
             'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - MAT(10) + FIS(10): DBEBDAEECE ACEBCCDCBE',
             'C - 3ª Série + IME-ITA, IME-ITA - All - MAT(10) + FIS(10): DBEBDAEECE CABDAADDCA'
           ]
