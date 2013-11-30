@@ -8,8 +8,8 @@ namespace :db do
           cycle_name = '4º Bimestre - Subtitutiva - '
           exam_name = 'Prova'
           array = [
-            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10):  ADDCCEECCB BAACBBAAEE CAAAACDDCB AACBDBCDBA DBBADCBBAA DCDDDBBCCA CBAEDBEDED ABBDBACADE - Manhã',
-            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10):  DADCECECCB ABCABBAAEE ACAACADDCB AABCDBDCAB BDBADBCABA CDDDDBBACC BCEADBDEDE ABBBDCADAE - Tarde'
+            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): ADDCCEECCB BAACBBAAEE CAAAACDDCB AACBDBCDBA DBBADCBBAA DCDDDBBCCA CBAEDBEDED ABBDBACADE - Manhã',
+            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): DADCECECCB ABCABBAAEE ACAACADDCB AABCDBDCAB BDBADBCABA CDDDDBBACC BCEADBDEDE ABBBDCADAE - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -48,9 +48,20 @@ namespace :db do
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
-        task add_exams_26NOV_3: :environment do
+        task add_exams_25NOV_3: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 26 Nov 2013 14:00:00 BRT -03:00'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + ESPCEX, AFA/ESPCEX - All - MAT(10) + FIS(10): DBEBDAEECE ACEBCCDCBE',
+            'C - 3ª Série + IME-ITA, IME-ITA - All - MAT(10) + FIS(10): DBEBDAEECE CABDAADDCA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_25NOV_3: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 25 Nov 2013 14:00:00 BRT -03:00'
           cycle_name = 'Recuperação - 4º Bimestre - '
           exam_name = 'Prova'
           array = [
@@ -426,6 +437,17 @@ namespace :db do
              'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  DBBDDDEBACDCABD EBCDEEDCCEEEBCB - Tarde'
            ]
            create_exams_bolsao(array, datetime, cycle_name, exam_name)          
+         end
+         task add_exams_05NOV_2: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 05 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = 'P7 - '
+           exam_name = 'Prova'
+           array = [
+             'C - 9º Ano Forte - Campo Grande II - POR(10) + MAT(10) + BIO(10) + GEO(10): DEACEBDAEB ACCCCBCDDD CBCDABBBEE ABACDBCAEE - Manhã',
+             'C - 9º Ano Forte - Campo Grande II - POR(10) + MAT(10) + BIO(10) + GEO(10): AEDECDBABE CACCBCDCDD CBCADBBBEE BAADCBACEE - Tarde'
+           ]
+           create_exams_school(array, datetime, cycle_name, exam_name)          
          end
          task add_exams_05NOV: :environment do
            p 'Adding exams'
