@@ -2,13 +2,23 @@
 
 namespace :student do
   task create_attendance_lists: :environment do
-    date = ENV['BOLSAO_DATE'].to_date
-    `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
-    ExamCycle.where(is_bolsao: true).map(&:exam_executions).flatten.select{|e| e.datetime.to_date == date}.uniq.each do |exam_execution|
-      p exam_execution.full_name
-      pdf = AttendanceListPrawn.new(exam_execution.id)
-      filename = File.join(Rails.root,'public/lists', 'ListaPresença - ' + exam_execution.full_name.split('-')[3].strip + ' - ' + exam_execution.super_klazz.campus.name + ' - ' + exam_execution.super_klazz.product_year.product.name.gsub(/\//,'-') + '.pdf')
-      pdf.render_file(filename)
+    if ENV['BOLSAO_DATE'].nil?
+      bolsao_id = ENV['BOLSAO_ID'].to_i
+      `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
+      Applicant.where(bolsao_id: bolsao_id).group_by{|a| [a.group_name, a.exam_campus_id]}.each do |k, v|
+        pdf = AttendanceListPrawn.new(nil, bolsao_id, k[0], k[1])
+        filename = File.join(Rails.root,'public/lists', 'ListaPresença - ' + Campus.find(k[1]).name + ' - ' + k[0] + '.pdf')
+        pdf.render_file(filename)
+      end
+    else
+      date = ENV['BOLSAO_DATE'].to_date
+      `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
+      ExamCycle.where(is_bolsao: true).map(&:exam_executions).flatten.select{|e| e.datetime.to_date == date}.uniq.each do |exam_execution|
+        p exam_execution.full_name
+        pdf = AttendanceListPrawn.new(exam_execution.id)
+        filename = File.join(Rails.root,'public/lists', 'ListaPresença - ' + exam_execution.full_name.split('-')[3].strip + ' - ' + exam_execution.super_klazz.campus.name + ' - ' + exam_execution.super_klazz.product_year.product.name.gsub(/\//,'-') + '.pdf')
+        pdf.render_file(filename)
+      end
     end
   end
 
@@ -137,6 +147,61 @@ namespace :student do
     end
     p ignored
     client.close
+  end
+
+  task create_applicants: :environment do    
+    p 'Reading file...'
+    # Read file with all applicants info
+    results = []
+    CSV.foreach('/Users/pauloacmelo/Downloads/PS_Monitores.txt', :headers => true, :converters => :all) do |row|
+      results << Hash[row.headers.zip(row.fields)]
+    end
+
+    bolsao_id = ENV['BOLSAO_ID'].to_i
+    if ENV['BOLSAO_ID'].nil?
+      bolsao_id = 0
+      bolsao_id += 1 while Applicant.where(bolsao_id: bolsao_id).any?
+    end
+    existent_numbers = Applicant.where(bolsao_id: bolsao_id)
+    p 'Bolsao #' + bolsao_id.to_s
+
+    # iterate over results
+    results.each do |row|
+      # skip bad rows
+      if !row["Nome"].present?
+        p "   Skipped Applicant number ##{row["id"]} for lack of some field"
+        next
+      end
+
+      # check database existance      
+      next if existent_numbers.include? row["id"]
+
+      # translate remote database's strings to local ids
+      campus_id = row['Unidade']
+
+      # create student
+      std = Student.new(
+        email: row["E-mail"],
+        name: row["Nome"],
+        # date_of_birth: row["Nascimento"],
+        telephone: row["Telefone"],
+        cellphone: row["Celular"]
+      )
+      std.save
+
+      # create applicant
+      applicant = Applicant.new(
+        number: row["Inscrição"].to_i,
+        # subscription_datetime: (DateTime.new(1899,12,30) + row["DataHora"].days).to_datetime,
+        exam_datetime: '2013-12-01 10:00',
+        exam_campus_id: campus_id,
+        student_id: std.id,
+        bolsao_id: bolsao_id,
+        group_name: row["Disciplina"]
+      )
+      applicant.save
+      p "   Created applicant ##{applicant.number}"
+    end
   end
 
   def translate input
