@@ -1,13 +1,13 @@
 class Applicant < ActiveRecord::Base
   
   attr_accessible :number, :bolsao_id, :student_id, :exam_datetime, 
-    :exam_campus_id, :subscription_datetime, :super_klazz_id, :student, :exam_campus, :student_attributes
+    :exam_campus_id, :subscription_datetime, :super_klazz_id, :student, :exam_campus, :student_attributes, :group_name
 
   belongs_to :student, inverse_of: :applicants
   belongs_to :super_klazz
   belongs_to :exam_campus, class_name: :Campus
 
-  validates :student, :super_klazz, presence: true
+  validates :student, presence: true
   delegate :email, :name, :cpf, :own_cpf, :date_of_birth, :mother_name, :father_name, :telephone, :cellphone, to: :student
   accepts_nested_attributes_for :student
 
