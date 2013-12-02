@@ -449,6 +449,16 @@ namespace :db do
            ]
            create_exams_bolsao(array, datetime, cycle_name, exam_name)          
          end
+         task add_exams_05NOV_3: :environment do
+           p 'Adding exams'
+           datetime = 'Mon, 05 Nov 2013 14:00:00 BRT -03:00'
+           cycle_name = 'P7 (Geografia) - '
+           exam_name = 'Prova'
+           array = [
+             'C - 9º Ano Forte - Campo Grande II - GEO(40): AAAAAAAAAA AAAAAAAAAA AAAAAAAAAA AAAAAACAD - Manhã',
+           ]
+           create_exams_school(array, datetime, cycle_name, exam_name)          
+         end
          task add_exams_05NOV_2: :environment do
            p 'Adding exams'
            datetime = 'Mon, 05 Nov 2013 14:00:00 BRT -03:00'
