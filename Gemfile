@@ -31,6 +31,7 @@ gem 'kaminari'
 gem 'newrelic_rpm'
 
 gem 'airbrake'
+gem 'googlecharts'
 
 gem 'whenever', require: false
 

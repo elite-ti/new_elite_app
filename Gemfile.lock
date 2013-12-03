@@ -102,6 +102,7 @@ GEM
     faraday (0.8.5)
       multipart-post (~> 1.1)
     ffi (1.4.0)
+    googlecharts (1.6.8)
     hashery (2.1.0)
     hashie (1.2.0)
     highline (1.6.15)
@@ -288,6 +289,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails
+  googlecharts
   i18n
   jquery-datatables-rails
   jquery-rails
