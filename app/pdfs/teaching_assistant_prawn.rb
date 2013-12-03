@@ -1,7 +1,7 @@
 #encoding: UTF-8
 
 require 'prawn'
-require 'gchart'
+# require 'gchart'
 
 class TeachingAssistantPrawn < Prawn::Document
   def initialize(type, row, specific_rows, image_folder)
