@@ -2,6 +2,48 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_28NOV_1: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 28 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '2º Simulado - Ciclo 7 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - QUI(20): BECCDACADDADEECABADB'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_27NOV_2: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 27 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '2º Simulado - Ciclo 7 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - MAT(20): CCCAABDBDCBCCDBADCAC'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_26NOV: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 26 Nov 2013 14:00:00 BRT -03:00'
+          cycle_name = '2º Simulado - Ciclo 7 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 3ª Série + IME-ITA, IME-ITA - All - POR(20) + ING(20): CACBEBEADBDECBCCEBDD BCBEABDEADEDBCCCBDCA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_03DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 03 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar - All - POR(10) + ING(10) + RED(10): DBDBDEDDDA EDAACCABCB BCABBDCBBA',
+            'C - 2ª Série Militar - All - POR(10) + ING(10) + RED(10): EAABDDDCEB CAEAEDECDA BCABBDCBBA',
+            'C - 9º Ano Militar - All - POR(8) + ING(10) + RED(10): DCEBAAED AECADBECAA BCABBDCBBA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_02DEC: :environment do
           p 'Adding exams'
           datetime = 'Mon, 02 Dec 2013 14:00:00 BRT -03:00'

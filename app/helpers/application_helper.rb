@@ -58,6 +58,64 @@ module ApplicationHelper
   end
 
   def proper_greeting
-    return ["Bom noite", "Bom dia", "Boa tarde", "Boa noite"][DateTime.now.in_time_zone("Brasilia").strftime('%H').to_i/6]
+    greetings = ["Bom noite", "Bom dia", "Boa tarde", "Boa noite"]
+    index = DateTime.now.in_time_zone("Brasilia").strftime('%H').to_i/6
+    return greetings[index]
+  end
+
+  def translate_campus_by_name input
+    translations = {
+      'bangu' => '1',
+      'bg' => '1',
+      'b' => '1',
+      'cg1' => '2',
+      'campogrande1' => '2',
+      'cgi' => '2',
+      'campograndei' => '2',
+      'cg2' => '3',
+      'campogrande2' => '3',
+      'cgii' => '3',
+      'campograndeii' => '3',
+      'ig' => '4',
+      'ilha' => '4',
+      'ilhadogovernador' => '4',
+      'mad1' => '5',
+      'madureira1' => '5',
+      'm1' => '5',
+      'mad2' => '6',
+      'madureira2' => '6',
+      'm2' => '6',
+      'mad3' => '7',
+      'madureira3' => '7',
+      'm3' => '7',
+      'norteshopping' => '8',
+      'ns' => '8',
+      'novaiguacu' => '9',
+      'ni' => '9',
+      'sg1' => '10',
+      'saogoncalo1' => '10',
+      'sgi' => '10',
+      'saogoncaloi' => '10',
+      'sg2' => '11',
+      'saogoncalo2' => '11',
+      'sgii' => '11',
+      'saogoncaloii' => '11',
+      'taquara' => '12',
+      't' => '12',
+      'tq' => '12',
+      'r9' => '12',
+      'tijuca' => '13',
+      'tj' => '13',
+      'vilavalqueire' => '14',
+      'valqueire' => '14',
+      'v' => '14',
+      'vv' => '14',
+      'val' => '14'
+    }
+    if translations.keys.include? input
+      translations[input]
+    else
+      input
+    end
   end
 end
