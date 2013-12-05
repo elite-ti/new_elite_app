@@ -10,7 +10,7 @@ namespace :db do
           array = [
             'C - 1ª Série Militar - All - FIL(10) + SOC(10): DBAAAEDCEA AACBBDCCBB',
             'C - 2ª Série Militar - All - FIL(10) + SOC(10): ACCACCBCCD CDEECCCABA',
-            'C - 9º Ano Militar, 1ª Série Militar, 2ª Série Militar - All - EDU(10): AAADBAEBEE'
+            'C - 9º Ano Militar, 1ª Série Militar, 2ª Série Militar - All - EDF(10): AAADBAEBEE'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
