@@ -11,6 +11,28 @@ namespace :db do
             'C - 1ª Série ENEM, 1ª Série Militar - Nova Iguaçu - POR(15) + MAT(15): DBDECCEDBADCAED DECEEEBECCCDDDC - Manhã'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
+        task add_exams_05DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 05 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar - All - FIL(10) + SOC(10): DBAAAEDCEA AACBBDCCBB',
+            'C - 2ª Série Militar - All - FIL(10) + SOC(10): ACCACCBCCD CDEECCCABA',
+            'C - 9º Ano Militar, 1ª Série Militar, 2ª Série Militar - All - EDF(10): AAADBAEBEE'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_04DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 04 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - 4º Bimestre - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série Militar, 9º Ano Militar - All - HIS(10) + GEO(10): EECCCCABAC CECDBEDDBC',
+            'C - 2ª Série Militar - All - HIS(10) + GEO(10): ECDBCDAEAC BDBECCBDDB'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
         end
         task add_exams_28NOV_1: :environment do
           p 'Adding exams'
