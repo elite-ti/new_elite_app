@@ -31,7 +31,7 @@ namespace :db do
           cycle_name = 'Recuperação - Final - '
           exam_name = 'Prova'
           array = [
-            'C - 3ª Série + Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Biomédicas - POR(8) + LES(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + FIL(8) + SOC(8) + RED(8): CDABEAAB ECABBDCB CEEDABBC CBABDCDA CCDEDDBA DCDAEBAA CBBACACA CEEDBEAE EEACBEDA DDBECBDC BDCAEDBC'
+            'C - 3ª Série + Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Biomédicas - All - POR(8) + LES(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + FIL(8) + SOC(8) + RED(8): CDABEAAB ECABBDCB CEEDABBC CBABDCDA CCDEDDBA DCDAEBAA CBBACACA CEEDBEAE EEACBEDA DDBECBDC BDCAEDBC'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
