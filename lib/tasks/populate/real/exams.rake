@@ -4,7 +4,7 @@ namespace :db do
     namespace :real do
         task add_exams_07DEC: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 27 Dec 2013 14:00:00 BRT -03:00'
+          datetime = 'Mon, 07 Dec 2013 14:00:00 BRT -03:00'
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
@@ -12,8 +12,8 @@ namespace :db do
             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): DCDADAABAACBCAE CECDBEABDDDCDCD - Tarde',
             'C - 6º Ano - All - POR(15) + MAT(15): ABCADDEBCDBEEBC DAECCCAEDECABEB - Manhã',
             'C - 6º Ano - All - POR(15) + MAT(15): BCDAEDABDEBAEBD AEDCCACDECEBEBA - Tarde',
-            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BEEBCBBDACAEBDA AECACACEBECDDCD - Manhã',
-            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BADBDCBEBDAABEB ECACACAEBCDEDCC - Tarde',
+            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BEEBCBBDACAEBDA AECACCCEBECDDCD - Manhã',
+            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BADBDCBEBDAABEB ECACCCAEBCDEDCC - Tarde',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB - Manhã',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CABEBCBDEDBEBEB CDCDEDCCAEAABBB - Tarde',
             'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB - Manhã',
