@@ -7,6 +7,7 @@ class CardProcessing < ActiveRecord::Base
   belongs_to :card_type
   belongs_to :campus
   belongs_to :exam_execution
+  belongs_to :employee
   has_many :student_exams, dependent: :destroy
 
   attr_accessible :card_type_id, :file, :is_bolsao, 
