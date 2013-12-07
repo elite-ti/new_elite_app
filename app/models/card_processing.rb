@@ -10,7 +10,7 @@ class CardProcessing < ActiveRecord::Base
   has_many :student_exams, dependent: :destroy
 
   attr_accessible :card_type_id, :file, :is_bolsao, 
-    :exam_date, :campus_id, :status, :name, :exam_execution_id
+    :exam_date, :campus_id, :status, :name, :exam_execution_id, :employee
 
   validates :campus_id, :card_type_id, :file, :name,
     :exam_date, :status, presence: true
