@@ -24,9 +24,9 @@ class CardProcessingsController < ApplicationController
   end
 
   def create
+    @card_processing.employee_id = current_employee.id
     if @card_processing.save
-      email = current_employee.email.present? ? current_employee.email : 'elitesim@sistemaeliterio.com.br'
-      CardProcessorWorker.perform_async(@card_processing.id, email)
+      CardProcessorWorker.perform_async(@card_processing.id)
       if @card_processing.try(:exam_execution).try(:exam_cycle).try(:is_bolsao) || false
         redirect_to exam_executions_url(filter_by: 'is_bolsao'), notice: 'Cartões enviados com sucesso.'
       else

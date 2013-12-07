@@ -4,9 +4,8 @@ require 'find'
 class CardProcessor
   attr_accessor :card_processing
 
-  def initialize(card_processing_id, email)
+  def initialize(card_processing_id)
     @card_processing = CardProcessing.find(card_processing_id)
-    @email = email
   end
   
   def process
@@ -14,7 +13,7 @@ class CardProcessor
     scan
     ActionMailer::Base.mail(
       from: 'elitesim@sistemaeliterio.com.br',
-      to: @email,
+      to: @card_processing.employee.try(:email) || 'elitesim@sistemaeliterio.com.br',
       subject: "Envio arquivo ##{@card_processing.id}",
       body: <<-eos
       Olá,
