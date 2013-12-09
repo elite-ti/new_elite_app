@@ -114,6 +114,7 @@ class Student < ActiveRecord::Base
     end
   end
 
+
   def log_changes(message)
     File.open("log.txt", "a"){ |somefile| somefile.puts message }
   end
