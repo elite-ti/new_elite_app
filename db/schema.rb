@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426063009) do
+ActiveRecord::Schema.define(:version => 20131210182342) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.integer  "super_klazz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "group_name"
   end
 
   create_table "campus_head_teacher_campuses", :force => true do |t|
@@ -120,6 +121,8 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "exam_execution_id"
+    t.integer  "employee_id"
   end
 
   create_table "card_types", :force => true do |t|
@@ -191,9 +194,6 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.datetime "updated_at"
   end
 
-  add_index "exam_answers", ["exam_question_id"], :name => "index_exam_answers_on_exam_question_id"
-  add_index "exam_answers", ["student_exam_id"], :name => "index_exam_answers_on_student_exam_id"
-
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
     t.boolean  "is_bolsao"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.integer  "options_per_question"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "subject"
   end
 
   create_table "klazz_periods", :force => true do |t|
@@ -553,6 +554,10 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.string   "post_graduated_comment"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_tablet"
+    t.integer  "wanted_workload"
+    t.text     "observations"
+    t.string   "availability"
   end
 
   create_table "teaching_assignments", :force => true do |t|
@@ -586,6 +591,14 @@ ActiveRecord::Schema.define(:version => 20130426063009) do
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "login"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "versions", :force => true do |t|

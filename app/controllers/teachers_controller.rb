@@ -6,11 +6,12 @@ class TeachersController < ApplicationController
     @periods = @teacher.find_absent_periods_by_date(@date)
   end
 
-  # def update
-  #   if @teacher.update_attributes(params[:teacher])
-  #     redirect_to root_path, notice: 'Teacher was successfully updated.'
-  #   else
-  #     render 'schedule_infos/edit'
-  #   end
-  # end
+  def update
+    if @employee.teacher.update_attributes(params[:teacher])
+      redirect_to @employee, notice: 'Teacher was successfully updated.'
+    else
+      set_employee
+      render 'edit'
+    end
+  end
 end

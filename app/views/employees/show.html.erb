@@ -20,6 +20,7 @@
 
     <% if @employee.teacher? %>
       <li><%= link_to 'Calendar', teacher_periods_path(@employee.teacher), title: 'calendar_tab' %></li>
+      <li><%= link_to 'Disponibilidade', teacher_path(@employee.teacher), title: 'availability' %></li>
     <% end %>
   </ul>
 
@@ -76,4 +77,10 @@
   </div>
 
   <div id='calendar_tab'></div>
+
+  <div id='availability'>
+    <%if @employee.teacher.availability? %>
+      <%= image_tag @employee.teacher.availability, width: '500' %>
+    <% end %>
+  </div>
 </div>

@@ -1,12 +1,14 @@
 class Teacher < ActiveRecord::Base
   
+  mount_uploader :availability, TeacherAvailabilityUploader
+
   attr_accessible :employee_id, :nickname, :subject_ids,
     :product_group_preferences_attributes, :campus_ids, :morning, :afternoon, :evening, 
     :saturday_moning, :saturday_afternoon, :sunday_morning, :sunday_afternoon, 
     :agree_with_terms, :administrative_job,
     :graduated, :major_id, :institute, :bachelor, :cref, :time_teaching, 
     :post_graduated, :post_graduated_comment, :professional_experiences, 
-    :professional_experiences_attributes, :campus_preference_ids, :preferred_campus_ids, :has_tablet, :wanted_workload, :observations
+    :professional_experiences_attributes, :campus_preference_ids, :preferred_campus_ids, :has_tablet, :wanted_workload, :observations, :availability, :remove_availability
 
   belongs_to :employee
   belongs_to :major
@@ -29,7 +31,7 @@ class Teacher < ActiveRecord::Base
 
   has_many :professional_experiences, dependent: :destroy
   accepts_nested_attributes_for :professional_experiences, allow_destroy: true, reject_if: :all_blank
-
+  
   validates :employee_id, :nickname, presence: true, on: :update
 
   after_create :fix_teacher
@@ -56,7 +58,10 @@ class Teacher < ActiveRecord::Base
       end
       attr_accessible dayname.downcase + '_' + shift.to_s
     end
-  end   
+  end
+
+  def remove_availability!
+  end  
 
 private
   

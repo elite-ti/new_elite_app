@@ -41,9 +41,27 @@
 <% end %>
 
 <div id='image'>
-  <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
-  <%= f.input :photo, wrapper_html: { id: 'photo_wrapper' } %>
+  <p>
   <% if @employee.photo? %>
-    <label id='remove_label'><%= f.check_box :remove_photo %><%= t(:remove) %></label>
+    </br></br>
+    <%= image_tag(@employee.photo_url(:thumb)) %>
+    <label id='remove_label'><%= f.check_box :remove_photo %><%= t(:remove) %></label></br>
+  <% else %>
+    <%= f.input :photo, wrapper_html: { id: 'photo_wrapper' }, label: "Photo" %>
   <% end %>
+  </p>
+  </br>
+  <p>
+  <%= simple_fields_for(@employee.teacher) do |ff| %>
+    <% if @employee.teacher.availability? %>
+      </br></br>
+      <%= image_tag(@employee.teacher.availability_url(:thumb)) %>
+      <label id='remove_label'><%= ff.check_box :remove_availability %><%= t(:remove) %></label>
+      <%= ff.button :submit %>
+    <% else %>
+      <%= ff.input :availability, wrapper_html: { id: 'availability_wrapper' }, label: " " %></br>
+      <%= ff.button :submit %>
+    <% end %>
+  <% end %>
+  </p>  
 </div>
