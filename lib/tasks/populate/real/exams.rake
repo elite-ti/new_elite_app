@@ -2,6 +2,46 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_12DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 12 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - BIO(10): CAEACDEBAC',
+            'C - 1ª Série ENEM - All - LIT(10): CCDCEBCDBC',
+            'C - 1ª Série ENEM - All - QUI(10): ADCEBABABD',
+            'C - 2ª Série ENEM - All - BIO(10): ECABCACCAD',
+            'C - 2ª Série ENEM - All - LIT(10): DBECCBABBA',
+            'C - 2ª Série ENEM - All - QUI(10): AEABBBDBEB',
+            'C - 6º Ano - All - HIS(10): EBDCEADCAD',
+            'C - 6º Ano - All - POR(10): BCCDEDCDBB',
+            'C - 7º Ano - All - HIS(10): EAACABECCB',
+            'C - 7º Ano - All - POR(10): ECAECBEEBB',
+            'C - 8º Ano - All - HIS(10): CDDADACBBB',
+            'C - 8º Ano - All - POR(10): CBAEDBECBC'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_11DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 11 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - Campo Grande II, Tijuca, São Gonçalo II - GEO(10): BDEEBACDBA',
+            'C - 1ª Série ENEM - Campo Grande II, Tijuca, São Gonçalo II - POR(10): DDADDCEBDE',
+            'C - 2ª Série ENEM - Campo Grande II, Tijuca, São Gonçalo II - GEO(10): CCDADADDCB',
+            'C - 2ª Série ENEM - Campo Grande II, Tijuca, São Gonçalo II - POR(10): CDABECDABE',
+            'C - 6º Ano - Campo Grande II, Tijuca, São Gonçalo II - CIE(10): ABADBABCEC',
+            'C - 6º Ano - Campo Grande II, Tijuca, São Gonçalo II - EDF(10): ACBBEBCDDA',
+            'C - 7º Ano - Campo Grande II, Tijuca, São Gonçalo II - CIE(10): CDCCBDEAAE',
+            'C - 7º Ano - Campo Grande II, Tijuca, São Gonçalo II - EDF(10): BDDAEBCDEA',
+            'C - 8º Ano - Campo Grande II, Tijuca, São Gonçalo II - CIE(10): DDBADACEAD',
+            'C - 8º Ano - Campo Grande II, Tijuca, São Gonçalo II - EDF(10): EDECABCACA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_07DEC: :environment do
           p 'Adding exams'
           datetime = 'Mon, 07 Dec 2013 14:00:00 BRT -03:00'
