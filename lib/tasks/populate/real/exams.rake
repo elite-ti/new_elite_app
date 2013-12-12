@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_12DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 12 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - BIO(10): CAEACDEBAC',
+            'C - 1ª Série ENEM - All - LIT(10): CCDCEBCDBC',
+            'C - 1ª Série ENEM - All - QUI(10): ADCEBABABD',
+            'C - 2ª Série ENEM - All - BIO(10): ECABCACCAD',
+            'C - 2ª Série ENEM - All - LIT(10): DBECCBABBA',
+            'C - 2ª Série ENEM - All - QUI(10): AEABBBDBEB',
+            'C - 6º Ano - All - HIS(10): EBDCEADCAD',
+            'C - 6º Ano - All - POR(10): BCCDEDCDBB',
+            'C - 7º Ano - All - HIS(10): EAACABECCB',
+            'C - 7º Ano - All - POR(10): ECAECBEEBB',
+            'C - 8º Ano - All - HIS(10): CDDADACBBB',
+            'C - 8º Ano - All - POR(10): CBAEDBECBC'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_11DEC: :environment do
           p 'Adding exams'
           datetime = 'Mon, 11 Dec 2013 14:00:00 BRT -03:00'
@@ -27,20 +48,20 @@ namespace :db do
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): DCECDBEABCDDDDC DCECDBEABCDDDDC - Manhã',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): DCECDBEABCDDDDC DCECDBEABCDDDDC',
             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): DCDADAABAACBCAE CECDBEABDDDCDCD - Tarde',
-            'C - 6º Ano - All - POR(15) + MAT(15): ABCADDEBCDBEEBC DAECCCAEDECABEB - Manhã',
+            'C - 6º Ano - All - POR(15) + MAT(15): ABCADDEBCDBEEBC DAECCCAEDECABEB',
             'C - 6º Ano - All - POR(15) + MAT(15): BCDAEDABDEBAEBD AEDCCACDECEBEBA - Tarde',
-            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BEEBCBBDACAEBDA AECACCCEBECDDCD - Manhã',
+            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BEEBCBBDACAEBDA AECACCCEBECDDCD',
             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BADBDCBEBDAABEB ECACCCAEBCDEDCC - Tarde',
-            'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB - Manhã',
+            'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CABEBCBDEDBEBEB CDCDEDCCAEAABBB - Tarde',
-            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB - Manhã',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CEADBBBCEDAEBDA DCDCCEDCAAEBABB',
             'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CABEBCBDEDBEBEB CDCDEDCCAEAABBB - Tarde',
-            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CBEACEABADBBCED DCCEEBEADCABDBD - Manhã',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CBEACEABADBBCED DCCEEBEADCABDBD',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): DCABCEBCADBBDEE CEECDADBEBDBCDA - Tarde',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): CBEACEABADBBCED ABDDCCCEABEADAB - Manhã',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): DCAADEACBDCBDEE BDACCCDABEEDABA - Tarde'
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - POR(15) + MAT(15): CBEACEABADBBCED ABDDCCCEABEADAB',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - POR(15) + MAT(15): DCAADEACBDCBDEE BDACCCDABEEDABA - Tarde'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end
@@ -50,7 +71,7 @@ namespace :db do
           cycle_name = 'Recuperação - Final - '
           exam_name = 'Prova'
           array = [
-            'C - 3ª Série + Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Biomédicas - All - POR(8) + LES(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + FIL(8) + SOC(8) + RED(8): CDABEAAB ECABBDCB CEEDABBC CBABDCDA CCDEDDBA DCDAEBAA CBBACACA CEEDBEAE EEACBEDA DDBECBDC BDCAEDBC'
+            'C - 3ª Série + Pré-Vestibul, 3ª Série + Pré-Vestibular Biomédicas - All - POR(8) + LES(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + FIL(8) + SOC(8) + RED(8): CDABEAAB ECABBDCB CEEDABBC CBABDCDA CCDEDDBA DCDAEBAA CBBACACA CEEDBEAE EEACBEDA DDBECBDC BDCAEDBC'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -72,7 +93,7 @@ namespace :db do
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM, 1ª Série Militar - Nova Iguaçu - POR(15) + MAT(15): DBDECCEDBADCAED DECEEEBECCCDDDC - Manhã'
+            'C - 1ª Série ENEM, 1ª Série Militar - Nova Iguaçu - POR(15) + MAT(15): DBDECCEDBADCAED DECEEEBECCCDDDC'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end
@@ -169,7 +190,7 @@ namespace :db do
           cycle_name = '4º Bimestre - Subtitutiva - '
           exam_name = 'Prova'
           array = [
-            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): ADDCCEECCB BAACBBAAEE CAAAACDDCB AACBDBCDBA DBBADCBBAA DCDDDBBCCA CBAEDBEDED ABBDBACADE - Manhã',
+            'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): ADDCCEECCB BAACBBAAEE CAAAACDDCB AACBDBCDBA DBBADCBBAA DCDDDBBCCA CBAEDBEDED ABBDBACADE',
             'C - 9º Ano Forte - All - BIO(10) + FIS(10) + GEO(10) + HIS(10) + ING(10) + MAT(10) + POR(10) + QUI(10): DADCECECCB ABCABBAAEE ACAACADDCB AABCDBDCAB BDBADBCABA CDDDDBBACC BCEADBDEDE ABBBDCADAE - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -248,7 +269,7 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10):  DCCEADCBEE DDBAAECDCA EBABEAEABE CCDAADCDCA - Manhã',
+            'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10):  DCCEADCBEE DDBAAECDCA EBABEAEABE CCDAADCDCA',
             'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10):  CDCEDAECBE BDDAEACCDA BEBAAEAEEB DCCADACCDA - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -259,21 +280,21 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - All - EDF(10): DBACAEBCEC - Manhã',
+            'C - 1ª Série ENEM - All - EDF(10): DBACAEBCEC',
             'C - 1ª Série ENEM - All - EDF(10): ECEEEAEBEC - Tarde',
-            'C - 2ª Série ENEM - All - EDF(10): AACAECBCEB - Manhã',
+            'C - 2ª Série ENEM - All - EDF(10): AACAECBCEB',
             'C - 2ª Série ENEM - All - EDF(10): EEEAECBECE - Tarde',
-            'C - 6º Ano - All - ESP(10): ACBCDEDABC - Manhã',
+            'C - 6º Ano - All - ESP(10): ACBCDEDABC',
             'C - 6º Ano - All - ESP(10): BCEBBAEBEC - Tarde',
-            'C - 6º Ano - All - ING(10): DEABCCDEAB - Manhã',
+            'C - 6º Ano - All - ING(10): DEABCCDEAB',
             'C - 6º Ano - All - ING(10): ACCDEABCDE - Tarde',
-            'C - 7º Ano - All - ESP(10): DBBBCADCCC - Manhã',
+            'C - 7º Ano - All - ESP(10): DBBBCADCCC',
             'C - 7º Ano - All - ESP(10): DCDEADBBEE - Tarde',
-            'C - 7º Ano - All - ING(10): DAEBCABCDE - Manhã',
+            'C - 7º Ano - All - ING(10): DAEBCABCDE',
             'C - 7º Ano - All - ING(10): DEEDCABCDE - Tarde',
-            'C - 8º Ano - All - ESP(10): AADCCEBABB - Manhã',
+            'C - 8º Ano - All - ESP(10): AADCCEBABB',
             'C - 8º Ano - All - ESP(10): ACDABECEBE - Tarde',
-            'C - 8º Ano - All - ING(10): DBADBCBCBD - Manhã',
+            'C - 8º Ano - All - ING(10): DBADBCBCBD',
             'C - 8º Ano - All - ING(10): BCCBAABDBD - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -294,15 +315,15 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - All - ESP(10) + MAT(10): CEABAECAED CBBDEBDECA - Manhã',
+            'C - 1ª Série ENEM - All - ESP(10) + MAT(10): CEABAECAED CBBDEBDECA',
             'C - 1ª Série ENEM - All - ESP(10) + MAT(10): BBECDAEBBB ACBEDDEDCA - Tarde',
-            'C - 2ª Série ENEM - All - ESP(10) + MAT(10): AECEECAEBD BEBEADADAD - Manhã',
+            'C - 2ª Série ENEM - All - ESP(10) + MAT(10): AECEECAEBD BEBEADADAD',
             'C - 2ª Série ENEM - All - ESP(10) + MAT(10): EBDDCBAEAD EADAEDDADA - Tarde',
-            'C - 6º Ano - All - HIS(10): CAEBBDDACB - Manhã',
+            'C - 6º Ano - All - HIS(10): CAEBBDDACB',
             'C - 6º Ano - All - HIS(10): BEDBBAEDDC - Tarde',
-            'C - 7º Ano - All - HIS(10): DAEEBCADCC - Manhã',
+            'C - 7º Ano - All - HIS(10): DAEEBCADCC',
             'C - 7º Ano - All - HIS(10): BECADCCCDA - Tarde',
-            'C - 8º Ano - All - HIS(10): ACAACAAABE - Manhã',
+            'C - 8º Ano - All - HIS(10): ACAACAAABE',
             'C - 8º Ano - All - HIS(10): BAACDBECBA - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -313,15 +334,15 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCDDDDADBB ACCAECEDEB - Manhã',
+            'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCDDDDADBB ACCAECEDEB',
             'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CDAEBCCAEC AECACECBCD - Tarde',
-            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CBBAECADEC ACCDDEDCDB - Manhã',
+            'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CBBAECADEC ACCDDEDCDB',
             'C - 2ª Série ENEM - All - HIS(10) + QUI(10): ADCAACAADB BDACADDECA - Tarde',
-            'C - 6º Ano - All - GEO(10): DDBBBAAADD - Manhã',
+            'C - 6º Ano - All - GEO(10): DDBBBAAADD',
             'C - 6º Ano - All - GEO(10): BABABBACAD - Tarde',
-            'C - 7º Ano - All - GEO(10): DCEABDCACB - Manhã',
+            'C - 7º Ano - All - GEO(10): DCEABDCACB',
             'C - 7º Ano - All - GEO(10): BBCCABACBA - Tarde',
-            'C - 8º Ano - All - GEO(10): BBBDCBADEA - Manhã',
+            'C - 8º Ano - All - GEO(10): BBBDCBADEA',
             'C - 8º Ano - All - GEO(10): BACCAEABCA - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -356,22 +377,22 @@ namespace :db do
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): BAADEDCEBEDACDC DBDDBABBBACEDEA - Manhã',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): BAADEDCEBEDACDC DBDDBABBBACEDEA',
             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): CBAEAEDECEEBDED DDDBABBABCBEAED - Tarde',
-            'C - 6º Ano - All - POR(15) + MAT(15): ECBCDAEECCDBECD BDDEABBDDACEBCD - Manhã',
+            'C - 6º Ano - All - POR(15) + MAT(15): ECBCDAEECCDBECD BDDEABBDDACEBCD',
             'C - 6º Ano - All - POR(15) + MAT(15): ADCDEBAEDDEBECB DEABBDABCEDBDDC - Tarde',
-            'C - 7º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
+            'C - 7º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED',
             'C - 7º Ano - All - POR(15) + MAT(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
-            'C - 8º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
+            'C - 8º Ano - All - POR(15) + MAT(15): DCCEDBCECDCACAE BEBBACAADCDBCED',
             'C - 8º Ano - All - POR(15) + MAT(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
-            'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
+            'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB',
             'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
-            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): BEEACEBDBBCDECB DDEACDCEAADBCCB',
             'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
-            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA - Manhã',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CBBEEEDACEADADE DADBDCBDADADAAE - Tarde',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): DEBCCBBCBEACEAB BCADBECADAABAEA - Manhã',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - POR(15) + MAT(15): DEBCCBBCBEACEAB BCADBECADAABAEA',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - POR(15) + MAT(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end
@@ -432,15 +453,15 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - All - FIS(10) + ING(10): CBBBCCBEBD DABBCCBEED - Manhã',
+            'C - 1ª Série ENEM - All - FIS(10) + ING(10): CBBBCCBEBD DABBCCBEED',
             'C - 1ª Série ENEM - All - FIS(10) + ING(10): AAACCEBDAC DBABBEBCCE - Tarde',
-            'C - 2ª Série ENEM - All - FIS(10) + ING(10): DDADBEDABD DCCCACAADB - Manhã',
+            'C - 2ª Série ENEM - All - FIS(10) + ING(10): DDADBEDABD DCCCACAADB',
             'C - 2ª Série ENEM - All - FIS(10) + ING(10): ABBBEBBEAB CACAADBDCC - Tarde',
-            'C - 6º Ano - All - CIE(10): ACCDCAECBB - Manhã',
+            'C - 6º Ano - All - CIE(10): ACCDCAECBB',
             'C - 6º Ano - All - CIE(10): ACCDCAEECB - Tarde',
-            'C - 7º Ano - All - CIE(10): EBCDEADADE - Manhã',
+            'C - 7º Ano - All - CIE(10): EBCDEADADE',
             'C - 7º Ano - All - CIE(10): EBCDCADBBE - Tarde',
-            'C - 8º Ano - All - CIE(10): CBAEECDCDD - Manhã',
+            'C - 8º Ano - All - CIE(10): CBAEECDCDD',
             'C - 8º Ano - All - CIE(10): CCAECECECA - Tarde',
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -451,9 +472,9 @@ namespace :db do
           cycle_name = '4º Bimestre - Prova Bimestral - '
           exam_name = 'Prova'
           array = [
-            'C - 9º Ano Forte - All - HIS(10) + FIS(10) + QUI(10) + ING(10):  EADABAEBBE DECCDCBDCD DDBDABDCBA CEBCADCDBA - Manhã',
+            'C - 9º Ano Forte - All - HIS(10) + FIS(10) + QUI(10) + ING(10):  EADABAEBBE DECCDCBDCD DDBDABDCBA CEBCADCDBA',
             'C - 9º Ano Forte - All - HIS(10) + FIS(10) + QUI(10) + ING(10):  DEABABAEEB CDECCDCBDD BDDBDABDCA BCEACCDADB - Tarde',
-            'C - Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(4) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10) + FIL(3) + SOC(2):  ABCCAACBCDDAABA BAAC CDCADC DDBBCB CADBBD DABDD CAAAAA BDADCABCCB AAE BA'
+            'C - Pré-Vestibul, Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(4) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10) + FIL(3) + SOC(2):  ABCCAACBCDDAABA BAAC CDCADC DDBBCB CADBBD DABDD CAAAAA BDADCABCCB AAE BA'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -485,15 +506,15 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - All - GEO(10) + POR(10): CDEECEBADA BCAAECBEBE - Manhã',
+            'C - 1ª Série ENEM - All - GEO(10) + POR(10): CDEECEBADA BCAAECBEBE',
             'C - 1ª Série ENEM - All - GEO(10) + POR(10): DCDCBACBDE CBACAEEBEB - Tarde',
-            'C - 2ª Série ENEM - All - GEO(10) + POR(10): AEDCEADADB DBACACEEDC - Manhã',
+            'C - 2ª Série ENEM - All - GEO(10) + POR(10): AEDCEADADB DBACACEEDC',
             'C - 2ª Série ENEM - All - GEO(10) + POR(10): DCDBEBEAAA ADBCCEACDE - Tarde',
-            'C - 6º Ano - All - POR(10): CBDBABCDCA - Manhã',
+            'C - 6º Ano - All - POR(10): CBDBABCDCA',
             'C - 6º Ano - All - POR(10): DCBBCABADC - Tarde',
-            'C - 7º Ano - All - POR(10): CBBDBEECED - Manhã',
+            'C - 7º Ano - All - POR(10): CBBDBEECED',
             'C - 7º Ano - All - POR(10): BCBBDCEEED - Tarde',
-            'C - 8º Ano - All - POR(10): EACBEEBAEE - Manhã',
+            'C - 8º Ano - All - POR(10): EACBEEBAEE',
             'C - 8º Ano - All - POR(10): CEBABEEAEE - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)          
@@ -504,15 +525,15 @@ namespace :db do
           cycle_name = 'P8 - '
           exam_name = 'Prova'
           array = [
-            'C - 1ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): CCCCBBADAB ABECDCEABC CDACECAC - Manhã',
+            'C - 1ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): CCCCBBADAB ABECDCEABC CDACECAC',
             'C - 1ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): CCECDBADDB BAECABECDC BDDECDAC - Tarde',
-            'C - 2ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): ABDDBBDDEE DACCEEDAAB DDCBCACC - Manhã',
+            'C - 2ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): ABDDBBDDEE DACCEEDAAB DDCBCACC',
             'C - 2ª Série ENEM - Madureira II - BIO(10) + LIT(10) + RED(8): BBDBBBDAEA BBEEDCDEEA CACBACCA - Tarde',
-            'C - 6º Ano - Madureira II - MAT(10) + RED(8): ACDAECACDA EBACBCCD - Manhã',
+            'C - 6º Ano - Madureira II - MAT(10) + RED(8): ACDAECACDA EBACBCCD',
             'C - 6º Ano - Madureira II - MAT(10) + RED(8): BDEBCABABE BABCBDAC - Tarde',
-            'C - 7º Ano - Madureira II - MAT(10) + RED(8): AACBEBCAAD ACBBDEAA - Manhã',
+            'C - 7º Ano - Madureira II - MAT(10) + RED(8): AACBEBCAAD ACBBDEAA',
             'C - 7º Ano - Madureira II - MAT(10) + RED(8): CBEABEDBEE BADBADEA - Tarde',
-            'C - 8º Ano - Madureira II - MAT(10) + RED(8): DCCDBCADBC ACBEDABA - Manhã',
+            'C - 8º Ano - Madureira II - MAT(10) + RED(8): DCCDBCADBC ACBEDABA',
             'C - 8º Ano - Madureira II - MAT(10) + RED(8): EDBDCABBAD BEAECDAD - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)          
@@ -533,24 +554,24 @@ namespace :db do
            cycle_name = 'P8 - '
            exam_name = 'Prova'
            array = [
-            'C - 1ª Série ENEM - All - BIO(10) + LIT(10): CCCCBBADAB ABECDCEABC - Manhã',
-            'C - 1ª Série ENEM - All - RED(8): CDACECAC - Manhã',
+            'C - 1ª Série ENEM - All - BIO(10) + LIT(10): CCCCBBADAB ABECDCEABC',
+            'C - 1ª Série ENEM - All - RED(8): CDACECAC',
             'C - 1ª Série ENEM - All - BIO(10) + LIT(10): CCECDBADDB BAECABECDC - Tarde',
             'C - 1ª Série ENEM - All - RED(8): BDDECDAC - Tarde',
-            'C - 2ª Série ENEM - All - BIO(10) + LIT(10): ABDDBBDDEE DACCEEDAAB - Manhã',
-            'C - 2ª Série ENEM - All - RED(8): DDCBCACC - Manhã',
+            'C - 2ª Série ENEM - All - BIO(10) + LIT(10): ABDDBBDDEE DACCEEDAAB',
+            'C - 2ª Série ENEM - All - RED(8): DDCBCACC',
             'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BBDBBBDAEA BBEEDCDEEA - Tarde',
             'C - 2ª Série ENEM - All - RED(8): CACBACCA - Tarde',
-            'C - 6º Ano - All - MAT(10): ACDAECACDA - Manhã',
+            'C - 6º Ano - All - MAT(10): ACDAECACDA',
             'C - 6º Ano - All - MAT(10): BDEBCABABE - Tarde',
-            'C - 6º Ano - All - RED(8): EBACBCCD - Manhã',
+            'C - 6º Ano - All - RED(8): EBACBCCD',
             'C - 6º Ano - All - RED(8): BABCBDAC - Tarde',
-            'C - 7º Ano - All - MAT(10): AACBEBCAAD - Manhã',
+            'C - 7º Ano - All - MAT(10): AACBEBCAAD',
             'C - 7º Ano - All - MAT(10): CBEABEDBEE - Tarde',
-            'C - 7º Ano - All - RED(8): ACBBDEAA - Manhã',
+            'C - 7º Ano - All - RED(8): ACBBDEAA',
             'C - 7º Ano - All - RED(8): BADBADEA - Tarde',
-            'C - 8º Ano - All - MAT(10): DCCDBCADBC - Manhã',
-            'C - 8º Ano - All - RED(8): ACBEDABA - Manhã',
+            'C - 8º Ano - All - MAT(10): DCCDBCADBC',
+            'C - 8º Ano - All - RED(8): ACBEDABA',
             'C - 8º Ano - All - RED(8): BEAECDAD - Tarde'
            ]
            create_exams_school(array, datetime, cycle_name, exam_name)          
@@ -595,18 +616,18 @@ namespace :db do
            cycle_name = 'Bolsão 2014 - '
            exam_name = 'Prova'
            array = [
-             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15):  CACDBCECAECCEDC EEEDECBCECDCDCD - Manhã',
+             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15):  CACDBCECAECCEDC EEEDECBCECDCDCD',
              'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  DBDECCEDBADCAED DECEEEBECCCDDDC - Tarde',
-             'C - 6º Ano - All - POR(15) + MAT(15):  ADBCEEBCBDEEAAD DBBAADCDBCCBBCA - Manhã',
+             'C - 6º Ano - All - POR(15) + MAT(15):  ADBCEEBCBDEEAAD DBBAADCDBCCBBCA',
              'C - 6º Ano - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  CEBABCEDDDEBBDE CEBEBDCADDDAABB - Tarde',
-             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15):  ACEBABAEDBACADE DBBAADCDBCDBEEC - Manhã',
+             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15):  ACEBABAEDBACADE DBBAADCDBCDBEEC',
              'C - 7º Ano, 8º Ano - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  BEDDDCABEBCDACB CEBEBDCABDDCDEC - Tarde',
-             'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15):  BCDEBCACEABEBCA ABBADCBBDBEEBDD - Manhã',
+             'C - 9º Ano Militar, 9º Ano Forte - All - POR(15) + MAT(15):  BCDEBCACEABEBCA ABBADCBBDBEEBDD',
              'C - 9º Ano Militar, 9º Ano Forte - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  CDEABDACABBECDA BEBBAADCBBEDBDD - Tarde',
-             'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15):  ECBEEDACADDACBA DEDCDEDCEBCEBBB - Manhã',
+             'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15):  ECBEEDACADDACBA DEDCDEDCEBCEBBB',
              'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  ADCAAEBDBADBDBB EDDDECECDBECBBB - Tarde',
-             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15):  ECBEEDACADDACBA BEDCDEECEECEBBC - Manhã',
-             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  DBBDDDEBACDCABD EBCDEEDCCEEEBCB - Tarde'
+             'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - POR(15) + MAT(15):  ECBEEDACADDACBA BEDCDEECEECEBBC',
+             'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - Bangu, Madureira I, Madureira II, Madureira III, Nova Iguaçu, Tijuca - POR(15) + MAT(15):  DBBDDDEBACDCABD EBCDEEDCCEEEBCB - Tarde'
            ]
            create_exams_bolsao(array, datetime, cycle_name, exam_name)          
          end
@@ -616,7 +637,7 @@ namespace :db do
            cycle_name = 'P7 (Geografia) - '
            exam_name = 'Prova'
            array = [
-             'C - 9º Ano Forte - Campo Grande II - GEO(40): AAAAAAAAAA AAAAAAAAAA AAAAAAAAAA AAAAAACAD - Manhã',
+             'C - 9º Ano Forte - Campo Grande II - GEO(40): AAAAAAAAAA AAAAAAAAAA AAAAAAAAAA AAAAAACAD',
            ]
            create_exams_school(array, datetime, cycle_name, exam_name)          
          end
@@ -626,7 +647,7 @@ namespace :db do
            cycle_name = 'P7 - '
            exam_name = 'Prova'
            array = [
-             'C - 9º Ano Forte - Campo Grande II - POR(10) + MAT(10) + BIO(10) + GEO(10): DEACEBDAEB ACCCCBCDDD CBCDABBBEE ABACDBCAEE - Manhã',
+             'C - 9º Ano Forte - Campo Grande II - POR(10) + MAT(10) + BIO(10) + GEO(10): DEACEBDAEB ACCCCBCDDD CBCDABBBEE ABACDBCAEE',
              'C - 9º Ano Forte - Campo Grande II - POR(10) + MAT(10) + BIO(10) + GEO(10): AEDECDBABE CACCBCDCDD CBCADBBBEE BAADCBACEE - Tarde'
            ]
            create_exams_school(array, datetime, cycle_name, exam_name)          
@@ -702,7 +723,7 @@ namespace :db do
           cycle_name = 'P7 - '
           exam_name = 'Prova'
           array = [
-            'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10):  DDCEACADCB DAAEDDBCBE ECCCADCCEA - Manhã',
+            'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10):  DDCEACADCB DAAEDDBCBE ECCCADCCEA',
             'C - 9º Ano Forte - All - QUI(10) + FIS(10) + HIS(10):  BDCEDDCAAC ECDEADADBB ACDCCECACE - Tarde'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
@@ -713,7 +734,7 @@ namespace :db do
           cycle_name = 'Ciclo 4 - Simulado 3 - '
           exam_name = 'Prova'
           array = [
-            'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(20) + ING(3) + MAT(25) + FIS(6) + QUI(7) + BIO(5) + HIS(9) + GEO(10) + FIL(1) + SOC(1):  AECBEBEDBCCBADCDBBDE CCB CCBBCDDBBDCDACADBBEBADCAB DABCEE EABBBBD EBCED AABEBAEEE CCAEEEBBBE A D'
+            'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(20) + ING(3) + MAT(25) + FIS(6) + QUI(7) + BIO(5) + HIS(9) + GEO(10) + FIL(1) + SOC(1):  AECBEBEDBCCBADCDBBDE CCB CCBBCDDBBDCDACADBBEBADCAB DABCEE EABBBBD EBCED AABEBAEEE CCAEEEBBBE A D'
           ]
           create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -819,18 +840,18 @@ namespace :db do
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
-            'C - 6º Ano - All - MAT(15) + POR(15): ECBCDAEECCBDECD BDDEABBDDACEBCD - Manhã',
-            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): DCCEDBCECDCACAE BEBBACAADCDBCED - Manhã',
-            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): BEEACEBDBBCDECB DDEACDCEAADBCCB - Manhã',
-            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - MAT(15) + POR(15): BAADEDCEBEDACDC DBDDBABBBACEDEA - Manhã',
-            'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - MAT(15) + POR(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA - Manhã',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): DEBCCBBCBEACEAB BCADBECADAABAEA - Manhã',
+            'C - 6º Ano - All - MAT(15) + POR(15): ECBCDAEECCBDECD BDDEABBDDACEBCD',
+            'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): DCCEDBCECDCACAE BEBBACAADCDBCED',
+            'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): BEEACEBDBBCDECB DDEACDCEAADBCCB',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - MAT(15) + POR(15): BAADEDCEBEDACDC DBDDBABBBACEDEA',
+            'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - MAT(15) + POR(15): BAADEDCEBEDACDC DDADDCDBDBAAAEA',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - MAT(15) + POR(15): DEBCCBBCBEACEAB BCADBECADAABAEA',
             'C - 6º Ano - All - MAT(15) + POR(15): ADCDEBAEDDEBECB DEABBDABCEDBDDC - Tarde',
             'C - 7º Ano, 8º Ano - All - MAT(15) + POR(15): EDCAECDECECBCBA BBCABECAACDDBDE - Tarde',
             'C - 9º Ano Militar, 9º Ano Forte - All - MAT(15) + POR(15): CAABDECECBDEACC DAAEDCBCADDCEBC - Tarde',
             'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - MAT(15) + POR(15): CBAEAEDECEEBDED DDDBABBABCBEAED - Tarde',
             'C - AFA/EAAr/EFOMM, AFA/EN/EFOMM, ESPCEX, EsSA, IME-ITA, AFA/ESPCEX - All - MAT(15) + POR(15): CBBEEEDACEADADE DADBDCBDADADAAE - Tarde',
-            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - MAT(15) + POR(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibul, Pré-Vestibular Noite - All - MAT(15) + POR(15): EACCCCADCAADAAC BADDCECBAAABAEA - Tarde'
           ]
           create_exams_bolsao(array, datetime, cycle_name, exam_name)
         end      
@@ -854,11 +875,11 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 6º Ano - All - RED(8): ACDDBCCA - Manhã',
+          'C - 6º Ano - All - RED(8): ACDDBCCA',
           'C - 6º Ano - All - RED(8): EBCEADAB - Tarde',
-          'C - 7º Ano - All - RED(8): BECDEBAB - Manhã',
+          'C - 7º Ano - All - RED(8): BECDEBAB',
           'C - 7º Ano - All - RED(8): BABCDCBA - Tarde',
-          'C - 8º Ano - All - RED(8): ADBCECDB - Manhã',
+          'C - 8º Ano - All - RED(8): ADBCECDB',
           'C - 8º Ano - All - RED(8): DAEACECB - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
@@ -869,7 +890,7 @@ namespace :db do
         cycle_name = 'Ciclo 4 - '
         exam_name = '2º Simulado'
         array = [
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): BCABE DADDDEBBCAEAAACAEDBAADCCACABAACADCEDDACE DCADDBECADEDDDCEBDBEACEECCBDDADCECCAAECDABEBA',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): BCABE DADDDEBBCAEAAACAEDBAADCCACABAACADCEDDACE DCADDBECADEDDDCEBDBEACEECCBDDADCECCAAECDABEBA',
         ]
         create_exams(array, datetime, cycle_name, exam_name)
         end
@@ -886,7 +907,7 @@ namespace :db do
         cycle_name = 'Ciclo 4 - '
         exam_name = '1º Simulado'
         array = [
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): DAECDDBECECDDDABDA ADCECBDDBADDACACCDDAEBECADD ABADDDBACAAEECE ECDBEACEDEDBADE EACECCEECDCBAED',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): DAECDDBECECDDDABDA ADCECBDDBADDACACCDDAEBECADD ABADDDBACAAEECE ECDBEACEDEDBADE EACECCEECDCBAED',
           'C - 2ª Série Militar - All - HIS(10) + GEO(10) + BIO(10) + QUI(10): BCCBDCEBEA CECECCEBDD BCBEABCECC ADEBCCBCDA',
           'U - 2ª Série Militar - Madureira III - HIS(10) + GEO(9) + BIO(10) + QUI(10): DABEABDACD CBACAABACA AECACEADAB BCAEAEABAE'
         ]
@@ -923,10 +944,10 @@ namespace :db do
         array = [
           'C - 1ª Série ENEM - All - FIL(10): DCACBADBDA - Tarde',
           'C - 1ª Série ENEM - All - SOC(10): BACDDCDBEC - Tarde',
-          'C - 1ª Série ENEM - All - FIL(10): CDAADBCCAE - Manhã',
-          'C - 1ª Série ENEM - All - SOC(10): EEDAEBABCD - Manhã',
-          'C - 2ª Série ENEM - All - FIL(10): DCBABDCABD - Manhã',
-          'C - 2ª Série ENEM - All - SOC(10): EDCCADDDAB - Manhã',
+          'C - 1ª Série ENEM - All - FIL(10): CDAADBCCAE',
+          'C - 1ª Série ENEM - All - SOC(10): EEDAEBABCD',
+          'C - 2ª Série ENEM - All - FIL(10): DCBABDCABD',
+          'C - 2ª Série ENEM - All - SOC(10): EDCCADDDAB',
           'C - 2ª Série ENEM - All - FIL(10): DAABBACABD - Tarde',
           'C - 2ª Série ENEM - All - SOC(10): BECAEDCCAE - Tarde'
         ]
@@ -938,25 +959,25 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 1ª Série ENEM - All - EDF(10): ACEEDCABCD - Manhã',
+          'C - 1ª Série ENEM - All - EDF(10): ACEEDCABCD',
           'C - 1ª Série ENEM - All - EDF(10): DAECBADBAB - Tarde',
-          'C - 1ª Série ENEM - All - RED(8): CECCEBDA - Manhã',
+          'C - 1ª Série ENEM - All - RED(8): CECCEBDA',
           'C - 1ª Série ENEM - All - RED(8): EBCEBCEC - Tarde',
-          'C - 2ª Série ENEM - All - EDF(10): BDEAEDBCDE - Manhã',
+          'C - 2ª Série ENEM - All - EDF(10): BDEAEDBCDE',
           'C - 2ª Série ENEM - All - EDF(10): DAEEBADEAB - Tarde',
-          'C - 2ª Série ENEM - All - RED(8): CCDAAECD - Manhã',
+          'C - 2ª Série ENEM - All - RED(8): CCDAAECD',
           'C - 2ª Série ENEM - All - RED(8): EBCEBDEA - Tarde',
-          'C - 6º Ano - All - ESP(10): BEEACBDABC - Manhã',
+          'C - 6º Ano - All - ESP(10): BEEACBDABC',
           'C - 6º Ano - All - ESP(10): AECDDCBEBA - Tarde',
-          'C - 6º Ano - All - ING(10): ABABCABAEB - Manhã',
+          'C - 6º Ano - All - ING(10): ABABCABAEB',
           'C - 6º Ano - All - ING(10): DACAABBBEB - Tarde',
-          'C - 7º Ano - All - ESP(10): EBDCADBEEB - Manhã',
+          'C - 7º Ano - All - ESP(10): EBDCADBEEB',
           'C - 7º Ano - All - ESP(10): DAABBADDCE - Tarde',
-          'C - 7º Ano - All - ING(10): ADBEEABCBA - Manhã',
+          'C - 7º Ano - All - ING(10): ADBEEABCBA',
           'C - 7º Ano - All - ING(10): AAEBCDDBCA - Tarde',
-          'C - 8º Ano - All - ESP(10): DCAADBBEAC - Manhã',
+          'C - 8º Ano - All - ESP(10): DCAADBBEAC',
           'C - 8º Ano - All - ESP(10): ABDECACDCE - Tarde',
-          'C - 8º Ano - All - ING(10): ACBDABCDDC - Manhã',
+          'C - 8º Ano - All - ING(10): ACBDABCDDC',
           'C - 8º Ano - All - ING(10): ADBDAEBCAB - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
@@ -1069,11 +1090,11 @@ namespace :db do
           'C - 6º Ano - All - HIS(10): EABCECEBBC - Tarde',
           'C - 7º Ano - All - HIS(10): AABAACBAEB - Tarde',
           'C - 8º Ano - All - HIS(10): DABECBBCBC - Tarde',
-          'C - 1ª Série ENEM - All - ESP(10) + MAT(10): ACDABDABBA EBBDCCEBBB - Manhã',
-          'C - 2ª Série ENEM - All - ESP(10) + MAT(10): EDCCCEECBA DBDDBCACDB - Manhã',
-          'C - 6º Ano - All - HIS(10): CEEEBBCAEA - Manhã',
-          'C - 7º Ano - All - HIS(10): AABAAADAAA - Manhã',
-          'C - 8º Ano - All - HIS(10): ABABDCDACD - Manhã' 
+          'C - 1ª Série ENEM - All - ESP(10) + MAT(10): ACDABDABBA EBBDCCEBBB',
+          'C - 2ª Série ENEM - All - ESP(10) + MAT(10): EDCCCEECBA DBDDBCACDB',
+          'C - 6º Ano - All - HIS(10): CEEEBBCAEA',
+          'C - 7º Ano - All - HIS(10): AABAAADAAA',
+          'C - 8º Ano - All - HIS(10): ABABDCDACD' 
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -1097,11 +1118,11 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCCCBEBECE EBEBABCACA - Manhã',
-          'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CEDDBACAEC DBCECCAEDD - Manhã',
-          'C - 6º Ano - All - GEO(10): CDABABCEEB - Manhã',
-          'C - 7º Ano - All - GEO(10): BDABDBECAB - Manhã',
-          'C - 8º Ano - All - GEO(10): DAEDAAAABE - Manhã'
+          'C - 1ª Série ENEM - All - HIS(10) + QUI(10): CCCCBEBECE EBEBABCACA',
+          'C - 2ª Série ENEM - All - HIS(10) + QUI(10): CEDDBACAEC DBCECCAEDD',
+          'C - 6º Ano - All - GEO(10): CDABABCEEB',
+          'C - 7º Ano - All - GEO(10): BDABDBECAB',
+          'C - 8º Ano - All - GEO(10): DAEDAAAABE'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
         end
@@ -1111,17 +1132,17 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 1ª Série ENEM - All - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA - Manhã',
-          'U - 1ª Série ENEM - São Gonçalo II - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA - Manhã',
+          'C - 1ª Série ENEM - All - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA',
+          'U - 1ª Série ENEM - São Gonçalo II - FIS(10) + ING(10): BAADDBBBDD DABDCECBBA',
           'C - 1ª Série ENEM - All - FIS(10) + ING(10): EDCECDDEDA DAADEEBCCA - Tarde',
-          'C - 2ª Série ENEM - All - FIS(10) + ING(10): AEEEAADCDD BDDCDDBDAE - Manhã',
+          'C - 2ª Série ENEM - All - FIS(10) + ING(10): AEEEAADCDD BDDCDDBDAE',
           'C - 2ª Série ENEM - All - FIS(10) + ING(10): ACAEBBEBEE DCCDDDCEBA - Tarde',
-          'C - 6º Ano - All - CIE(10): DABCEECCAA - Manhã',
-          'U - 6º Ano - Bangu - CIE(10): DABCEECCAA - Manhã',
+          'C - 6º Ano - All - CIE(10): DABCEECCAA',
+          'U - 6º Ano - Bangu - CIE(10): DABCEECCAA',
           'C - 6º Ano - All - CIE(10): DCBCEEACAA - Tarde',
-          'C - 7º Ano - All - CIE(10): EDACDEADAA - Manhã',
+          'C - 7º Ano - All - CIE(10): EDACDEADAA',
           'C - 7º Ano - All - CIE(10): EDACADADAA - Tarde',
-          'C - 8º Ano - All - CIE(10): CAACEDBCBA - Manhã',
+          'C - 8º Ano - All - CIE(10): CAACEDBCBA',
           'C - 8º Ano - All - CIE(10): CBBCBCAECA - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
@@ -1132,15 +1153,15 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 6º Ano - All - POR(10): BBEACCDCEA - Manhã',
+          'C - 6º Ano - All - POR(10): BBEACCDCEA',
           'C - 6º Ano - All - POR(10): BEBCADCACE - Tarde',
-          'C - 7º Ano - All - POR(10): CEBEBEACBE - Manhã',
+          'C - 7º Ano - All - POR(10): CEBEBEACBE',
           'C - 7º Ano - All - POR(10): AECEBEBEBC - Tarde',
-          'C - 8º Ano - All - POR(10): DBBAEDCCBE - Manhã',
+          'C - 8º Ano - All - POR(10): DBBAEDCCBE',
           'C - 8º Ano - All - POR(10): BDAEBCDEBC - Tarde',
-          'C - 1ª Série ENEM - All - POR(10) + GEO(10): AADBCDAEBE BDEDCCEABD - Manhã',
+          'C - 1ª Série ENEM - All - POR(10) + GEO(10): AADBCDAEBE BDEDCCEABD',
           'C - 1ª Série ENEM - All - POR(10) + GEO(10): BCDAEBEAAD BEEABDAABD - Tarde',
-          'C - 2ª Série ENEM - All - POR(10) + GEO(10): EBCCDABECD CECEBECADE - Manhã',
+          'C - 2ª Série ENEM - All - POR(10) + GEO(10): EBCCDABECD CECEBECADE',
           'C - 2ª Série ENEM - All - POR(10) + GEO(10): CEBCBDDACE DBBACEADCE - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
@@ -1152,13 +1173,13 @@ namespace :db do
         exam_name = 'Prova'
         array = [
           'C - 8º Ano - All - MAT(10): CAEBDAECCB - Tarde',
-          'C - 8º Ano - All - MAT(10): EADAEDADAA - Manhã',
+          'C - 8º Ano - All - MAT(10): EADAEDADAA',
           'C - 7º Ano - All - MAT(10): ACDABACAEB - Tarde',
-          'C - 7º Ano - All - MAT(10): ADABACBBAC - Manhã',
+          'C - 7º Ano - All - MAT(10): ADABACBBAC',
           'C - 6º Ano - All - MAT(10): CCAACEDEDC - Tarde',
-          'C - 1ª Série ENEM - All - BIO(10) + LIT(10): BEDBDAAEAE DDECAAEADE - Manhã',
+          'C - 1ª Série ENEM - All - BIO(10) + LIT(10): BEDBDAAEAE DDECAAEADE',
           'C - 1ª Série ENEM - All - BIO(10) + LIT(10): BDDEDBACAE AEADEDECDA - Tarde',
-          'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BAABCACDBE CCBACDCABA - Manhã',
+          'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BAABCACDBE CCBACDCABA',
           'C - 2ª Série ENEM - All - BIO(10) + LIT(10): BEABBCCDBA DCCDDBBAAA - Tarde'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
@@ -1169,7 +1190,7 @@ namespace :db do
         cycle_name = 'P6 - '
         exam_name = 'Prova'
         array = [
-          'C - 6º Ano - All - MAT(10): AAAAAAAAAA - Manhã'
+          'C - 6º Ano - All - MAT(10): AAAAAAAAAA'
         ]
         create_exams_school(array, datetime, cycle_name, exam_name)
       end
@@ -1260,7 +1281,7 @@ namespace :db do
           "U - 9º Ano Militar - Madureira III - MAT(20): ADAEEDCACBBEADEEBDCB",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): ECCDDBDDCDBEDBCAEBCA DAEEECAEEDAE BACAEAACCDCD ACEDBBDEAAAC",
           "C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): ECCDDBDDCDBEDBCAEBCA DAEEECAEEDAE BACAEAACCDCD ACEDBBDEAAAC",
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDADCDCABDCDABB ABBDCD CBCCAC CBDABD BDADBC DCDCC ADBAAA DAAABDCCAC",
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDADCDCABDCDABB ABBDCD CBCCAC CBDABD BDADBC DCDCC ADBAAA DAAABDCCAC",
           "C - 2ª Série Militar - All - QUI(10) + HIS(10) + GEO(10) + BIO(10): BADDECBAEA ADABEBEBED DDBCEAECEE DABEDECADA",
           "U - 2ª Série Militar - Madureira I - QUI(10) + HIS(10) + GEO(10) + BIO(10): CEAEABECBC EBCDACDACA CBCEDCBABD ACECABAEBC",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20):  AAAAAAAAAAAAAAAAAAAA BBECACABCDBDABBBDDAE"
@@ -1307,7 +1328,7 @@ namespace :db do
           "U - 1ª Série Militar - Madureira III - MAT(20): EACEBACBDCABEEABECAB",
           "C - 9º Ano Militar - All - MAT(20): CEBBCDBEADDDABCCDDBD",
           "U - 9º Ano Militar - Madureira III - MAT(20): EACEBACBDCABEEABECAB",
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDCBCCDCBDCDACC BCBCAD ACDDDB CBCADA BBBCBB BBCAB BDCACA DADDCDBCAD"
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): BDCBCCDCBDCDACC BCBCAD ACDDDB CBCADA BBBCBB BBCAB BDCACA DADDCDBCAD"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -1326,7 +1347,7 @@ namespace :db do
           "C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): BBEEBDCDCACDABBBCDCA ACBCCDDBADADCDBDBCAD",
           "C - 9º Ano Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8): AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC DCEACADD",
           "C - 1ª Série Militar - All - POR(8) + MAT(8) + GEO(8) + HIS(8) + FIS(8) + QUI(8) + BIO(8) + ING(8):  AADDDCCC BABAADED AAAAAEEE BBADDEAE ADABBBDD CDBBCAAC BABCCBCC CEBCBCBB",
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD",
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD",
           "C - 2ª Série Militar - Madureira III - HIS(10) + GEO(10) + BIO(10): ECAABEDBBA ECEBCBAEAE AACEBDCECE"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
@@ -1337,7 +1358,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD"
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - LES(5) + POR(40) + MAT(45): EDEEA BAECADCBADAECBDDEADBEEBAABDEACCDCEBADABA DBABACBBECACDECADEAAECEBCCEDBDCEBBBEECDBBAECD"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -1347,7 +1368,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'Simulado'
         array = [
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): EBBCCEBBAEAAAEAEBC DDBDAEBCCCCCCDDBEBEAEAAAEDB DBECBADAEBBDDBE EADDADCCDBCBDBD CABECCADEECADDB",
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(27) + BIO(15) + QUI(15) + FIS(15): EBBCCEBBAEAAAEAEBC DDBDAEBCCCCCCDDBEBEAEAAAEDB DBECBADAEBBDDBE EADDADCCDBCBDBD CABECCADEECADDB",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABCCADCBBDDEEBDBCDCB ACDEDEBABAEB CDACECDEADAA",
           "C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABCCADCBBDDEEBDBCDCB ACDEDEBABAEB CDACECDEADAA",
           "C - AFA/EAAr/EFOMM - All - MAT(20) + FIS(20): DCABBBCEEAEAAADCDADC CCDBBCBDECDECADBAAAE",
@@ -1476,7 +1497,7 @@ namespace :db do
           "C - AFA/EAAr/EFOMM - All - MAT(16) + FIS(16) + POR(16) + ING(16): BBAADDCDADDDBDAD CBDCAECBBDACBACD CACBADDBADBDBADC DCBDADDDCDDABABC",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): CAABCEEBECBDECECBCDA CEBEAAEDDBBE DBECEDCDCEAC",
           "C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(16) + FIS(16) + POR(16) + ING(16): BBAADDCDADDDBDAD CBDCAECBBDACBACD CACBADDBADBDBADC DCBDADDDCDDABABC",
-          "C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + ING(8) + ESP(8) + FIL(8) + SOC(8): CBAEDDBE ABEDCACC CCDCDACA EBCDCDDE DDBDDABB DCAEDBBE EDADBACB BCEDBABB CBDBBACA EDEBECAA BCCACCCD"
+          "C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(8) + MAT(8) + FIS(8) + QUI(8) + BIO(8) + HIS(8) + GEO(8) + ING(8) + ESP(8) + FIL(8) + SOC(8): CBAEDDBE ABEDCACC CCDCDACA EBCDCDDE DDBDDABB DCAEDBBE EDADBACB BCEDBABB CBDBBACA EDEBECAA BCCACCCD"
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -1486,7 +1507,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P16'
         array = [
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(45) + MAT(45): DDCBCDAEBBEACDCCEEBDCDCABEAABAAEBBACCEABEABED AADBABEDCDEDCDBDECBDABDBBABECBBABBCBACBBACCBD'
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(45) + MAT(45): DDCBCDAEBBEACDCCEEBDCDCABEAABAAEBBACCEABEABED AADBABEDCDEDCDBDECBDABDBBABECBBABBCBACBBACCBD'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end
@@ -1509,7 +1530,7 @@ namespace :db do
           'C - EsSA - All - MAT(12) + POR(12) + HIS(6) + GEO(6): CEDCEDDDDABC AEBACBCBCEEB DBAEAC CAEEEC',
           'C - AFA/EAAr/EFOMM - All - POR(25) + ING(25) + MAT(25) + FIS(25): DCEDABBECABDCAABDBACEECDB BABAEAABBCDEDECBDAEAAACDB CBCDCCCADBBBCDDBBDDBCBBAA BCBECCAAADDBACAABBDAEDDEB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DADEDDCCDAEACBBCEEAD BCCEDDEADBDA DBDECCCADECB ABEDADCDDBAA',
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(15) + QUI(15) + FIS(15): CBCEEDDDEACBAEAEDE ACDCACBADECCDBACEBBBCA EDB BC ADEBCDAADDCDDCB DCEABDCCCBECBDE EEEDECCBCEBCDAB',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(15) + QUI(15) + FIS(15): CBCEEDDDEACBAEAEDE ACDCACBADECCDBACEBBBCA EDB BC ADEBCDAADDCDDCB DCEABDCCCBECBDE EEEDECCBCEBCDAB',
           'C - 9º Ano Forte - All - POR(10) + BIO(10) + MAT(10) + GEO(10): CDADBDCDEC DBCCCDBBCB CEEBAEACBB CECDABDEEA',
           'C - CN/EPCAR, 9º Ano Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB BADDCBDCCBDAAACB',
           'C - 1ª Série Militar - All - POR(16) + MAT(16) + ING(16): BCCDDCDDBDACBCBA DBABABBAABDBDDBB DCCCCDABBBAADCCA',
@@ -1577,7 +1598,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P12'
         array = [
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - MAT(60): DBADCCBCDBBCABADBCBABDDABBCABCADCCBCADDDCDBAAAABABBCCDCDABDB'
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - MAT(60): DBADCCBCDBBCABADBCBABDDABBCABCADCCBCADDDCDBAAAABABBCCDCDABDB'
         ]
         create_exams(array, datetime, cycle_name, exam_name)
       end            
@@ -1608,7 +1629,7 @@ namespace :db do
         cycle_name = 'Ciclo 1 - '
         exam_name = 'P10'
         array = [
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DBADCCBCDBBCABA DBCBAB DDABBC ABCADC CBCADD DCDBA AAABAB BCCDCDABDB',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + LES(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DBADCCBCDBBCABA DBCBAB DDABBC ABCADC CBCADD DCDBA AAABAB BCCDCDABDB',
           'C - ESPCEX, 3ª Série + ESPCEX - All - POR(20) + QUI(12) + FIS(12): ABBBABEEBCDEBCECCADB DAABEDACAADA ABAAACBEEAAC',
           'C - AFA/EAAr/EFOMM - All - POR(20) + ING(20):  DCADBABCDEBCCBDCBAAE CCDDDBDCBADAEBBDBCED',
           'C - 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - POR(20) + QUI(12) + FIS(12): BDACCEEAADEDDBACEAEB DAABEDACAADA ABAAACBEEAAC',
@@ -1678,7 +1699,7 @@ namespace :db do
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - MAT(20) + FIS(20): CBBCCDDDDBDAACEDBEEA BAAECDACBDADBAEDDEBB',
           'C - 3ª Série + AFA/ESPCEX, AFA/ESPCEX - All - MAT(20) + HIS(12) + GEO(12) + ING(12): DBDACCEDDCABCCBDEAAA ECDECDCABCAD DBDEEDAAEEAD ABECDCEADBCD',
           'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - MAT(20) + FIS(20): BADDCEDBDCEDCAEBDCCE BAAECDACBDADBAEDDEBB',
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(40) + ING(5) + MAT(45): CABBAEBEEDDCDDAAEEBCADBBBAEDCDACCBDBDCAE ACCCE EBDECDDEBDBCCCBECAAEBDCCAAAAAADCBCDCBDAEEBCED',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(40) + ING(5) + MAT(45): CABBAEBEEDDCDDAAEEBCADBBBAEDCDACCBDBDCAE ACCCE EBDECDDEBDBCCCBECAAEBDCCAAAAAADCBCDCBDAEEBCED',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - MAT(20): BCBBCCEDCAABEBCAEBAD',
           'U - 1ª Série Militar - Madureira III - MAT(20): BCBBCCEDCAABEBCAEBAD',
           'U - 2ª Série Militar - Madureira I - HIS(10) + GEO(10) + BIO(10): CDDCACCAAB EBDCCACEAB DDCDCCEADB'
@@ -1713,7 +1734,7 @@ namespace :db do
           'C - 1ª Série Militar - All - POR(15) + MAT(15) + ING(10): CABDCCADABDADDB BCAECCDCEDBACAC BDDBCAADCB',
           'C - CN/EPCAR, 9º Ano Militar - All - POR(15) + MAT(15) + ING(10): CABDCCADABDADDB BCAECCDCEDBACAC DBBDACACCB',
           'C - IME-ITA, 3ª Série + IME-ITA - All - MAT(20): ACCBEDACAEDCEDABADDB', # + MAT(10)
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(16) + QUI(14) + FIS(15): EEABBECECAECACBDAE BDECDCDCBDAEBBCCBCAAEA DAC AB AECAEDADDDCCBADB BEACDCCEBBACDC AAAAABDAEEBCEAE',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - HIS(18) + GEO(22) + FIL(3) + SOC(2) + BIO(16) + QUI(14) + FIS(15): EEABBECECAECACBDAE BDECDCDCBDAEBBCCBCAAEA DAC AB AECAEDADDDCCBADB BEACDCCEBBACDC AAAAABDAEEBCEAE',
           'U - 1ª Série Militar - Madureira III - POR(15) + MAT(15) + ING(10): BDADDBDCCADACAB DCEDBACACBCAECC DBBDDCBCAA',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(15) + MAT(15) + ING(10): DCCADABDADDBCAB DCEDBACACBCAECC ACACCBDBBD'
         ]
@@ -1760,7 +1781,7 @@ namespace :db do
           'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD',
           'C - AFA/ESPCEX (EFOMM), 3ª Série + AFA/ESPCEX (EFOMM) - All - POR(20) + ING(20): CABDBDECBADCBCACBEAE CACBEBCBABBAECBDACBD', # MODELO EFOMM
           'C - CN/EPCAR, 9º Ano Militar - All - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): CEDEBAACDBDBABBDBBCA AACADD ACBDCC CBBADE EDABCB ABCDED', 
-          'C - Pré-Vestibular Manhã, 3ª Série + Pré-Vestibular Manhã, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DCAAADBACBBBABA BDBACD DABCAD BCADCC CDDCBA BDADC CCCADE DAADBCBBCB ',
+          'C - Pré-Vestibul, 3ª Série + Pré-Vestibul, Pré-Vestibular Biomédicas, 3ª Série + Pré-Vestibular Biomédicas, Pré-Vestibular Noite - All - POR(15) + ING(6) + MAT(6) + FIS(6) + QUI(6) + BIO(5) + HIS(6) + GEO(10): DCAAADBACBBBABA BDBACD DABCAD BCADCC CDDCBA BDADC CCCADE DAADBCBBCB ',
           'C - 2ª Série Militar - All - MAT(15) + FIS(15): DCBECCDBDBCACCD ADAABAEEEABDCCC',
           'U - 1ª Série Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB DEBBED DEDABC',
           'U - CN/EPCAR, 9º Ano Militar - Madureira III - POR(20) + GEO(6) + HIS(6) + FIS(6) + QUI(6) + BIO(6): ACDBDBABBDBBCACEDEBA ADDAAC DCCACB ADECBB BCBEDA DEDABC'
