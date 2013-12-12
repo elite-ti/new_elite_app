@@ -4,7 +4,7 @@ namespace :db do
     namespace :real do
         task add_exams_11DEC: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 06 Dec 2013 14:00:00 BRT -03:00'
+          datetime = 'Mon, 11 Dec 2013 14:00:00 BRT -03:00'
           cycle_name = 'Recuperação - Final - '
           exam_name = 'Prova'
           array = [
