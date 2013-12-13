@@ -56,7 +56,7 @@ private
   end
 
   def create_questions
-    correct_answers_with_subjects = Hash[*subject_id.zip(correct_answers).flatten]
+    # correct_answers_with_subjects = Hash[*subject_id.zip(correct_answers).flatten]
     # correct_answers_with_subjects.each do |code, answer|
     correct_answers.split('').each do |answer|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
