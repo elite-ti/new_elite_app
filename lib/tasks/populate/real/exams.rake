@@ -8,6 +8,25 @@ namespace :db do
           cycle_name = 'Recuperação - Final - '
           exam_name = 'Prova'
           array = [
+            'C - 1ª Série ENEM - All - MAT(10): EBBBBCCDCB',
+            'C - 1ª Série ENEM - All - SOC(10): ACCBACEABC',
+            'C - 2ª Série ENEM - All - MAT(10): CACCBBDEAE',
+            'C - 2ª Série ENEM - All - SOC(10): DCEECAADAC',
+            'C - 6º Ano - All - ESP(10): BCDBEABEAA',
+            'C - 6º Ano - All - MAT(10): CCEABCCDBC',
+            'C - 7º Ano - All - ESP(10): BABBABCDAA',
+            'C - 7º Ano - All - MAT(10): BABBCADEBC',
+            'C - 8º Ano - All - ESP(10): DAECBBDECA',
+            'C - 8º Ano - All - MAT(10): BACDBBBCCE'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end      
+        task add_exams_16DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 16 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
             'C - 9º Ano Forte - All - MAT(10): ACDACDECDB'
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
