@@ -2,6 +2,19 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_18DEC: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 18 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - GEO(10): ADEBBDEDAB',
+            'C - 1ª Série ENEM - All - POR(10): ABCEBCDCAB',
+            'C - 2ª Série ENEM - All - GEO(10): EEEDACBCBB',
+            'C - 2ª Série ENEM - All - POR(10): BAECBCADED'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end
         task add_exams_17DEC_1: :environment do
           p 'Adding exams'
           datetime = 'Mon, 17 Dec 2013 14:00:00 BRT -03:00'
