@@ -2,6 +2,27 @@
 namespace :db do
   namespace :populate do
     namespace :real do
+        task add_exams_17DEC_1: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 17 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM - All - ESP(10): EADECCECAC',
+            'C - 1ª Série ENEM - All - HIS(10): CECCDDEEEC',
+            'C - 1ª Série ENEM - All - ING(10): DCDEBEDDCA',
+            'C - 2ª Série ENEM - All - ESP(10): ABDADDCEDD',
+            'C - 2ª Série ENEM - All - HIS(10): CBCCDCECEA',
+            'C - 2ª Série ENEM - All - ING(10): ABABCBCACA',
+            'C - 6º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - CIE(10): CABDECBCDE',
+            'C - 6º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - EDF(10): AEEACACCCD',
+            'C - 7º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - CIE(10): AEECBCDAED',
+            'C - 7º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - EDF(10): DEDEABCEBD',
+            'C - 8º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - CIE(10): BCDEAEABCB',
+            'C - 8º Ano - Bangu, Madureira II, Valqueire, NorteShopping, Taquara - EDF(10): BCDCABDEEA'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end  
         task add_exams_17DEC: :environment do
           p 'Adding exams'
           datetime = 'Mon, 17 Dec 2013 14:00:00 BRT -03:00'
