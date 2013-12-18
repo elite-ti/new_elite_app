@@ -35,6 +35,16 @@ namespace :db do
           ]
           create_exams_school(array, datetime, cycle_name, exam_name)
         end  
+        task add_exams_16DEC_2: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 16 Dec 2013 14:00:00 BRT -03:00'
+          cycle_name = 'Recuperação - Final - '
+          exam_name = 'Prova'
+          array = [
+            'U - 1ª Série ENEM - Madureira II - MAT(10): EBBBBCCDCB'
+          ]
+          create_exams_school(array, datetime, cycle_name, exam_name)
+        end      
         task add_exams_16DEC_1: :environment do
           p 'Adding exams'
           datetime = 'Mon, 16 Dec 2013 14:00:00 BRT -03:00'
