@@ -1,6 +1,6 @@
 <%= title @employee.name, 
   (link_to('Edit', edit_employee_path(@employee)) if can?(:update, @employee)),
-  link_to('Back', employees_path) %>
+  link_to(t('Back'), employees_path) %>
 
 <div id='employee_important_fields'>
   <div class='resource'>
@@ -19,7 +19,7 @@
     <li><a href='#info_tab'>Info</a></li>
 
     <% if @employee.teacher? %>
-      <li><%= link_to 'Calendar', teacher_periods_path(@employee.teacher), title: 'calendar_tab' %></li>
+      <li><%= link_to 'Calendário', teacher_periods_path(@employee.teacher), title: 'calendar_tab' %></li>
       <li><%= link_to 'Disponibilidade', teacher_path(@employee.teacher), title: 'availability' %></li>
     <% end %>
   </ul>
@@ -79,8 +79,10 @@
   <div id='calendar_tab'></div>
 
   <div id='availability'>
-    <%if @employee.teacher.availability? %>
-      <%= image_tag @employee.teacher.availability, width: '500' %>
+    <% if !@employee.teacher.nil? %>
+      <% if !@employee.teacher.availability.blank? %>
+        <%= image_tag @employee.teacher.availability, width: '500' %>
+      <% end %>
     <% end %>
   </div>
 </div>
