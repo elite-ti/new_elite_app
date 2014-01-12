@@ -52,7 +52,7 @@ class StudentExam < ActiveRecord::Base
 
   def possible_students
     if is_bolsao
-      return Applicant.where(exam_campus_id: campus.id, exam_datetime: (exam_date.beginning_of_day..exam_date.end_of_day)).includes(:student => :applicants)
+      return Applicant.where(exam_campus_id: campus.id, exam_datetime: (exam_date.beginning_of_day..exam_date.end_of_day)).includes(:student => :applicants).map(&:student)
     else
       return campus.enrolled_students
     end
