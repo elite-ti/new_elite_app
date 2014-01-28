@@ -18,21 +18,21 @@ load 'config/recipes/card_scanner'
 load 'config/recipes/carrierwave'
 load 'config/recipes/bkp'
 
-server '50.116.8.31', :web, :app, :db, primary: true
+server '23.92.28.34', :web, :app, :db, primary: true
 
 set :user, 'deployer'
 set :application, 'new_elite_app'
 set :repository, "git@github.com:elite-ti/#{application}.git"
 
-set :google_oauth2_client_id, '941270192118-0meb3qbgdppucv72rfc2g2453c5tnguu.apps.googleusercontent.com'
-set :google_oauth2_client_secret, 'KxGSxcsiKP-9tLmyjZvhhYBo'
+set :google_oauth2_client_id, '206044196953.apps.googleusercontent.com'
+set :google_oauth2_client_secret, 'bjtHElE-zMyIAEuBiapOuwpR'
 
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, 'git'
-set :branch, 'production'
+set :branch, 'pensi'
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
