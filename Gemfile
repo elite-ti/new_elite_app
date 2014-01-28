@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails'
 gem 'pg'
-gem 'mysql2'
 
 gem 'capistrano'
 gem 'unicorn'
