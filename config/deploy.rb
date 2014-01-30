@@ -24,8 +24,8 @@ set :user, 'deployer'
 set :application, 'new_elite_app'
 set :repository, "git@github.com:elite-ti/#{application}.git"
 
-set :google_oauth2_client_id, '206044196953.apps.googleusercontent.com'
-set :google_oauth2_client_secret, 'bjtHElE-zMyIAEuBiapOuwpR'
+set :google_oauth2_client_id, '4908308523.apps.googleusercontent.com'
+set :google_oauth2_client_secret, 'RfSTUOdYYhNMWCS6UizUcNRj'
 
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
