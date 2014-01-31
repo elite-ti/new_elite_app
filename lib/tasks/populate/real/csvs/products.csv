@@ -1,29 +1,26 @@
-Não regular,Não regular,,,,01
-1ª Série Militar,Pré-Militar,11,MIL,,02
-1ª Série ENEM,Colégio,11,,,03
-2ª Série Militar,Pré-Militar,12,MIL,,04
-2ª Série ENEM,Colégio,12,,,05
-// 3ª Série + AFA/EFOMM,Pré-Militar,3AFA,,,06
-3ª Série + ESPCEX,Pré-Militar,3ESP,,,07
-3ª Série + IME-ITA,Pré-Militar,3IME,,,08
-3ª Série + Pré-Vestibular Biomédicas,Pré-Vestibular,3BIO,,,09
-3ª Série + Pré-Vestibular Manhã,Pré-Vestibular,3PVM,,,10
-6º Ano,Colégio,6,,,11
-7º Ano,Colégio,7,,,12
-8º Ano,Colégio,8,,,13
-9º Ano Forte,Colégio,9,F,,14
-9º Ano Militar,Pré-Militar,9,MIL,,15
-AFA/EAAr/EFOMM,Pré-Militar,AEA,,,16
-AFA/EN/EFOMM,Pré-Militar,AEE,,,17
-ESPCEX,Pré-Militar,ESP,,,18
-EsSA,Pré-Militar,ESA,,,19
-IME-ITA,Pré-Militar,IME,,,20
-IME-ITA Especial,Pré-Militar,IES,,,21
-Pré-Vestibular Biomédicas,Pré-Vestibular,BIO,,,22
-Pré-Vestibular Manhã,Pré-Vestibular,PVM,,,23
-Pré-Vestibular Noite,Pré-Vestibular,PVN,,,24
-AFA/ESPCEX,Pré-Militar,AES,,,25
-CN/EPCAR,Pré-Militar,NAV,,,26
-Escolas Técnicas,Pré-Vestibular,TEC,,,27
-3ª Série + AFA/ESPCEX,Pré-Militar,3AES,,,28
-3ª Série + AFA/EN/EFOMM,Pré-Militar,3AEE,,,29
+1ª série,Ensino Médio,,,,01
+2ª série,Ensino Médio,,,,02
+3ª série,Ensino Médio,,,,03
+9º Ano,Ensino Fundamental,,,,04
+AFA/EFOMM,Curso Livre,,,,05
+EsPCEx,Curso Livre,,,,06
+Pré-vestibular,Curso Livre,,,,07
+1º Ano,Ensino Fundamental,,,,08
+2º Ano,Ensino Fundamental,,,,09
+3º Ano,Ensino Fundamental,,,,10
+4º Ano,Ensino Fundamental,,,,11
+5º Ano,Ensino Fundamental,,,,12
+6º Ano,Ensino Fundamental,,,,13
+7º Ano,Ensino Fundamental,,,,14
+8º Ano,Ensino Fundamental,,,,15
+Medicina,Curso Livre,,,,16
+Dependência 1ª série,Dependência,,,,17
+Dependência 2ª série,Dependência,,,,18
+IME/ITA,Curso Livre,,,,19
+Dependência 9° ano,Dependência,,,,20
+Dependência 8º ano,Dependência,,,,21
+EsSA,Curso Livre,,,,22
+Preparatório,Curso Livre,,,,23
+Dependência 7º ano,Dependência,,,,24
+Pré IME 1,Curso Livre,,,,25
+Pré IME 2,Curso Livre,,,,26
