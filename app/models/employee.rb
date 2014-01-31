@@ -38,9 +38,9 @@ class Employee < ActiveRecord::Base
     e.accepts_nested_attributes_for :address
   end
 
-  validates :email, uniqueness: true, allow_blank: true, 
-    format: { with: /\A([^@\s]+)@sistemaeliterio\.com\.br\z/i }
-  validates :elite_id, presence: true, uniqueness: true
+  # validates :email, uniqueness: true, allow_blank: true, 
+  #   format: { with: /\A([^@\s]+)@sistemaeliterio\.com\.br\z/i }
+  # validates :elite_id, presence: true, uniqueness: true
   validates :name, presence: true
 
   # TODO: add hr role
