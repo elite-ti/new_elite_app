@@ -18,8 +18,8 @@ class StudentsController < ApplicationController
   end
 
   def import
-    imported_students = Student.import(params[:file])
-    redirect_to root_url, notice: "#{imported_students} alunos importados com sucesso."
+    StudentCsvImportWorker.perform_async(params[:file])
+    redirect_to root_url, notice: "Alunos importados com sucesso."
   end
 
   def show
