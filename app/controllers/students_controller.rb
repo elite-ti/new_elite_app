@@ -17,6 +17,11 @@ class StudentsController < ApplicationController
     end
   end
 
+  def import
+    imported_students = Student.import(params[:file])
+    redirect_to root_url, notice: "#{imported_students} alunos importados com sucesso."
+  end
+
   def show
     @is_bolsao = @student.applicants.size > 0
   end

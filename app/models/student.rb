@@ -114,6 +114,23 @@ class Student < ActiveRecord::Base
     end
   end
 
+  def self.import(file)
+    success = 0
+    CSV.foreach(file.path) do |row|
+      super_klazz_ids = SuperKlazz.where(
+        product_year_id: ProductYear.where(name: row[2]).first.id,
+        campus_id: Campus.where(name: row[3]).first.id
+      ).map(&:id)
+      next if super_klazz_ids.size <= 0 || Student.where(ra: row[0]).size > 0
+      student = Student.create!(
+        ra: row[0],
+        name: row[1]
+      )
+      student.enrolled_super_klazz_ids = super_klazz_ids
+      success = success + 1
+    end
+    success
+  end
 
   def log_changes(message)
     File.open("log.txt", "a"){ |somefile| somefile.puts message }

@@ -24,10 +24,15 @@ EliteApp::Application.routes.draw do
   resources :exams
   resources :questions
   resources :exam_cycles
-  resources :applicants
+  resources :applicants  do
+    
+  end
   resources :students do 
     member do 
       get :fix_ra
+    end
+    collection do
+      post :import
     end
   end
 

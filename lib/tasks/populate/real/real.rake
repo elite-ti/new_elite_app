@@ -123,11 +123,11 @@ namespace :db do
       end
 
       task klazzes: :environment do
-        p 'Populating product years'
+        p 'Populating Klazzes'
         ActiveRecord::Base.transaction do 
-          read_csv('products').each do |klazz_name, campus_name, product_name|
+          read_csv('klazzes').each do |klazz_name, campus_name, product_name|
             Klazz.create!(
-              name: klazz_name, 
+              name: campus_name + ' - ' + klazz_name, 
               super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).id, 
               year_id: Year.first.id)
           end

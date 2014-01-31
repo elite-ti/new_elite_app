@@ -10,8 +10,17 @@
       %>
       <%= hidden_field_tag :is_bolsao, true %>
       <%= submit_tag "Filtrar", :name => nil %>
-    </p>
+    </br>
+    </br>
   <% end %>
+
+<% elsif current_employee.admin? %>
+  <h2>Importar Alunos</h2>
+  <%= form_tag import_students_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Importar" %>
+  <% end %>
+
 <% end %>
 
 <table id="students" class="display is-datatable">
