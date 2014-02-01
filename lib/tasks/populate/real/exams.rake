@@ -2,9 +2,9 @@
 namespace :db do
   namespace :populate do
     namespace :real do
-        task add_exams_25JAN: :environment do
+        task add_exams_02FEB: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 25 Jan 2014 14:00:00 BRT -03:00'
+          datetime = 'Mon, 02 Feb 2014 14:00:00 BRT -03:00'
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
