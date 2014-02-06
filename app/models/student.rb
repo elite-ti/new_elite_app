@@ -116,6 +116,7 @@ class Student < ActiveRecord::Base
 
   def self.import(file)
     success = 0
+    p file
     CSV.foreach(file.path) do |row|
       super_klazz_ids = SuperKlazz.where(
         product_year_id: ProductYear.where(name: row[2]).first.id,
