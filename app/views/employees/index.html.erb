@@ -1,12 +1,11 @@
-<%= title 'Employees', 
-  (link_to('New Employee', new_employee_path) if can?(:create, Employee)) %>
+<%= title 'Funcionários', 
+  (link_to('Novo Funcionário', new_employee_path) if can?(:create, Employee)) %>
 
 <table id='employees' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>EliteID</th>
-      <th>Roles</th>
+      <th>Nome</th>
+      <th>Credenciais</th>
     </tr>
   </thead>
 
@@ -16,16 +15,15 @@
       <td>
         <%= employee.name %>
         <span>
-          <%= link_to 'Show', employee_path(employee) %>
+          <%= link_to 'Mostrar', employee_path(employee) %>
           <% if can?(:update, employee) %>
-            | <%= link_to 'Edit', edit_employee_path(employee) %> 
+            | <%= link_to 'Editar', edit_employee_path(employee) %> 
           <% end %>
           <% if can?(:update, :employee_sessions) %>
-            | <%= link_to 'Login as', login_as_path(employee) %>
+            | <%= link_to 'Entrar como', login_as_path(employee) %>
           <% end %>
         </span>
       </td>
-      <td><%= employee.elite_id %></td>
       <td><%= employee.roles.map(&:titleize).join(', ') %></td>
     </tr>
   <% end %>

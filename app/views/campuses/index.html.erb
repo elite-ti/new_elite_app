@@ -1,10 +1,10 @@
 <%= title 'Unidades', 
-  (link_to('New Campus', new_campus_path) if can?(:create, Campus)) %>
+  (link_to('Nova Unidade', new_campus_path) if can?(:create, Campus)) %>
 
 <table id='campuses' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Nome</th>
     </tr>
   </thead>
 
@@ -14,9 +14,9 @@
         <td>
           <%= campus.name %>
           <span>
-            <%= link_to('Show', campus) %> 
+            <%= link_to('Mostrar', campus) %> 
             <% if can?(:update, campus) %>
-              | <%= link_to('Edit', edit_campus_path(campus)) %>
+              | <%= link_to('Editar', edit_campus_path(campus)) %>
             <% end %>
           </span>
         </td>

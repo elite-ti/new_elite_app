@@ -1,11 +1,11 @@
-<%= title 'Years', link_to('New Year', new_year_path) %>
+<%= title 'Anos', link_to('Novo Ano', new_year_path) %>
 
 <table id="years" class="display is-datatable">
   <thead>
     <tr>
-      <th>Number</th>
-      <th>Start date</th>
-      <th>End date</th>
+      <th>Ano</th>
+      <th>Início</th>
+      <th>Final</th>
     </tr>
   </thead>
 
@@ -14,7 +14,7 @@
     <tr>
       <td>
         <%= year.number %> 
-        <%= link_to 'Edit', edit_year_path(year), class: 'float-right' %>
+        <%= link_to 'Editar', edit_year_path(year), class: 'float-right' %>
       </td>
       <td><%= print_date(year.start_date) %></td>
       <td><%= print_date(year.end_date) %></td>

@@ -1,7 +1,7 @@
 namespace :db do
   namespace :populate do
     namespace :real do 
-      task students: :environment do
+      task populate_students: :environment do
         p 'Populating students'
         ActiveRecord::Base.transaction do 
           read_csv('students').each do |ra, name, klazz_name|

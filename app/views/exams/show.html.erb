@@ -3,21 +3,21 @@
   link_to('Back', exams_path) %>
 
 <div class='resource'>
-  <p><span>Datetime: </span><%= print_datetime(@exam.datetime) %>
-  <p><span>Exam Cycle: </span><%= @exam.exam_cycle.name %>
-  <p><span>Subjects: </span><%= @exam.subjects.map(&:name).join(', ') %>
-  <p><span>Options per Question: </span><%= @exam.options_per_question.to_s %>
-  <p><span>Correct Answers: </span><%= @exam.correct_answers %>
+  <p><span>Data de aplicação: </span><%= @exam.exam_executions.map(&:datetime).uniq.map{|dt| print_datetime(dt)}.join(', ') %>
+  <p><span>Ciclo: </span><%= @exam.exam_executions.first.exam_cycle.name %>
+  <p><span>Disciplinas: </span><%= @exam.exam_subjects.map(&:name).join(', ') %>
+  <p><span>Opções por questão: </span><%= @exam.options_per_question.to_s %>
+  <p><span>Gabarito: </span><%= @exam.correct_answers %>
 </div>
 
-<h2>Questions</h2>
+<h2>Questões</h2>
 <table id='exam_questions' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Question</th>
-      <th>Model Answer</th>
-      <th>Correct Answers</th>
-      <th>Topics</th>
+      <th>Questão</th>
+      <th>Resposta</th>
+      <th>Gabarito</th>
+      <th>Disciplina</th>
     </tr>
   </thead>
 
@@ -27,8 +27,8 @@
       <td>
         <%= question.stem %>
         <span>
-          <%= link_to 'Show', question %> |
-          <%= link_to 'Edit', edit_question_path(question) %>
+          <%= link_to 'Mostrar', question %> |
+          <%= link_to 'Editar', edit_question_path(question) %>
         </span>
       </td>
       <td><%= question.model_answer %></td>

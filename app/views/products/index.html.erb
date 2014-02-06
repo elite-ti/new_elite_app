@@ -1,11 +1,10 @@
-<%= title 'Products', link_to('New Product', new_product_path) %>
+<%= title 'Produtos', link_to('Novo Produto', new_product_path) %>
 
 <table id='products' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Product type</th>
-      <th>Product Group</th>
+      <th>Nome</th>
+      <th>Segmento</th>
     </tr>
   </thead>
 
@@ -14,10 +13,9 @@
     <tr>
       <td>
         <%= product.name %>
-        <%= link_to 'Edit', edit_product_path(product), class: 'float-right' %>
+        <%= link_to 'Editar', edit_product_path(product), class: 'float-right' %>
       </td>
       <td><%= product.product_type.name %></td>
-      <td><%= product.product_group.try(:name) %></td>
     </tr>
   <% end %>
   </tbody>

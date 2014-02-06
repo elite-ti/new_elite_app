@@ -2,9 +2,9 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :number %>
-    <%= f.input :start_date, as: :date %>
-    <%= f.input :end_date, as: :date %>
+    <%= f.input :number, label: 'Ano' %>
+    <%= f.input :start_date, as: :date, label: 'Início' %>
+    <%= f.input :end_date, as: :date, label: 'Término' %>
   </div>
 
   <div class="form-actions">

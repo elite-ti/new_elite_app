@@ -1,5 +1,5 @@
 <%= title 'Turmas', 
-  (link_to('New Klazz', new_klazz_path) if can?(:create, Klazz)) %>
+  (link_to('Nova Turma', new_klazz_path) if can?(:create, Klazz)) %>
 
 <table id="klazzes" class="display is-datatable">
   <thead>
@@ -15,9 +15,9 @@
       <td>
         <%= klazz.name %>
         <span class='float-right'>
-          <%= link_to 'Show', klazz %>
+          <%= link_to 'Mostrar', klazz %>
           <% if can?(:update, klazz) %>
-            | <%= link_to 'Edit', edit_klazz_path(klazz) %>
+            | <%= link_to 'Editar', edit_klazz_path(klazz) %>
           <% end %>
         </span>
       </td>

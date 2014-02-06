@@ -1,285 +1,384 @@
-1ª série Militar A - M,Campo Grande,1ª série
-1ª série Regular A - M,Campo Grande,1ª série
-2ª série Militar A - M,Campo Grande,2ª série
-2ª série Regular A - M,Campo Grande,2ª série
-3ª série AFA/EFOMM A - T,Campo Grande,3ª série
-3ª série Medicina A - M,Campo Grande,3ª série
-3ª série Pré-vestibular A - M,Campo Grande,3ª série
-9º ano Preparatório A - M,Campo Grande,9º Ano
+1ª série Militar A - M,Campo Grande,1ª série Militar
+1ª série Militar B - T,Campo Grande,1ª série Militar
+1ª série Regular A - M,Campo Grande,1ª série Regular
+1ª série Regular B - T,Campo Grande,1ª série Regular
+2ª série Militar A - M,Campo Grande,2ª série Militar
+2ª série Regular A - M,Campo Grande,2ª série Regular
+3ª série AFA/EFOMM A - T,Campo Grande,3ª Série AFA/EFOMM
+3ª série IME/ITA A - T,Campo Grande,3ª Série IME/ITA
+3ª série Medicina A - M,Campo Grande,3ª Série Medicina
+3ª série Pré-vestibular A - M,Campo Grande,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - T,Campo Grande,3ª Série Pré-vestibular
+9º ano Preparatório A - M,Campo Grande,9º Ano Preparatório
 AFA/EFOMM A - T,Campo Grande,AFA/EFOMM
+Campo Grande - Dependência - 1ª série,Campo Grande,Dependência 1ª série
+Campo Grande - Dependência - 2ª série,Campo Grande,Dependência 2ª série
+Campo Grande - Dependência - 9º ano,Campo Grande,Dependência 9° ano
 EsPCEx A - T,Campo Grande,EsPCEx
-Medicina A - M,Campo Grande,Pré-vestibular
+IME/ITA A - T,Campo Grande,IME/ITA
+Medicina A - M,Campo Grande,Medicina
 Pré-vestibular A - M,Campo Grande,Pré-vestibular
 Pré-vestibular B - N,Campo Grande,Pré-vestibular
-1ª série Regular A - M,Freguesia 1,1ª série
-1ª série Regular B - M,Freguesia 1,1ª série
-1ª série Regular C - T,Freguesia 1,1ª série
-1ª série Regular D - T,Freguesia 1,1ª série
-1º ano A - M,Freguesia 1,1º Ano
-1º ano B - T,Freguesia 1,1º Ano
-2ª série Regular A - M,Freguesia 1,2ª série
-2ª série Regular B - M,Freguesia 1,2ª série
-2ª série Regular C - T,Freguesia 1,2ª série
-2º ano A - M,Freguesia 1,2º Ano
-2º ano B - T,Freguesia 1,2º Ano
-3ª série Medicina  A - M,Freguesia 1,3ª série
-3ª série Pré-vestibular A - M,Freguesia 1,3ª série
-3ª série Pré-vestibular B - M,Freguesia 1,3ª série
-3ª série Pré-vestibular D - T,Freguesia 1,3ª série
-3º ano A - M,Freguesia 1,3º Ano
-3º ano B - T,Freguesia 1,3º Ano
-4º ano A - M,Freguesia 1,4º Ano
-4º ano B - T,Freguesia 1,4º Ano
-5º ano A - M,Freguesia 1,5º Ano
-5º ano B - T,Freguesia 1,5º Ano
-6º ano A - M,Freguesia 1,6º Ano
-6º ano B - M,Freguesia 1,6º Ano
-6º ano C - T,Freguesia 1,6º Ano
-7º ano A - M,Freguesia 1,7º Ano
-7º ano B - M,Freguesia 1,7º Ano
-7º ano C - T,Freguesia 1,7º Ano
-8º ano A - M,Freguesia 1,8º Ano
-8º ano B - M,Freguesia 1,8º Ano
-8º ano C - T,Freguesia 1,8º Ano
-9º ano A - M,Freguesia 1,9º Ano
-9º ano B - M,Freguesia 1,9º Ano
-9º ano C - T,Freguesia 1,9º Ano
-9º ano Preparatório A - T,Freguesia 1,9º Ano
+1ª série Regular A - M,Freguesia 1,1ª série Regular
+1ª série Regular B - M,Freguesia 1,1ª série Regular
+1ª série Regular C - T,Freguesia 1,1ª série Regular
+1ª série Regular D - T,Freguesia 1,1ª série Regular
+1º ano A - M,Freguesia 1,EF 1º ano
+1º ano B - T,Freguesia 1,EF 1º ano
+2ª série Regular A - M,Freguesia 1,2ª série Regular
+2ª série Regular B - M,Freguesia 1,2ª série Regular
+2ª série Regular C - T,Freguesia 1,2ª série Regular
+2º ano A - M,Freguesia 1,EF 2º ano
+2º ano B - T,Freguesia 1,EF 2º ano
+3ª série Medicina  A - M,Freguesia 1,3ª Série Medicina
+3ª série Pré-vestibular A - M,Freguesia 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Freguesia 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - M,Freguesia 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular D - T,Freguesia 1,3ª Série Pré-vestibular
+3º ano A - M,Freguesia 1,EF 3º ano
+3º ano B - T,Freguesia 1,EF 3º ano
+4º ano A - M,Freguesia 1,EF 4º ano
+4º ano B - T,Freguesia 1,EF 4º ano
+5º ano A - M,Freguesia 1,EF 5º ano
+5º ano B - T,Freguesia 1,EF 5º ano
+6º ano A - M,Freguesia 1,EF 6º ano
+6º ano B - M,Freguesia 1,EF 6º ano
+6º ano C - T,Freguesia 1,EF 6º ano
+7º ano A - M,Freguesia 1,EF 7º ano
+7º ano B - M,Freguesia 1,EF 7º ano
+7º ano C - T,Freguesia 1,EF 7º ano
+8º ano A - M,Freguesia 1,EF 8º ano
+8º ano B - M,Freguesia 1,EF 8º ano
+8º ano C - T,Freguesia 1,EF 8º ano
+9º ano A - M,Freguesia 1,EF 9º ano
+9º ano B - M,Freguesia 1,EF 9º ano
+9º ano C - T,Freguesia 1,EF 9º ano
+9º ano Preparatório A - T,Freguesia 1,9º Ano Preparatório
+Freguesia 1 - Dependência - 1ª série,Freguesia 1,Dependência 1ª série
+Freguesia 1 - Dependência - 2ª série,Freguesia 1,Dependência 2ª série
+Freguesia 1 - Dependência - 6º ano,Freguesia 1,Dependência 6º ano
+Freguesia 1 - Dependência - 7º ano,Freguesia 1,Dependência 7º ano
+Freguesia 1 - Dependência - 8º ano,Freguesia 1,Dependência 8º ano
+Freguesia 1 - Dependência - 9º ano,Freguesia 1,Dependência 9° ano
 Medicina  A - M,Freguesia 1,Medicina
+Preparatório A - T,Freguesia 1,Preparatório
 Pré-vestibular A - M,Freguesia 1,Pré-vestibular
 Pré-vestibular B - M,Freguesia 1,Pré-vestibular
 Pré-vestibular C - M,Freguesia 1,Pré-vestibular
 Pré-vestibular D - T,Freguesia 1,Pré-vestibular
 Pré-vestibular E - N,Freguesia 1,Pré-vestibular
-1ª série Militar A - M,Icaraí 1,1ª série
-2ª série Militar A - M,Icaraí 1,2ª série
-2ª série Regular A - M,Icaraí 1,2ª série
-3ª série IME/ITA A - T,Icaraí 1,3ª série
-3ª série Medicina A - M,Icaraí 1,3ª série
-3ª série Pré-vestibular A - M,Icaraí 1,3ª série
-3ª série Pré-vestibular B - M,Icaraí 1,3ª série
-3ª série Pré-vestibular C - M,Icaraí 1,3ª série
-3ª série Pré-vestibular D - T,Icaraí 1,3ª série
+1ª série Militar A - M,Icaraí 1,1ª série Militar
+1ª série Regular A - T,Icaraí 1,1ª série Regular
+2ª série Militar A - M,Icaraí 1,2ª série Militar
+2ª série Regular A - M,Icaraí 1,2ª série Regular
+2ª série Regular B - M,Icaraí 1,2ª série Regular
+2ª série Regular C - T,Icaraí 1,2ª série Regular
+3ª série AFA/EFOMM A - T,Icaraí 1,3ª Série AFA/EFOMM
+3ª série IME/ITA A - T,Icaraí 1,3ª Série IME/ITA
+3ª série Medicina A - M,Icaraí 1,3ª Série Medicina
+3ª série Pré-vestibular A - M,Icaraí 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Icaraí 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - M,Icaraí 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular D - T,Icaraí 1,3ª Série Pré-vestibular
+AFA/EFOMM A - T,Icaraí 1,AFA/EFOMM
 Icaraí 1 - Dependência - 1ª série,Icaraí 1,Dependência 1ª série
 Icaraí 1 - Dependência - 2ª série,Icaraí 1,Dependência 2ª série
+Icaraí 1 - Dependência - 9º ano,Icaraí 1,Dependência 9° ano
 IME/ITA A - T,Icaraí 1,IME/ITA
-Medicina A - M,Icaraí 1,Pré-vestibular
+Medicina A - M,Icaraí 1,Medicina
 Pré-vestibular A - M,Icaraí 1,Pré-vestibular
 Pré-vestibular B - M,Icaraí 1,Pré-vestibular
 Pré-vestibular C - M,Icaraí 1,Pré-vestibular
 Pré-vestibular D - T,Icaraí 1,Pré-vestibular
 Pré-vestibular E - N,Icaraí 1,Pré-vestibular
-1ª série Regular A - M,Icaraí 2,1ª série
-1ª série Regular B - M,Icaraí 2,1ª série
-1ª série Regular C- T,Icaraí 2,1ª série
-1º ano A - M,Icaraí 2,1º Ano
-2ª série Regular A - M,Icaraí 2,2ª série
-2ª série Regular B - M,Icaraí 2,2ª série
-2ª série Regular C- T,Icaraí 2,2ª série
-2º ano A - M,Icaraí 2,2º Ano
-3º ano A - M,Icaraí 2,3º Ano
-4º ano A - M,Icaraí 2,4º Ano
-5º ano A - M,Icaraí 2,5º Ano
-6º ano A - M,Icaraí 2,6º Ano
-7º ano A - M,Icaraí 2,7º Ano
-8º ano A - M,Icaraí 2,8º Ano
-9º ano A - M,Icaraí 2,9º Ano
-9º ano B - M,Icaraí 2,9º Ano
+1ª série Regular A - M,Icaraí 2,1ª série Regular
+1ª série Regular B - M,Icaraí 2,1ª série Regular
+1ª série Regular C- T,Icaraí 2,1ª série Regular
+1º ano A - M,Icaraí 2,EF 1º ano
+2ª série Militar A - M,Icaraí 2,2ª série Militar
+2ª série Regular A - M,Icaraí 2,2ª série Regular
+2ª série Regular B - M,Icaraí 2,2ª série Regular
+2ª série Regular C- T,Icaraí 2,2ª série Regular
+2º ano A - M,Icaraí 2,EF 2º ano
+3º ano A - M,Icaraí 2,EF 3º ano
+4º ano A - M,Icaraí 2,EF 4º ano
+5º ano A - M,Icaraí 2,EF 5º ano
+6º ano A - M,Icaraí 2,EF 6º ano
+7º ano A - M,Icaraí 2,EF 7º ano
+8º ano A - M,Icaraí 2,EF 8º ano
+9º ano A - M,Icaraí 2,EF 9º ano
+9º ano B - M,Icaraí 2,EF 9º ano
+Icaraí 2 - Dependência - 1ª série,Icaraí 2,Dependência 1ª série
+Icaraí 2 - Dependência - 2ª série,Icaraí 2,Dependência 2ª série
+Icaraí 2 - Dependência - 6º ano,Icaraí 2,Dependência 6º ano
+Icaraí 2 - Dependência - 7º ano,Icaraí 2,Dependência 7º ano
+Icaraí 2 - Dependência - 8º ano,Icaraí 2,Dependência 8º ano
 Icaraí 2 - Dependência - 9º ano,Icaraí 2,Dependência 9° ano
-6º ano A - M,Ilha do Governador 1,6º Ano
-6º ano A - T,Ilha do Governador 1,6º Ano
-7º ano A - M,Ilha do Governador 1,7º Ano
-7º ano A - T,Ilha do Governador 1,7º Ano
-8º ano A - M,Ilha do Governador 1,8º Ano
-9º ano A - M,Ilha do Governador 1,9º Ano
-1ª série Regular A - M,Ilha do Governador 2,1ª série
-1ª série Regular A - T,Ilha do Governador 2,1ª série
-2ª série Regular A - M,Ilha do Governador 2,2ª série
-3ª série AFA/EFOMM A - T,Ilha do Governador 2,3ª série
-3ª série Pré-vestibular A - M,Ilha do Governador 2,3ª série
-3ª série Pré-vestibular B - T,Ilha do Governador 2,3ª série
-9º ano Preparatório A - T,Ilha do Governador 2,9º Ano
+6º ano A - M,Ilha do Governador 1,EF 6º ano
+6º ano A - T,Ilha do Governador 1,EF 6º ano
+7º ano A - M,Ilha do Governador 1,EF 7º ano
+7º ano A - T,Ilha do Governador 1,EF 7º ano
+8º ano A - M,Ilha do Governador 1,EF 8º ano
+9º ano A - M,Ilha do Governador 1,EF 9º ano
+Ilha do Governador 1 - Dependência - 6º ano,Ilha do Governador 1,Dependência 6º ano
+Ilha do Governador 1 - Dependência - 7º ano,Ilha do Governador 1,Dependência 7º ano
+Ilha do Governador 1 - Dependência - 8º ano,Ilha do Governador 1,Dependência 8º ano
+1ª série Regular A - M,Ilha do Governador 2,1ª série Regular
+1ª série Regular A - T,Ilha do Governador 2,1ª série Regular
+2ª série Regular A - M,Ilha do Governador 2,2ª série Regular
+3ª série AFA/EFOMM A - T,Ilha do Governador 2,3ª Série AFA/EFOMM
+3ª série Pré-vestibular A - M,Ilha do Governador 2,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - T,Ilha do Governador 2,3ª Série Pré-vestibular
+9º ano Preparatório A - T,Ilha do Governador 2,9º Ano Preparatório
 AFA/EFOMM A - T,Ilha do Governador 2,AFA/EFOMM
+Ilha do Governador 2 - Dep - 1ª série,Ilha do Governador 2,Dependência 1ª série
+Ilha do Governador 2 - Dep - 2ª série,Ilha do Governador 2,Dependência 2ª série
+Ilha do Governador 2 - Dep - 9º ano,Ilha do Governador 2,Dependência 9° ano
+Preparatório A - T,Ilha do Governador 2,Preparatório
 Pré-vestibular A - M,Ilha do Governador 2,Pré-vestibular
 Pré-vestibular B - T,Ilha do Governador 2,Pré-vestibular
-1ª série Regular A - M,Ipanema,1ª série
-2ª série Regular A - M,Ipanema,2ª série
-3ª série IME/ITA A - T,Ipanema,3ª série
-3ª série Pré-vestibular A - M,Ipanema,3ª série
-3ª série Pré-vestibular B - T,Ipanema,3ª série
-6º ano A - M,Ipanema,6º Ano
-7º ano A - M,Ipanema,7º Ano
-8º ano A - M,Ipanema,8º Ano
-9º ano A - M,Ipanema,9º Ano
+1ª série Regular A - M,Ipanema,1ª série Regular
+2ª série Regular A - M,Ipanema,2ª série Regular
+3ª série IME/ITA A - T,Ipanema,3ª Série IME/ITA
+3ª série Pré-vestibular A - M,Ipanema,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - T,Ipanema,3ª Série Pré-vestibular
+6º ano A - M,Ipanema,EF 6º ano
+7º ano A - M,Ipanema,EF 7º ano
+8º ano A - M,Ipanema,EF 8º ano
+9º ano A - M,Ipanema,EF 9º ano
 IME/ITA  A - T,Ipanema,IME/ITA
+Ipanema - Dependência - 1ª série,Ipanema,Dependência 1ª série
 Ipanema - Dependência - 2ª série,Ipanema,Dependência 2ª série
+Ipanema - Dependência - 6º ano,Ipanema,Dependência 6º ano
+Ipanema - Dependência - 7º ano,Ipanema,Dependência 7º ano
 Ipanema - Dependência - 8º ano,Ipanema,Dependência 8º ano
+Ipanema - Dependência - 9º ano,Ipanema,Dependência 9° ano
 Pré-vestibular A - M,Ipanema,Pré-vestibular
 Pré-vestibular B - T,Ipanema,Pré-vestibular
 Pré-vestibular C - N,Ipanema,Pré-vestibular
-1ª série Regular A - M,Itaipu,1ª série
-1ª série Regular B - M,Itaipu,1ª série
-1ª série Regular C - T,Itaipu,1ª série
-2ª série Regular A - M,Itaipu,2ª série
-2ª série Regular B - M,Itaipu,2ª série
-2ª série Regular C - T,Itaipu,2ª série
-3ª série Pré-vestibular A - M,Itaipu,3ª série
-3ª série Pré-vestibular B - M,Itaipu,3ª série
-3ª série Pré-vestibular C - T,Itaipu,3ª série
-6º ano A - M,Itaipu,6º Ano
-7º ano A - M,Itaipu,7º Ano
-7º ano B - T,Itaipu,7º Ano
-8º ano A - M,Itaipu,8º Ano
-8º ano B - T,Itaipu,8º Ano
-9º ano A - M,Itaipu,9º Ano
-9º ano B - M,Itaipu,9º Ano
-9º ano C - T,Itaipu,9º Ano
+1ª série Regular A - M,Itaipu,1ª série Regular
+1ª série Regular B - M,Itaipu,1ª série Regular
+1ª série Regular C - T,Itaipu,1ª série Regular
+2ª série Regular A - M,Itaipu,2ª série Regular
+2ª série Regular B - M,Itaipu,2ª série Regular
+2ª série Regular C - T,Itaipu,2ª série Regular
+3ª série Pré-vestibular A - M,Itaipu,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Itaipu,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - T,Itaipu,3ª Série Pré-vestibular
+6º ano A - M,Itaipu,EF 6º ano
+6º ano B - T,Itaipu,EF 6º ano
+7º ano A - M,Itaipu,EF 7º ano
+7º ano B - T,Itaipu,EF 7º ano
+8º ano A - M,Itaipu,EF 8º ano
+8º ano B - T,Itaipu,EF 8º ano
+9º ano A - M,Itaipu,EF 9º ano
+9º ano B - M,Itaipu,EF 9º ano
+9º ano C - T,Itaipu,EF 9º ano
+Itaipu - Dependência - 1ª série,Itaipu,Dependência 1ª série
+Itaipu - Dependência - 2ª série,Itaipu,Dependência 2ª série
+Itaipu - Dependência - 6º ano,Itaipu,Dependência 6º ano
+Itaipu - Dependência - 7º ano,Itaipu,Dependência 7º ano
+Itaipu - Dependência - 8º ano,Itaipu,Dependência 8º ano
+Itaipu - Dependência - 9º ano,Itaipu,Dependência 9° ano
 Pré-vestibular A - M,Itaipu,Pré-vestibular
 Pré-vestibular B - T,Itaipu,Pré-vestibular
-1ª série Militar A - T,Madureira 1,1ª série
-1ª série Regular A - M,Madureira 1,1ª série
-1ª série Regular C - T,Madureira 1,1ª série
-1º ano A - T,Madureira 1,1º Ano
-2ª série Militar A - M,Madureira 1,2ª série
-2ª série Regular A - M,Madureira 1,2ª série
-2ª série Regular B - M,Madureira 1,2ª série
-2º ano B - T,Madureira 1,2º Ano
-3ª série AFA/EFOMM A - M,Madureira 1,3ª série
-3ª série AFA/EFOMM B - T,Madureira 1,3ª série
-3ª série EsPCEx A - M,Madureira 1,3ª série
-3ª série IME/ITA A - M,Madureira 1,3ª série
-3ª série Pré-vestibular A - M,Madureira 1,3ª série
-3ª série Pré-vestibular B - T,Madureira 1,3ª série
-3ª série Pré-vestibular C - M,Madureira 1,3ª série
-3º ano B - T,Madureira 1,3º Ano
-4º ano B - T,Madureira 1,4º Ano
-5º ano A - M,Madureira 1,5º Ano
-5º ano B - T,Madureira 1,5º Ano
-6º ano A - M,Madureira 1,6º Ano
-6º ano B - M,Madureira 1,6º Ano
-7º ano A - M,Madureira 1,7º Ano
-8º ano A - M,Madureira 1,8º Ano
-9º ano A - M,Madureira 1,9º Ano
-9º ano Preparatório A - T,Madureira 1,9º Ano
+1ª série Militar A - T,Madureira 1,1ª série Militar
+1ª série Regular A - M,Madureira 1,1ª série Regular
+1ª série Regular C - T,Madureira 1,1ª série Regular
+1º ano A - T,Madureira 1,EF 1º ano
+2ª série Militar A - M,Madureira 1,2ª série Militar
+2ª série Regular A - M,Madureira 1,2ª série Regular
+2ª série Regular B - M,Madureira 1,2ª série Regular
+2º ano B - T,Madureira 1,EF 2º ano
+3ª série AFA/EFOMM A - M,Madureira 1,3ª Série AFA/EFOMM
+3ª série AFA/EFOMM B - T,Madureira 1,3ª Série AFA/EFOMM
+3ª série EsPCEx A - M,Madureira 1,3ª Série EsPCEx
+3ª série IME/ITA A - M,Madureira 1,3ª Série IME/ITA
+3ª série Pré-vestibular A - M,Madureira 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - T,Madureira 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - M,Madureira 1,3ª Série Pré-vestibular
+3º ano B - T,Madureira 1,EF 3º ano
+4º ano B - T,Madureira 1,EF 4º ano
+5º ano A - M,Madureira 1,EF 5º ano
+5º ano B - T,Madureira 1,EF 5º ano
+6º ano A - M,Madureira 1,EF 6º ano
+6º ano B - M,Madureira 1,EF 6º ano
+7º ano A - M,Madureira 1,EF 7º ano
+8º ano A - M,Madureira 1,EF 8º ano
+9º ano A - M,Madureira 1,EF 9º ano
+9º ano Preparatório A - T,Madureira 1,9º Ano Preparatório
 AFA/EFOMM A - M,Madureira 1,AFA/EFOMM
 AFA/EFOMM B - T,Madureira 1,AFA/EFOMM
-EEAr A - N,Madureira 1,AFA/EFOMM
+EEAr A - N,Madureira 1,EEAr/EsSA
 EsPCEx  A - M,Madureira 1,EsPCEx
-EsSA A - N,Madureira 1,EsSA
+EsSA A - N,Madureira 1,EEAr/EsSA
 IME/ITA A - M,Madureira 1,IME/ITA
 Madureira 1 - Dependência - 1ª série,Madureira 1,Dependência 1ª série
+Madureira 1 - Dependência - 2ª série,Madureira 1,Dependência 2ª série
+Madureira 1 - Dependência - 7º ano,Madureira 1,Dependência 7º ano
+Madureira 1 - Dependência - 8º ano,Madureira 1,Dependência 8º ano
+Madureira 1 - Dependência - 9º ano,Madureira 1,Dependência 9° ano
 Preparatório A - T,Madureira 1,Preparatório
 Pré-vestibular A - M,Madureira 1,Pré-vestibular
 Pré-vestibular B - T,Madureira 1,Pré-vestibular
 Pré-vestibular C - N,Madureira 1,Pré-vestibular
-1ª série Regular A - M,Méier,1ª série
-1ª série Regular C - T,Méier,1ª série
-2ª série Regular A - M,Méier,2ª série
-3ª série Pré-vestibular A - M,Méier,3ª série
-6º ano A - M,Méier,6º Ano
-7º ano A - M,Méier,7º Ano
-8º ano A - M,Méier,8º Ano
-9º ano A - M,Méier,9º Ano
+1ª série Regular A - M,Méier,1ª série Regular
+1ª série Regular B - M,Méier,1ª série Regular
+1ª série Regular C - T,Méier,1ª série Regular
+2ª série Regular A - M,Méier,2ª série Regular
+3ª série Pré-vestibular A - M,Méier,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Méier,3ª Série Pré-vestibular
+6º ano A - M,Méier,EF 6º ano
+7º ano A - M,Méier,EF 7º ano
+8º ano A - M,Méier,EF 8º ano
+9º ano A - M,Méier,EF 9º ano
+Méier - Dependência - 1ª série,Méier,Dependência 1ª série
+Méier - Dependência - 2ª série,Méier,Dependência 2ª série
+Méier - Dependência - 5º ano,Méier,Dependência 5º ano
+Méier - Dependência - 6º ano,Méier,Dependência 6º ano
+Méier - Dependência - 7º ano,Méier,Dependência 7º ano
+Méier - Dependência - 8º ano,Méier,Dependência 8º ano
+Méier - Dependência - 9º ano,Méier,Dependência 9° ano
 Pré-vestibular A - M,Méier,Pré-vestibular
+Pré-vestibular B - T,Méier,Pré-vestibular
 Pré-vestibular C - N,Méier,Pré-vestibular
-1ª série Regular A - M,Recreio 1,1ª série
-1ª série Regular B - M,Recreio 1,1ª série
-1ª série Regular C - T,Recreio 1,1ª série
-2ª série Regular A - M,Recreio 1,2ª série
-2ª série Regular B - M,Recreio 1,2ª série
-2ª série Regular C - T,Recreio 1,2ª série
-3ª série AFA/EFOMM A - T,Recreio 1,3ª série
-3ª série Pré-vestibular A - M,Recreio 1,3ª série
-3ª série Pré-vestibular B - M,Recreio 1,3ª série
-3ª série Pré-vestibular C - T,Recreio 1,3ª série
-6º ano A - M,Recreio 1,6º Ano
-6º ano B - T,Recreio 1,6º Ano
-6º ano C - M,Recreio 1,6º Ano
-7º ano A - M,Recreio 1,7º Ano
-7º ano B - M,Recreio 1,7º Ano
-7º ano C - T,Recreio 1,7º Ano
-8º ano A - M,Recreio 1,8º Ano
-8º ano B - M,Recreio 1,8º Ano
-8º ano C - T,Recreio 1,8º Ano
-9º ano A - M,Recreio 1,9º Ano
-9º ano B - M,Recreio 1,9º Ano
-9º ano C - T,Recreio 1,9º Ano
+1ª série Regular A - M,Recreio 1,1ª série Regular
+1ª série Regular B - M,Recreio 1,1ª série Regular
+1ª série Regular C - T,Recreio 1,1ª série Regular
+2ª série Regular A - M,Recreio 1,2ª série Regular
+2ª série Regular B - M,Recreio 1,2ª série Regular
+2ª série Regular C - T,Recreio 1,2ª série Regular
+3ª série AFA/EFOMM A - T,Recreio 1,3ª Série AFA/EFOMM
+3ª série IME/ITA A - T,Recreio 1,3ª Série IME/ITA
+3ª série Pré-vestibular A - M,Recreio 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Recreio 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - T,Recreio 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular D - T,Recreio 1,3ª Série Pré-vestibular
+6º ano A - M,Recreio 1,EF 6º ano
+6º ano B - T,Recreio 1,EF 6º ano
+6º ano C - M,Recreio 1,EF 6º ano
+7º ano A - M,Recreio 1,EF 7º ano
+7º ano B - M,Recreio 1,EF 7º ano
+7º ano C - T,Recreio 1,EF 7º ano
+8º ano A - M,Recreio 1,EF 8º ano
+8º ano B - M,Recreio 1,EF 8º ano
+8º ano C - T,Recreio 1,EF 8º ano
+9º ano A - M,Recreio 1,EF 9º ano
+9º ano B - M,Recreio 1,EF 9º ano
+9º ano C - T,Recreio 1,EF 9º ano
 AFA/EFOMM A - T,Recreio 1,AFA/EFOMM
+IME/ITA A - T,Recreio 1,IME/ITA
 Pré-vestibular A - M,Recreio 1,Pré-vestibular
+Pré-vestibular B - M,Recreio 1,Pré-vestibular
 Pré-vestibular C - T,Recreio 1,Pré-vestibular
+Pré-vestibular D - T,Recreio 1,Pré-vestibular
 Recreio 1 - Dependência - 1ª série,Recreio 1,Dependência 1ª série
 Recreio 1 - Dependência - 2ª série,Recreio 1,Dependência 2ª série
+Recreio 1 - Dependência - 6º ano,Recreio 1,Dependência 6º ano
 Recreio 1 - Dependência - 7º ano,Recreio 1,Dependência 7º ano
 Recreio 1 - Dependência - 8º ano,Recreio 1,Dependência 8º ano
 Recreio 1 - Dependência - 9º ano,Recreio 1,Dependência 9° ano
-1º ano A - M,Recreio 2,1º Ano
-1º ano B - T,Recreio 2,1º Ano
-2º ano A - M,Recreio 2,2º Ano
-2º ano C - T,Recreio 2,2º Ano
-2º ano D - T,Recreio 2,2º Ano
-3º ano A - M,Recreio 2,3º Ano
-3º ano C - T,Recreio 2,3º Ano
-3º ano D - T,Recreio 2,3º Ano
-4º ano A - M,Recreio 2,4º Ano
-4º ano B - M,Recreio 2,4º Ano
-4º ano C - T,Recreio 2,4º Ano
-4º ano D - T,Recreio 2,4º Ano
-5º ano A - M,Recreio 2,5º Ano
-5º ano B - T,Recreio 2,5º Ano
-1ª série Regular A - M,Tijuca 1,1ª série
-1ª série Regular B- T,Tijuca 1,1ª série
-2ª série Regular A - M,Tijuca 1,2ª série
-6º ano A - M,Tijuca 1,6º Ano
-7º ano A - M,Tijuca 1,7º Ano
-8º ano A - M,Tijuca 1,8º Ano
-9º ano A - M,Tijuca 1,9º Ano
+1º ano A - M,Recreio 2,EF 1º ano
+1º ano B - T,Recreio 2,EF 1º ano
+2º ano A - M,Recreio 2,EF 2º ano
+2º ano B - M,Recreio 2,EF 2º ano
+2º ano C - T,Recreio 2,EF 2º ano
+2º ano D - T,Recreio 2,EF 2º ano
+3º ano A - M,Recreio 2,EF 3º ano
+3º ano B - M,Recreio 2,EF 3º ano
+3º ano C - T,Recreio 2,EF 3º ano
+3º ano D - T,Recreio 2,EF 3º ano
+4º ano A - M,Recreio 2,EF 4º ano
+4º ano B - M,Recreio 2,EF 4º ano
+4º ano C - T,Recreio 2,EF 4º ano
+4º ano D - T,Recreio 2,EF 4º ano
+5º ano A - M,Recreio 2,EF 5º ano
+5º ano B - T,Recreio 2,EF 5º ano
+Estendido - 1 x,Recreio 2,Integral estendido
+Estendido - 2 x,Recreio 2,Integral estendido
+Estendido - 3 x,Recreio 2,Integral estendido
+Estendido - 4 x,Recreio 2,Integral estendido
+Estendido - 5 x,Recreio 2,Integral estendido
+Integral - 1x,Recreio 2,Integral
+Integral - 2 x,Recreio 2,Integral
+Integral - 3 x,Recreio 2,Integral
+Integral - 4 x,Recreio 2,Integral
+Integral - 5 x,Recreio 2,Integral
+Semi Integral - 1 x,Recreio 2,Semi integral
+Semi Integral - 2 x,Recreio 2,Semi integral
+Semi Integral - 3 x,Recreio 2,Semi integral
+Semi Integral - 4 x,Recreio 2,Semi integral
+Semi Integral - 5 x,Recreio 2,Semi integral
+1ª série Regular A - M,Tijuca 1,1ª série Regular
+1ª série Regular B- T,Tijuca 1,1ª série Regular
+2ª série Regular A - M,Tijuca 1,2ª série Regular
+6º ano A - M,Tijuca 1,EF 6º ano
+6º ano B - T,Tijuca 1,EF 6º ano
+7º ano A - M,Tijuca 1,EF 7º ano
+8º ano A - M,Tijuca 1,EF 8º ano
+9º ano A - M,Tijuca 1,EF 9º ano
 Pré IME 1 A - T,Tijuca 1,Pré IME 1
 Pré IME 2 A - T,Tijuca 1,Pré IME 2
 Tijuca 1 - Dependência - 1ª série,Tijuca 1,Dependência 1ª série
-1ª série Militar A - M,Tijuca 2,1ª série
-2ª série Militar A - M,Tijuca 2,2ª série
-3ª série AFA/EFOMM A - M,Tijuca 2,3ª série
-3ª série EsPCEx A - M,Tijuca 2,3ª série
-3ª série IME/ITA A - M,Tijuca 2,3ª série
-3ª série IME/ITA B - T,Tijuca 2,3ª série
-3ª série Medicina A - M,Tijuca 2,3ª série
-3ª série Pré-vestibular A - M,Tijuca 2,3ª série
-3ª série Pré-vestibular C - T,Tijuca 2,3ª série
-9º ano Preparatório A - T,Tijuca 2,9º Ano
+Tijuca 1 - Dependência - 6º ano,Tijuca 1,Dependência 6º ano
+Tijuca 1 - Dependência - 7º ano,Tijuca 1,Dependência 7º ano
+Tijuca 1 - Dependência - 8º ano,Tijuca 1,Dependência 8º ano
+Tijuca 1 - Dependência - 9º ano,Tijuca 1,Dependência 9° ano
+1ª série Militar A - M,Tijuca 2,1ª série Militar
+2ª série Militar A - M,Tijuca 2,2ª série Militar
+3ª série AFA/EFOMM A - M,Tijuca 2,3ª Série AFA/EFOMM
+3ª série EsPCEx A - M,Tijuca 2,3ª Série EsPCEx
+3ª série IME/ITA A - M,Tijuca 2,3ª Série IME/ITA
+3ª série IME/ITA B - T,Tijuca 2,3ª Série IME/ITA
+3ª série Medicina A - M,Tijuca 2,3ª Série Medicina
+3ª série Pré-vestibular A - M,Tijuca 2,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Tijuca 2,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - T,Tijuca 2,3ª Série Pré-vestibular
+9º ano Preparatório A - T,Tijuca 2,9º Ano Preparatório
 AFA/EFOMM A - M,Tijuca 2,AFA/EFOMM
 AFA/EFOMM B - T,Tijuca 2,AFA/EFOMM
 EsPCEx A - M,Tijuca 2,EsPCEx
 IME/ITA A - M,Tijuca 2,IME/ITA
 IME/ITA B - T,Tijuca 2,IME/ITA
-Medicina - M,Tijuca 2,Pré-vestibular
+Medicina - M,Tijuca 2,Medicina
 Preparatório A - T,Tijuca 2,Preparatório
 Pré-vestibular A - M,Tijuca 2,Pré-vestibular
 Pré-vestibular B - T,Tijuca 2,Pré-vestibular
 Pré-vestibular C - N,Tijuca 2,Pré-vestibular
+Tijuca 2 - Dependência - 1ª série,Tijuca 2,Dependência 1ª série
 Tijuca 2 - Dependência - 2ª série,Tijuca 2,Dependência 2ª série
-3ª série AFA/EFOMM A - T,Vila da Penha 1,3ª série
-3ª série Pré-vestibular A - M,Vila da Penha 1,3ª série
-3ª série Pré-vestibular C - T,Vila da Penha 1,3ª série
+Tijuca 2 - Dependência - 9º ano,Tijuca 2,Dependência 9° ano
+3ª série AFA/EFOMM A - T,Vila da Penha 1,3ª Série AFA/EFOMM
+3ª série Pré-vestibular A - M,Vila da Penha 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular B - M,Vila da Penha 1,3ª Série Pré-vestibular
+3ª série Pré-vestibular C - T,Vila da Penha 1,3ª Série Pré-vestibular
+AFA/EFOMM A - T,Vila da Penha 1,AFA/EFOMM
 Pré-vestibular A - M,Vila da Penha 1,Pré-vestibular
 Pré-vestibular B - T,Vila da Penha 1,Pré-vestibular
 Pré-vestibular C - N,Vila da Penha 1,Pré-vestibular
-1ª série Regular A - M,Vila da Penha 2,1ª série
-1ª série Regular B - M,Vila da Penha 2,1ª série
-1ª série Regular C - T,Vila da Penha 2,1ª série
-1º ano A - T,Vila da Penha 2,1º Ano
-2ª série Regular A - M,Vila da Penha 2,2ª série
-2ª série Regular B - M,Vila da Penha 2,2ª série
-2ª série Regular C - T,Vila da Penha 2,2ª série
-2º ano A - T,Vila da Penha 2,2º Ano
-5º ano A - T,Vila da Penha 2,5º Ano
-6º ano A - M,Vila da Penha 2,6º Ano
-6º ano B - T,Vila da Penha 2,6º Ano
-7º ano A - M,Vila da Penha 2,7º Ano
-7º ano B - T,Vila da Penha 2,7º Ano
-8º ano A - M,Vila da Penha 2,8º Ano
-8º ano B - M,Vila da Penha 2,8º Ano
-8º ano C - T,Vila da Penha 2,8º Ano
-9º ano A - M,Vila da Penha 2,9º Ano
-9º ano B - M,Vila da Penha 2,9º Ano
-9º ano Preparatório A - T,Vila da Penha 2,9º Ano
+Vila da Penha 1 - Dependência - 2ª série,Vila da Penha 1,Dependência 2ª série
+1ª série Regular A - M,Vila da Penha 2,1ª série Regular
+1ª série Regular B - M,Vila da Penha 2,1ª série Regular
+1ª série Regular C - T,Vila da Penha 2,1ª série Regular
+1º ano A - T,Vila da Penha 2,EF 1º ano
+2ª série Regular A - M,Vila da Penha 2,2ª série Regular
+2ª série Regular C - T,Vila da Penha 2,2ª série Regular
+2º ano A - T,Vila da Penha 2,EF 2º ano
+5º ano A - T,Vila da Penha 2,EF 5º ano
+6º ano A - M,Vila da Penha 2,EF 6º ano
+6º ano B - T,Vila da Penha 2,EF 6º ano
+7º ano A - M,Vila da Penha 2,EF 7º ano
+7º ano B - T,Vila da Penha 2,EF 7º ano
+8º ano A - M,Vila da Penha 2,EF 8º ano
+8º ano B - M,Vila da Penha 2,EF 8º ano
+8º ano C - T,Vila da Penha 2,EF 8º ano
+9º ano A - M,Vila da Penha 2,EF 9º ano
+9º ano B - M,Vila da Penha 2,EF 9º ano
+9º ano Preparatório A - T,Vila da Penha 2,9º Ano Preparatório
 Vila da Penha 2 - Dependência - 1ª série,Vila da Penha 2,Dependência 1ª série
+Vila da Penha 2 - Dependência - 2ª série,Vila da Penha 2,Dependência 2ª série
+Vila da Penha 2 - Dependência - 6º ano,Vila da Penha 2,Dependência 6º ano
+Vila da Penha 2 - Dependência - 7º ano,Vila da Penha 2,Dependência 7º ano
+Vila da Penha 2 - Dependência - 8º ano,Vila da Penha 2,Dependência 8º ano
+Vila da Penha 2 - Dependência - 9º ano,Vila da Penha 2,Dependência 9° ano
+2ª série Regular B - M,Vila da Penha 2,2ª série Regular

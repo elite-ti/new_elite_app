@@ -1,9 +1,10 @@
-<%= title 'Exams', 
-  link_to('New Exam', new_exam_path) %>
+<%= title 'Provas', 
+  link_to('Nova Prova', new_exam_path) %>
 
 <table id='exams' class='display is-datatable'>
   <thead>
     <tr>
+      <th>Código</th>
       <th>Name</th>
     </tr>
   </thead>
@@ -11,12 +12,13 @@
   <tbody>
   <% @exams.each do |exam| %>
     <tr>
+      <td><%= exam.code %></td>
       <td>
         <%= exam.name %>
         <span>
-          <%= link_to 'Show', exam %> |
-          <%= link_to 'Edit', edit_exam_path(exam) %> |
-          <%= link_to 'Destroy', exam, method: :delete, confirm: 'Are you sure?' %> 
+          <%= link_to 'Mostrar', exam %> |
+          <%= link_to 'Editar', edit_exam_path(exam) %> |
+          <%= link_to 'Deletar', exam, method: :delete, confirm: 'Você tem certeza?' %> 
         </span>
       </td>
     </tr>

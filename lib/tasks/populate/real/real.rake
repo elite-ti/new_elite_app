@@ -7,13 +7,13 @@ namespace :db do
       PHOTOS_PATH = ''
       ASSETS_PATH = File.join(Rails.root, 'lib/tasks/populate/real/csvs')
       
-      CARD_A_PATH = "#{Rails.root}/spec/support/card_b.tif"
-      CARD_A_PARAMETERS = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454'
-      CARD_A_STUDENT_COORDINATES = '1280x1000+0+0'
+      CARD_PATH = "#{Rails.root}/spec/support/card_a.tif"
+      CARD_PARAMETERS = '"0.4 60 540 80 40 2900 4229 1 1573 6 0123456789 79 38 954 702 990 306 2 691 50 ABCDE 77 38 846 1185 486 2659"'
+      CARD_STUDENT_COORDINATES = '"2900x1050+0+0'
 
       task quick: [
         :product_types, :products, :years, :product_years, :campuses, 
-        :subjects, :employees, :admins, :card_types, :super_klazzes, :klazzes]
+        :subjects, :employees, :admins, :card_types, :super_klazzes, :klazzes, :students]
 
       task all: [:quick, :teacher_photos]
       
@@ -106,7 +106,7 @@ namespace :db do
         CardType.create!(
           card: File.open(CARD_PATH), 
           name: 'Cartão A4', 
-          command: 'type_b',
+          command: 'type_a',
           parameters: CARD_PARAMETERS,
           student_coordinates: CARD_STUDENT_COORDINATES)
       end
@@ -114,7 +114,7 @@ namespace :db do
       task super_klazzes: :environment do
         p 'Populating Super Klazzes'
         ActiveRecord::Base.transaction do 
-          read_csv('super_klazzes').flatten.each do |campus_name, product_name|
+          read_csv('super_klazzes').each do |campus_name, product_name|
             SuperKlazz.create!(
               campus_id: Campus.find_by_name(campus_name).id, 
               product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id)
@@ -128,11 +128,56 @@ namespace :db do
           read_csv('klazzes').each do |klazz_name, campus_name, product_name|
             Klazz.create!(
               name: campus_name + ' - ' + klazz_name, 
-              super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).id, 
-              year_id: Year.first.id)
+              super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id)
           end
         end
       end
+
+      task students: :environment do
+        p 'Populating Students'
+        ActiveRecord::Base.transaction do 
+          read_csv('students').each do |ra, student_name, campus_name, product_name, klazz_name|
+            begin
+              p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
+              student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
+              Enrollment.create!(
+                student_id: student.id, 
+                super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
+                klazz_id: Klazz.find_by_name(campus_name + ' - ' + klazz_name).id)              
+            rescue Exception => e
+              p 'ERRO! ' + e.message
+            end
+          end
+        end
+      end
+
+      task exam_executions: :environment do
+        p 'Populating Exams'
+        ActiveRecord::Base.transaction do 
+          read_csv('exams').each do |exam_code, datetime, campus_name, product_name, exam_name, cycle_name, subjects, answers|
+            p "#{exam_code},#{datetime},#{campus_name},#{product_name},#{exam_name},#{cycle_name},#{subjects},#{answers}"
+            exam = Exam.create!(
+              name: exam_name + ' - ' + product_name,
+              options_per_question: 5,
+              correct_answers: '',
+              code: exam_code)
+            campuses = campus_name == 'Todas' ? Campus.all : Campus.find_by_name(campus_name)
+            exam_cycle_id = ExamCycle.where(name: cycle_name + ' - ' + product_name).first_or_create!(is_bolsao: false, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).id
+            product_year_id = ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id
+
+            campuses.each do |campus|
+              super_klazz_id = SuperKlazz.where(campus_id: campus.id, product_year_id: product_year_id).first.try(:id)
+              next if super_klazz_id.nil?
+
+              ExamExecution.create!(
+                exam_cycle_id: exam_cycle_id,
+                super_klazz_id: super_klazz_id,
+                exam_id: exam.id,
+                datetime: datetime.to_datetime)
+            end
+          end
+        end
+      end      
 
     end
   end

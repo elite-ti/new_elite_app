@@ -1,12 +1,12 @@
 class Exam < ActiveRecord::Base  
-  attr_accessible :name, :options_per_question, :correct_answers
+  attr_accessible :name, :options_per_question, :correct_answers, :code
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions
-  has_many :mini_exams, dependent: :destroy
+  # has_many :mini_exams, dependent: :destroy
   has_many :exam_executions, dependent: :destroy
 
-  validates :name, :correct_answers, :options_per_question, presence: true
+  validates :name, :options_per_question, presence: true
   validate :correct_answers_range, on: :create
 
   after_create :create_questions

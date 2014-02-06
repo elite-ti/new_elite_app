@@ -69,7 +69,7 @@ private
     text_box @date, at: [440, 755], size: 12, width: 80, align: :center
     text_box @shift, at: [440, 735], size: 12, width: 80, align: :center if @is_bolsao
     text_box @campus_name, at: [420, 715], size: 12, width: 120, align: :center
-    image "#{Rails.root}/app/assets/images/elite-logo.png", at:[10, 770], fit: [70, 70]
+    image "#{Rails.root}/app/assets/images/logo_Pensi.png", at:[10, 770], fit: [70, 70]
   end
   def content
     move_down 20

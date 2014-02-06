@@ -1,12 +1,12 @@
-<%= title 'Product Years', link_to('New Product Year', new_product_year_path) %>
+<%= title 'Produtos', link_to('Novo Produto', new_product_year_path) %>
 
 <table id='product_years' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Year</th>
-      <th>Product</th>
-      <th>Product Type</th>
+      <th>Nome</th>
+      <th>Ano</th>
+      <th>Produto</th>
+      <th>Segmento</th>
     </tr>
   </thead>
 
@@ -16,8 +16,8 @@
       <td>
         <%= product_year.name %>
         <span class='float-right'>
-          <%= link_to 'Show', product_year %> |
-          <%= link_to 'Edit', edit_product_year_path(product_year) %>
+          <%= link_to 'Mostrar', product_year %> |
+          <%= link_to 'Editar', edit_product_year_path(product_year) %>
         </span>
       </td>
       <td><%= product_year.year.number.to_s %></td>

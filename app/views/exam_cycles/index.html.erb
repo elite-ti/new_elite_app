@@ -1,13 +1,13 @@
-<%= title 'Exam Cycles', link_to('New Exam Cycle', new_exam_cycle_path) %>
+<%= title 'Ciclos', link_to('Novo Ciclo', new_exam_cycle_path) %>
 
 <table id='exam_cycles' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Year</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Is Bolsao</th>
+      <th>Nome</th>
+      <th>Ano</th>
+      <th>Início</th>
+      <th>Término</th>
+      <th>Bolsão?</th>
     </tr>
   </thead>
 
@@ -17,14 +17,14 @@
       <td>
         <%= exam_cycle.name %>
         <span>
-          <%= link_to 'Edit', edit_exam_cycle_path(exam_cycle) %> |
-          <%= link_to 'Destroy', exam_cycle, method: :delete, confirm: 'Are you sure?' %>
+          <%= link_to 'Editar', edit_exam_cycle_path(exam_cycle) %> |
+          <%= link_to 'Deletar', exam_cycle, method: :delete, confirm: 'Você tem certeza?' %>
         </span>
       </td>
       <td><%= exam_cycle.product_year.name %></td>
       <td><%= print_date(exam_cycle.start_date) %></td>
       <td><%= print_date(exam_cycle.end_date) %></td>
-      <td><%= exam_cycle.is_bolsao.to_s.capitalize %></td>
+      <td><%= exam_cycle.is_bolsao ? "Sim" : "Não" %></td>
     </tr>
   <% end %>
   </tbody>
