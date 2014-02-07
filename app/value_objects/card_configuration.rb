@@ -9,7 +9,6 @@ class CardConfiguration
   end
 
   def parse_result(result)
-    p result
     result = result.split('"')[-1] || ''
     raise InvalidResult.new('wrong number of questions') if result.size != number_of_questions
 
@@ -19,7 +18,8 @@ class CardConfiguration
     questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
     raise InvalidResult.new('wrong questions answers') unless questions_zone.is_valid_result?(questions_result)
 
-    return [student_result, questions_result]    
+    p 'RES: ' + [student_result[0..7], student_result[9..13], questions_result].to_s
+    return [student_result[0..7], student_result[9..13], questions_result]
   end
 
 private

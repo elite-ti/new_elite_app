@@ -7,8 +7,8 @@ namespace :db do
       PHOTOS_PATH = ''
       ASSETS_PATH = File.join(Rails.root, 'lib/tasks/populate/real/csvs')
       
-      CARD_PATH = "#{Rails.root}/spec/support/card_a.tif"
-      CARD_PARAMETERS = '"0.4 60 540 80 40 2900 4229 1 1573 6 0123456789 79 38 954 702 990 306 2 691 50 ABCDE 77 38 846 1185 486 2659"'
+      CARD_PATH = "#{Rails.root}/spec/support/card_c.tif"
+      CARD_PARAMETERS = '0.4 60 540 80 40 2900 4229 2 1222 8 0123456789 79 38 314 702 990 408 2 691 50 ABCDE 77 38 846 1185 486 2659'
       CARD_STUDENT_COORDINATES = '"2900x1050+0+0'
 
       task quick: [

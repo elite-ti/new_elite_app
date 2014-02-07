@@ -1,31 +1,32 @@
-<%= title 'Student Exam',
-  (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
-  (link_to('Check', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
-  link_to('Back', @student_exam.card_processing) %>
+<%= title 'Cartão-Resposta',
+  (link_to('Marcar como Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
+  (link_to('Checar', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
+  link_to('Voltar', @student_exam.card_processing) %>
 
 <div class='tabs'>
   <ul>
     <li><a href='#info'>Info</a></li>
-    <li><a href='#original_card'>Original Card</a></li>
-    <li><a href='#normalized_card'>Normalized Card</a></li>
+    <li><a href='#original_card'>Cartão Original</a></li>
+    <li><a href='#normalized_card'>Cartão Normalizado</a></li>
   </ul>
 
   <div id='info'>
     <div class='resource'>
-      <h2>Scanned Info</h2>
+      <h2>Informações Escaneadas</h2>
       <p>
-        <span>Scanned Student Number: </span><%= @student_exam.student_number %><br />
-        <span>Scanned Answers: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
+        <span>RA do Aluno: </span><%= @student_exam.student_number %><br />
+        <span>Código da Prova: </span><%= @student_exam.exam_code %><br />
+        <span>Respostas: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
       </p>
 
-      <h2>Actual Info</h2>
+      <h2>Informações do Cartão</h2>
       <p>
         <% if @student_exam.needs_check? %>
-          This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
+          This card needs check! <%= link_to('Checar', edit_student_exam_path(@student_exam)) %><br />
         <% end %>
-        <span>Student: </span><%= @student_exam.student.nil? ? 'Not found' : link_to(@student_exam.student.name, student_path(@student_exam.student)) %><br />
-        <span>Exam: </span><%= @student_exam.exam_execution.try(:name) || 'Not found' %><br />
-        <span>Status: </span><%= (@student_exam.status || 'Not found') %>
+        <span>Aluno: </span><%= @student_exam.student.nil? ? 'Não Encontrado' : link_to(@student_exam.student.name, student_path(@student_exam.student)) %><br />
+        <span>Prova: </span><%= @student_exam.student.nil? ? 'Não Encontrada' : link_to(@student_exam.exam_execution.try(:name), exam_path(@student_exam.exam_execution.exam)) %><br />
+        <span>Status: </span><%= @translations[@student_exam.status] || 'Não Encontrado' %>
         <% if @student_exam.repeated_student? %>
           (
           <% @student_exam.repeated_cards.each_with_index do |repeated, index| %>
@@ -34,15 +35,15 @@
           )
         <% end %>
         <br />
-        <span>Campus: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Not found' %><br />
-        <span>Exam Date: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Not found' %><br />
+        <span>Unidade: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Não Encontrada' %><br />
+        <span>Data de Aplicação: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Não Encontrada' %><br />
         <br />
         <span>Nota Total: </span>
         <%= 
             if @student_exam.exam_answers.present?
               (10.0 * @student_exam.number_of_correct_answers.to_f/@student_exam.total_number_of_questions.to_f).to_s + ' (' + @student_exam.number_of_correct_answers.to_s + '/' + @student_exam.total_number_of_questions.to_s + ')'
             else
-              'Not found'
+              'Não Encontrada'
             end
         %>
         <br />

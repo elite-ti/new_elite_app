@@ -1,6 +1,6 @@
-<%= title 'Exam - ' + @exam.name, 
-  link_to('Edit', edit_exam_path(@exam)),
-  link_to('Back', exams_path) %>
+<%= title 'Prova: ' + @exam.name, 
+  link_to('Editar', edit_exam_path(@exam)),
+  link_to('Voltar', exams_path) %>
 
 <div class='resource'>
   <p><span>Data de aplicação: </span><%= @exam.exam_executions.map(&:datetime).uniq.map{|dt| print_datetime(dt)}.join(', ') %>
