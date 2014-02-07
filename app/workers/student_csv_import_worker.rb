@@ -5,6 +5,8 @@ class StudentCsvImportWorker
   sidekiq_options retry: false
   
   def perform(file)
+    p 'PARA TUDO'
+    p 'file'
     Student.import(file)
   end
 end
