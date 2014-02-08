@@ -2,9 +2,31 @@
 namespace :db do
   namespace :populate do
     namespace :real do
-        task add_exams_02FEB: :environment do
+        task add_exams_08FEB: :environment do
           p 'Adding exams'
-          datetime = 'Mon, 02 Feb 2014 14:00:00 BRT -03:00'
+          datetime = 'Mon, 08 Feb 2014 14:00:00 BRT -03:00'
+          cycle_name = 'Bolsão 2014 - '
+          exam_name = 'Prova'
+          array = [
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): CACDBCECAECCEDC EEEDECBCECDCDCD - Manhã',
+            'C - 1ª Série ENEM, 1ª Série Militar, 2ª Série ENEM, 2ª Série Militar - All - POR(15) + MAT(15): DBDECCEDBADCAED DECEEEBECCCDDDC - Tarde',
+            'C - 6º Ano - All - POR(15) + MAT(15): ADBCEEBCBDEEAAD DBBAADCDBCCBBCA - Manhã',
+            'C - 6º Ano - All - POR(15) + MAT(15): CEBABCEDDDEBBDE CEBEBDCADDDAABB - Tarde',
+            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): ACEBABAEDBACADE DBBAADCDBCDBEEC - Manhã',
+            'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BEDDDCABEBCDACB CEBEBDCABDDCDEC - Tarde',
+            'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): BCDEBCACEABEBCA ABBADCBBDBEEBDD - Manhã',
+            'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): CDEABDACABBECDA BEBBAADCBBEDBDD - Tarde',
+            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): BCDEBCACEABEBCA ABBADCBBDBEEBDD - Manhã',
+            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): CDEABDACABBECDA BEBBAADCBBEDBDD - Tarde',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): ECBEEDACADDACBA DEDCDEDCEBCEBBB - Manhã',
+            'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): ADCAAEBDBADBDBB EDDDECECDBECBBB - Tarde',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): ECBEEDACADDACBA BEDCDEECEECEBBC - Manhã',
+            'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): DBBDDDEBACDCABD EBCDEEDCCEEEBCB - Tarde'          ]
+          create_exams_bolsao(array, datetime, cycle_name, exam_name)
+        end
+        task add_exams_01FEB: :environment do
+          p 'Adding exams'
+          datetime = 'Mon, 01 Feb 2014 14:00:00 BRT -03:00'
           cycle_name = 'Bolsão 2014 - '
           exam_name = 'Prova'
           array = [
@@ -16,8 +38,8 @@ namespace :db do
             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BCEDACEDCECCADC EDBCCAAABAEADBA - Tarde',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
-            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
-            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
+            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
+            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): BDACBDAADAACBDA AAADBACDDDCAECC - Manhã',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CEBDCDBADBBDCEB AADAACDBDCADCCE - Tarde',
             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): BDACBDAADAECDCD AAADABCDBDEDDCE - Manhã',
