@@ -114,23 +114,67 @@ class Student < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
-    success = 0
-    p file
-    CSV.foreach(file.path) do |row|
-      super_klazz_ids = SuperKlazz.where(
-        product_year_id: ProductYear.where(name: row[2]).first.id,
-        campus_id: Campus.where(name: row[3]).first.id
-      ).map(&:id)
-      next if super_klazz_ids.size <= 0 || Student.where(ra: row[0]).size > 0
-      student = Student.create!(
-        ra: row[0],
-        name: row[1]
-      )
-      student.enrolled_super_klazz_ids = super_klazz_ids
-      success = success + 1
+  def self.import(file, email)
+    errors = []
+    file = file.path if file.class.to_s != 'String'
+    CSV.foreach(file) do |ra, student_name, campus_name, product_name, klazz_name|
+      begin
+        p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
+        student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
+        Enrollment.create!(
+          student_id: student.id, 
+          super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
+          klazz_id: Klazz.find_by_name(campus_name + ' - ' + klazz_name).try(:id))              
+      rescue Exception => e
+        errors << [ra, student_name, campus_name, product_name, klazz_name].join(', ')
+        p 'ERRO! ' + e.message
+      end
     end
-    success
+
+    # send email
+    if errors.size > 0
+      send_email_importing_error errors, mail
+    else
+      send_email_importing_success email
+    end    
+  end
+
+  def send_email_importing_error(errors, mail)
+      ActionMailer::Base.mail(
+        from: 'pensisim@pensi.com.br',
+        to: email || 'pensisim@pensi.com.br',
+        subject: "Envio arquivo importação de Alunos",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de alunos.
+
+Não houveram problemas na importação.
+
+--
+PENSI Simulados
+        eos
+      ).deliver
+  end
+
+  def send_email_importing_error(errors, mail)
+      ActionMailer::Base.mail(
+        from: 'pensisim@pensi.com.br',
+        to: email || 'pensisim@pensi.com.br',
+        subject: "Envio arquivo importação de Alunos",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de alunos.
+
+Os seguintes alunos tiveram problemas na importação:
+
+#{errors.join('\n')}
+
+--
+PENSI Simulados
+        eos
+      ).deliver    
   end
 
   def log_changes(message)

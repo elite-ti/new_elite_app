@@ -7,35 +7,6 @@
     <%= f.input :email, label: 'Email' %>
     <%= f.input :ra, label: 'RA' %>
 
-    <h2>Contato</h2>
-    <%= f.input :telephone, as: :telephone, label: 'Telefone' %>
-    <%= f.input :cellphone, as: :telephone, label: 'Celular' %>
-    <%= f.input :previous_school, label: 'Escola anterior' %>
-
-    <h2>Documentos</h2>
-    <%= f.input :cpf, label: 'CPF' %>
-    <%= f.input :own_cpf, label: 'CPF Responsável' %>
-    <%= f.input :rg, label: 'RG' %>
-    <%= f.input :rg_expeditor, label: 'Órgão exp.' %>
-
-    <h2>Geral</h2>
-    <%= f.input :gender, collection: Employee::GENDERS, label: 'Sexo' %>
-    <%= f.input :date_of_birth, as: :date, label: 'Data de Nascimento' %>
-    <%= f.input :number_of_children, label: 'Número de Filhos' %>
-    <%= f.input :mother_name, label: 'Nome da Mãe' %>
-    <%= f.input :father_name, label: 'Nome do Pai' %>
-
-    <h2>Endereço</h2>
-    <%= f.simple_fields_for :address do |builder| %>
-      <%= render 'addresses/fields', f: builder %>
-    <% end %>
-
-    <h2>Inscrições Bolsão</h2>
-    <%= f.association :applied_super_klazzes, 
-        collection: SuperKlazz.all,
-        label_method: :label_method,
-        label: 'Turmas' %>
-
     <h2>Matrículas</h2>
     <%= f.association :enrolled_super_klazzes, 
       collection: SuperKlazz.all,

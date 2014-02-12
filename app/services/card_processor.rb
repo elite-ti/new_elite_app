@@ -12,8 +12,8 @@ class CardProcessor
     create_student_exams
     scan
     ActionMailer::Base.mail(
-      from: 'elitesim@sistemaeliterio.com.br',
-      to: @card_processing.employee.try(:email) || 'elitesim@sistemaeliterio.com.br',
+      from: 'pensisim@pensi.com.br',
+      to: @card_processing.employee.try(:email) || 'pensisim@pensi.com.br',
       subject: "Envio arquivo ##{@card_processing.id}",
       body: <<-eos
       Olá,

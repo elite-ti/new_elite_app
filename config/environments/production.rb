@@ -68,7 +68,7 @@ EliteApp::Application.configure do
   # ActionMailer configurations
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.default_url_options = { :host => "elitesim.sistemaeliterio.com.br" }
+  config.action_mailer.default_url_options = { :host => "pensi.3pir.com.br" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default charset: 'utf-8'
@@ -77,8 +77,8 @@ EliteApp::Application.configure do
     address: 'smtp.gmail.com',
     port: '587',
     domain: 'gmail.com',
-    user_name: 'elitesim@sistemaeliterio.com.br',
-    password: 'Er21CkOy',
+    user_name: 'pensisim@pensi.com.br',
+    password: 'pensi123456',
     enable_starttls_auto: true
   }
 

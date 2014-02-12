@@ -4,9 +4,7 @@ class StudentCsvImportWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
   
-  def perform(file)
-    p 'PARA TUDO'
-    p 'file'
-    Student.import(file)
+  def perform(file, email)
+    Student.import(file, email)
   end
 end

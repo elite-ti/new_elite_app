@@ -19,8 +19,8 @@ class StudentsController < ApplicationController
 
   def import
     p params[:file].tempfile.path
-    Student.import(params[:file].tempfile)
-    # StudentCsvImportWorker.perform_async(params[:file].tempfile.path)
+    # Student.import(params[:file].tempfile)
+    StudentCsvImportWorker.perform_async(params[:file].tempfile.path, current_employee.email)
     redirect_to root_url, notice: "Alunos importados com sucesso."
   end
 
