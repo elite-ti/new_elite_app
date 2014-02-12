@@ -309,7 +309,7 @@ DEPENDENCIES
   sidekiq
   simple_form
   thin
-  tiny_tds
+  tiny_tds (= 0.6.1)
   uglifier
   unicode_utils
   unicorn
