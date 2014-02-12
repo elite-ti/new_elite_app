@@ -139,7 +139,7 @@ class Student < ActiveRecord::Base
     end    
   end
 
-  def send_email_importing_error(errors, mail)
+  def send_email_importing_success(mail)
       ActionMailer::Base.mail(
         from: 'pensisim@pensi.com.br',
         to: email || 'pensisim@pensi.com.br',
