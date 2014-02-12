@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pensi - Cartão-Resposta</title>
+  </head>
+  <body>
+    <div>
+      <% if @exists_card %>
+        <%= image_tag @student_exam.card.png.url, width: '500' %>
+      <% end %>
+    </div>
+  </body>
+</html>

@@ -16,20 +16,20 @@ class CardProcessor
       to: @card_processing.employee.try(:email) || 'pensisim@pensi.com.br',
       subject: "Envio arquivo ##{@card_processing.id}",
       body: <<-eos
-      Olá,
+Olá,
 
-      Você acaba de enviar um arquivo para o EliteSim.
+Você acaba de enviar um arquivo para o PensiSim.
 
-      Prova: #{@card_processing.name}
-      Data prova: #{@card_processing.exam_date.strftime('%d/%m/%Y')}
-      Data Envio: #{@card_processing.created_at.strftime('%d/%m/%Y %H:%M')}
-      Unidade: #{@card_processing.campus.name}
-      Tipo de Cartão: #{@card_processing.card_type.name}
-      Quantidade de cartões: #{@card_processing.student_exams.size}
-      Quantidade de erros: #{@card_processing.number_of_errors}
+Prova: #{@card_processing.name}
+Data prova: #{@card_processing.exam_date.strftime('%d/%m/%Y')}
+Data Envio: #{@card_processing.created_at.strftime('%d/%m/%Y %H:%M')}
+Unidade: #{@card_processing.campus.name}
+Tipo de Cartão: #{@card_processing.card_type.name}
+Quantidade de cartões: #{@card_processing.student_exams.size}
+Quantidade de erros: #{@card_processing.number_of_errors}
 
-      --
-      Central de Resultados
+--
+PENSI Simulados
       eos
     ).deliver
   end 

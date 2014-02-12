@@ -11,6 +11,12 @@ class StudentExamsController < ApplicationController
     set_form_objects
   end
 
+  def card
+    @student_exam = StudentExam.where(exam_execution_id: Exam.where(code: params[:exam_code]).first.try(:exam_execution_ids), student_id: Student.where(ra: params[:student_ra]).first).first
+    @exists_card = !@student_exam.nil?
+    render :layout => false
+  end
+
   def update
     update_student_exam = UpdateStudentExam.new(params[:student_exam], @student_exam)
     if update_student_exam.update

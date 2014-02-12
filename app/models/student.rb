@@ -133,9 +133,9 @@ class Student < ActiveRecord::Base
 
     # send email
     if errors.size > 0
-      send_email_importing_error errors, mail
+      send_email_importing_error(errors, mail)
     else
-      send_email_importing_success email
+      send_email_importing_success(email)
     end    
   end
 

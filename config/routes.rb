@@ -4,6 +4,8 @@ EliteApp::Application.routes.draw do
   resources :attendance_lists
   resources :card_processings
   get 'card_processings/new/:exam_execution_id', to: 'card_processings#new'
+  get 'card/:student_ra/:exam_code', to: 'student_exams#card'
+  get 'card_processings/new/:exam_execution_id', to: 'card_processings#new'
   get 'calendar/', to: 'calendar#index'
 
   get 'exam_executions/', to: 'exam_executions#index'
