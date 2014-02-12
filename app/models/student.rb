@@ -114,31 +114,6 @@ class Student < ActiveRecord::Base
     end
   end
 
-  def self.import(file, email)
-    errors = []
-    file = file.path if file.class.to_s != 'String'
-    CSV.foreach(file) do |ra, student_name, campus_name, product_name, klazz_name|
-      begin
-        p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
-        student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
-        Enrollment.create!(
-          student_id: student.id, 
-          super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
-          klazz_id: Klazz.find_by_name(campus_name + ' - ' + klazz_name).try(:id))              
-      rescue Exception => e
-        errors << [ra, student_name, campus_name, product_name, klazz_name].join(', ')
-        p 'ERRO! ' + e.message
-      end
-    end
-
-    # send email
-    if errors.size > 0
-      send_email_importing_error(errors, mail)
-    else
-      send_email_importing_success(email)
-    end    
-  end
-
   def send_email_importing_success(mail)
       ActionMailer::Base.mail(
         from: 'pensisim@pensi.com.br',
@@ -175,6 +150,31 @@ Os seguintes alunos tiveram problemas na importação:
 PENSI Simulados
         eos
       ).deliver    
+  end
+
+  def self.import(file, email)
+    errors = []
+    file = file.path if file.class.to_s != 'String'
+    CSV.foreach(file) do |ra, student_name, campus_name, product_name, klazz_name|
+      begin
+        p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
+        student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
+        Enrollment.create!(
+          student_id: student.id, 
+          super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
+          klazz_id: Klazz.find_by_name(campus_name + ' - ' + klazz_name).try(:id))              
+      rescue Exception => e
+        errors << [ra, student_name, campus_name, product_name, klazz_name].join(', ')
+        p 'ERRO! ' + e.message
+      end
+    end
+
+    # send email
+    if errors.size > 0
+      send_email_importing_error(errors, mail)
+    else
+      send_email_importing_success(email)
+    end    
   end
 
   def log_changes(message)
