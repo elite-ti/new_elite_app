@@ -13,7 +13,7 @@ namespace :db do
 
       task quick: [
         :product_types, :products, :years, :product_years, :campuses, 
-        :subjects, :employees, :admins, :card_types, :super_klazzes, :klazzes, :students]
+        :subjects, :employees, :admins, :card_types, :super_klazzes, :klazzes, :students, :exam_executions]
 
       task all: [:quick, :teacher_photos]
       

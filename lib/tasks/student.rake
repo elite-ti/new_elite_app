@@ -527,6 +527,29 @@ namespace :student do
     end
   end
 
+  task select_totvs_table: :environment do
+    client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
+
+    # Retrieve list of students (currently enrolled)
+    result = client.execute(
+     "select
+        *
+      from CORPORERM.dbo.SMATRICPL as mat
+      where CODTURMA = 'MADIII_2014_EsPCEx'
+     "
+    )
+
+    # p 'RA,ALUNO,CODTURMA,TURMA'
+    p result.fields.join(',')
+    result.each do |row|
+      p result.fields.map{|field| row[field]}.join(',')
+      # p row.map{|key|}.join(',')
+      # p [row["RA"], row["ALUNO"], row["CODTURMA"], row["TURMA"]].join(',')
+    end
+
+    client.close
+  end
+
   task list_students: :environment do
     client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
 

@@ -2,7 +2,7 @@
 
 class ExamExecution < ActiveRecord::Base
 
-  attr_accessible :exam_cycle_id, :super_klazz_id, :exam_id, :datetime
+  attr_accessible :exam_cycle_id, :super_klazz_id, :exam_id, :datetime, :full_name
   delegate :is_bolsao, to: :exam_cycle
 
   belongs_to :exam_cycle
@@ -12,13 +12,14 @@ class ExamExecution < ActiveRecord::Base
   has_many :card_processings
 
   validates :exam_cycle, :super_klazz, :exam, presence: :true 
+  before_save :set_full_name
 
   def name
     exam_cycle.name + ' - ' + super_klazz.name + ' - ' + exam.exam_questions.size.to_s + ' questions'
   end
 
-  def full_name
-    super_klazz.campus.name + ' - ' + datetime.strftime('%d/%m') + ' - ' + exam.name
+  def set_full_name
+    self.full_name = super_klazz.campus.name + ' - ' + datetime.strftime('%d/%m') + ' - ' + exam.name
   end
 
   def number_of_enrolled_students

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140207014923) do
+ActiveRecord::Schema.define(:version => 20140212165443) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -135,6 +135,25 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.datetime "updated_at"
   end
 
+  create_table "clients", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "contact_name"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "document_versions", :force => true do |t|
+    t.integer  "exam_id"
+    t.string   "category"
+    t.string   "status"
+    t.string   "file"
+    t.text     "observation"
+    t.integer  "created_by"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "elite_roles", :force => true do |t|
     t.string   "name"
     t.integer  "school_role_id"
@@ -187,6 +206,16 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.integer  "klazz_id"
   end
 
+  create_table "error_logs", :force => true do |t|
+    t.integer  "campus_id"
+    t.integer  "error_code",                       :default => -1
+    t.string   "message",          :limit => 200
+    t.string   "trace",            :limit => 800
+    t.string   "full_description", :limit => 1024
+    t.datetime "event_time",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
+
   create_table "exam_answers", :force => true do |t|
     t.integer  "student_exam_id"
     t.integer  "exam_question_id"
@@ -212,6 +241,7 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.datetime "datetime"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "full_name"
   end
 
   create_table "exam_questions", :force => true do |t|
@@ -237,6 +267,14 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.datetime "updated_at"
     t.string   "subject"
     t.string   "code"
+  end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "school_event_id"
+    t.integer  "student_id"
+    t.boolean  "confirmed"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "klazz_periods", :force => true do |t|
@@ -266,6 +304,16 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "mini_exams", :force => true do |t|
+    t.integer  "exam_id"
+    t.integer  "subject_id"
+    t.integer  "options_per_question"
+    t.string   "correct_answers"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "order"
   end
 
   create_table "names", :force => true do |t|
@@ -424,6 +472,16 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.text     "model_answer"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "school_events", :force => true do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "event_type"
+    t.string   "specific_name"
+    t.integer  "capacity"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "school_roles", :force => true do |t|
@@ -594,6 +652,14 @@ ActiveRecord::Schema.define(:version => 20140207014923) do
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "update_commands", :force => true do |t|
+    t.integer  "campus_id"
+    t.string   "sql_command",    :limit => 2048
+    t.string   "custom_message", :limit => 200
+    t.datetime "update_time"
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "users", :force => true do |t|

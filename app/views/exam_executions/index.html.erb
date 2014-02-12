@@ -17,13 +17,13 @@
       <td>
         <span style='float: left;'>
           <%= link_to( 'Enviar', new_card_processing_path(exam_execution_id: exam_execution.id), :target => '_blank' )%>
-          | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank' %>
-          | <%= link_to 'Resultado', result_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank' %>
+          | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student+Exam'), :target => '_blank' %>
+          | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
           | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
           | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
         </span>
         <span style='float: left;margin-top: 3px;'>
-          <% if exam_execution.card_processings.size > 0 %>
+          <% if false && exam_execution.card_processings.size > 0 %>
               <%= image_tag('correct16.png', id: 'correct_check') %>
           <% end %>
         </span>

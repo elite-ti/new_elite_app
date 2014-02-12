@@ -1,10 +1,12 @@
 #encoding: UTF-8
 
 class TypeCCardPdfPrawn < Prawn::Document
-  def initialize(exam_execution_id, student_id)
+  def initialize(exam_execution_id, student_id, paint)
     @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
     @exam_code = @exam_execution.try(:exam).try(:code)
     @student = Student.find(student_id) if !student_id.nil?
+    @paint = paint
+    p paint
     super(page_size: "A4", page_layout: :portrait, top_margin: 20)
     set_default_parameters
     if !@exam_execution.nil? && !@student.nil?
@@ -27,8 +29,8 @@ private
     end
     header
     content
-    paint_student_options(student) if(!student.nil?)
-    paint_exam_options(@exam_code) if(!@exam_execution.nil?)
+    paint_student_options(student) if !student.nil? && @paint.include?("Student")
+    paint_exam_options(@exam_code) if !@exam_execution.nil? && @paint.include?("Exam")
     markers
     bottom    
   end

@@ -5,7 +5,7 @@ class ExamExecutionsController < ApplicationController
 
   def index
     if params[:filter_by].nil?
-      @exam_executions = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)).map(&:exam_executions).flatten.uniq
+      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)))
       @filter_by = ''
     elsif params[:filter_by] == 'is_bolsao'
       date = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).uniq.max
