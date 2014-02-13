@@ -1,19 +1,35 @@
-<%= title 'Campus - ' + @campus.name, 
-  (link_to('Edit', edit_campus_path(@campus)) if can?(:update, @campus)),
-  link_to('Back', campuses_path) %>
+<%= title 'Unidade - ' + @campus.name, 
+  (link_to('Editar', edit_campus_path(@campus)) if can?(:update, @campus)),
+  link_to('Voltar', campuses_path) %>
 
 <div class='tabs'>
   <ul>
-    <li><a href='#info_tab'>Info</a></li>
-    <% if false %>
-    <li><%= link_to 'Calendar', campus_periods_path(@campus), title: 'calendar_tab' %></li>
-    <% end %>
+    <li><a href='#info_tab'>Geral</a></li>
+    <li><a href='#super_klazzes_tab'>SuperTurmas</a></li>
+    <li><a href='#klazzes_tab'>Turmas</a></li>
   </ul>
 
   <div id='info_tab' class='resource'>
-    <p><span>Name: </span><%= @campus.name %></p>
-    <p><span>Klazzes: </span><%= @campus.klazzes.map(&:name).join(', ') %></p>
+    <p><span>Nome: </span><%= @campus.name %></p>
+    <p><span>Código: </span><%= @campus.code %></p>
   </div>
 
-  <div id='calendar_tab'></div>
+  <div id='klazzes_tab' class='resource'>
+    <p><span>Turmas: </span></p>
+    <ul>
+      <% @campus.klazzes.each do |klazz| %>
+        <li> <%= link_to(klazz.name, klazz, :target => '_blank') %> </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div id='super_klazzes_tab' class='resource'>
+    <p><span>SuperTurmas: </span></p>
+    <ul>
+      <% @campus.super_klazzes.each do |super_klazz| %>
+        <li> <%= link_to(super_klazz.name, super_klazz, :target => '_blank') %> </li>
+      <% end %>
+    </ul>
+  </div>
+
 </div>

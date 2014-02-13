@@ -7,7 +7,8 @@ class EmployeeSessionsController < ApplicationController
       employee.check_uid(env['omniauth.auth']['uid'])
       login employee
     else
-      redirect_to root_url, notice: 'Email address not found.'
+      p env['omniauth.auth']
+      redirect_to root_url, notice: 'Endereço de email não cadastrado.'
     end
   end
 
