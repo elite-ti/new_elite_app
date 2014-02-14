@@ -52,4 +52,5 @@ class ExamExecution < ActiveRecord::Base
     all_student_exams.select{|se| (StudentExam::NEEDS_CHECK).include?(se.status) }.first
     # student_exams.needing_check.first
   end
+
 end 

@@ -21,7 +21,11 @@ EliteApp::Application.routes.draw do
   get 'student_exams/new/', to: 'student_exams#new'
 
   resources :exam_answers
-  resources :exams
+  resources :exams do
+    collection do
+      post :import
+    end
+  end 
   resources :questions
   resources :exam_cycles
   resources :applicants
