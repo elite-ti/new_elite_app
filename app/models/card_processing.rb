@@ -1,3 +1,4 @@
+#encoding: utf-8
 class CardProcessing < ActiveRecord::Base
 
   BEING_PROCESSED_STATUS = 'Being processed'
@@ -60,6 +61,15 @@ class CardProcessing < ActiveRecord::Base
   end
 
   def remove_file!
+  end
+
+  def self.translate_status (input)
+    translation_hash = {
+      'Being processed' => 'Em processamento',
+      'Processed' => 'Processado',
+      'Error' => 'Erro',
+    }
+    translation_hash[input] || 'Não Encontrado'
   end
   
 private

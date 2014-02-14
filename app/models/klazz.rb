@@ -7,6 +7,7 @@ class Klazz < ActiveRecord::Base
   has_many :teachers, through: :periods
   has_many :subjects, through: :periods
   has_many :enrollments, dependent: :destroy  
+  has_many :enrolled_students, through: :enrollments, source: :student
 
   validates :name, :super_klazz, presence: true
   validates :name, uniqueness: true

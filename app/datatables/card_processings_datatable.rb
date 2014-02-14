@@ -22,7 +22,7 @@ private
       [
         h(card_processing.name),
         h(print_datetime(card_processing.created_at)),
-        card_processing.status + '<span><br/>' + links(card_processing) + '</span>',
+        CardProcessing.translate_status(card_processing.status) + '<span><br/>' + links(card_processing) + '</span>',
         h(card_processing.student_exams.select{|se| se.needs_check?}.size.to_s + ' / ' + card_processing.student_exams.size.to_s),
         h(print_date(card_processing.exam_date)),
         h(card_processing.campus.name)

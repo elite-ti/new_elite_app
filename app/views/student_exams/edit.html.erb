@@ -66,7 +66,7 @@
   
 <% elsif @student_exam.exam_not_found? %>
   <% if !@student_exam.card_processing.exam_execution.nil? %>
-      <h2>No exams available for this student</h2>
+      <h2>Não foi encontrada prova para esse aluno</h2>
 
       <%= image_tag @student_exam.card.student_url %>
       <p>

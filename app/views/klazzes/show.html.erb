@@ -1,50 +1,70 @@
 <%= title @klazz.name, 
-  (link_to('Edit', edit_klazz_path(@klazz)) if can?(:update, @klazz)),
-  link_to('Back', klazzes_path) %>
+  (link_to('Editar', edit_klazz_path(@klazz)) if can?(:update, @klazz)),
+  link_to('Voltar', klazzes_path) %>
 
 <div class='tabs'>
   <ul>
-    <li><a href='#info_tab'>Info</a></li>
+    <li><a href='#info_tab'>Geral</a></li>
+    <li><a href='#students_tab'>Alunos</a></li>
+    <li><a href='#exams_tab'>Provas</a></li>
     <% if false %>
-      <li><a href='#students_tab'>Students</a></li>
-    <% end %>
     <li><%= link_to 'Calendar', klazz_periods_path(@klazz), title: 'calendar_tab' %></li>
+    <% end %>
   </ul>
 
   <div id='info_tab' class='resource'>
-    <p><span>Super Klazz: </span><%= @klazz.super_klazz.name %></p>
+    <p><span>Super Turma: </span><%= @klazz.super_klazz.name %></p>
   </div>
 
-  <% if false %>
-    <div id='students_tab'>
-      <table id="students" class="display is-datatable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Ra</th>
-            <th>Email</th>
-          </tr>
-        </thead>
+  <div id='students_tab'>
+    <table id="students" class="display is-datatable">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>RA</th>
+          <th>Email</th>
+        </tr>
+      </thead>
 
-        <tbody>
-        <% @klazz.enrolled_students.each do |student| %>
-          <tr>
-            <td>
-              <%= student.name %>
-              <% if current_employee.admin? %>
-                <span style='float: right;'>
-                  <%= link_to 'Show', student_path(student) %> |
-                  <%= link_to 'Edit', edit_student_path(student) %> |
-                  <%= link_to 'Destroy', student, method: :delete, confirm: 'Are you sure?' %>
-                </span>
-              <% end %>
-            </td>
-            <td><%= student.ra %></td>
-            <td><%= student.email %></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
+      <tbody>
+      <% @klazz.enrolled_students.each do |student| %>
+        <tr>
+          <td>
+            <%= student.name %>
+            <% if current_employee.admin? %>
+              <span style='float: right;'>
+                <%= link_to 'Mostrar', student_path(student) %> |
+                <%= link_to 'Editar', edit_student_path(student) %> |
+                <%= link_to 'Deletar', student, method: :delete, confirm: 'Are you sure?' %>
+              </span>
+            <% end %>
+          </td>
+          <td><%= student.ra %></td>
+          <td><%= student.email %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id='exams_tab' class='resource'>
+    <table id="exam_executions" class="display is-datatable">
+      <thead>
+        <tr>
+          <th>Data de Aplicação</th>
+          <th>Nome</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @klazz.super_klazz.exam_executions.each do |exam_execution| %>
+        <tr>
+          <td><%= print_datetime(exam_execution.datetime) %></td>
+          <td><%= exam_execution.full_name %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>    
+  </div>
+
 </div>
