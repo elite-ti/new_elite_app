@@ -5,10 +5,12 @@ class Student < ActiveRecord::Base
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids, :number
+    :address_attributes, :applied_super_klazz_ids, :number, :enrolled_klazz_ids
+    # , :enrolled_super_klazz_ids
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :enrolled_super_klazzes, through: :enrollments, source: :super_klazz
+  has_many :enrolled_klazzes, through: :enrollments, source: :klazz
   has_many :enrolled_exam_executions, through: :enrolled_super_klazzes, source: :exam_executions
   has_many :enrolled_exams, through: :enrolled_exam_executions, source: :exam
 
@@ -114,11 +116,11 @@ class Student < ActiveRecord::Base
     end
   end
 
-  def send_email_importing_success(mail)
+  def self.send_email_importing_success(email)
       ActionMailer::Base.mail(
         from: 'pensisim@pensi.com.br',
         to: email || 'pensisim@pensi.com.br',
-        subject: "Envio arquivo importação de Alunos",
+        subject: "Envio arquivo importação de Alunos #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
         body: <<-eos
 Olá,
 
@@ -132,11 +134,11 @@ PENSI Simulados
       ).deliver
   end
 
-  def send_email_importing_error(errors, mail)
+  def self.send_email_importing_error(errors, email)
       ActionMailer::Base.mail(
         from: 'pensisim@pensi.com.br',
         to: email || 'pensisim@pensi.com.br',
-        subject: "Envio arquivo importação de Alunos",
+        subject: "Envio arquivo importação de Alunos #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
         body: <<-eos
 Olá,
 
@@ -162,7 +164,7 @@ PENSI Simulados
         Enrollment.create!(
           student_id: student.id, 
           super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
-          klazz_id: Klazz.find_by_name(campus_name + ' - ' + klazz_name).try(:id))              
+          klazz_id: Klazz.find_by_name(klazz_name).try(:id))              
       rescue Exception => e
         errors << [ra, student_name, campus_name, product_name, klazz_name].join(', ')
         p 'ERRO! ' + e.message
@@ -171,7 +173,7 @@ PENSI Simulados
 
     # send email
     if errors.size > 0
-      send_email_importing_error(errors, mail)
+      send_email_importing_error(errors, email)
     else
       send_email_importing_success(email)
     end    
@@ -180,4 +182,5 @@ PENSI Simulados
   def log_changes(message)
     File.open("log.txt", "a"){ |somefile| somefile.puts message }
   end
+
 end

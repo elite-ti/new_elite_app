@@ -33,4 +33,9 @@ class ExamsController < ApplicationController
     @exam.destroy
     redirect_to exams_url, notice: 'Exam was successfully destroyed.'
   end
+
+  def import
+    ExamCsvImportWorker.perform_async(params[:file].tempfile.path, current_employee.email)
+    redirect_to root_url, notice: "Provas importadas com sucesso."    
+  end
 end

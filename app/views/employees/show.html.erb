@@ -1,88 +1,10 @@
 <%= title @employee.name, 
-  (link_to('Edit', edit_employee_path(@employee)) if can?(:update, @employee)),
-  link_to(t('Back'), employees_path) %>
+  (link_to('Editar', edit_employee_path(@employee)) if can?(:update, @employee)),
+  link_to('Voltar', employees_path) %>
 
 <div id='employee_important_fields'>
   <div class='resource'>
-    <p><span>Elite ID: </span><%= @employee.elite_id %></p>
     <p><span>Email: </span><%= @employee.email %></p>
-    <p><span>Roles: </span><%= @employee.roles.map(&:titleize).join(', ') %></p>
-  </div>
-
-  <div id='photo'>
-    <%= image_tag(@employee.photo_url(:thumb)) if @employee.photo? %>
-  </div>
-</div>
-
-<div class='tabs'>
-  <ul>
-    <li><a href='#info_tab'>Info</a></li>
-
-    <% if @employee.teacher? %>
-      <li><%= link_to 'Calendário', teacher_periods_path(@employee.teacher), title: 'calendar_tab' %></li>
-      <li><%= link_to 'Disponibilidade', teacher_path(@employee.teacher), title: 'availability' %></li>
-    <% end %>
-  </ul>
-
-  <div id='info_tab'>
-    <div class='resource'>
-      <%= show_group 'Contact Info', 
-        {
-          'Personal Email' => @employee.personal_email,
-          'Cellphone' => @employee.cellphone,
-          'Alternative Cellphone' => @employee.alternative_cellphone,
-          'Telephone' => @employee.telephone,
-          'Alternative Telephone' => @employee.alternative_telephone,
-          'Contact Telephone' => @employee.contact_telephone,
-          'Contact Name' => @employee.contact_name
-        }
-      %>
-
-      <% if current_employee.admin? or current_employee == @employee %>
-        <% if @employee.address.present? %>
-          <%= show_group 'Address',
-            {
-              'Street' => @employee.address.street,
-              'Number' => @employee.address.number,
-              'Complement' => @employee.address.complement,
-              'Suburb' => @employee.address.suburb,
-              'City' => @employee.address.city,
-              'State' => @employee.address.state
-            } 
-          %>
-        <% end %>
-
-        <%= show_group 'Documents', 
-          {
-            'Identification Number' => @employee.identification,
-            'Expeditor' => @employee.expeditor,
-            'CPF' => @employee.cpf,
-            'Pis/Pasep' => @employee.pis_pasep,
-            'Working Paper Number' => @employee.working_paper_number,
-            'Date of Birth' => @employee.date_of_birth
-          }
-        %>
-      <% end %>
-
-      <%= 
-        # show_group 'Elite Info', 
-        # {
-        #   'Elite Role' => @employee.elite_role,
-        #   'Workload' => @employee.workload,
-        #   'Contract Type' => @employee.contract_type,
-        #   'Cost per Hour' => @employee.cost_per_hour.to_s
-        # }
-      %>
-    </div>
-  </div>
-
-  <div id='calendar_tab'></div>
-
-  <div id='availability'>
-    <% if !@employee.teacher.nil? %>
-      <% if !@employee.teacher.availability.blank? %>
-        <%= image_tag @employee.teacher.availability, width: '500' %>
-      <% end %>
-    <% end %>
+    <p><span>Credenciais: </span><%= @employee.roles.map{|role| Employee.translate_role(role.titleize)}.join(', ') %></p>
   </div>
 </div>

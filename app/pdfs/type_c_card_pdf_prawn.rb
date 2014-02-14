@@ -46,7 +46,7 @@ private
   end
 
   def header
-    move_down 20
+    move_down 10
     text "Cartão-Resposta", size: 20, style: :bold, :align => :center
     move_down 10
     text "Aluno: ", size: 12
@@ -57,7 +57,7 @@ private
     move_down 10
     text "Data: ", size: 12
     draw_blank_line 40, 100
-    move_up 5
+    move_down 5
     text 'Preencha o seu RA e Código da Prova', size: 12, :align => :center
   end
 
@@ -111,7 +111,7 @@ private
       fill
       draw_text char, at: [50 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end
-    draw_text student.name, at: [45, 725], size: 12
+    draw_text student.name, at: [45, 735], size: 12
   end
 
   def paint_exam_options code
@@ -121,7 +121,7 @@ private
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end    
-    draw_text @exam_execution.full_name, at: [45, 701], size: 12
-    draw_text @exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 677], size: 12
+    draw_text @exam_execution.full_name, at: [45, 711], size: 12
+    draw_text @exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 687], size: 12
   end
 end

@@ -27,11 +27,7 @@ class CardProcessingsController < ApplicationController
     @card_processing.employee_id = current_employee.id
     if @card_processing.save
       CardProcessorWorker.perform_async(@card_processing.id)
-      if @card_processing.try(:exam_execution).try(:exam_cycle).try(:is_bolsao) || false
-        redirect_to exam_executions_url(filter_by: 'is_bolsao'), notice: 'Cartões enviados com sucesso.'
-      else
-        redirect_to card_processings_url, notice: 'Cartões enviados com sucesso.'
-      end
+      redirect_to card_processings_url, notice: 'Cartões enviados com sucesso.'
     else
       set_campus_select
       render :new

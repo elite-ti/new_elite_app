@@ -44,8 +44,7 @@ class Employee < ActiveRecord::Base
   validates :name, presence: true
 
   # TODO: add hr role
-  ROLES = %w[admin teacher campus_head_teacher product_head_teacher 
-    subject_head_teacher campus_principal]
+  ROLES = %w[admin teacher campus_head_teacher]
 
   def roles
     ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
@@ -79,4 +78,76 @@ class Employee < ActiveRecord::Base
 
   def remove_photo!
   end
+
+  def self.translate_role input
+    translation_hash = {
+      'Admin' => 'Administrador',
+      'Teacher' => 'Professor',
+      'Campus head teacher' => 'Operador',
+      'Campus Head Teacher' => 'Operador'
+    }
+    translation_hash[input] || 'Não Encontrado'
+  end
+
+  def self.send_email_importing_success(mail)
+      ActionMailer::Base.mail(
+        from: 'pensisim@pensi.com.br',
+        to: email || 'pensisim@pensi.com.br',
+        subject: "Envio arquivo importação de Usuários #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de usuários.
+
+Não houveram problemas na importação.
+
+--
+PENSI Simulados
+        eos
+      ).deliver
+  end
+
+  def self.send_email_importing_error(errors, mail)
+      ActionMailer::Base.mail(
+        from: 'pensisim@pensi.com.br',
+        to: email || 'pensisim@pensi.com.br',
+        subject: "Envio arquivo importação de Usuários #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de usuários.
+
+Os seguintes usuários tiveram problemas na importação:
+
+#{errors.join('\n')}
+
+--
+PENSI Simulados
+        eos
+      ).deliver    
+  end
+
+  def self.import(file, email)
+    errors = []
+    file = file.path if file.class.to_s != 'String'
+    CSV.foreach(file) do |name, email|
+      begin
+        p "#{name},#{email}"
+        Employee.create!(
+          name: name,
+          email: email)
+      rescue Exception => e
+        errors << [name, email].join(', ')
+        p 'ERRO! ' + e.message          
+      end
+    end
+
+    # send email
+    if errors.size > 0
+      send_email_importing_error(errors, mail)
+    else
+      send_email_importing_success(email)
+    end    
+  end
+
 end

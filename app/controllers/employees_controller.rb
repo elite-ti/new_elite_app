@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class EmployeesController < ApplicationController
   load_and_authorize_resource
 
@@ -18,7 +19,7 @@ class EmployeesController < ApplicationController
 
   def create
     if @employee.save
-      redirect_to @employee, notice: 'Employee was successfully created.'
+      redirect_to @employee, notice: 'Funcionário criado com sucesso.'
     else
       set_employee
       render 'new'
@@ -27,11 +28,16 @@ class EmployeesController < ApplicationController
 
   def update
     if @employee.update_attributes(params[:employee]) || @employee.teacher.update_attributes(params[:teacher])
-      redirect_to @employee, notice: 'Employee was successfully updated.'
+      redirect_to @employee, notice: 'Funcionário editado com sucesso.'
     else
       set_employee
       render 'edit'
     end
+  end
+
+  def import
+    ExamCsvImportWorker.perform_async(params[:file].tempfile.path, current_employee.email)
+    redirect_to root_url, notice: "Usuários importados com sucesso."    
   end
 
 private

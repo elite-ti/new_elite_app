@@ -6,7 +6,6 @@
   <p>
     <span>Nome: </span><%= @card_processing.name %><br />
     <span>Data de aplicação: </span><%= print_date(@card_processing.exam_date) %><br />
-    <span>É Bolsao?: </span><%= @card_processing.is_bolsao ? 'True' : 'False' %><br />
     <span>Tipo de cartão: </span><%= @card_processing.card_type.name %><br />
     <span>Unidade: </span><%= @card_processing.campus.name %><br />
   </p>

@@ -8,4 +8,9 @@ class Enrollment < ActiveRecord::Base
 
   validates :student, :super_klazz, presence: true
   validates :student_id, uniqueness: { scope: :super_klazz_id }
+  before_validation :set_super_klazz_id
+
+  def set_super_klazz_id
+    self.super_klazz_id = Klazz.find(klazz_id).super_klazz_id
+  end
 end

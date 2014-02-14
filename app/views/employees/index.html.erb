@@ -1,6 +1,14 @@
 <%= title 'Funcionários', 
   (link_to('Novo Funcionário', new_employee_path) if can?(:create, Employee)) %>
 
+<h2>Importar Funcionários</h2>
+<p>Formato: Nome,Email,Credencial,Unidade (CSV sem cabeçalho)</p>
+<%= form_tag import_students_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Importar" %>
+<% end %>
+<br>
+
 <table id='employees' class='display is-datatable'>
   <thead>
     <tr>
@@ -24,7 +32,7 @@
           <% end %>
         </span>
       </td>
-      <td><%= employee.roles.map(&:titleize).join(', ') %></td>
+      <td><%= employee.roles.map{|role| Employee.translate_role(role.titleize)}.join(', ') %></td>
     </tr>
   <% end %>
   </tbody>

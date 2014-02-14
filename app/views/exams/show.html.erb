@@ -2,39 +2,77 @@
   link_to('Editar', edit_exam_path(@exam)),
   link_to('Voltar', exams_path) %>
 
-<div class='resource'>
-  <p><span>Data de aplicação: </span><%= @exam.exam_executions.map(&:datetime).uniq.map{|dt| print_datetime(dt)}.join(', ') %>
-  <p><span>Ciclo: </span><%= @exam.exam_executions.first.exam_cycle.name %>
-  <p><span>Disciplinas: </span><%= @exam.exam_subjects.map(&:name).join(', ') %>
-  <p><span>Opções por questão: </span><%= @exam.options_per_question.to_s %>
-  <p><span>Gabarito: </span><%= @exam.correct_answers %>
-</div>
+  <div class='tabs'>
+    <ul>
+      <li><a href='#info'>Geral</a></li>
+      <li><a href='#questions'>Questões</a></li>
+      <li><a href='#executions'>Aplicações</a></li>
+    </ul>
+    
+    <div id='info'>
+      <p>
+        <span style="font-weight:bold;">Datas de aplicação: </span><%= @exam.exam_executions.map(&:datetime).uniq.map{|dt| print_datetime(dt)}.join(', ') || 'Não Encontrado' %><br /><br />
+        <span style="font-weight:bold;">Ciclo: </span><%= @exam.exam_executions.try(:first).try(:exam_cycle).try(:name) || 'Não Encontrado' %><br /><br />
+        <span style="font-weight:bold;">Disciplinas: </span><%= @exam.exam_subjects.map(&:name).join(', ') || 'Não Encontrado' %><br /><br />
+        <span style="font-weight:bold;">Opções por questão: </span><%= @exam.options_per_question.to_s || 'Não Encontrado' %><br /><br />
+        <span style="font-weight:bold;">Gabarito: </span><%= @exam.correct_answers || 'Não Encontrado' %><br /><br />
+      </p>
+    </div>
 
-<h2>Questões</h2>
-<table id='exam_questions' class='display is-datatable'>
-  <thead>
-    <tr>
-      <th>Questão</th>
-      <th>Resposta</th>
-      <th>Gabarito</th>
-      <th>Disciplina</th>
-    </tr>
-  </thead>
+    <div id='questions'>
+      <table id='exam_questions' class='display is-datatable'>
+        <thead>
+          <tr>
+            <th>Questão</th>
+            <th>Resposta</th>
+            <th>Gabarito</th>
+            <th>Disciplina</th>
+          </tr>
+        </thead>
 
-  <tbody>
-  <% @exam.questions.each do |question| %>
-    <tr>
-      <td>
-        <%= question.stem %>
-        <span>
-          <%= link_to 'Mostrar', question %> |
-          <%= link_to 'Editar', edit_question_path(question) %>
-        </span>
-      </td>
-      <td><%= question.model_answer %></td>
-      <td><%= question.correct_options.map(&:letter).join(', ') %></td>
-      <td><%= question.topics.map(&:name).join(', ') %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+        <tbody>
+        <% @exam.questions.each do |question| %>
+          <tr>
+            <td>
+              <%= question.stem %>
+              <span>
+                <%= link_to 'Mostrar', question %> |
+                <%= link_to 'Editar', edit_question_path(question) %>
+              </span>
+            </td>
+            <td><%= question.model_answer %></td>
+            <td><%= question.correct_options.map(&:letter).join(', ') %></td>
+            <td><%= question.topics.map(&:name).join(', ') %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id='executions'>
+      <table id='exam_executions' class='display is-datatable'>
+        <thead>
+          <tr>
+            <th>SuperTurma</th>
+            <th>Data de Aplicação</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @exam.exam_executions.each do |exam_execution| %>
+          <tr>
+            <td><%= exam_execution.super_klazz.name %>
+              <span style='float: left;'>
+                <%= link_to( 'Enviar', new_card_processing_path(exam_execution_id: exam_execution.id), :target => '_blank' )%>
+                | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student+Exam'), :target => '_blank' %>
+                | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
+                | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
+                | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
+              </span>
+            </td>
+            <td><%= print_datetime(exam_execution.datetime) %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>      
+    </div>

@@ -2,11 +2,11 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :start_date %>
-    <%= f.input :end_date %>
-    <%= f.input :is_bolsao %>
-    <%= f.association :product_year %>
+    <%= f.input :name, label: 'Nome' %>
+    <%= f.input :start_date, label: 'Início' %>
+    <%= f.input :end_date, label: 'Término' %>
+    <%= hidden_field_tag :is_bolsao, false %>
+    <%= f.association :product_year, label: 'Produto' %>
   </div>
 
   <div class="form-actions">

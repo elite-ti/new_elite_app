@@ -8,9 +8,9 @@
     <%= f.input :ra, label: 'RA' %>
 
     <h2>Matrículas</h2>
-    <%= f.association :enrolled_super_klazzes, 
-      collection: SuperKlazz.all,
-      label_method: :label_method,
+    <%= f.association :enrolled_klazzes, 
+      collection: Klazz.all,
+      label_method: :name,
       label: 'Turmas' %>
   </div>
 
