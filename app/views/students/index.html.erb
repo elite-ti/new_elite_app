@@ -12,6 +12,16 @@
       <%= submit_tag "Filtrar", :name => nil %>
     </p>
   <% end %>
+
+<% elsif current_employee.admin? %>
+  <h2>Importar Alunos</h2>
+  <p>Formato: RA,Nome,Unidade,Produto (CSV sem cabeçalho)</p>
+  <%= form_tag import_students_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Importar" %>
+  <% end %>
+  <br>
+  
 <% end %>
 
 <table id="students" class="display is-datatable">

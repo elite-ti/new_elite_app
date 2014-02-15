@@ -12,11 +12,11 @@ namespace :db do
             'C - 2ª Série Militar - All - POR(25) + MAT(25): DECACEADDADBADECABDEADBCA AAEACBCBEEEAECACAACBECEDA',
             'C - 9º Ano Militar - All - POR(25) + MAT(25): DECACEADDADBADECABDEADBCA AAEACBCBEEEAECACAACBECEDA',
             'C - AFA/EAAr/EFOMM - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
-            'C - AFA/EN/EFOMM - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
-            'C - AFA/ESPCEX - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
-            'C - EsPCEx - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
+            'C - AFA/EN/EFOMM, 3ª Série + AFA/EN/EFOMM - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
+            'C - AFA/ESPCEX, 3ª Série + AFA/ESPCEX - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
+            'C - ESPCEX, 3ª Série + ESPCEX - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
             'C - EsSA - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC',
-            'C - IME-ITA - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC']
+            'C - IME-ITA, 3ª Série + IME-ITA - All - POR(25) + MAT(25): ECDDBEACDEACADBCDEDEDACCC EDCACDACBDEABCDCCDCBBEAEC']
           create_exams(array, datetime, cycle_name, exam_name)
         end
         task add_exams_15FEB_bolsao: :environment do
@@ -33,8 +33,8 @@ namespace :db do
             'C - 7º Ano, 8º Ano - All - POR(15) + MAT(15): BCEDACEDCECCADC EDBCCAAABAEADBA - Tarde',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
             'C - 9º Ano Forte, 9º Ano Militar - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
-            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
-            'C - AFA/EEAr/EFOMM, EsSA - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): ABDCADEECDBACDC AAEADBABCDECCBD - Manhã',
+            'C - AFA/EAAr/EFOMM, EsSA - All - POR(15) + MAT(15): BCEDBEAEDECADED AEADBAACDECBBDC - Tarde',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): BDACBDAADAACBDA AAADBACDDDCAECC - Manhã',
             'C - AFA/EN/EFOMM, ESPCEX, IME-ITA, AFA/ESPCEX - All - POR(15) + MAT(15): CEBDCDBADBBDCEB AADAACDBDCADCCE - Tarde',
             'C - Pré-Vestibular Biomédicas, Pré-Vestibular Manhã, Pré-Vestibular Noite - All - POR(15) + MAT(15): BDACBDAADAECDCD AAADABCDBDEDDCE - Manhã',
@@ -2151,7 +2151,7 @@ namespace :db do
             action, product_names, campus_names, exam_attributes = line.split(' - ')
             product_names = product_names.gsub(/ \(\S*\)/, '')
             p product_names
-            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2013').first! end
+            product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2014').first! end
             campuses = (campus_names == 'All' ? Campus.all : Campus.where(name: campus_names.split(', ')))
             subjects, correct_answers = exam_attributes.split(': ')
             subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]

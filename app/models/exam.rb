@@ -119,27 +119,71 @@ PENSI Simulados
     CSV.foreach(file) do |is_bolsao, datetime, campus_name, product_name, exam_name, cycle_name, subjects, answers|
       begin
         ActiveRecord::Base.transaction do 
-          p "#{exam_code},#{datetime},#{campus_name},#{product_name},#{exam_name},#{cycle_name},#{subjects},#{answers}"
-          is_bolsao = is_bolsao == '0' ? false : true
+          p "#{is_bolsao},#{datetime},#{campus_name},#{product_name},#{exam_name},#{cycle_name},#{subjects},#{answers}"
+
+          action, product_names, campus_names, exam_attributes, shift = line.split(' - ')
+          product_names = product_names.gsub(/ \(\S*\)/, '')
+          p product_names
+          product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2014').first! end
+          campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split(', ')))
+          subjects, correct_answers = exam_attributes.split(': ')
+          p subjects
+          subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+          correct_answers = correct_answers.gsub(' ', '')
           exam = Exam.create!(
-            name: exam_name + ' - ' + product_name,
-            options_per_question: 5,
-            correct_answers: '',
-            code: exam_code)
-          campuses = campus_name == 'Todas' ? Campus.all : Campus.find_by_name(campus_name)
-          exam_cycle_id = ExamCycle.where(name: cycle_name + ' - ' + product_name).first_or_create!(is_bolsao: is_bolsao, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).id
-          product_year_id = ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id
+            name: cycle_name + exam_name, 
+            correct_answers: correct_answers, 
+            options_per_question: 5)
 
-          campuses.each do |campus|
-            super_klazz_id = SuperKlazz.where(campus_id: campus.id, product_year_id: product_year_id).first.try(:id)
-            next if super_klazz_id.nil?
+          starting_at = 1
+          subject_hash.each_pair do |subject_code, number_of_questions|
+            number_of_questions = number_of_questions.to_i
+            subject = Subject.where(code: subject_code).first!
 
-            ExamExecution.create!(
-              exam_cycle_id: exam_cycle_id,
-              super_klazz_id: super_klazz_id,
-              exam_id: exam.id,
-              datetime: datetime.to_datetime)
+            subject_question_ids = 
+              ExamQuestion.where(
+                number: (starting_at..(starting_at + number_of_questions - 1)),
+                exam_id: exam.id).map(&:question).map(&:id)
+
+            subject_topic = 
+              Topic.where(name: subject.name, subject_id: subject.id).
+              first_or_create!(subtopics: 'All')
+
+            subject_question_ids.each do |subject_question_id|
+              QuestionTopic.create!(
+                question_id: subject_question_id,
+                topic_id: subject_topic.id)
+            end
+            starting_at = starting_at + number_of_questions
           end
+
+          product_years.each do |product_year|
+            if shift.nil?
+              shift_string = ''
+            else
+              shift_string = "#{shift} - "
+            end              
+            exam_cycle = ExamCycle.where(
+              name: cycle_name + shift_string + product_year.product.name + " - #{subjects}").first_or_create!(
+              is_bolsao: true, product_year_id: product_year.id)
+
+            campuses.each do |campus|
+              super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+              next if super_klazz.nil?
+              
+              if action == 'C'
+                ExamExecution.create!(
+                  exam_cycle_id: exam_cycle.id, 
+                  super_klazz_id: super_klazz.id,
+                  datetime: datetime,
+                  exam_id: exam.id)
+              elsif action == 'U'
+                exam_execution = ExamExecution.where(exam_cycle_id: exam_cycle.id, super_klazz_id: super_klazz.id).first
+                exam_execution.update_attribute :exam_id, exam.id
+              end
+            end
+          end
+
         end
       rescue Exception => e
         errors << [exam_code, datetime, campus_name, product_name, exam_name, cycle_name, subjects, answers].join(', ')

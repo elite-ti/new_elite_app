@@ -52,8 +52,11 @@ class AttendanceListPrawn < Prawn::Document
       end      
     end
 
+    p 'printing header'
     header
+    p 'now content'
     content
+    p 'over'
   end
 
 private

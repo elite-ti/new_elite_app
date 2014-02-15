@@ -2,7 +2,17 @@
 
 namespace :student do
   task create_attendance_lists: :environment do
-    if ENV['BOLSAO_DATE'].nil?
+    if !ENV['DATE'].nil?
+      date = ENV['DATE'].to_date
+      `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
+      ExamCycle.where(is_bolsao: false).map(&:exam_executions).flatten.select{|e| e.datetime.to_date == date}.uniq.each do |exam_execution|
+        p exam_execution.full_name
+        pdf = AttendanceListPrawn.new(exam_execution.id)
+        filename = File.join(Rails.root,'public/lists', 'ListaPresença_15FEV_' + exam_execution.super_klazz.campus.name + '_' + exam_execution.super_klazz.product_year.name.gsub('/', '-') + '.pdf')
+        p filename
+        pdf.render_file(filename)
+      end
+    elsif ENV['BOLSAO_DATE'].nil?
       bolsao_id = ENV['BOLSAO_ID'].to_i
       `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
       Applicant.where(bolsao_id: bolsao_id).group_by{|a| [a.group_name, a.exam_campus_id]}.each do |k, v|
@@ -527,23 +537,41 @@ namespace :student do
     end
   end
 
+  task select_totvs_table: :environment do
+    client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
+    result = client.execute(
+     "select
+        CODSTATUS, DESCRICAO
+      from CORPORERM.dbo.SSTATUS
+     "
+    )
+
+    result.each do |row|
+      p row
+    end
+
+    client.close
+  end
+
   task list_students: :environment do
     client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
 
     # Retrieve list of students (currently enrolled)
     result = client.execute(
      "select
-        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA
+        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS
       from CORPORERM.dbo.SMATRICPL as mat
         inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
         inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
         inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
+      where
+        mat.CODTURMA like '%2014%'
       order by mat.RA"
     )
 
-    p 'RA,ALUNO,CODTURMA,TURMA'
+    p 'RA,ALUNO,CODTURMA,TURMA,STATUS'
     result.each do |row|
-      p [row["RA"], row["ALUNO"], row["CODTURMA"], row["TURMA"]].join(',')
+      p [row["RA"], row["ALUNO"], row["CODTURMA"], row["TURMA"], row["STATUS"]].join(',')
     end
 
     client.close

@@ -114,6 +114,76 @@ class Student < ActiveRecord::Base
     end
   end
 
+  def self.send_email_importing_success(email)
+      ActionMailer::Base.mail(
+        from: 'elitesim@sistemaeliterio.com.br',
+        to: email || 'elitesim@sistemaeliterio.com.br',
+        subject: "Envio arquivo importação de Alunos #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de alunos.
+
+Não houveram problemas na importação.
+
+--
+EliteSIM
+        eos
+      ).deliver
+  end
+
+  def self.send_email_importing_error(errors, email)
+      ActionMailer::Base.mail(
+        from: 'elitesim@sistemaeliterio.com.br',
+        to: email || 'elitesim@sistemaeliterio.com.br',
+        subject: "Envio arquivo importação de Alunos #{DateTime.now.strftime('%d/%m/%Y %H:%M')}",
+        body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para importação de alunos.
+
+Os seguintes alunos tiveram problemas na importação:
+
+#{errors.join('\n')}
+
+--
+EliteSIM
+        eos
+      ).deliver    
+  end
+
+  def self.import(file, email)
+    errors = []
+    file = file.path if file.class.to_s != 'String'
+    CSV.foreach(file) do |ra, student_name, campus_name, product_name|
+      begin
+        p "#{ra},#{student_name},#{campus_name},#{product_name}"
+        student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
+        Enrollment.where(
+          student_id: student.id, 
+          super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.last.number.to_s).id).first_or_create!.id
+        ).first_or_create!             
+      rescue Exception => e
+        if Campus.where(name: campus_name).size != 1
+          p 'Invalid campus!'
+        elsif ProductYear.where(name: product_name + ' - ' + Year.last.number.to_s)
+          p 'Invalid Product!'
+        else
+          p 'Unknown!'
+        end
+            
+        errors << [ra, student_name, campus_name, product_name].join(', ')
+        p 'ERRO! ' + e.message
+      end
+    end
+
+    # send email
+    if errors.size > 0
+      send_email_importing_error(errors, email)
+    else
+      send_email_importing_success(email)
+    end    
+  end
 
   def log_changes(message)
     File.open("log.txt", "a"){ |somefile| somefile.puts message }

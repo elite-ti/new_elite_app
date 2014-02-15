@@ -33,6 +33,9 @@ EliteApp::Application.routes.draw do
     member do 
       get :fix_ra
     end
+    collection do
+      post :import
+    end
   end
 
   resources :poll_question_types
