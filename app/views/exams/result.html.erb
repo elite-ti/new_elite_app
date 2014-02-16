@@ -1,0 +1,43 @@
+<%= title 'Resultado Consolidado', 
+  link_to('Salvar', '#', :id => 'save_button_exam_execution'),
+  link_to('Voltar', exams_path) %>
+
+<h2 class="klazz_name_exam_execution"><%= @exam.name + ' • ' + @exam.exam_product_years.map(&:name).join(', ') %></h2>
+<% if @has_errors %>
+  <p class="alert-error">Alguns alunos não constam no resultado abaixo por erro de marcação.</p>
+  <p class="alert-error">Termine a resolução de pendências para retirar o resultado completo. </p>
+<% end %>
+
+<table id="results" class="display is-one-page-datatable">
+  <thead>
+    <tr>
+      <th>RA</th>
+      <th>Nome</th>
+      <th>Unidade</th>
+      <% @subjects.each do |subject| %>
+        <th><%= subject.code %></th>
+      <% end %>
+      <th>Total</th>
+   </tr>
+  </thead>
+
+  <tbody>
+  <% @student_exams.each do |student_exam| %>
+    <tr>
+      <td><%= "%07d" % result['RA'].to_i %></td>
+      <td><%= result['NAME'].split(' ').map(&:capitalize).join(' ') %>
+        <span style='float: right;'>
+          <%= student_exam_path(student_exam) %>
+        </span>
+      </td>
+      <td><%= student_exam.campus.name %></td>
+      <% sum = 0 %>
+      <% grades_hash = Hash[*student_exam.grades.split(',')] %>
+      <% @subjects.each do |subject| %>
+        <td><%= grades_hash[subject.code] %></td>
+      <% end %>
+      <td><%= grades_hash.values.average %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

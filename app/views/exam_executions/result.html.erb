@@ -16,7 +16,7 @@
 <h2 class="klazz_name_exam_execution"><%= @exam_execution.exam_cycle.name + ' • ' + @exam_execution.super_klazz.campus.name + ' • ' + @exam_execution.datetime.strftime('%d/%m/%Y') %></h2>
 <% if @has_errors %>
   <p class="alert-error">Alguns alunos não constam no resultado abaixo por erro de marcação.</p>
-  <p class="alert-error">Aguarde o Setor de Resultados terminar a resolução de pendências para retirar o resultado completo. </p>
+  <p class="alert-error">Termine a resolução de pendências para retirar o resultado completo. </p>
 <% end %>
 
 <table id="results" class="display is-one-page-datatable">

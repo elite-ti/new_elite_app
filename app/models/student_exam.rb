@@ -173,12 +173,18 @@ class StudentExam < ActiveRecord::Base
     end
   end 
 
-  def set_exam_answers   
+  def set_exam_answers
+    grades_total = Hash[*exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|sub| sub}.map{|key, value| [key,value.size]}.flatten]
+    grades_hash = Hash[*grades_total.map{|k,v| [k,0]}.flatten]
     exam_execution.exam.exam_questions.each do |exam_question|
-      exam_answers.build(
+      exam_answer = exam_answers.build(
         answer: string_of_answers[exam_question.number - 1], 
         exam_question_id: exam_question.id)
+      subject = exam_answer.exam_question.question.topics.first.subject.code
+      correct_answers = exam_answer.exam_question.question.options.select{|o| o.correct}.map(&:letter)
+      grades_hash[subject] = grades_hash[subject] + 1 if correct_answers.include?(exam_answer.answer) || correct_answers.size == 5
     end
+    self.grades = grades_hash.map{|subject_name,grade|[subject_name,grade/grades_total[subject_name]].join(',')}.join(',')
 
     # comment
     if answers_needing_check.any? && !is_bolsao
@@ -186,6 +192,18 @@ class StudentExam < ActiveRecord::Base
     else
       self.status = VALID_STATUS
     end
+  end
+
+  def set_grades
+    grades_total = Hash[*exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|sub| sub}.map{|key, value| [key,value.size]}.flatten]
+    grades_hash = Hash[*grades_total.map{|k,v| [k,0]}.flatten]
+    exam_answers.each do |exam_answer|
+      subject = exam_answer.exam_question.question.topics.first.subject.code
+      correct_answers = exam_answer.exam_question.question.options.select{|o| o.correct}.map(&:letter)
+      grades_hash[subject] = grades_hash[subject] + 1 if correct_answers.include?(exam_answer.answer) || correct_answers.size == 5
+    end
+    p grades_hash
+    self.grades = grades_hash.map{|subject_name,grade|[subject_name,(10*grade.to_f/grades_total[subject_name].to_f).round(2)].join(',')}.join(',')
   end
 
   def get_exam_answers

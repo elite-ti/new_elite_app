@@ -26,6 +26,13 @@ class Exam < ActiveRecord::Base
     exam_questions.includes(:question  => {:topics => :subject}).inject(Hash.new(0)){|h, v| h[v.topics.first.subject] += 1; h}
   end
 
+  def exam_product_years
+    exam_executions.map(&:super_klazz).map(&:product_year).uniq
+  end
+
+  def exam_dates
+    exam_executions.map(&:datetime).map(&:to_date).uniq
+  end
 
 private
 

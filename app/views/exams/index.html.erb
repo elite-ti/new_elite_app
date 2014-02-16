@@ -12,20 +12,24 @@
 <table id='exams' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Nome</th>
+      <th>Turmas</th>
+      <th>Links</th>
     </tr>
   </thead>
 
   <tbody>
   <% @exams.each do |exam| %>
     <tr>
+      <td><%= exam.name %></td>
+      <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
       <td>
-        <%= exam.name %>
         <span>
-          <%= link_to 'Show', exam %> |
-          <%= link_to 'Edit', edit_exam_path(exam) %> |
-          <%= link_to 'Destroy', exam, method: :delete, confirm: 'Are you sure?' %> 
-        </span>
+          <%= link_to 'Mostrar', exam %> |
+          <%= link_to 'Editar', edit_exam_path(exam) %> |
+          <%= link_to 'Resultado', result_exam_path(exam) %> |
+          <%= link_to 'Deletar', exam, method: :delete, confirm: 'Are you sure?' %> 
+        </span>        
       </td>
     </tr>
   <% end %>

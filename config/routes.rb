@@ -22,6 +22,9 @@ EliteApp::Application.routes.draw do
 
   resources :exam_answers
   resources :exams do
+    member do 
+      get :result
+    end
     collection do
       post :import
     end

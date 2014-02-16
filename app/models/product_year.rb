@@ -24,10 +24,10 @@ class ProductYear < ActiveRecord::Base
   end
 
   def self.school_products
-    ProductYear.where(name: SCHOOL_PRODUCT_NAMES)
+    ProductYear.where(name: SCHOOL_PRODUCT_NAMES, year_id: Year.last.id)
   end
 
   def self.free_course_products
-    ProductYear.where("name not in (?)", SCHOOL_PRODUCT_NAMES)
+    ProductYear.where("name not in (?)", SCHOOL_PRODUCT_NAMES).where(year_id: Year.last.id)
   end
 end

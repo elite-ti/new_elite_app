@@ -2,6 +2,13 @@ class ExamsController < ApplicationController
   load_and_authorize_resource
 
   def index
+    is_bolsao = [true, false] if params[:is_bolsao].nil?
+    is_bolsao = (params[:filter_by] == 'true' ? true : false) if params[:is_bolsao].present?
+
+    @exams = Exam.where(id: ExamExecution.where(
+      super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), 
+      exam_cycle_id: ExamCycle.where(is_bolsao: is_bolsao, product_year_id: ProductYear.where(year_id: Year.last.id))
+    ).map(&:exam_id).uniq)
   end
 
   def show
@@ -37,6 +44,13 @@ class ExamsController < ApplicationController
   def import
     ExamCsvImportWorker.perform_async(params[:file].tempfile.path, current_employee.email)
     redirect_to root_url, notice: "Provas importadas com sucesso."    
+  end
+
+  def result
+    exam_execution_ids = @exam.exam_execution_ids
+    @student_exams = StudentExam.where(status: StudentExam::VALID_STATUS, exam_execution_id: exam_execution_ids)
+    @subjects = @exam.exam_subjects
+    @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
   end
 
 end

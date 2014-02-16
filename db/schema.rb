@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131210182342) do
+ActiveRecord::Schema.define(:version => 20140216204355) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -186,6 +186,16 @@ ActiveRecord::Schema.define(:version => 20131210182342) do
     t.datetime "updated_at"
   end
 
+  create_table "error_logs", :force => true do |t|
+    t.integer  "campus_id"
+    t.integer  "error_code",                       :default => -1
+    t.string   "message",          :limit => 200
+    t.string   "trace",            :limit => 800
+    t.string   "full_description", :limit => 1024
+    t.datetime "event_time",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
+
   create_table "exam_answers", :force => true do |t|
     t.integer  "student_exam_id"
     t.integer  "exam_question_id"
@@ -234,7 +244,6 @@ ActiveRecord::Schema.define(:version => 20131210182342) do
     t.integer  "options_per_question"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject"
   end
 
   create_table "klazz_periods", :force => true do |t|
@@ -264,6 +273,16 @@ ActiveRecord::Schema.define(:version => 20131210182342) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "mini_exams", :force => true do |t|
+    t.integer  "exam_id"
+    t.integer  "subject_id"
+    t.integer  "options_per_question"
+    t.string   "correct_answers"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "order"
   end
 
   create_table "names", :force => true do |t|
@@ -440,6 +459,7 @@ ActiveRecord::Schema.define(:version => 20131210182342) do
     t.string   "string_of_answers"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "grades"
   end
 
   create_table "students", :force => true do |t|
@@ -593,12 +613,12 @@ ActiveRecord::Schema.define(:version => 20131210182342) do
     t.datetime "updated_at"
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "login"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "update_commands", :force => true do |t|
+    t.integer  "campus_id"
+    t.string   "sql_command",    :limit => 2048
+    t.string   "custom_message", :limit => 200
+    t.datetime "update_time"
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "versions", :force => true do |t|
