@@ -24,8 +24,8 @@
   <tbody>
   <% @student_exams.each do |student_exam| %>
     <tr>
-      <td><%= "%07d" % result['RA'].to_i %></td>
-      <td><%= result['NAME'].split(' ').map(&:capitalize).join(' ') %>
+      <td><%= "%07d" % student_exam.student.ra %></td>
+      <td><%= student_exam.student.name.split(' ').map(&:capitalize).join(' ') %>
         <span style='float: right;'>
           <%= student_exam_path(student_exam) %>
         </span>
