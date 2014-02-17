@@ -36,7 +36,7 @@
       <% @subjects.each do |subject| %>
         <td><%= grades_hash[subject.code] %></td>
       <% end %>
-      <td><%= grades_hash.values.average %></td>
+      <td><%= grades_hash.values.map(&:to_f).average %></td>
     </tr>
   <% end %>
   </tbody>
