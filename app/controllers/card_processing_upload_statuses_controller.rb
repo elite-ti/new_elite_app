@@ -18,12 +18,13 @@ class CardProcessingUploadStatusesController < ApplicationController
     exam_date = params[:id].to_date
     @results = 
       StudentExam.where(
+        status: StudentExam::VALID_STATUS,
         exam_execution_id:
           ExamExecution.where(
             datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day), 
             super_klazz_id: SuperKlazz.where(campus_id: campus_ids).map(&:id)
           ).map(&:id)
-      ).map{|student_exam| ["1", "301", "N", "%06d" % student_exam.student.ra,student_exam.grades].join(';')}
+      ).map{|student_exam| ["1", "301", "N", "%06d" % (student_exam.student.ra || 0),student_exam.grades].join(';')}
     respond_to do |format|
       format.html
       format.csv { render text: @results.to_csv }
