@@ -25,18 +25,14 @@
   <% @student_exams.each do |student_exam| %>
     <tr>
       <td><%= "%07d" % student_exam.student.ra %></td>
-      <td><%= student_exam.student.name.split(' ').map(&:capitalize).join(' ') %>
-        <span style='float: right;'>
-          <%= student_exam_path(student_exam) %>
-        </span>
-      </td>
+      <td><%= link_to(student_exam.student.name.split(' ').map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
       <td><%= student_exam.campus.name %></td>
       <% sum = 0 %>
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
       <% @subjects.each do |subject| %>
         <td><%= grades_hash[subject.code] %></td>
       <% end %>
-      <td><%= grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size %></td>
+      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(2) %></td>
     </tr>
   <% end %>
   </tbody>
