@@ -37,8 +37,6 @@
         <td><%= grades_hash[subject.code].to_i*2.5 %></td>
       <% end %>
       <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(2) %></td>
-      <td>index + 1</td>
-      <td><%= student_exam.string_of_answers %></td>
     </tr>
   <% end %>
   </tbody>
