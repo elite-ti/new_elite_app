@@ -2,7 +2,7 @@
   link_to('Salvar', '#', :id => 'save_button_exam_execution'),
   link_to('Voltar', exams_path) %>
 
-<h2 class="klazz_name_exam_execution"><%= @exam.name + ' • ' + @exam.exam_product_years.map(&:name).join(', ') %></h2>
+<h2 class="klazz_name_exam_execution"><%= @exam.name + ' • ' + @exam.exam_product_years.map(&:name).join(', ') + ' • ' + @exam.exam_dates.first.strftime('%d/%m/%Y') %></h2>
 <% if @has_errors %>
   <p class="alert-error">Alguns alunos não constam no resultado abaixo por erro de marcação.</p>
   <p class="alert-error">Termine a resolução de pendências para retirar o resultado completo. </p>
@@ -33,7 +33,7 @@
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
       <% @subjects.each do |subject| %>
         <td><%= grades_hash[subject.code] %></td>
-        <td><%= grades_hash[subject.code].to_f*2.5 %></td>
+        <td><%= (grades_hash[subject.code].to_f*2.5).to_i %></td>
       <% end %>
       <td><%= (5*(grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size)).to_i %></td>
       <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(3) %></td>
