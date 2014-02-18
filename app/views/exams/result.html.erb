@@ -16,14 +16,16 @@
       <th>Unidade</th>
       <% @subjects.each do |subject| %>
         <th><%= subject.code %></th>
+        <th><%= subject.code %></th>
       <% end %>
       <th>Total</th>
+      <th>POS</th>
       <th>SOA</th>
    </tr>
   </thead>
 
   <tbody>
-  <% @student_exams.each do |student_exam| %>
+  <% @student_exams.each_with_index do |student_exam, index| %>
     <tr>
       <td><%= "%07d" % student_exam.student.ra %></td>
       <td><%= link_to(student_exam.student.name.split(' ').map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
@@ -32,8 +34,10 @@
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
       <% @subjects.each do |subject| %>
         <td><%= grades_hash[subject.code] %></td>
+        <td><%= grades_hash[subject.code].to_i*2.5 %></td>
       <% end %>
       <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(2) %></td>
+      <td>index + 1</td>
       <td><%= student_exam.string_of_answers %></td>
     </tr>
   <% end %>
