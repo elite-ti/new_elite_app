@@ -28,7 +28,7 @@
   <% @student_exams.each_with_index do |student_exam, index| %>
     <tr>
       <td><%= "%07d" % student_exam.student.ra %></td>
-      <td><%= link_to(student_exam.student.name.split(' ').map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
+      <td><%= link_to(student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
       <td><%= student_exam.campus.name %></td>
       <% sum = 0 %>
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
