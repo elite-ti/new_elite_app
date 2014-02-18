@@ -18,7 +18,8 @@
         <th><%= subject.code %></th>
         <th><%= subject.code %></th>
       <% end %>
-      <th>Total</th>
+      <th>Acertos</th>
+      <th>Média</th>
    </tr>
   </thead>
 
@@ -34,7 +35,8 @@
         <td><%= grades_hash[subject.code] %></td>
         <td><%= grades_hash[subject.code].to_f*2.5 %></td>
       <% end %>
-      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(2) %></td>
+      <td><%= (5*(grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size)).to_i %></td>
+      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(3) %></td>
     </tr>
   <% end %>
   </tbody>
