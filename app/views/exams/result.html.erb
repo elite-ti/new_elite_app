@@ -18,6 +18,7 @@
         <th><%= subject.code %></th>
       <% end %>
       <th>Total</th>
+      <th>SOA</th>
    </tr>
   </thead>
 
@@ -33,6 +34,7 @@
         <td><%= grades_hash[subject.code] %></td>
       <% end %>
       <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(2) %></td>
+      <td><%= student_exam.string_of_answers %></td>
     </tr>
   <% end %>
   </tbody>

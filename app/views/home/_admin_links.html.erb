@@ -12,7 +12,7 @@
   <div class='section'>
     <h2>Avaliações</h2>
     <div class='link'><%= link_to 'Ciclos', exam_cycles_path %></div>
-    <div class='link'><%= link_to 'Provas', exams_path %></div>
+    <div class='link'><%= link_to 'Provas', exams_path(is_bolsao: false) %></div>
     <div class='link'><%= link_to 'Calendário de Provas', exam_executions_path %></div>
     <div class='link'><%= link_to 'Arquivos Enviados', card_processings_path %></div>
     <div class='link'><%= link_to 'Resultados por dia', card_processing_upload_statuses_path %></div>
