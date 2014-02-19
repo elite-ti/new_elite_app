@@ -9,7 +9,7 @@ class TypeACardPdfPrawn < Prawn::Document
     if !@exam_execution.nil? && !@student.nil?
       page(@student)
     elsif !@exam_execution.nil?
-      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.each do |student|
+      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.sort_by{|std| std.name}.each do |student|
         page(student)
       end
     else
