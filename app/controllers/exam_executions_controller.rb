@@ -121,7 +121,7 @@ class ExamExecutionsController < ApplicationController
 
     @results = @student_exams.map do |student_exam|
       {
-        'RA' => ("%07d" % student_exam.student.ra),
+        'RA' => ("%07d" % (student_exam.student.ra || student_exam.student.number)),
         'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '),
         'CAMPUS' => student_exam.campus.name,
         'ID' => student_exam.id
