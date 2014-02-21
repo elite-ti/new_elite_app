@@ -39,13 +39,14 @@
           <%= f.simple_fields_for @new_student do |ff| %>
             <%= ff.input :name %>
             <% if @student_exam.is_bolsao %>
-              <% ff.object.applied_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
+              <% ff.object.applied_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)].compact %>
               <%= ff.association :applied_super_klazzes, 
                 collection: @student_exam.campus.super_klazzes,
                 label: 'Turma',
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>
             <% else %>
+              <% ff.object.applied_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
               <%= ff.association :enrolled_super_klazzes, 
                 collection: @student_exam.campus.super_klazzes,
                 label: 'Turma',

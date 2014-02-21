@@ -24,8 +24,8 @@
     link_to('Voltar', students_path) %>
   <div class='tabs'>
     <ul>
-      <li><a href='#exams'>Exams</a></li>
-      <li><a href='#info'>Info</a></li>
+      <li><a href='#exams'>Provas</a></li>
+      <li><a href='#info'>Informações</a></li>
     </ul>
 
     <div id='exams'>
@@ -54,7 +54,7 @@
         <% end %>
         <% @student.student_exams.select{|se| !@student.enrolled_exam_executions.include?(se.exam_execution)}.each do |student_exam| %>
           <tr>
-            <td><%= print_date(student_exam.exam_date) %></td>
+            <td><%= student_exam.exam_date.strftime('%Y-%m-%d') %></td>
             <td><%= student_exam.exam_execution.try(:exam_cycle).try(:name) || 'Prova não encontrada' %></td>
             <td>
               <%= link_to student_exam.id, student_exam_path(student_exam) %>

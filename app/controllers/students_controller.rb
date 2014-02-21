@@ -12,7 +12,7 @@ class StudentsController < ApplicationController
       @is_bolsao = true
     else
       # @students = Student.select{|student| student.applied_super_klazzes.size == 0}
-      @students = Student.where("ra IS NOT NULL")
+      @students = Enrollment.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))).includes(:student).map(&:student).select{|student| student.ra.present?}.uniq
       @is_bolsao = false      
     end
   end

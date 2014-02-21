@@ -27,9 +27,9 @@ type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
             <%= select_roles current_employee, current_role %>
             <%= link_to current_employee.name, 
               current_employee, class: 'first' %>
-            <%= link_to 'Log Out', logout_path %>
+            <%= link_to 'Sair', logout_path %>
           <% else %>
-            <%= link_to 'Log In', '/auth/google_oauth2', class: 'first' %>
+            <%= link_to 'Entrar', '/auth/google_oauth2', class: 'first' %>
           <% end %>
         </div>
         <%= flash_message(flash) %>

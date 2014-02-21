@@ -4,8 +4,8 @@
 <table id="klazzes" class="display is-datatable">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>SuperKlazz</th>
+      <th>Nome</th>
+      <th>Detalhes</th>
     </tr>
   </thead>
 
@@ -15,9 +15,9 @@
       <td>
         <%= klazz.name %>
         <span class='float-right'>
-          <%= link_to 'Show', klazz %>
+          <%= link_to 'Mostrar', klazz %>
           <% if can?(:update, klazz) %>
-            | <%= link_to 'Edit', edit_klazz_path(klazz) %>
+            | <%= link_to 'Editar', edit_klazz_path(klazz) %>
           <% end %>
         </span>
       </td>

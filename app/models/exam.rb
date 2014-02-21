@@ -123,22 +123,19 @@ PENSI Simulados
   def self.import(file, email)
     errors = []
     file = file.path if file.class.to_s != 'String'
-    CSV.foreach(file) do |is_bolsao, datetime, campus_name, product_name, exam_name, cycle_name, subjects, answers|
+
+    CSV.foreach(file) do |is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers|
       begin
         ActiveRecord::Base.transaction do 
-          p "#{is_bolsao},#{datetime},#{campus_name},#{product_name},#{exam_name},#{cycle_name},#{subjects},#{answers}"
+          p "#{is_bolsao},#{datetime},#{campus_names},#{product_names},#{exam_name},#{cycle_name},#{subjects},#{correct_answers}"
 
-          action, product_names, campus_names, exam_attributes, shift = line.split(' - ')
-          product_names = product_names.gsub(/ \(\S*\)/, '')
-          p product_names
-          product_years = product_names.split(', ').map do |p| ProductYear.where(name: p + ' - 2014').first! end
-          campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split(', ')))
-          subjects, correct_answers = exam_attributes.split(': ')
-          p subjects
+          p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
+          product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
+          campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
           subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
           correct_answers = correct_answers.gsub(' ', '')
           exam = Exam.create!(
-            name: cycle_name + exam_name, 
+            name: cycle_name + ' - ' + exam_name, 
             correct_answers: correct_answers, 
             options_per_question: 5)
 
@@ -165,40 +162,31 @@ PENSI Simulados
           end
 
           product_years.each do |product_year|
-            if shift.nil?
-              shift_string = ''
-            else
-              shift_string = "#{shift} - "
-            end              
             exam_cycle = ExamCycle.where(
-              name: cycle_name + shift_string + product_year.product.name + " - #{subjects}").first_or_create!(
-              is_bolsao: true, product_year_id: product_year.id)
+              name: cycle_name + product_year.product.name + " - #{subjects}").first_or_create!(
+              is_bolsao: is_bolsao == 'S', product_year_id: product_year.id)
 
             campuses.each do |campus|
               super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
               next if super_klazz.nil?
               
-              if action == 'C'
-                ExamExecution.create!(
-                  exam_cycle_id: exam_cycle.id, 
-                  super_klazz_id: super_klazz.id,
-                  datetime: datetime,
-                  exam_id: exam.id)
-              elsif action == 'U'
-                exam_execution = ExamExecution.where(exam_cycle_id: exam_cycle.id, super_klazz_id: super_klazz.id).first
-                exam_execution.update_attribute :exam_id, exam.id
-              end
+              ExamExecution.create!(
+                exam_cycle_id: exam_cycle.id, 
+                super_klazz_id: super_klazz.id,
+                datetime: datetime,
+                exam_id: exam.id)
             end
           end
 
         end
       rescue Exception => e
-        errors << [exam_code, datetime, campus_name, product_name, exam_name, cycle_name, subjects, answers].join(', ')
+        errors << [is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers].join(', ')
         p 'ERRO! ' + e.message          
       end
     end
 
     # send email
+    p errors
     if errors.size > 0
       send_email_importing_error(errors, email)
     else
