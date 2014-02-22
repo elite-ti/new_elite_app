@@ -131,7 +131,6 @@ PENSI Simulados
 
           p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
           product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
-          p produ
           campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
           subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
           correct_answers = correct_answers.gsub(' ', '')
