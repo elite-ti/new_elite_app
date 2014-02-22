@@ -101,6 +101,7 @@ EliteSim
   end
 
   def self.send_email_importing_error(errors, email)
+    # test
       ActionMailer::Base.mail(
         from: 'elitesim@sistemaeliterio.com.br',
         to: email || 'elitesim@sistemaeliterio.com.br',
