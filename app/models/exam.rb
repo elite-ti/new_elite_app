@@ -95,7 +95,7 @@ Você acaba de enviar um arquivo para importação de provas.
 Não houveram problemas na importação.
 
 --
-PENSI Simulados
+EliteSim
         eos
       ).deliver
   end
@@ -115,7 +115,7 @@ As seguintes provas tiveram problemas na importação:
 #{errors.join('\n')}
 
 --
-PENSI Simulados
+EliteSim
         eos
       ).deliver    
   end
