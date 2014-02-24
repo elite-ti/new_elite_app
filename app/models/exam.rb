@@ -113,7 +113,7 @@ Você acaba de enviar um arquivo para importação de provas.
 
 As seguintes provas tiveram problemas na importação:
 
-#{errors.join('\n')}
+#{errors.join("\n")}
 
 --
 EliteSim
