@@ -37,7 +37,7 @@
         <td><%= (grades_hash[subject.code].to_f*size/10).to_i %></td>
       <% end %>
       <td><%= sum %></td>
-      <td><%= (10*sum/@subjects.map{|a| a[1]}.inject(:+)).round(3) %></td>
+      <td><%= (10*sum.to_f/@subjects.map{|a| a[1]}.inject(:+).to_f).round(3) %></td>
       <% if false %>
         <td><%= (grades_hash.map{|a| a[1]}.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.map(&:to_f).inject(:+)).round(3) %></td>
       <% end %>
