@@ -35,8 +35,8 @@
         <td><%= grades_hash[subject.code] %></td>
         <td><%= (grades_hash[subject.code].to_f*size/10).to_i %></td>
       <% end %>
-      <td><%= grades_hash.values.map(&:to_i).inject(:+) %></td>
-      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.values.map(&:to_f).inject(:+)).round(3) %></td>
+      <td><%= grades_hash.map{|a| a[1]}.map(&:to_i).inject(:+) %></td>
+      <td><%= (grades_hash.map{|a| a[1]}.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.map(&:to_f).inject(:+)).round(3) %></td>
     </tr>
   <% end %>
   </tbody>
