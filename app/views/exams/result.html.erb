@@ -14,7 +14,7 @@
       <th>RA</th>
       <th>Nome</th>
       <th>Unidade</th>
-      <% @subjects.each do |subject| %>
+      <% @subjects.each do |subject, size| %>
         <th><%= subject.code %></th>
         <th><%= subject.code %></th>
       <% end %>
@@ -31,12 +31,12 @@
       <td><%= student_exam.campus.name %></td>
       <% sum = 0 %>
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
-      <% @subjects.each do |subject| %>
+      <% @subjects.each do |subject, size| %>
         <td><%= grades_hash[subject.code] %></td>
-        <td><%= (grades_hash[subject.code].to_f*2.5).to_i %></td>
+        <td><%= (grades_hash[subject.code].to_f*size/10).to_i %></td>
       <% end %>
-      <td><%= (5*(grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size)).to_i %></td>
-      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / grades_hash.values.size).round(3) %></td>
+      <td><%= grades_hash.values.map(&:to_i).inject(:+) %></td>
+      <td><%= (grades_hash.values.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.values.map(&:to_f).inject(:+)).round(3) %></td>
     </tr>
   <% end %>
   </tbody>

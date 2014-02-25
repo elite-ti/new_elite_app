@@ -54,7 +54,7 @@ class StudentExam < ActiveRecord::Base
     if is_bolsao
       return Applicant.where(exam_campus_id: campus.id, exam_datetime: (exam_date.beginning_of_day..exam_date.end_of_day)).includes(:student => :applicants).map(&:student)
     else
-      return campus.enrolled_students
+      return campus.enrolled_students.uniq
     end
   end
 
