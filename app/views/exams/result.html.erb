@@ -32,8 +32,8 @@
       <% sum = 0 %>
       <% grades_hash = Hash[*student_exam.grades.split(',')] %>
       <% @subjects.each do |subject, size| %>
-        <% sum = sum + (grades_hash[subject.code].to_f*size/10).to_i %>
-        <td><%= (grades_hash[subject.code].to_f*size/10).to_i %></td>
+        <% sum = sum + (grades_hash[subject.code].to_f*size/10).round(0) %>
+        <td><%= (grades_hash[subject.code].to_f*size/10).round(0) %></td>
         <td><%= grades_hash[subject.code] %></td>
       <% end %>
       <td><%= sum %></td>
