@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <th>Dia</th>
+      <th>Cartões</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -13,6 +14,7 @@
   <% @possible_dates.each do |date| %>
     <tr>
       <td><%= date.strftime('%Y-%m-%d') %></td>
+      <td><%= @amounts[date] %></td>
       <td><%= link_to('Download Resultado', card_processing_upload_status_path(date, 'csv')) %></td>
     </tr>
   <% end %>
