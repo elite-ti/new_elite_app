@@ -27,7 +27,7 @@ class CardProcessingUploadStatusesController < ApplicationController
     @results =
       base.select{|student_exam| student_exam.student.ra.to_s.size <= 6}.map do |student_exam|
         student_exam.grades.split(',').each_slice(2).map do |array|
-          (["1", "302", "N", "%06d" % (student_exam.student.ra || 0)] + array).join(';')
+          (["1", "302", "N", "%06d" % (student_exam.student.ra || 0)] + array + [student_exam.student.cod_turma]).join(';')
         end
       end.flatten.join("\r\n")
 
