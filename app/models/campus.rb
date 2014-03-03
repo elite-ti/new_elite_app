@@ -1,6 +1,6 @@
 class Campus < ActiveRecord::Base
   
-  attr_accessible :name, :code
+  attr_accessible :name, :code, :erp_code
 
   has_many :super_klazzes
 
