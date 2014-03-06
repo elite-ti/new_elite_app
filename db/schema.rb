@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140303231934) do
+ActiveRecord::Schema.define(:version => 20140306204512) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20140303231934) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "erp_code"
+    t.string   "status"
   end
 
   create_table "error_logs", :force => true do |t|
@@ -205,6 +206,8 @@ ActiveRecord::Schema.define(:version => 20140303231934) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "exam_answers", ["student_exam_id"], :name => "index_exam_answers_on_student_exam_id"
 
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
@@ -410,6 +413,7 @@ ActiveRecord::Schema.define(:version => 20140303231934) do
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "erp_code"
   end
 
   create_table "products", :force => true do |t|
@@ -484,6 +488,7 @@ ActiveRecord::Schema.define(:version => 20140303231934) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cod_turma"
+    t.string   "status"
   end
 
   create_table "subject_head_teacher_products", :force => true do |t|

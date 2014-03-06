@@ -538,12 +538,11 @@ namespace :student do
   end
 
   task select_totvs_table: :environment do
-    client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
+    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
     result = client.execute(
      "select
-        NOME
-      from CORPORERM.dbo.PPESSOA
-      where NOME like 'R%mire%JASMI%'
+        CODCAMPUS, DESCRICAO
+      from CORPORERM.dbo.SCAMPUS
      "
     )
 
@@ -555,43 +554,92 @@ namespace :student do
   end
 
   task list_students: :environment do
-    client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
+    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
 
     # Retrieve list of students (currently enrolled)
     result = client.execute(
      "select
-        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS
+        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS, tur.CODCAMPUS,
+        (select CODGRADE from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODGRADE,
+        (select CODHABILITACAO from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODHABILITACAO
       from CORPORERM.dbo.SMATRICPL as mat
         inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
         inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
         inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
       where
-        mat.CODTURMA like '%2014%'
+        mat.CODTURMA like '%2014%' and mat.CODSTATUS = 2
       order by mat.RA"
     )
 
-    p 'RA,ALUNO,CODTURMA,TURMA,STATUS'
+    errors = []
+    current_enrollments = Enrollment.where("status = 'Matriculado' and erp_code is not null").includes({:super_klazz => [:campus, product_year: :product]}, :student)
+    used_ids = []
+    log = [["Ação", "RA", "Nome Aluno", "Nome Turma (TOTVS)", "Nome Turma (EliteSim)"]]
     result.each do |row|
-      p [row["RA"], row["ALUNO"], row["CODTURMA"], row["TURMA"], row["STATUS"]].join(',')
+      splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
+      product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
+      if product_year.nil?
+        p ">>> #{row['TURMA']}"
+        errors << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
+        log << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
+      else
+        p [row["RA"], row["ALUNO"], row["TURMA"], product_year.name, row["CODCAMPUS"], row["STATUS"], row["CODTURMA"]].join(', ')
+        campus = Campus.select{|campus| (campus.erp_code || '0').split(',').include? row["CODCAMPUS"]}.first
+        super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first_or_create!
+        student = Student.where(ra: row["RA"]).first_or_initialize(name: row["ALUNO"])
+        student.update_attribute(:name, row["ALUNO"]) if student.name != row["ALUNO"]
+        log << ["Aluno criado", row["RA"], row["ALUNO"], "", ""] if student.new_record? && student.save!
+        enrollment = Enrollment.where(student_id: student.id, super_klazz_id: super_klazz.id).first_or_initialize(status: "Matriculado")
+        log << ["Aluno rematriculado", row["RA"], row["ALUNO"], row["CODTURMA"], super_klazz.name] if !enrollment.new_record? && enrollment.status != 'Matriculado'
+        log << ["Aluno matriculado", row["RA"], row["ALUNO"], row["CODTURMA"], super_klazz.name] if enrollment.new_record? && enrollment.save!
+        enrollment.update_attribute(:erp_code, row["CODTURMA"]) if enrollment.erp_code != row["CODTURMA"]
+        enrollment.update_attribute(:status, "Matriculado") if enrollment.status != "Matriculado"
+        used_ids << enrollment.id
+      end
+    end
+
+    p used_ids
+
+    current_enrollments.each do |enrollment|
+      next if used_ids.include? enrollment.id 
+      # p enrollment
+      enrollment.update_attribute(:status, "Cancelado")
+      log << ["Aluno desmatriculado", enrollment.student.ra, enrollment.student.ra, enrollment.erp_code, enrollment.super_klazz.name]
+      if enrollment.student.enrollments.select{|enrollment| enrollment.status == "Matriculado"}.size == 0
+        enrollment.student.update_attribute(:status, "Inativo")
+        log << ["Aluno deletado", enrollment.student.ra, enrollment.student.ra, "", ""]
+      end
     end
 
     client.close
-  end
+
+    if errors.size > 0
+      send_error_email(errors, 'pac@3pir.com.br', log)
+    else
+      send_success_email('pac@3pir.com.br', log)
+    end
+
+    p log
+  end  
 
   task sync_students: :environment do
-    client = TinyTds::Client.new(:username => 'temp', :password => '!@elite2012@!', :host => '200.150.153.133')
+    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
 
     # Retrieve list of students (currently enrolled)
     result = client.execute(
-     "select
-        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA
+     "select TOP 1
+        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS, tur.CODCAMPUS,
+        (select CODGRADE from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODGRADE,
+        (select CODHABILITACAO from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODHABILITACAO
       from CORPORERM.dbo.SMATRICPL as mat
         inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
         inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
         inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
+      where
+        mat.CODTURMA like '%2014%' and mat.CODSTATUS = 2
       order by mat.RA"
     )
-    # result = client.execute("select TOP 1 * from CORPORERM.dbo.SMATRICPL") where RECMODIFIEDON > '2013-09-01' or RECCREATEDON > '2013-09-01'
+
     count = 0
     text_file = []
     result.each do |row|
@@ -12373,4 +12421,44 @@ def translate_klazz klazz_code, klazz_name
   campus_id = Campus.find_by_name(campus_name.to_s).id
   sk = SuperKlazz.where(product_year_id: product_year_id, campus_id: campus_id)
   return sk.first
+end
+
+def send_success_email(email, log)
+  ActionMailer::Base.mail(
+    from: 'elitesim@sistemaeliterio.com.br',
+    to: email || 'elitesim@sistemaeliterio.com.br',
+    subject: "Importação de Alunos #{DateTime.now.strftime('%d/%m/%Y')}",
+    body: <<-eos
+Olá,
+
+O sistema acaba de realizar a sincronização de Alunos com o ERP.
+
+Não houveram problemas na importação. Segue em anexo o log.
+
+--
+EliteSim
+    eos
+  ).deliver
+end
+
+def send_error_email(errors, email, log)
+  ActionMailer::Base.mail(
+    from: 'elitesim@sistemaeliterio.com.br',
+    to: email || 'elitesim@sistemaeliterio.com.br',
+    subject: "Envio arquivo importação de Provas #{DateTime.now.strftime('%d/%m/%Y')}",
+    body: <<-eos
+Olá,
+
+O sistema acaba de realizar a sincronização de Alunos com o ERP.
+
+Os seguintes alunos tiveram problemas na importação:
+
+#{errors.join("\n")}
+
+Segue em anexo o log.
+
+--
+EliteSim
+    eos
+  ).deliver    
 end

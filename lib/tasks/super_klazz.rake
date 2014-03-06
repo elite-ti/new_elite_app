@@ -1,6 +1,13 @@
 # encoding: UTF-8
 
 namespace :super_klazz do
+  desc "Lists all the tasks"
+  task :list do
+    Rake.application.tasks.each do |task|
+      puts "#{task.name} \# #{task.comment}"
+    end
+  end
+  
   task create_2014_super_klazzes: :environment do
     ActiveRecord::Base.transaction do 
       p ['Pré-Vestibular Manhã','Campo Grande I'].join ' - '
@@ -849,3 +856,4 @@ def print_campus_status_report(result_date)
   p "Run the following command on a local machine:"
   p "scp deployer@elitesim.sistemaeliterio.com.br:/home/deployer/results/status_#{result_date}_ansi.csv /Users/pauloacmelo/Dropbox/3PiR/Clients/Elite/EliteApp/Resultados/Simulados/#{result_date}"
 end
+

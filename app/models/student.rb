@@ -5,7 +5,7 @@ class Student < ActiveRecord::Base
   attr_accessible :email, :name, :password_digest, :ra, :gender,
     :cpf, :own_cpf, :rg, :rg_expeditor, :date_of_birth, :number_of_children, 
     :mother_name, :father_name, :telephone, :cellphone, :previous_school,
-    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids, :number
+    :address_attributes, :applied_super_klazz_ids, :enrolled_super_klazz_ids, :number, :status
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :enrolled_super_klazzes, through: :enrollments, source: :super_klazz
