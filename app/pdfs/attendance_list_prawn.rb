@@ -44,7 +44,7 @@ class AttendanceListPrawn < Prawn::Document
           end.sort_by{|row| ActiveSupport::Inflector.transliterate(row[1]).upcase} + [['', '', '']]*65
       else
         @students += @exam_execution.super_klazz.enrolled_students.map do |student| 
-            ["%06d" % student.ra, 
+            ["%06d" % (student.ra || 0), 
               student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
               ''
             ]

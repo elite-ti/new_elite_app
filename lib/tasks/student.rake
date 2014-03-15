@@ -576,16 +576,17 @@ namespace :student do
     used_ids = []
     log = [["Ação", "RA", "Nome Aluno", "Nome Turma (TOTVS)", "Nome Turma (EliteSim)"]]
     result.each do |row|
+      # p "***" + row["TURMA"]
       splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
       product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
       campus = Campus.select{|campus| (campus.erp_code || '0').split(',').include? row["CODCAMPUS"]}.first
-      p [ROW["RA"], ROW["ALUNO"], ROW["CODTURMA"], ROW["TURMA"], ROW["STATUS"], ROW["CODCAMPUS"], product_year.name, campus.name].join(',')
+      p [row["RA"], row["ALUNO"], row["CODTURMA"], row["TURMA"], row["STATUS"], row["CODCAMPUS"], product_year.try(:name) || '', campus.try(:name) || ''].join(',')
     end
 
     client.close
   end  
 
-  task sync_students: :environment do
+  task sync_students_full: :environment do
     client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
 
     # Retrieve list of students (currently enrolled)
@@ -652,6 +653,48 @@ namespace :student do
     end
 
     p log
+  end
+
+  task sync_student: :environment do
+    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
+
+    # Retrieve list of students (currently enrolled)
+    result = client.execute(
+     "select
+        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS, tur.CODCAMPUS,
+        (select CODGRADE from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODGRADE,
+        (select CODHABILITACAO from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODHABILITACAO
+      from CORPORERM.dbo.SMATRICPL as mat
+        inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
+        inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
+        inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
+      where
+        mat.CODTURMA like '%2014%' and mat.CODSTATUS = 2
+      order by mat.RA"
+    )
+
+    result.each do |row|
+      splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
+      product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
+      if product_year.nil?
+        p ">>> #{row['TURMA']}"
+        errors << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
+        log << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
+      else
+        # p [row["RA"], row["ALUNO"], row["TURMA"], product_year.name, row["CODCAMPUS"], row["STATUS"], row["CODTURMA"]].join(', ')
+        campus = Campus.select{|campus| (campus.erp_code || '0').split(',').include? row["CODCAMPUS"]}.first
+        campus = Campus.find_by_code(17) if row["CODCAMPUS"] == '15'
+        super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first_or_create!
+        if !Student.exists?(ra: row["RA"])
+          student = Student.where(ra: row["RA"]).first_or_create!(name: row["ALUNO"])
+          p "Created student: #{row["RA"]} - #{row["ALUNO"]}"
+          enrollment = Enrollment.create(student_id: student.id, super_klazz_id: super_klazz.id, status: "Matriculado", erp_code: row["CODTURMA"])
+          p "Enrolled student: #{row["RA"]} - #{product_year.name} - #{campus.name}"
+        end
+      end
+    end
+
+    client.close
   end
   
   task sync_enrollments: :environment do
@@ -12378,6 +12421,7 @@ namespace :student do
     end
   end
 end
+
 
 def translate_klazz klazz_code, klazz_name
   klazz_translation = {'1ª SÉRIE ENEM' => '1ª Série ENEM', '1ª SÉRIE MILITAR' => '1ª Série Militar', '2ª SÉRIE ENEM' => '2ª Série ENEM', '2ª SÉRIE MILITAR' => '2ª Série Militar', '3ª SÉRIE AF/EF/ESP' => 'AFA/ESPCEX', '3ª SÉRIE BIOMÉDICA' => 'Pré-Vestibular Biomédicas', '3ª SÉRIE PRÉ-MILITAR' => 'MILITAR', '3ª SÉRIE PRÉ-VESTIBULAR' => 'Pré-Vestibular', '6º ANO' => '6º Ano', '7º ANO' => '7º Ano', '8º ANO' => '8º Ano', '9º ANO FORTE' => '9º Ano Forte', '9º ANO MILITAR' => '9º Ano Militar', 'AF/EE/EF' => 'AFA/EAAr/EFOMM', 'AF/EF/ESP' => 'AFA/ESPCEX', 'AF/EN/EF' => 'AFA/EN/EFOMM', 'CN/EPCAR' => '9º Ano Militar', 'ESPCEX' => 'ESPCEX', 'ESSA' => 'EsSA', 'ET' => '9º Ano Forte', 'IME/ITA' => 'IME-ITA', 'PV' => 'Pré-Vestibular', 'PVBIO' => 'Pré-Vestibular Biomédicas', 'SEM TURMA' => 'SEM TURMA'}
