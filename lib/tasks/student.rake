@@ -674,7 +674,7 @@ namespace :student do
     )
 
     result.each do |row|
-      splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
+      splitted_klazz = row["TURMA"].force_encoding("ISO-8859-1").encode("utf-8", replace: nil).gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
       product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
       if product_year.nil?
         p ">>> #{row['TURMA']}"
@@ -686,8 +686,8 @@ namespace :student do
         campus = Campus.find_by_code(17) if row["CODCAMPUS"] == '15'
         super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first_or_create!
         if !Student.exists?(ra: row["RA"])
-          student = Student.where(ra: row["RA"]).first_or_create!(name: row["ALUNO"])
-          p "Created student: #{row["RA"]} - #{row["ALUNO"]}"
+          student = Student.where(ra: row["RA"]).first_or_create!(name: row["ALUNO"].force_encoding("ISO-8859-1").encode("utf-8", replace: nil))
+          p "Created student: #{row["RA"]} - #{row["ALUNO"].force_encoding("ISO-8859-1").encode("utf-8", replace: nil)}"
           enrollment = Enrollment.create(student_id: student.id, super_klazz_id: super_klazz.id, status: "Matriculado", erp_code: row["CODTURMA"])
           p "Enrolled student: #{row["RA"]} - #{product_year.name} - #{campus.name}"
         end
