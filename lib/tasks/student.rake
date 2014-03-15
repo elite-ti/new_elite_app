@@ -578,6 +578,38 @@ namespace :student do
     result.each do |row|
       splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
       product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
+      campus = Campus.select{|campus| (campus.erp_code || '0').split(',').include? row["CODCAMPUS"]}.first
+      p [ROW["RA"], ROW["ALUNO"], ROW["CODTURMA"], ROW["TURMA"], ROW["STATUS"], ROW["CODCAMPUS"], product_year.name, campus.name].join(',')
+    end
+
+    client.close
+  end  
+
+  task sync_students: :environment do
+    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
+
+    # Retrieve list of students (currently enrolled)
+    result = client.execute(
+     "select
+        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS, tur.CODCAMPUS,
+        (select CODGRADE from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODGRADE,
+        (select CODHABILITACAO from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODHABILITACAO
+      from CORPORERM.dbo.SMATRICPL as mat
+        inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
+        inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
+        inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
+      where
+        mat.CODTURMA like '%2014%' and mat.CODSTATUS = 2
+      order by mat.RA"
+    )
+
+    errors = []
+    current_enrollments = Enrollment.where("status = 'Matriculado' and erp_code is not null").includes({:super_klazz => [:campus, product_year: :product]}, :student)
+    used_ids = []
+    log = [["Ação", "RA", "Nome Aluno", "Nome Turma (TOTVS)", "Nome Turma (EliteSim)"]]
+    result.each do |row|
+      splitted_klazz = row["TURMA"].gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
+      product_year = ProductYear.where(year_id: Year.last).select{|product| product.erp_code.gsub('+', '').split.map(&:mb_chars).map(&:upcase).map{|sub| splitted_klazz.include?(sub)}.inject(:&)}.sort_by{|p| p.name.size}.last
       if product_year.nil?
         p ">>> #{row['TURMA']}"
         errors << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
@@ -620,50 +652,6 @@ namespace :student do
     end
 
     p log
-  end  
-
-  task sync_students: :environment do
-    client = TinyTds::Client.new(:username => 'appelitesim', :password => '5!m4pp7nu0', :host => '200.150.153.133')
-
-    # Retrieve list of students (currently enrolled)
-    result = client.execute(
-     "select TOP 1
-        mat.RA, pes.NOME as ALUNO, mat.CODTURMA, tur.NOME as TURMA, mat.CODSTATUS as STATUS, tur.CODCAMPUS,
-        (select CODGRADE from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODGRADE,
-        (select CODHABILITACAO from SHABILITACAOFILIAL where IDHABILITACAOFILIAL = tur.IDHABILITACAOFILIAL) as CODHABILITACAO
-      from CORPORERM.dbo.SMATRICPL as mat
-        inner join CORPORERM.dbo.SALUNO as alu on alu.RA = mat.RA and alu.CODCOLIGADA = mat.CODCOLIGADA
-        inner join CORPORERM.dbo.PPESSOA as pes on alu.CODPESSOA = pes.CODIGO
-        inner join CORPORERM.dbo.STURMA as tur on mat.CODTURMA = tur.CODTURMA and mat.CODCOLIGADA = tur.CODCOLIGADA
-      where
-        mat.CODTURMA like '%2014%' and mat.CODSTATUS = 2
-      order by mat.RA"
-    )
-
-    count = 0
-    text_file = []
-    result.each do |row|
-      p row
-      if false && !Student.find_by_ra(row['RA'].to_i).nil? && I18n.transliterate(row['NOME'].strip).upcase != I18n.transliterate(Student.find_by_ra(row['RA'].to_i).name.strip).upcase
-        text_file << 'Diferença no RA: ' + row['RA'].to_i.to_s
-        text_file << 'Nome EliteSim: ' + I18n.transliterate(Student.find_by_ra(row['RA'].to_i).name.strip).upcase
-        text_file << 'Nome RM:       ' + I18n.transliterate(row['NOME'].strip).upcase
-        text_file << ''
-        std = Student.find_by_ra(row['RA'].to_i)
-        std.name = I18n.transliterate(row['NOME'].strip).upcase
-        std.save
-        count += 1
-      end
-    end
-
-    # CSV.open("/home/deployer/logs/student_update_#{DateTime.now.strftime("%y%m%d_%H%M")}.csv", "wb") do |csv|
-    #   text_file.each do |line|
-    #     csv << [line]
-    #   end
-    # end    
-
-    p count
-    client.close
   end
   
   task sync_enrollments: :environment do
