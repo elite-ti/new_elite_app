@@ -1,7 +1,7 @@
 <%= title 'Student Exam',
-  (link_to('Mark as Error', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
-  (link_to('Check', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
-  link_to('Back', @student_exam.card_processing) %>
+  (link_to('Marcar como Erro', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
+  (link_to('Checar', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
+  link_to('Voltar', @student_exam.card_processing) %>
 
 <div class='tabs'>
   <ul>
@@ -14,18 +14,19 @@
     <div class='resource'>
       <h2>Scanned Info</h2>
       <p>
-        <span>Scanned Student Number: </span><%= @student_exam.student_number %><br />
-        <span>Scanned Answers: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
+        <span>Código do aluno escaneado: </span><%= @student_exam.student_number %><br />
+        <span>Respostas escaneadas: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
       </p>
 
       <h2>Actual Info</h2>
       <p>
         <% if @student_exam.needs_check? %>
-          This card needs check! <%= link_to('Check', edit_student_exam_path(@student_exam)) %><br />
+          Esse cartão possui uma pendência! <%= link_to('Checar', edit_student_exam_path(@student_exam)) %><br />
         <% end %>
-        <span>Student: </span><%= @student_exam.student.nil? ? 'Not found' : link_to(@student_exam.student.name, student_path(@student_exam.student)) %><br />
-        <span>Exam: </span><%= @student_exam.exam_execution.try(:name) || 'Not found' %><br />
-        <span>Status: </span><%= (@student_exam.status || 'Not found') %>
+        <span>Aluno: </span><%= @student_exam.student.nil? ? 'Não encontrado' : link_to(@student_exam.student.name, student_path(@student_exam.student)) %><br />
+        <span>Prova: </span><%= @student_exam.exam_execution.try(:name) || 'Não encontrado' %><br />
+        <span>Respostas: </span><%= @student_exam.exam_answer_as_string || 'Não encontrado' %><br />
+        <span>Status: </span><%= (@translations[@student_exam.status] || 'Não encontrado') %>
         <% if @student_exam.repeated_student? %>
           (
           <% @student_exam.repeated_cards.each_with_index do |repeated, index| %>
@@ -34,19 +35,19 @@
           )
         <% end %>
         <br />
-        <span>Campus: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Not found' %><br />
-        <span>Exam Date: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Not found' %><br />
+        <span>Unidade: </span><%= @student_exam.card_processing.try(:campus).try(:name) || 'Não encontrado' %><br />
+        <span>Data da prova: </span><%= print_date(@student_exam.card_processing.try(:exam_date)) || 'Não encontrado' %><br />
         <br />
         <span>Nota Total: </span>
         <%= 
-            if @student_exam.exam_answer_as_string.present?
+            if @student_exam.exam_answer_as_string.present? || @student_exam.exam_answers.present?
               (10.0 * @student_exam.number_of_correct_answers.to_f/@student_exam.total_number_of_questions.to_f).to_s + ' (' + @student_exam.number_of_correct_answers.to_s + '/' + @student_exam.total_number_of_questions.to_s + ')'
             else
-              'Not found'
+              'Não encontrado'
             end
         %>
         <br />
-        <% if @student_exam.exam_answer_as_string.present? %>
+        <% if @student_exam.exam_answer_as_string.present? || @student_exam.exam_answers.present?%>
           <% @student_exam.exam_execution.exam.exam_subjects.each do |subject| %>        
             <span style='margin-left:20px'><%= "\t#{subject.code}: " %></span>
             <%= 
@@ -69,22 +70,41 @@
       </thead>
 
       <tbody>
-      <% correct_answers = @student_exam.exam_execution.try(:exam).try(:correct_answers) %>
-      <% questions = @student_exam.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number } %>
-      <% (@student_exam.try(:exam_answer_as_string) || '').split('').each_with_index do |answer, index| %>
-        <tr>
-          <td><%= (index + 1).to_s %></td> 
-          <td><%= questions[index].question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
-          <td><%= correct_answers[index] %></td> 
-          <td><%= answer %></td> 
-          <td>
-              <% if questions[index].question.correct_options.size == 5 || questions[index].question.correct_options.map(&:letter).include?(answer) %>
-                <%= image_tag('correct16.png', id: 'correct_check') %>
-              <% else %>
-                <%= image_tag('wrong16.png', id: 'wrong_check') %>
-              <% end %>
-          </td>
-        </tr>
+      <% if @student_exam.exam_answer_as_string.present? %>
+        <% correct_answers = @student_exam.exam_execution.try(:exam).try(:correct_answers) %>
+        <% questions = @student_exam.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number } %>
+        <% (@student_exam.try(:exam_answer_as_string) || '').split('').each_with_index do |answer, index| %>
+          <tr>
+            <td><%= (index + 1).to_s %></td> 
+            <td><%= questions[index].question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
+            <td><%= correct_answers[index] %></td> 
+            <td><%= answer %></td> 
+            <td>
+                <% if questions[index].question.correct_options.size == 5 || questions[index].question.correct_options.map(&:letter).include?(answer) %>
+                  <%= image_tag('correct16.png', id: 'correct_check') %>
+                <% else %>
+                  <%= image_tag('wrong16.png', id: 'wrong_check') %>
+                <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% elsif @student_exam.exam_answers.present? %>
+        <% @student_exam.exam_answers.each do |exam_answer| %>
+          <tr>
+            <td><%= exam_answer.exam_question.number.to_s %></td> 
+            <td><%= exam_answer.exam_question.question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
+            <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
+            <td><%= exam_answer.answer %></td> 
+            <td>
+                <% if exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer) %>
+                  <%= image_tag('correct16.png', id: 'correct_check') %>
+                <% else %>
+                  <%= image_tag('wrong16.png', id: 'wrong_check') %>
+                <% end %>
+            </td>
+          </tr>
+        <% end %>      
+
       <% end %>
       </tbody>
     </table>

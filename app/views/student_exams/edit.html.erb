@@ -139,6 +139,7 @@
 <% elsif @student_exam.invalid_answers? %>
   <h2>Algumas respostas não foram encontradas</h2>
 
+  <% @student_exam.create_exam_answers %>
   <%= simple_form_for(@student_exam) do |f| %>
     <%= f.error_notification %>
 
@@ -159,6 +160,7 @@
       <%= f.submit 'Continuar' %>
     </div>
   <% end %>
+  <%= @student_exam.exam_answers.size %>
 
 <% elsif @student_exam.error? %>
   <h2>Houve um erro de processamento</h2>

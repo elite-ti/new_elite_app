@@ -1,7 +1,10 @@
+#encoding: utf-8
+
 class StudentExamsController < ApplicationController
   load_and_authorize_resource
 
   def show
+    @translations = {'Being processed' => 'Em processamento', 'Error' => 'Erro', 'Student not found' => 'Aluno não encontrado', 'Exam not found' => 'Prova não encontrada', 'Invalid answers' => 'Respostas inválidas', 'Valid' => 'Válido', 'Repeated student' => 'Aluno Repetido'}
   end
 
   def edit
@@ -9,6 +12,7 @@ class StudentExamsController < ApplicationController
   end
 
   def update
+    # bunda
     update_student_exam = UpdateStudentExam.new(params[:student_exam], @student_exam)
     if update_student_exam.update
       if params[:commit] == 'Finalizar'

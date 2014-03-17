@@ -35,17 +35,25 @@ class StudentExam < ActiveRecord::Base
 
   def number_of_correct_answers(subject_name=nil)
     # exam_execution.exam.get_correct_answers
-    if subject_name.present?
-      grade = 0
-      exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
-      exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.topics.first.subject.name == subject_name && (exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer))}
-      grade
-      # exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
+    if exam_answer_as_string.nil?
+      if subject_name.present?
+        exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
+      else
+        exam_answers.select{|exam_answer| exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer)}.size
+      end
     else
-      grade = 0
-      exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
-      exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer)}
-      grade
+      if subject_name.present?
+        grade = 0
+        exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
+        exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.topics.first.subject.name == subject_name && (exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer))}
+        grade
+        # exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
+      else
+        grade = 0
+        exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
+        exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer)}
+        grade
+      end
     end
   end  
 

@@ -105,7 +105,7 @@ private
 
   def update_answers(exam_answers_attributes)
     student_exam.exam_answers_attributes = exam_answers_attributes
-    student_exam.set_grades
+    # student_exam.set_grades
     student_exam.status = StudentExam::VALID_STATUS
     student_exam.save!
   end
