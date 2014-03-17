@@ -32,9 +32,12 @@
           <% if student_exam.needs_check? %>
             | <%= link_to 'Checar', edit_student_exam_path(student_exam) %>
           <% end %>
+          <% if can?(:destroy, student_exam) %>
+            | <%= destroy_link(student_exam) %>
+          <% end %>
         </span>
       </td> 
-      <td><%= student_exam.student.try(:name) || 'No student' %></td>
+      <td><%= student_exam.student.try(:name) || 'Não encontrado' %></td>
       <td><%= student_exam.student_number %></td>
       <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
     </tr>
