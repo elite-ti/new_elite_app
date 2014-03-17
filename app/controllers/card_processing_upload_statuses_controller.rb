@@ -28,15 +28,16 @@ class CardProcessingUploadStatusesController < ApplicationController
             datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day)
           ).includes(:exam_cycle).select{|ee| !ee.is_bolsao}.map(&:id)
       ).includes(
-        :student, 
-        exam_execution: { super_klazz: [:campus, product_year: :product]}
+        student: {enrollments: :super_klazz}, 
+        exam_execution: [:exam, { super_klazz: [:campus, product_year: :product]}]
       )
     @results =
-      base.select{|student_exam| student_exam.student.ra.to_s.size <= 6}.map do |student_exam|
+      base.select{|student_exam| student_exam.student.ra < 900000}.map do |student_exam|
+        next unless student_exam.student.enrollments.select{|e| e.super_klazz_id == student_exam.exam_execution.super_klazz_id}.first.try(:erp_code).present?
         student_exam.grades.split(',').each_slice(2).map do |array|
-          (["1", "302", "N", "%06d" % (student_exam.student.ra || 0)] + array.reverse + [student_exam.student.cod_turma, student_exam.exam_execution.super_klazz.name]).join(';')
+          (["1", student_exam.exam_execution.try(:exam).try(:erp_code) || '', "N", "%06d" % (student_exam.student.try(:ra) || 0)] + array.reverse + [student_exam.student.enrollments.select{|e| e.super_klazz_id == student_exam.exam_execution.super_klazz_id}.first.try(:erp_code), student_exam.exam_execution.super_klazz.name]).join(';')
         end
-      end.flatten.join("\r\n")
+      end.flatten.compact.join("\r\n")
 
     respond_to do |format|
       format.html

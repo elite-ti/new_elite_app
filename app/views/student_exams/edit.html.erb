@@ -46,7 +46,7 @@
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>
             <% else %>
-              <% ff.object.enrolled_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
+              <% ff.object.enrolled_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)] %>
               <%= ff.association :enrolled_super_klazzes, 
                 collection: SuperKlazz.where(campus_id: @student_exam.campus, product_year_id: ProductYear.where(year_id: Year.last.id)).includes(:campus, :product_year),
                 label: 'Turma',
