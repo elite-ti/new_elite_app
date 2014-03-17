@@ -32,7 +32,6 @@ namespace :student do
     end
   end
 
-
   task select_table: :environment do
     client = Mysql2::Client.new(
       # :host => "mysql.sistemaeliterio.com.br", 
