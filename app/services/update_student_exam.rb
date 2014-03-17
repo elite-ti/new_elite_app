@@ -58,6 +58,11 @@ private
 
   def update_student(student_id)
     student_exam.student_id = student_id
+    if student_exam.card_processing.exam_execution.present?
+      student = student_exam.student
+      student.enrolled_super_klazz_ids = student.enrolled_super_klazz_ids + [student_exam.card_processing.exam_execution.super_klazz_id]
+      student.save
+    end
     student_exam.set_exam_execution
     student_exam.save!
   end

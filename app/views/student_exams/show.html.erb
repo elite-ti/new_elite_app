@@ -39,14 +39,14 @@
         <br />
         <span>Nota Total: </span>
         <%= 
-            if @student_exam.exam_answers.present?
+            if @student_exam.exam_answer_as_string.present?
               (10.0 * @student_exam.number_of_correct_answers.to_f/@student_exam.total_number_of_questions.to_f).to_s + ' (' + @student_exam.number_of_correct_answers.to_s + '/' + @student_exam.total_number_of_questions.to_s + ')'
             else
               'Not found'
             end
         %>
         <br />
-        <% if @student_exam.exam_answers.present? %>
+        <% if @student_exam.exam_answer_as_string.present? %>
           <% @student_exam.exam_execution.exam.exam_subjects.each do |subject| %>        
             <span style='margin-left:20px'><%= "\t#{subject.code}: " %></span>
             <%= 
@@ -69,14 +69,16 @@
       </thead>
 
       <tbody>
-      <% @student_exam.exam_answers.each do |exam_answer| %>
+      <% correct_answers = @student_exam.exam_execution.try(:exam).try(:correct_answers) %>
+      <% questions = @student_exam.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number } %>
+      <% (@student_exam.try(:exam_answer_as_string) || '').split('').each_with_index do |answer, index| %>
         <tr>
-          <td><%= exam_answer.exam_question.number.to_s %></td> 
-          <td><%= exam_answer.exam_question.question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
-          <td><%= exam_answer.exam_question.question.correct_options.map(&:letter).join(', ') %></td> 
-          <td><%= exam_answer.answer %></td> 
+          <td><%= (index + 1).to_s %></td> 
+          <td><%= questions[index].question.topics.first.subject.short_name.mb_chars.capitalize.to_s %></td>
+          <td><%= correct_answers[index] %></td> 
+          <td><%= answer %></td> 
           <td>
-              <% if exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer) %>
+              <% if questions[index].question.correct_options.size == 5 || questions[index].question.correct_options.map(&:letter).include?(answer) %>
                 <%= image_tag('correct16.png', id: 'correct_check') %>
               <% else %>
                 <%= image_tag('wrong16.png', id: 'wrong_check') %>

@@ -9,7 +9,7 @@ class StudentExam < ActiveRecord::Base
   REPEATED_STUDENT = 'Repeated student'
   NEEDS_CHECK = [STUDENT_NOT_FOUND_STATUS, EXAM_NOT_FOUND_STATUS, INVALID_ANSWERS_STATUS, REPEATED_STUDENT, ERROR_STATUS]
 
-  attr_accessible :card, :card_processing_id, :exam_answers_as_string
+  attr_accessible :card, :card_processing_id, :exam_answer_as_string
   delegate :card_type, :is_bolsao, :exam_date, :campus, to: :card_processing
 
   belongs_to :exam_execution
@@ -36,9 +36,16 @@ class StudentExam < ActiveRecord::Base
   def number_of_correct_answers(subject_name=nil)
     # exam_execution.exam.get_correct_answers
     if subject_name.present?
-      exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
+      grade = 0
+      exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
+      exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.topics.first.subject.name == subject_name && (exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer))}
+      grade
+      # exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
     else
-      exam_answers.select{|exam_answer| exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer)}.size
+      grade = 0
+      exam_questions = self.exam_execution.try(:exam).try(:exam_questions).sort_by { |exam_question| exam_question.number }
+      exam_answer_as_string.split('').each_with_index{|answer, index| grade = grade + 1 if exam_questions[index].question.correct_options.size == 5 || exam_questions[index].question.correct_options.map(&:letter).include?(answer)}
+      grade
     end
   end  
 
@@ -63,7 +70,9 @@ class StudentExam < ActiveRecord::Base
   end
 
   def answers_needing_check
+    create_exam_answers unless exam_answers.present?
     exam_answers.select{ |ea| ea.need_to_be_checked? }
+    # Hash[(1...exam_answer_as_string.size).zip exam_answer_as_string.split('')].select{|key, value| ['Z', 'W'].include? value }
   end
 
   def student_not_found?
@@ -174,24 +183,17 @@ class StudentExam < ActiveRecord::Base
   end 
 
   def set_exam_answers
-    grades_total = Hash[*exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|sub| sub}.map{|key, value| [key,value.size]}.flatten]
-    grades_hash = Hash[*grades_total.map{|k,v| [k,0]}.flatten]
-    exam_execution.exam.exam_questions.each do |exam_question|
-      exam_answer = exam_answers.build(
-        answer: string_of_answers[exam_question.number - 1], 
-        exam_question_id: exam_question.id)
-      subject = exam_answer.exam_question.question.topics.first.subject.code
-      correct_answers = exam_answer.exam_question.question.options.select{|o| o.correct}.map(&:letter)
-      grades_hash[subject] = grades_hash[subject] + 1 if correct_answers.include?(exam_answer.answer) || correct_answers.size == 5
-    end
-    self.grades = grades_hash.map{|subject_name,grade|[subject_name,grade/grades_total[subject_name]].join(',')}.join(',')
+    number_of_questions = exam_execution.exam.exam_questions.size
+    self.exam_answer_as_string = string_of_answers[0..number_of_questions-1]
+    check_answers
+  end
 
-    # comment
-    if answers_needing_check.any? && !is_bolsao
+  def check_answers
+    if false && answers_needing_check.any? && !is_bolsao
       self.status = INVALID_ANSWERS_STATUS
     else
       self.status = VALID_STATUS
-    end
+    end    
   end
 
   def set_grades
@@ -204,6 +206,15 @@ class StudentExam < ActiveRecord::Base
     end
     p grades_hash
     self.grades = grades_hash.map{|subject_name,grade|[subject_name,(10*grade.to_f/grades_total[subject_name].to_f).round(2)].join(',')}.join(',')
+  end
+
+  def create_exam_answers
+    exam_answers.destroy_all
+    exam_execution.exam.exam_questions.each do |exam_question|
+      exam_answer = exam_answers.build(
+        answer: string_of_answers[exam_question.number - 1] || 'Z', 
+        exam_question_id: exam_question.id)
+    end    
   end
 
   def get_exam_answers

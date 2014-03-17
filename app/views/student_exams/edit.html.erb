@@ -41,14 +41,14 @@
             <% if @student_exam.is_bolsao %>
               <% ff.object.applied_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)].compact %>
               <%= ff.association :applied_super_klazzes, 
-                collection: @student_exam.campus.super_klazzes,
+                collection: SuperKlazz.where(campus_id: @student_exam.campus, product_year_id: ProductYear.where(year_id: Year.last.id)).includes(:campus, :product_year),
                 label: 'Turma',
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>
             <% else %>
-              <% ff.object.applied_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
+              <% ff.object.enrolled_super_klazzes = [@student_exam.card_processing.exam_execution.super_klazz] %>
               <%= ff.association :enrolled_super_klazzes, 
-                collection: @student_exam.campus.super_klazzes,
+                collection: SuperKlazz.where(campus_id: @student_exam.campus, product_year_id: ProductYear.where(year_id: Year.last.id)).includes(:campus, :product_year),
                 label: 'Turma',
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>              
@@ -141,6 +141,8 @@
 
   <%= simple_form_for(@student_exam) do |f| %>
     <%= f.error_notification %>
+
+
     <div class='form-inputs'>
       <%= f.fields_for :exam_answers, @student_exam.answers_needing_check do |exam_fields| %>
         <%= image_tag exam_fields.object.image_url %>
