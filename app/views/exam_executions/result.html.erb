@@ -36,7 +36,7 @@
   <% @results.each do |result| %>
     <tr>
       <td><%= "%06d" % result['RA'].to_i %></td>
-      <td><%= result['NAME'].split(' ').map(&:capitalize).join(' ') %>
+      <td><%= link_to(result['NAME'].split(' ').map(&:capitalize).join(' '), result['PATH']) %>
         <span style='float: right;'>
           <%= result['LINK'] %>
         </span>

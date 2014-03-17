@@ -123,10 +123,15 @@ class ExamExecutionsController < ApplicationController
       {
         'RA' => ("%07d" % (student_exam.student.ra || student_exam.student.number)),
         'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '),
+        'PATH' => student_exam_path(student_exam),
         'CAMPUS' => student_exam.campus.name,
         'ID' => student_exam.id
       }.merge(
-          @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
+          if student_exam.exam_answer_as_string.present?
+            @subjects.inject(Hash.new(0)){|h, v| h[v.code] = (student_exam.exam_answer_as_string || '').split('').each_with_index.select{|answer, index| subject_questions[v.name].include?(index+1) && (correct_answers[index].size == 5 || correct_answers[index].include?(answer))}.size; h}
+          else
+            @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
+          end
         )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
     end
   end
