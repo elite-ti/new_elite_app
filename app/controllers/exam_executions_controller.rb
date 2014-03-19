@@ -69,7 +69,6 @@ class ExamExecutionsController < ApplicationController
   end
 
   def create
-    a
     subject_check = 0
     if params[:exam_execution][:exam][:mini_exams_attributes].nil? 
       redirect_to new_exam_execution_path, notice: 'Clique em "Adicionar Matéria"'

@@ -24,7 +24,8 @@ class MiniExam < ActiveRecord::Base
 private
   def create_questions
     question_ids = ExamQuestion.where(exam_id: exam_id, number: first_question..last_question).map(&:question).map(&:id)
-    subject_topic = Topic.where(subject_id: subject_id).first_or_create!(subtopics: 'All')    
+    subject = Subject.find(subject_id)
+    subject_topic = Topic.where(subject_id: subject.id).first_or_create!(name: subject.name, subtopics: 'All', subject_id: subject.id)    
     question_ids.each do |question|
       QuestionTopic.create!(
         question_id: question,
