@@ -1,0 +1,37 @@
+<%= simple_form_for(@exam_execution) do |f| %>
+  <%= f.error_notification %>
+  
+  <%= f.simple_fields_for @exam do |ff| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">      
+      <% if @exam.new_record? %> 
+        <div class='form-fields'>
+          <%= ff.input :name, label: 'Nome da Prova', input_html:{value: ''} %>
+          <%= ff.input_field :is_bolsao, as: :boolean, label: 'Bolsão', inline_label: true %>
+          <%= ff.input :shift, as: :radio_buttons, collection: {"Sem Turno"=> " - ", "Manhã"=> " (Manhã) - ", "Tarde"=> " (Tarde) - "}, label: 'Turno'%>
+          <%= ff.input :options_per_question, as: :hidden, input_html:{value: 5} %>
+          <%= ff.simple_fields_for :mini_exams do |builder| %>
+            <%= render 'exam_executions/form/mini_exam_fields', f: builder %>
+          <% end %>
+          <p class="add_field"><%= link_to_add_fields "Adicionar Matéria", ff, :mini_exams, 'exam_executions/form/' %></p>
+        </div>
+      <% end %>
+
+  <% end %>
+
+  <div class='form-inputs'>
+    <div class='input'>
+      <%= f.input :datetime, hint: "dd/mm/YYYY HH:MM", label: 'Data da Prova', input_html:{value: DateTime.now.strftime('%d/%m/%Y') + ' 14:00'} %>
+      <%= f.input :exam_cycle, hint: '3º Bimestre - 2ª Chamada', label: 'Ciclo', input_html:{value: ''} %>
+      <%= f.association :campuses, collection: @accessible_campuses, label_method: :name, label: 'Unidades', input_html:{ "data-value" => 'Selecione a(s) Unidade(s)'} %>
+      <% if current_role == "admin" %>
+      <%= f.input_field :all_campus, as: :boolean, label: "Todas Unidades", inline_label: true %>  
+      <% end %>
+      <%= f.association :product_years, collection: Product.all, label_method: :name, label: 'Turmas', input_html:{ "data-value" => 'Selecione a(s) Turmas(s)'} %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Criar Prova' %>
+  </div>
+<% end %>

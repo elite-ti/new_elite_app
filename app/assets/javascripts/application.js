@@ -18,7 +18,9 @@
 //= require subject_threads
 //= require teacher_absence
 //= require exams
+//= require klazzes
 //= require student_exams
+//= require students
 //= require exam_results
 //= require exam_executions
 //= require applicant

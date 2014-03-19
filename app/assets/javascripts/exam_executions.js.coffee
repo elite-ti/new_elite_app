@@ -47,3 +47,36 @@ jQuery ->
     #triggering the function
     a.click()
     return false
+
+  $('#exam_execution_exam_shift__-_').attr('checked', true)
+
+  $('#exam_execution_all_campus').click ->
+    if $('#exam_execution_all_campus').is(':checked') == true
+      $('#exam_execution_campus_ids option').prop('selected', true)
+      $('select').not('#select_roles').chosen()
+      $('select').trigger('liszt:updated')
+    if $('#exam_execution_all_campus').is(':checked') == false
+      $('#exam_execution_campus_ids option').prop('selected', false)
+      $('select').not('#select_roles').chosen()
+      $('select').trigger('liszt:updated')
+
+  $('.new_exam_execution').submit ->
+    $('.error').remove()
+    submit = true
+    if $(this).find('#exam_execution_exam_name').val() == ''
+      $('#exam_execution_exam_name').closest('.input').append('<span class="error" style="display:inline;margin-left:10px;">Preencha esse campo</span>')
+      submit = false
+    if $(this).find('#exam_execution_datetime').val() == ''
+      $('#exam_execution_datetime').closest('.input').append('<span class="error">Preencha esse campo</span>')
+      submit = false
+    if $(this).find('#exam_execution_exam_cycle').val() == '' 
+      $('#exam_execution_exam_cycle').closest('.input').append('<span class="error">Preencha esse campo</span>')
+      submit = false
+    if $(this).find('#exam_execution_campus_ids').val() == null
+      $('#exam_execution_campus_ids').closest('.input').append('<span class="error">Preencha esse campo</span>')
+      submit = false
+    if $(this).find('#exam_execution_product_year_ids').val() == null
+      $('#exam_execution_product_year_ids').closest('.input').append('<span class="error">Preencha esse campo</span>')
+      submit = false
+
+    return submit

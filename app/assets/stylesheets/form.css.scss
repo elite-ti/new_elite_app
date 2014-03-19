@@ -8,6 +8,7 @@ form {
     &.radio, &.checkbox {
       float: none;
       margin: 0;
+      margin-bottom: 10px;
       width: auto;
       text-align: left;
     }
@@ -28,6 +29,7 @@ form {
   .btn {
     margin-left: $indent;
   }
+  
   .alert-error {
     color: #D00;
     margin-bottom: 10px;
@@ -58,9 +60,13 @@ form {
     fieldset {
       border: 1px solid;
       border-radius: 10px;
-      margin-left: -1px;
+      margin-left: 0;
       padding-left: 0;
       a { margin-left: $indent; }
+      div.input{ 
+        a.chzn-single { margin-left: 0; }
+    }
+      a.remove_fields { margin-left: 180px; }
     }
   }
 
@@ -111,4 +117,23 @@ form {
 
 #mock_student_ra, #mock_student_number {
   width: 100px;
+}
+
+.border{
+  h2 {
+    border: 1px solid #222;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 8px;
+    background-color: white;
+    display: inline-block;
+  }
+  div {
+    h3 {
+      margin: auto;
+      margin-left: 10px;
+      display: inline-block;
+    }
+    margin-left: 20px;
+  }
 }

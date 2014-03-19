@@ -10,6 +10,11 @@ class ExamExecution < ActiveRecord::Base
   belongs_to :exam
   has_many :student_exams
   has_many :card_processings
+  has_many :campuses, through: :super_klazz
+  has_many :product_years, through: :super_klazz
+  has_one :all_campus
+
+  accepts_nested_attributes_for :all_campus, allow_destroy: true
 
   validates :exam_cycle, :super_klazz, :exam, presence: :true 
 

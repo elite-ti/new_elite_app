@@ -18,6 +18,6 @@ jQuery ->
     time = new Date().getTime()
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).parent().before($(this).data('fields').replace(regexp, time))
+    $('select').not('#select_roles').chosen()
+    $('.chzn-container.chzn-container-single').children('.chzn-default').children('span').text($('.chzn-container.chzn-container-single').parent().children('select').data('value'))
     event.preventDefault()
-
-  

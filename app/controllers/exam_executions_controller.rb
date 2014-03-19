@@ -2,6 +2,7 @@
 
 class ExamExecutionsController < ApplicationController
   # load_and_authorize_resource
+  include ApplicationHelper
 
   def index
     if params[:filter_by].nil?
@@ -12,7 +13,7 @@ class ExamExecutionsController < ApplicationController
       @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id), datetime: date.beginning_of_day..date.end_of_day)
       @filter_by = ' - Bolsão'
     elsif params[:filter_by].include?'is_bolsao_'
-      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+      campuz = Campus.find(translate_campus_by_name(params[:filter_by].split('_')[2]))
       @exam_executions = ExamExecution.all.select{|ee| ee.is_bolsao && campuz == ee.super_klazz.campus}
       @filter_by = ' - Bolsão - ' + campuz.name
     elsif params[:filter_by] == 'free_course'
@@ -23,7 +24,7 @@ class ExamExecutionsController < ApplicationController
       @filter_by = ' - Curso'
     elsif params[:filter_by].include?'free_course_'
       # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
-      campuz = Campus.find(translate(params[:filter_by].split('_')[2]))
+      campuz = Campus.find(translate_campus_by_name(params[:filter_by].split('_')[2]))
       super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.free_course_products.map(&:id), campus_id: campuz.id).map(&:id)
       exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)
       @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
@@ -36,56 +37,13 @@ class ExamExecutionsController < ApplicationController
       @filter_by = ' - Colégio'
     elsif params[:filter_by].include?'school_'
       # @exam_executions = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:exam_executions).flatten.uniq.select{|exam_execution| !exam_execution.is_bolsao}
-      campuz = Campus.find(translate(params[:filter_by].split('_')[1]))
+      campuz = Campus.find(translate_campus_by_name(params[:filter_by].split('_')[1]))
       super_klazz_ids = SuperKlazz.where(product_year_id: ProductYear.school_products.map(&:id), campus_id: campuz.id).map(&:id)
       exam_cycle_ids = ExamCycle.where(is_bolsao: false).map(&:id)
       @exam_executions = ExamExecution.where(super_klazz_id: super_klazz_ids, exam_cycle_id: exam_cycle_ids).includes([super_klazz: [:campus, {product_year: :product}], exam_cycle: [], card_processings: []])
       @filter_by = ' - Colégio - ' + campuz.name
     else
       render :file => 'public/404.html', :status => :not_found, :layout => false      
-    end
-  end
-
-  def translate input
-    translations = {
-      'bangu' => '1',
-      'bg' => '1',
-      'b' => '1',
-      'cg1' => '2',
-      'cgi' => '2',
-      'cg2' => '3',
-      'cgii' => '3',
-      'ig' => '4',
-      'ilha' => '4',
-      'mad1' => '5',
-      'm1' => '5',
-      'mad2' => '6',
-      'm2' => '6',
-      'mad3' => '7',
-      'm3' => '7',
-      'norteshopping' => '8',
-      'ns' => '8',
-      'novaiguacu' => '9',
-      'ni' => '9',
-      'sg1' => '10',
-      'sgi' => '10',
-      'sg2' => '11',
-      'sgii' => '11',
-      'taquara' => '12',
-      't' => '12',
-      'tq' => '12',
-      'r9' => '12',
-      'tijuca' => '13',
-      'tj' => '13',
-      'valqueire' => '14',
-      'v' => '14',
-      'vv' => '14',
-      'val' => '14'
-    }
-    if translations.keys.include? input
-      translations[input]
-    else
-      input
     end
   end
 
@@ -101,6 +59,106 @@ class ExamExecutionsController < ApplicationController
         send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
       end
     end    
+  end
+
+  def new
+    @exam = Exam.new
+    @exam_execution = ExamExecution.new
+    @accessible_campuses = []
+    @accessible_campuses += Campus.accessible_by(current_ability) 
+  end
+
+  def create
+    a
+    subject_check = 0
+    if params[:exam_execution][:exam][:mini_exams_attributes].nil? 
+      redirect_to new_exam_execution_path, notice: 'Clique em "Adicionar Matéria"'
+    else
+      order = 1
+      correct_answers_arr = []
+      subject = []
+      subject_ids = []
+      params[:exam_execution][:exam][:mini_exams_attributes].each do |key|
+        if key[1]["_destroy"].include? "false"
+          correct_answers_arr << key[1]["correct_answers"].upcase
+          subject_ids << key[1]["subject_id"]
+          subject << Subject.where(id: key[1]["subject_id"]).first.code + "(#{key[1]["correct_answers"].size.to_s})"
+          subject_check+=1
+        end
+      end
+      if subject_check < 1
+        redirect_to new_exam_execution_path, notice: 'Adicione pelo menos 1 Matéria'
+      else
+        if params[:exam_execution][:exam][:is_bolsao].to_i > 0
+          product_years = ProductYear.where(name: Product.where(id: params[:exam_execution][:product_year_ids][1..-1]).map{|a| a.name+" - 2014"})
+          is_bolsao = true
+        else
+          product_years = ProductYear.where(name: Product.where(id: params[:exam_execution][:product_year_ids][1..-1]).map{|a| a.name+" - 2013"})
+          is_bolsao = false
+        end
+        update_check = 0
+        shift_string = params[:exam_execution][:exam][:shift]
+        datetime = params[:exam_execution][:datetime]
+        cycle_name = params[:exam_execution][:exam_cycle]
+        exam_name = params[:exam_execution][:exam][:name]
+        correct_answers = correct_answers_arr*""
+        correct_answers_per_subject = Hash[*subject_ids.zip(correct_answers_arr).flatten]
+        campus_ids = params[:exam_execution][:campus_ids][1..-1]
+        if campus_ids.include? "16"
+          campuses = Campus.all
+        else
+          campuses = Campus.where(id: campus_ids)
+        end
+
+        exam = Exam.where(name: cycle_name + " - " + exam_name, correct_answers: correct_answers).first_or_create!(
+          name: cycle_name + " - " + exam_name, 
+          correct_answers: correct_answers, 
+          options_per_question: 5)
+
+        correct_answers_per_subject.each_pair do |subject_id, correct_answers|
+          mini_exam = MiniExam.where(exam_id: exam.id, subject_id: subject_id, correct_answers: correct_answers).first_or_create!(
+            exam_id: exam.id, 
+            subject_id: subject_id, 
+            correct_answers: correct_answers,
+            options_per_question: 5,
+            order: order)
+          order += 1
+        end
+
+        product_years.each do |product_year|
+          exam_cycle = ExamCycle.where(
+            name: cycle_name + " - " + product_year.product.name + shift_string + subject*" + ").first_or_create!(
+            is_bolsao: is_bolsao, product_year_id: product_year.id)
+
+          campuses.each do |campus|
+            super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+            next if super_klazz.nil?
+            
+            if campus_ids.include? "16"
+              exam_execution = ExamExecution.create!(
+                exam_cycle_id: exam_cycle.id, 
+                super_klazz_id: super_klazz.id,
+                datetime: datetime,
+                exam_id: exam.id)
+            else
+              exam_execution = ExamExecution.where(exam_cycle_id: exam_cycle.id, super_klazz_id: super_klazz.id).first_or_create!(
+                exam_cycle_id: exam_cycle.id, 
+                super_klazz_id: super_klazz.id, 
+                datetime: datetime, 
+                exam_id: exam.id)
+              exam_execution.update_attribute :exam_id, exam.id
+              update_check =+ 1              
+            end
+          end
+        end
+
+        if update_check < 1
+          redirect_to new_exam_execution_path, notice: 'Prova criada com sucesso!'
+        else
+          redirect_to new_exam_execution_path, notice: 'Prova criada para unidades (' + campuses.map(&:name)*", " + ")"
+        end
+      end
+    end
   end
 
   def cards

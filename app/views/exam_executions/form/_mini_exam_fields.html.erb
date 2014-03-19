@@ -1,0 +1,16 @@
+<fieldset id="mini_exam_fields">
+  <div class='input'>
+    <%= f.association :subject, collection: Subject.order(:name), label_method: :name, label: 'Disciplina', input_html:{ 'data-value' => 'Selecione a Matéria'} %>
+  </div>
+
+  <div class='input'>  
+    <%= f.input :options_per_question, as: :hidden, input_html:{value: 5} %>
+  </div>
+
+  <div class='input'>  
+    <%= f.input :correct_answers, label: 'Gabarito', placeholder: "Gabarito dessa matéria", input_html:{value: ''} %>
+  </div>
+
+	<%= f.hidden_field :_destroy %>
+	<%= link_to "Remover", "#", class: "remove_fields" %>
+</fieldset>
