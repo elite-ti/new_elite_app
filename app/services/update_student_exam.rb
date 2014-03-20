@@ -42,16 +42,28 @@ private
 
   def update_and_create_new_student(student)
     name = student[:name]
+    ra = student[:ra]
     if @student_exam.is_bolsao
       super_klazz_id = student[:applied_super_klazz_ids]
       student = Student.new(name: name)
       student.applied_super_klazz_ids = [super_klazz_id]
       student.save
-      student.number = student.calculate_temporary_number(super_klazz_id, 1)      
+      if ra.present?
+        student.number = student.calculate_temporary_number(super_klazz_id, 1)
+      else
+        student.number = ra
+      end
       student.save
     else
       super_klazz_id = student[:enrolled_super_klazz_ids]
-      student = Student.create_temporary_student!(name, super_klazz_id)
+      if ra.present?
+        student = Student.create!(name: name, ra: ra)
+        student.enrolled_super_klazz_ids = [super_klazz_id]
+        student.save!
+        student.enrollments.map(&:save!)
+      else
+        student = Student.create_temporary_student!(name, super_klazz_id)
+      end
     end
     update_student(student.id)
   end

@@ -38,6 +38,7 @@
         <div class='form-inputs'>
           <%= f.simple_fields_for @new_student do |ff| %>
             <%= ff.input :name %>
+            <%= ff.input :ra, hint: 'Deixe em branco para atribuir um RA temporário' %>
             <% if @student_exam.is_bolsao %>
               <% ff.object.applied_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)].compact %>
               <%= ff.association :applied_super_klazzes, 
@@ -46,7 +47,7 @@
                 label_method: :product_year_name, 
                 input_html: { multiple: false } %>
             <% else %>
-              <% ff.object.enrolled_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)] %>
+              <% ff.object.enrolled_super_klazzes = [@student_exam.card_processing.try(:exam_execution).try(:super_klazz)].compact %>
               <%= ff.association :enrolled_super_klazzes, 
                 collection: SuperKlazz.where(campus_id: @student_exam.campus, product_year_id: ProductYear.where(year_id: Year.last.id)).includes(:campus, :product_year),
                 label: 'Turma',
@@ -274,5 +275,5 @@
 
 
 <% elsif not @student_exam.needs_check? %>
-  <h2>This card don't need to be fixed anymore. </h2>  
+  <h2>Esse cartão já não precisa mais de correção. </h2>  
 <% end %>

@@ -9,7 +9,7 @@ class Student < ActiveRecord::Base
 
   has_many :enrollments, dependent: :destroy, inverse_of: :student
   has_many :enrolled_super_klazzes, through: :enrollments, source: :super_klazz
-  has_many :enrolled_exam_executions, through: :enrolled_super_klazzes, source: :exam_executions
+  has_many :all_enrolled_exam_executions, through: :enrolled_super_klazzes, source: :exam_executions
   has_many :enrolled_exams, through: :enrolled_exam_executions, source: :exam
 
   has_many :applicants, dependent: :destroy, inverse_of: :student
@@ -29,6 +29,10 @@ class Student < ActiveRecord::Base
   def possible_exam_executions(is_bolsao, exam_date)
     (is_bolsao ? applied_exam_executions : enrolled_exam_executions).
       where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
+  end
+
+  def enrolled_exam_executions
+    @enrolled_exam_executions = @enrolled_exam_executions || ExamExecution.where(super_klazz_id: enrolled_super_klazz_ids, exam_cycle_id: ExamCycle.where(is_bolsao: false))
   end
 
   def number
@@ -61,17 +65,18 @@ class Student < ActiveRecord::Base
     ra
   end
 
-  def self.calculate_temporary_ra(super_klazz_id, variable_digits)
+  def self.calculate_temporary_ra(super_klazz_id, variable_digits=1)
+    # bunda
     super_klazz = SuperKlazz.find(super_klazz_id)
     min_temporary_ra = '9' + super_klazz.campus.code + super_klazz.product_year.product.code + ('0' * variable_digits)
     min_temporary_ra = min_temporary_ra.to_i - 1
-    max_ra = super_klazz.enrolled_students.maximum(:ra)
-    ra = 0
-    if max_ra.nil?
+    # max_ra = super_klazz.enrolled_students.maximum(:ra)
+    # ra = 0
+    # if max_ra.nil?
       ra = min_temporary_ra.to_i
-    else
-      ra = [max_ra, min_temporary_ra.to_i].max
-    end
+    # else
+    #   ra = [max_ra, min_temporary_ra.to_i].max
+    # end
     ra = ra + 1
     while Student.where(ra: ra).size > 0
       ra = ra + 1  
@@ -79,10 +84,10 @@ class Student < ActiveRecord::Base
     ra
   end
 
-  def self.create_temporary_student!(name, super_klazz_id)
+  def self.create_temporary_student!(name, super_klazz_id, variable_digits=1)
     student = Student.new
     student.name = name
-    student.ra = calculate_temporary_ra(super_klazz_id, 2)
+    student.ra = calculate_temporary_ra(super_klazz_id, variable_digits)
     student.enrolled_super_klazz_ids = [super_klazz_id]
     student.save!
     student
