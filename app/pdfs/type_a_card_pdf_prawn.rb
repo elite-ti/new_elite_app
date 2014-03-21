@@ -42,9 +42,9 @@ private
   end
 
   def header
-    move_down 20
-    text "Cartão-Resposta", size: 20, style: :bold, :align => :center
     move_down 10
+    text "Cartão-Resposta", size: 20, style: :bold, :align => :center
+    move_down 20
     text "Aluno: ", size: 12
     draw_blank_line
     move_down 10
@@ -55,6 +55,7 @@ private
     draw_blank_line 40, 100
     move_up 5
     text 'Preencha o seu RA', size: 12, :align => :center
+    image "#{Rails.root}/app/assets/images/elite-logo-bw.png", at:[130, 790], fit: [40, 40]    
   end
 
   def bottom
