@@ -53,4 +53,28 @@ class ExamsController < ApplicationController
     @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
   end
 
+  def download
+    @results = 
+      Exam.where(id: ExamExecution.where(
+        exam_cycle_id: ExamCycle.where(is_bolsao: false, product_year_id: ProductYear.where(year_id: Year.last.id))
+      ).map(&:exam_id)).includes(exam_executions: [:exam_cycle, super_klazz: [:campus, product_year: [:product, :year]]]).map do |exam|
+        [
+          exam.exam_executions.first.is_bolsao ? 1 : 0,
+          exam.exam_executions.map(&:datetime).map(&:to_date).uniq.sort.join('|'),
+          exam.exam_executions.map(&:super_klazz).map(&:campus).map(&:name).uniq.sort.join('|'),
+          exam.exam_product_years.map(&:name).uniq.sort.join('|'),
+          exam.name.split(' - ')[1..-1].join(' - '),
+          exam.name.split(' - ')[0],
+          exam.erp_code,
+          exam.exam_full_subjects,
+          exam.correct_answers
+        ].join(';')
+      end.flatten.compact.join("\r\n")
+
+    respond_to do |format|
+      format.html
+      format.csv { render text: @results }
+    end    
+  end
+
 end

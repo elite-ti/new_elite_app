@@ -22,6 +22,10 @@ class Exam < ActiveRecord::Base
     exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
   end
 
+  def exam_full_subjects
+    exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).group_by(&:code).map{|k, v| "#{k}(#{v.size})"}.join ' + '
+  end
+
   def exam_questions_per_subject
     exam_questions.includes(:question  => {:topics => :subject}).inject(Hash.new(0)){|h, v| h[v.topics.first.subject] += 1; h}
   end
