@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Exam < ActiveRecord::Base  
-  attr_accessible :name, :options_per_question, :correct_answers
+  attr_accessible :name, :options_per_question, :correct_answers, :erp_code
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions

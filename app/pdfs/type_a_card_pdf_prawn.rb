@@ -9,7 +9,7 @@ class TypeACardPdfPrawn < Prawn::Document
     if !@exam_execution.nil? && !@student.nil?
       page(@student)
     elsif !@exam_execution.nil?
-      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.sort_by{|std| std.name}.each do |student|
+      @exam_execution.super_klazz.enrolled_students.sort_by{|std| std.name}.each do |student|
         page(student)
       end
     else
@@ -100,7 +100,7 @@ private
   end
 
   def paint_options student
-    ra = "%06d" % student.ra
+    ra = "%06d" % (student.ra || 0)
     group = 0
     ra.split('').each_with_index do |char, index|
       rectangle [170 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
