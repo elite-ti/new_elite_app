@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 class CardProcessingsDatatable
-  delegate :params, :h, :link_to, :number_to_currency, :print_datetime, :print_date, :edit_student_exam_path, :can?, :destroy_link, to: :@view
+  delegate :params, :h, :link_to, :number_to_currency, :print_datetime, :print_date, :edit_student_exam_path, :edit_card_processing_path, :can?, :destroy_link, to: :@view
 
   def initialize(view)
     @view = view
@@ -40,6 +40,7 @@ private
     end
     if can?(:destroy, card_processing)
       links << destroy_link(card_processing)
+      links << link_to('Reprocessar', edit_card_processing_path(card_processing))
     end
     return links.join(' | ')
   end

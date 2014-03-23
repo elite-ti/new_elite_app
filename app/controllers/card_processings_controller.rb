@@ -44,6 +44,11 @@ class CardProcessingsController < ApplicationController
     redirect_to card_processings_url, notice: 'Cartões destruidos com sucesso.'
   end
 
+  def edit
+    CardReprocessorWorker.perform_async(@card_processing.id)
+    redirect_to card_processings_url, notice: 'Iniciado o reprocessamento com sucesso.'
+  end
+
 private
 
   def set_campus_select

@@ -22,13 +22,13 @@ class StudentExamsController < ApplicationController
     update_student_exam = UpdateStudentExam.new(params[:student_exam], @student_exam)
     if update_student_exam.update
       if params[:commit] == 'Finalizar'
-        redirect_to @student_exam.card_processing, notice: 'Changes applied!'
+        redirect_to @student_exam.card_processing, notice: 'Mudanças aplicadas!'
       else
         check_student_exams
       end
     else
       if params[:commit] == 'Finalizar'
-        redirect_to @student_exam.card_processing, notice: 'Changes not applied.'
+        redirect_to @student_exam.card_processing, notice: 'Mudanças não aplicadas.'
       else
         set_form_objects
         render :edit
@@ -39,7 +39,13 @@ class StudentExamsController < ApplicationController
   def error
     @student_exam = StudentExam.find(params[:id])
     @student_exam.error!
-    redirect_to @student_exam.card_processing, notice: 'Student exam was marked as error.'
+    redirect_to @student_exam, notice: 'Cartão marcado como erro.'
+  end
+
+  def reprocess
+    @student_exam = StudentExam.find(params[:id])
+    @student_exam.scan
+    redirect_to @student_exam, notice: 'Cartão reprocessado com sucesso.'
   end
 
   def new
@@ -64,10 +70,10 @@ private
     needing_check =  @student_exam.card_processing.student_exams.needing_check
     if needing_check.any?
       redirect_to edit_student_exam_path(needing_check.first!), 
-        notice: 'Some fields need to be checked.'
+        notice: 'Alguns cartões ainda precisam ser checados.'
     else
       redirect_to @student_exam.card_processing, 
-        notice: 'All cards were checked!'
+        notice: 'Todos os cartões foram checados!'
     end
   end
 

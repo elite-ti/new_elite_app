@@ -9,6 +9,7 @@ EliteApp::Application.routes.draw do
 
   resources :attendance_lists
   resources :card_processings
+
   get 'card_processings/new/:exam_execution_id', to: 'card_processings#new'
   get 'card/:student_ra/:exam_code', to: 'student_exams#card'
   get 'calendar/', to: 'calendar#index'
@@ -23,6 +24,7 @@ EliteApp::Application.routes.draw do
   resources :student_exams do 
     member do 
       get :error
+      get :reprocess
     end
   end
   get 'student_exams/new/', to: 'student_exams#new'

@@ -1,24 +1,25 @@
 <%= title 'Student Exam',
   (link_to('Marcar como Erro', error_student_exam_path(@student_exam)) if @student_exam.status != StudentExam::ERROR_STATUS),
+  link_to('Reprocessar Cartão', reprocess_student_exam_path(@student_exam)),
   (link_to('Checar', edit_student_exam_path(@student_exam)) if @student_exam.needs_check?),
   link_to('Voltar', @student_exam.card_processing) %>
 
 <div class='tabs'>
   <ul>
-    <li><a href='#info'>Info</a></li>
-    <li><a href='#original_card'>Original Card</a></li>
-    <li><a href='#normalized_card'>Normalized Card</a></li>
+    <li><a href='#info'>Informações</a></li>
+    <li><a href='#original_card'>Cartão Original</a></li>
+    <li><a href='#normalized_card'>Cartão Normalizado</a></li>
   </ul>
 
   <div id='info'>
     <div class='resource'>
-      <h2>Scanned Info</h2>
+      <h2>Informações Escaneadas</h2>
       <p>
         <span>Código do aluno escaneado: </span><%= @student_exam.student_number %><br />
         <span>Respostas escaneadas: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
       </p>
 
-      <h2>Actual Info</h2>
+      <h2>Informações Encontradas</h2>
       <p>
         <% if @student_exam.needs_check? %>
           Esse cartão possui uma pendência! <%= link_to('Checar', edit_student_exam_path(@student_exam)) %><br />
@@ -61,10 +62,10 @@
     <table id='student_exam_exam_answers' class='display is-datatable'>
       <thead>
         <tr>
-          <th>Question Number</th>
-          <th>Subject</th>
-          <th>Correct Option</th>
-          <th>Marked Option</th>
+          <th>Questão</th>
+          <th>Disciplina</th>
+          <th>Opção Correta</th>
+          <th>Opção Marcada</th>
           <th></th>
         </tr>
       </thead>

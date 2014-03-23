@@ -1,4 +1,5 @@
 <%= title 'Cartões-Resposta', 
+  (link_to('Reprocessar', edit_card_processing_path(@card_processing)) if can?(:destroy, @card_processing)),
   (link_to('Checar', edit_student_exam_path(@card_processing.to_be_checked)) if @card_processing.needs_check?),
   link_to('Voltar', card_processings_path) %>
 
@@ -17,8 +18,8 @@
     <tr>
       <th>Status</th>
       <th>Aluno</th>
-      <th>Scanned Student Number</th>
-      <th>Scanned Answers</th>
+      <th>Código</th>
+      <th>Respostas</th>
     </tr>
   </thead>
 
