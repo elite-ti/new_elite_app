@@ -1,7 +1,6 @@
 jQuery ->
   $('#applicant_super_klazz').parent().hide()
   super_klazzes = $('#applicant_super_klazz').html()
-  console.log(super_klazzes)
   $('#applicant_exam_campus_id').change ->
     country = $('#applicant_exam_campus_id :selected').text()
     escaped_country = country.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1')

@@ -3,11 +3,11 @@
   link_to('Back', exams_path) %>
 
 <div class='resource'>
-  <p><span>Datetime: </span><%= print_datetime(@exam.datetime) %>
-  <p><span>Exam Cycle: </span><%= @exam.exam_cycle.name %>
-  <p><span>Subjects: </span><%= @exam.subjects.map(&:name).join(', ') %>
-  <p><span>Options per Question: </span><%= @exam.options_per_question.to_s %>
-  <p><span>Correct Answers: </span><%= @exam.correct_answers %>
+  <p><span>Datetime: </span><%= print_datetime(@exam.exam_datetime) %>
+  <p><span>Ciclo: </span><%= @exam.exam_executions.first.try(:exam_cycle).try(:name) || 'Não Encontrado' %>
+  <p><span>Disciplinas: </span><%= @exam.subjects %>
+  <p><span>Opções por questão: </span><%= @exam.options_per_question.to_s %>
+  <p><span>Gabarito: </span><%= @exam.correct_answers %>
 </div>
 
 <h2>Questions</h2>
@@ -27,8 +27,8 @@
       <td>
         <%= question.stem %>
         <span>
-          <%= link_to 'Show', question %> |
-          <%= link_to 'Edit', edit_question_path(question) %>
+          <%= link_to 'Mostrar', question %> |
+          <%= link_to 'Editar', edit_question_path(question) %>
         </span>
       </td>
       <td><%= question.model_answer %></td>

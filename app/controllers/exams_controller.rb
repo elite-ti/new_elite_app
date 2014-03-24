@@ -21,16 +21,21 @@ class ExamsController < ApplicationController
   end
 
   def create
+    # bunda
     if @exam.save
-      redirect_to exams_url, notice: 'Exam was successfully created.'
+      @exam.create_exam_executions(
+        params[:exam][:campus_ids].reject! { |c| c.empty? }.map { |e| e.to_i },
+        params[:exam][:product_year_ids].reject! { |c| c.empty? }.map { |e| e.to_i }
+      )
+      redirect_to exams_url(is_bolsao: false), notice: 'Prova criada com sucesso.'
     else
       render 'new'
     end
   end
 
   def update
-    if @exam.update_attributes(params[:exam])
-      redirect_to exams_url, notice: 'Exam was successfully updated.'
+    if @exam.update_attributes(params[:exam].except("exam_date", "campus_ids", "product_year_ids"))
+      redirect_to exams_url(is_bolsao: false), notice: 'Prova atualizada com sucesso.'
     else
       render 'edit'
     end
@@ -38,7 +43,7 @@ class ExamsController < ApplicationController
 
   def destroy
     @exam.destroy
-    redirect_to exams_url, notice: 'Exam was successfully destroyed.'
+    redirect_to exams_url, notice: 'Prova deletada com sucesso.'
   end
 
   def import

@@ -1,17 +1,29 @@
 # encoding: utf-8
 class Exam < ActiveRecord::Base  
-  attr_accessible :name, :options_per_question, :correct_answers, :erp_code
+  attr_accessible :name, :options_per_question, :correct_answers, :erp_code, :subjects, :exam_datetime, :campus_ids, :product_year_ids
+  attr_accessor :campus_ids, :product_year_ids
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
   has_many :questions, through: :exam_questions
-  has_many :mini_exams, dependent: :destroy
   has_many :exam_executions, dependent: :destroy
+
+  has_many :super_klazzes, through: :exam_executions, :autosave => false
+  has_many :product_years, through: :super_klazzes, :autosave => false
+  has_many :campuses, through: :super_klazzes, :autosave => false
 
   validates :name, :correct_answers, :options_per_question, presence: true
   validate :correct_answers_range, on: :create
 
-  after_create :create_questions
-  before_save :update_questions
+  
+  before_save :update_questions, :update_subjects
+
+  def campus_ids
+    self.campuses.map(&:id)
+  end
+
+  def product_year_ids
+    self.product_years.map(&:id)
+  end
 
   def number_of_questions
     exam_questions.count
@@ -34,23 +46,45 @@ class Exam < ActiveRecord::Base
     exam_executions.map(&:super_klazz).map(&:product_year).uniq
   end
 
+  def exam_campuses
+    exam_executions.map(&:super_klazz).map(&:campus).uniq
+  end
+
   def exam_dates
     exam_executions.map(&:datetime).map(&:to_date).uniq
+  end
+
+  def create_exam_executions ids_of_campuses, ids_of_product_years, is_bolsao=false
+    product_years = ids_of_product_years.map { |e| ProductYear.find(e) }
+    campuses = ids_of_campuses.map { |e| Campus.find(e) }
+    cycle_name = name.split(' - ')[0]
+
+    product_years.each do |product_year|
+      exam_cycle = ExamCycle.where(
+        name: cycle_name + ' - ' + product_year.product.name + " - #{subjects}").first_or_create!(
+        is_bolsao: is_bolsao, product_year_id: product_year.id)
+
+      campuses.each do |campus|
+        super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+        next if super_klazz.nil?
+        
+        ExamExecution.create!(
+          exam_cycle_id: exam_cycle.id, 
+          super_klazz_id: super_klazz.id,
+          datetime: exam_datetime,
+          exam_id: id)
+      end
+    end    
   end
 
 private
 
   def correct_answers_range
     return if options_per_question.nil?
-    # TODO: refactor
-    initial_letter, final_letter = 'A', 'A'
-    options_per_question.times { final_letter.next! }
-    possible_letters = initial_letter..final_letter
+    possible_letters = 'A'..('A'.ord + options_per_question - 1).chr
 
     correct_answers.split('').each do |answer|
-      unless possible_letters.include?(answer) 
-        errors.add(:correct_answers, 'invalid answer: ' + answer)
-      end
+      errors.add(:correct_answers, 'Resposta inválida: ' + answer) unless possible_letters.include?(answer)
     end
   end
 
@@ -65,6 +99,31 @@ private
         question_options.select{|o| o.letter == correct_letter}.first.update_column(:correct, true)
       end
     end
+  end
+
+  def update_subjects
+    return if exam_questions.size == 0
+    starting_at = 1
+    subject_hash = Hash[*self.subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+    subject_hash.each_pair do |subject_code, number_of_questions|
+      number_of_questions = number_of_questions.to_i
+      subject = Subject.where(code: subject_code).first!
+
+      subject_question_ids = 
+        ExamQuestion.where(
+          number: (starting_at..(starting_at + number_of_questions - 1)),
+          exam_id: self.id).map(&:question).map(&:id)
+
+      subject_topic = 
+        Topic.where(name: subject.name, subject_id: subject.id).
+        first_or_create!(subtopics: 'All')
+
+      subject_question_ids.each do |subject_question_id|
+        question_topic = QuestionTopic.where(question_id: subject_question_id).first_or_create!(topic_id: subject_topic.id)
+        question_topic.update_column(:topic_id, subject_topic.id) if question_topic.topic_id != subject_topic.id
+      end
+      starting_at = starting_at + number_of_questions
+    end    
   end
 
   def create_questions
@@ -143,29 +202,8 @@ EliteSim
             name: cycle_name + ' - ' + exam_name, 
             correct_answers: correct_answers, 
             options_per_question: 5,
-            erp_code: erp_code)
-
-          starting_at = 1
-          subject_hash.each_pair do |subject_code, number_of_questions|
-            number_of_questions = number_of_questions.to_i
-            subject = Subject.where(code: subject_code).first!
-
-            subject_question_ids = 
-              ExamQuestion.where(
-                number: (starting_at..(starting_at + number_of_questions - 1)),
-                exam_id: exam.id).map(&:question).map(&:id)
-
-            subject_topic = 
-              Topic.where(name: subject.name, subject_id: subject.id).
-              first_or_create!(subtopics: 'All')
-
-            subject_question_ids.each do |subject_question_id|
-              QuestionTopic.create!(
-                question_id: subject_question_id,
-                topic_id: subject_topic.id)
-            end
-            starting_at = starting_at + number_of_questions
-          end
+            erp_code: erp_code,
+            subjects: subjects)
 
           product_years.each do |product_year|
             exam_cycle = ExamCycle.where(
