@@ -14,26 +14,25 @@
 <table id='exam_questions' class='display is-datatable'>
   <thead>
     <tr>
-      <th>Question</th>
-      <th>Model Answer</th>
-      <th>Correct Answers</th>
-      <th>Topics</th>
+      <th>Questão</th>
+      <th>Disciplina</th>
+      <th>Gabarito</th>
     </tr>
   </thead>
 
   <tbody>
-  <% @exam.questions.each do |question| %>
+  <% @exam.exam_questions.includes(:question).each do |exam_question| %>
     <tr>
       <td>
-        <%= question.stem %>
+        <%= exam_question.number %>
         <span>
-          <%= link_to 'Mostrar', question %> |
-          <%= link_to 'Editar', edit_question_path(question) %>
+          <%= link_to 'Mostrar', exam_question.question %> |
+          <%= link_to 'Editar', edit_question_path(exam_question.question) %>
         </span>
       </td>
-      <td><%= question.model_answer %></td>
-      <td><%= question.correct_options.map(&:letter).join(', ') %></td>
-      <td><%= question.topics.map(&:name).join(', ') %></td>
+      <td><%= exam_question.question.topics.map(&:subject).map(&:code).uniq.join(', ') %>
+      <td><%= exam_question.question.correct_options.map(&:letter).join(', ') %></td>
+</td>
     </tr>
   <% end %>
   </tbody>

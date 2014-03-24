@@ -15,6 +15,7 @@ class Exam < ActiveRecord::Base
   validate :correct_answers_range, on: :create
 
   
+  after_create :create_questions
   before_save :update_questions, :update_subjects
 
   def campus_ids
@@ -139,6 +140,7 @@ private
 
       ExamQuestion.create!(exam_id: self.id, question_id: question.id)
     end
+    update_subjects
   end
 
   def get_correct_answers
@@ -199,8 +201,8 @@ EliteSim
           subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
           correct_answers = correct_answers.gsub(' ', '')
           exam = Exam.create!(
-            name: cycle_name + ' - ' + exam_name, 
-            correct_answers: correct_answers, 
+            name: cycle_name + ' - ' + exam_name,
+            correct_answers: correct_answers,
             options_per_question: 5,
             erp_code: erp_code,
             subjects: subjects)
