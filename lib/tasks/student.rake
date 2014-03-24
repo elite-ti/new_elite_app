@@ -1,6 +1,23 @@
 # encoding: UTF-8
 
 namespace :student do
+  task fix_enrollment_code: :environment do
+    twin = {46 => 35, 48 => 36, 50 => 37, 51 => 38, 53 => 56, 45 => 57, 35 => 46, 36 => 48, 37 => 50, 38 => 51, 56 => 53, 57 => 45}
+    Enrollment.where(erp_code: nil).includes(super_klazz: [:product_year, :campus]).each do |enrollment|
+      next if twin[enrollment.super_klazz.product_year_id].nil?
+      super_klazz = SuperKlazz.where(product_year_id: twin[enrollment.super_klazz.product_year_id], campus_id: enrollment.super_klazz.campus_id).first
+      next if super_klazz.nil?
+      erp_code = Enrollment.where(
+        student_id: enrollment.student_id,
+        super_klazz_id: super_klazz.id
+      ).first.try(:erp_code)
+      next if erp_code.nil?
+      p "About to update enr ##{enrollment.id} to #{erp_code} (sk: #{super_klazz.name})"
+      # break
+      enrollment.update_column(:erp_code, erp_code)
+    end
+  end
+
   task create_attendance_lists: :environment do
     if !ENV['DATE'].nil?
       date = ENV['DATE'].to_date
