@@ -87,4 +87,25 @@ class CardProcessingUploadStatusesController < ApplicationController
     end
   end
 
+  def recalculate
+    exam_date = params[:id].to_date
+    CardProcessing.where(is_bolsao: false, exam_date: exam_date).map(&:exam_execution).uniq.map(&:exam).uniq.each do |exam|
+      correct_answers = exam.correct_answers
+      number_of_questions = Hash[*exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+      subjects = exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code)
+      # StudentExam.where(exam_execution_id: exam.exam_executions.map(&:id), status: 'Valid').where("grades is null or grades like '%,0%'").each do |se|
+      StudentExam.where(exam_execution_id: exam.exam_executions.map(&:id), status: 'Valid').each do |se|
+        grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
+        se.exam_answer_as_string.split('').each_with_index do |answer, index|
+          if correct_answers[index] == 'X' || answer == correct_answers[index]
+          grades[subjects[index]] = grades[subjects[index]] + 1
+          end
+        end
+        grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
+        se.update_column(:grades, grades.to_a.flatten.join(','))
+      end
+    end  
+    redirect_to card_processing_upload_statuses_url, notice: "Notas recalculadas com sucesso."
+  end
+
 end

@@ -16,6 +16,9 @@
       <td><%= date.strftime('%Y-%m-%d') %></td>
       <td><%= @amounts[date] %></td>
       <td>
+        recalculate
+        <%= link_to('Recalcular Notas', recalculate_card_processing_upload_status_path(date) %>
+          |  
         <%= link_to('Download Resultado', results_card_processing_upload_status_path(date, 'csv')) %>
           |  
         <%= link_to('Download Marcações', markings_card_processing_upload_status_path(date, 'csv')) %>

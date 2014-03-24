@@ -4,6 +4,7 @@ EliteApp::Application.routes.draw do
       get :markings
       get :results
       get :scanned
+      get :recalculate
     end    
   end
 
