@@ -50,6 +50,8 @@ private
 
   def current_employee
     @current_employee ||= set_current_employee
+    # Employee.find(1464)
+    # Employee.find(409)
   end
   helper_method :current_employee
 
