@@ -1,4 +1,5 @@
 # encoding: UTF-8
+require "iconv"
 
 class CardProcessingUploadStatusesController < ApplicationController
   # load_and_authorize_resource
@@ -44,7 +45,7 @@ class CardProcessingUploadStatusesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render text: @results }
+      format.csv { render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)}
     end
   end
 
@@ -64,7 +65,7 @@ class CardProcessingUploadStatusesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render text: @results }
+      format.csv { render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)}
     end
   end
 
@@ -83,7 +84,7 @@ class CardProcessingUploadStatusesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render text: @results }
+      format.csv { render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)}
     end
   end
 
