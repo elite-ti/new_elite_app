@@ -2,6 +2,7 @@ class EmployeeSessionsController < ApplicationController
   authorize_resource class: false
 
   def create
+    p env
     employee = Employee.find_by_email(env['omniauth.auth']['info']['email'])
     if employee
       employee.check_uid(env['omniauth.auth']['uid'])
