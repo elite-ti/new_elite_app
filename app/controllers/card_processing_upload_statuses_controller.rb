@@ -105,6 +105,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
         se.update_column(:grades, grades.to_a.flatten.join(','))
       end
+      break
     end  
     redirect_to card_processing_upload_statuses_url, notice: "Notas recalculadas com sucesso."
   end
