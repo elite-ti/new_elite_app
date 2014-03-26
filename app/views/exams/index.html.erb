@@ -3,7 +3,7 @@
   link_to('Nova Prova', new_exam_path) %>
 
 <h2>Importar Provas</h2>
-<p>Formato: Bolsão,Unidades,Produto,Nome,Ciclo,Disciplinas,Respostas (CSV sem cabeçalho)</p>
+<p>Formato: Bolsão,Data,Unidades,Turmas,Avaliação,Ciclo,CODETAPA,Disciplinas,Respostas,Código de prova (CSV sem cabeçalho)</p>
 <%= form_tag import_exams_path, multipart: true do %>
   <%= file_field_tag :file %>
   <%= submit_tag "Importar" %>

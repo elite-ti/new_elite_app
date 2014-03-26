@@ -190,7 +190,7 @@ EliteSim
     errors = []
     file = file.path if file.class.to_s != 'String'
 
-    CSV.foreach(file) do |is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers|
+    CSV.foreach(file) do |is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code|
       begin
         ActiveRecord::Base.transaction do 
           p "#{is_bolsao},#{datetime},#{campus_names},#{product_names},#{exam_name},#{cycle_name},#{erp_code},#{subjects},#{correct_answers}"
@@ -205,7 +205,8 @@ EliteSim
             correct_answers: correct_answers,
             options_per_question: 5,
             erp_code: erp_code,
-            subjects: subjects)
+            subjects: subjects,
+            code: code)
 
           product_years.each do |product_year|
             exam_cycle = ExamCycle.where(
