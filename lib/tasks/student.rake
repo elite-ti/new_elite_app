@@ -18,6 +18,17 @@ namespace :student do
     end
   end
 
+  task create_cards_by_date: :environment do
+    p 'Start'
+    `mkdir #{File.join(Rails.root,'public/lists')}`  if !File.exists?(File.join(Rails.root,'public/lists'))
+    Campus.all.each do |campus|
+      p "#{campus.name}"
+      pdf = TypeCCardPdfPrawn.new(nil, nil, nil, ENV['DATE'], campus.id)
+      filename = File.join(Rails.root,'public/lists', 'Cartões_' + ENV['DATE'] + '_' + campus.name + '.pdf')
+      pdf.render_file(filename)
+    end
+  end
+
   task create_attendance_lists: :environment do
     if !ENV['DATE'].nil?
       date = ENV['DATE'].to_date
