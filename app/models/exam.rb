@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Exam < ActiveRecord::Base  
-  attr_accessible :name, :options_per_question, :correct_answers, :erp_code, :subjects, :exam_datetime, :campus_ids, :product_year_ids
+  attr_accessible :name, :options_per_question, :correct_answers, :erp_code, :subjects, :exam_datetime, :campus_ids, :product_year_ids, :code
   attr_accessor :campus_ids, :product_year_ids
 
   has_many :exam_questions, dependent: :destroy, inverse_of: :exam
@@ -189,11 +189,16 @@ EliteSim
   def self.import(file, email)
     errors = []
     file = file.path if file.class.to_s != 'String'
+    first = true
 
     CSV.foreach(file) do |is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code|
+      if first
+        first = false
+        next
+      end
       begin
         ActiveRecord::Base.transaction do 
-          p "#{is_bolsao},#{datetime},#{campus_names},#{product_names},#{exam_name},#{cycle_name},#{erp_code},#{subjects},#{correct_answers}"
+          p "#{is_bolsao},#{datetime},#{campus_names},#{product_names},#{exam_name},#{cycle_name},#{erp_code},#{subjects},#{correct_answers},#{code}"
 
           p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
           product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
