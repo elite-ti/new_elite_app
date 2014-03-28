@@ -1,14 +1,13 @@
 #encoding: UTF-8
 
 class TypeCCardPdfPrawn < Prawn::Document
-  def initialize(exam_execution_id, student_id, answers, exam_date, campus_id)
+  def initialize(exam_execution_id, student_id, answers, exam_date=nil, campus_id=nil)
     @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
-    @exam_code = @exam_execution.try(:exam).try(:code)
     @student = Student.find(student_id) if !student_id.nil?
     @answers = answers
     @student_block_size = 6
     @exam_block_size = 5
-    @exam_date = exam_date.to_date
+    @exam_date = exam_date.to_date if !exam_date.nil?
     super(page_size: "A4", page_layout: :portrait, top_margin: 20)
     set_default_parameters
     if !@exam_execution.nil? && !@student.nil?
