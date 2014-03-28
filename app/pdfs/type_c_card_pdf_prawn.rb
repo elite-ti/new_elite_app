@@ -3,6 +3,7 @@
 class TypeCCardPdfPrawn < Prawn::Document
   def initialize(exam_execution_id, student_id, answers, exam_date=nil, campus_id=nil)
     @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
+    @full_name = @exam_execution.full_name if !exam_execution_id.nil?
     @student = Student.find(student_id) if !student_id.nil?
     @answers = answers
     @student_block_size = 6
@@ -132,7 +133,7 @@ private
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 630 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end    
-    draw_text exam_execution.full_name, at: [45, 701], size: 12
+    draw_text @full_name, at: [45, 701], size: 12
     draw_text exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 677], size: 12
   end
 

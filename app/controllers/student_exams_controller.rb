@@ -53,6 +53,7 @@ class StudentExamsController < ApplicationController
       format.pdf do
         if params[:exam_date].nil?
           pdf = TypeCCardPdfPrawn.new(params[:exam_execution_id], params[:student_id], params[:answers], nil, nil)
+          p 'Teste'
           if !params[:exam_execution_id].nil? && !params[:student_id].nil?
             filename = 'CartaoResposta - ' + Student.find(params[:student_id]).name + ' - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
           elsif !params[:exam_execution_id].nil?
