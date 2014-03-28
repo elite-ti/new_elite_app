@@ -2,13 +2,13 @@ class CardConfiguration
   class InvalidParameters < RuntimeError; end
   class InvalidResult < RuntimeError; end
 
-  attr_reader :threshold, :student_zone, :questions_zone
+  attr_reader :threshold, :student_zone, :questions_zone, :exam_zone
 
   def initialize(parameters)
     parse(parameters.split(/\s+/))
   end
 
-  def parse_result(result)
+  def parse_result(result, has_exam_code)
     p result
     result = result.split('"')[-1] || ''
     raise InvalidResult.new('wrong number of questions') if result.size != number_of_questions
@@ -16,16 +16,27 @@ class CardConfiguration
     student_result = result[0, student_zone.number_of_questions]
     raise InvalidResult.new('wrong student answers') unless student_zone.is_valid_result?(student_result)
 
-    questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
-    raise InvalidResult.new('wrong questions answers') unless questions_zone.is_valid_result?(questions_result)
+    exam_result = result[student_zone.number_of_questions, 5] if has_exam_code
 
-    return [student_result, questions_result]    
+    if has_exam_code
+      questions_result = result[student_zone.number_of_questions + 5, questions_zone.number_of_questions]
+      raise InvalidResult.new('wrong questions answers') unless questions_zone.is_valid_result?(questions_result)
+    else
+      questions_result = result[student_zone.number_of_questions, questions_zone.number_of_questions]
+      raise InvalidResult.new('wrong questions answers') unless questions_zone.is_valid_result?(questions_result)
+    end
+
+    if has_exam_code
+      return [student_result, exam_result, questions_result]
+    else
+      return [student_result, questions_result]    
+    end
   end
 
 private
 
   def parse(parameters)
-    raise InvalidParameters.new if parameters.size != 27
+    raise InvalidParameters.new if parameters.size != 27 && parameters.size != 37
 
     @threshold = parameters[0]
     @pivot_default_x = parameters[1]
@@ -37,9 +48,10 @@ private
 
     @student_zone = CardZone.new(parameters[7, 10])
     @questions_zone = CardZone.new(parameters[17, 10])
+    @exam_zone = CardZone.new(parameters[27, 10])
   end
 
   def number_of_questions
-    student_zone.number_of_questions + questions_zone.number_of_questions
+    student_zone.number_of_questions + exam_zone.number_of_questions + questions_zone.number_of_questions
   end
 end

@@ -62,7 +62,7 @@ class StudentExamsController < ApplicationController
           end
           send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
         else
-          pdf = TypeCCardPdfPrawn.new(nil, nil, nil, params[:exam_date])
+          pdf = TypeCCardPdfPrawn.new(nil, nil, nil, params[:exam_date], nil)
           filename = 'CartoesResposta - ' + params[:exam_date] + '.pdf'
           send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
         end

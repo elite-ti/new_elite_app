@@ -2,7 +2,7 @@ class CardType < ActiveRecord::Base
 
   CARD_SCANNER_PATH = File.join(Rails.root, 'lib/card_scanner')
   
-  attr_accessible :card, :name, :parameters, :student_coordinates, :command
+  attr_accessible :card, :name, :parameters, :student_coordinates, :command, :has_exam_code
 
   has_many :card_processings
 
@@ -37,7 +37,7 @@ class CardType < ActiveRecord::Base
 
   def scan(origin_path, destination_path)
     scan_result = `#{scanner_path} #{origin_path} #{destination_path} #{parameters}`
-    configuration.parse_result(scan_result)
+    configuration.parse_result(scan_result, self.has_exam_code)
   end
 
   def remove_card!

@@ -16,6 +16,7 @@
       <th>Nome</th>
       <th>Turmas</th>
       <th>Datas</th>
+      <th>Código</th>
       <th>Links</th>
     </tr>
   </thead>
@@ -26,6 +27,7 @@
       <td><%= exam.name %></td>
       <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
       <td><%= exam.exam_dates.map{|date| print_date(date)}.join(', ') %></td>
+      <td><%= exam.code %></td>
       <td>
         <span>
           <%= link_to 'Mostrar', exam %> |

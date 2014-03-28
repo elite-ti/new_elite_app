@@ -15,7 +15,8 @@
     <div class='resource'>
       <h2>Informações Escaneadas</h2>
       <p>
-        <span>Código do aluno escaneado: </span><%= @student_exam.student_number %><br />
+        <span>Código do Aluno escaneado: </span><%= @student_exam.student_number || "Não encontrado" %><br />
+        <span>Código da Prova escaneado: </span><%= @student_exam.exam_code || "Não encontrado" %><br />
         <span>Respostas escaneadas: </span><%= print_long_string(@student_exam.string_of_answers, 10) %><br />
       </p>
 

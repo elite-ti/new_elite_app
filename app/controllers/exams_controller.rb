@@ -21,7 +21,6 @@ class ExamsController < ApplicationController
   end
 
   def create
-    # bunda
     if @exam.save
       @exam.create_exam_executions(
         params[:exam][:campus_ids].reject! { |c| c.empty? }.map { |e| e.to_i },

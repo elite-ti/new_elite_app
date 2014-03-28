@@ -18,7 +18,10 @@
     <tr>
       <th>Status</th>
       <th>Aluno</th>
-      <th>Código</th>
+      <th>RA</th>
+      <% if @card_processing.card_type.has_exam_code %>
+        <th>Prova</th>
+      <% end %>
       <th>Respostas</th>
     </tr>
   </thead>
@@ -40,6 +43,9 @@
       </td> 
       <td><%= student_exam.student.try(:name) || 'Não encontrado' %></td>
       <td><%= student_exam.student_number %></td>
+      <% if @card_processing.card_type.has_exam_code %>
+        <td><%= student_exam.exam_code %></td>
+      <% end %>
       <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
     </tr>
   <% end %>

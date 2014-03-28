@@ -8,6 +8,7 @@
   <p><span>Disciplinas: </span><%= @exam.subjects %>
   <p><span>Opções por questão: </span><%= @exam.options_per_question.to_s %>
   <p><span>Gabarito: </span><%= @exam.correct_answers %>
+  <p><span>Código de Prova: </span><%= @exam.code || "Sem código" %>
 </div>
 
 <h2>Questions</h2>

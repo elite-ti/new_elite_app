@@ -74,7 +74,11 @@ class StudentExam < ActiveRecord::Base
   end
 
   def possible_exam_executions
-    student.possible_exam_executions(is_bolsao, exam_date)
+    if is_bolsao
+      student.applied_exam_executions.where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
+    else
+      ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: campus.id), datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
+    end
   end
 
   def answers_needing_check
@@ -126,8 +130,13 @@ class StudentExam < ActiveRecord::Base
 
   def scan
     begin
-      self.student_number, self.string_of_answers = 
-        card_type.scan(card.png.path, card.normalized_path) 
+      if card_type.has_exam_code
+        self.student_number, self.exam_code, self.string_of_answers = 
+          card_type.scan(card.png.path, card.normalized_path) 
+      else
+        self.student_number, self.string_of_answers = 
+          card_type.scan(card.png.path, card.normalized_path) 
+      end
       set_student
       save!
     rescue => e
@@ -153,7 +162,16 @@ class StudentExam < ActiveRecord::Base
   end
 
   def set_exam_execution
-    if card_processing.exam_execution_id.present?
+    if card_type.has_exam_code
+      normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '')
+      exam_execution = possible_exam_executions.where(exam_code: normalized_exam_code.to_i).first
+      if exam_execution
+        self.exam_execution_id = exam_execution.id 
+        set_exam_answers
+      else
+        self.status = EXAM_NOT_FOUND_STATUS
+      end
+    elsif card_processing.exam_execution_id.present?
       if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz) || is_bolsao
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers

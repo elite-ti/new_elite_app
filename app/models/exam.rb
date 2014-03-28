@@ -73,7 +73,8 @@ class Exam < ActiveRecord::Base
           exam_cycle_id: exam_cycle.id, 
           super_klazz_id: super_klazz.id,
           datetime: exam_datetime,
-          exam_id: id)
+          exam_id: id,
+          exam_code: code)
       end
     end    
   end

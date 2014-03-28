@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140326101745) do
+ActiveRecord::Schema.define(:version => 20140328201234) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20140326101745) do
     t.string   "command"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_exam_code"
   end
 
   create_table "elite_roles", :force => true do |t|
@@ -226,6 +227,7 @@ ActiveRecord::Schema.define(:version => 20140326101745) do
     t.datetime "datetime"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "exam_code"
   end
 
   create_table "exam_questions", :force => true do |t|
@@ -471,6 +473,7 @@ ActiveRecord::Schema.define(:version => 20140326101745) do
     t.datetime "updated_at"
     t.string   "grades"
     t.string   "exam_answer_as_string"
+    t.string   "exam_code"
   end
 
   create_table "students", :force => true do |t|
