@@ -70,7 +70,7 @@ namespace :student do
       :password => "2elite29sistema95"
     )
 
-    results = client.query("SELECT * from wp_bolsao")
+    results = client.query("SELECT * from wp_bolsao ORDER BY data")
     # results = client.query("SELECT wp_rel_segmento_turma.*, wp_rel_bolsao_segmento.*, wp_bolsoes_opcao.* FROM wp_rel_segmento_turma " + 
     #                         "inner join wp_rel_bolsao_segmento on wp_rel_bolsao_segmento.id = wp_rel_segmento_turma.rel_id " + 
     #                         "inner join wp_bolsoes_opcao on wp_bolsoes_opcao.tipo = 'turma' and wp_bolsoes_opcao.id = wp_rel_segmento_turma.opcao_id"
