@@ -48,10 +48,12 @@ private
 
     @student_zone = CardZone.new(parameters[7, 10])
     @questions_zone = CardZone.new(parameters[17, 10])
-    @exam_zone = CardZone.new(parameters[27, 10])
+    @exam_zone = CardZone.new(parameters[27, 10]) if parameters.size > 27
   end
 
   def number_of_questions
-    student_zone.number_of_questions + exam_zone.number_of_questions + questions_zone.number_of_questions
+    student_zone.number_of_questions + 
+      (exam_zone.try(:number_of_questions) || 0) + 
+      questions_zone.number_of_questions
   end
 end
