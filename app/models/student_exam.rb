@@ -77,7 +77,9 @@ class StudentExam < ActiveRecord::Base
     if is_bolsao
       student.applied_exam_executions.where(datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
     else
-      ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: campus.id), datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day))
+      ExamExecution.where(
+        super_klazz_id: SuperKlazz.where(campus_id: campus.id), 
+        datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day)).select{|exam_execution| exam_execution.is_bolsao == card_processing.is_bolsao}
     end
   end
 
