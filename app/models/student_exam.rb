@@ -79,7 +79,9 @@ class StudentExam < ActiveRecord::Base
     else
       ExamExecution.where(
         super_klazz_id: SuperKlazz.where(campus_id: campus.id), 
-        datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day)).select{|exam_execution| exam_execution.is_bolsao == card_processing.is_bolsao}
+        datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day),
+        exam_cycle_id: ExamCycle.where(is_bolsao: card_processing.is_bolsao)
+      )
     end
   end
 
