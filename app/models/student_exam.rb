@@ -169,7 +169,12 @@ class StudentExam < ActiveRecord::Base
         self.exam_execution_id = exam_execution.id 
         set_exam_answers
       else
-        self.status = EXAM_NOT_FOUND_STATUS
+        if card_processing.exam_execution_id.present? 
+          self.exam_execution_id = card_processing.exam_execution_id
+          set_exam_answers
+        else
+          self.status = EXAM_NOT_FOUND_STATUS
+        end
       end
     elsif card_processing.exam_execution_id.present?
       if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz) || is_bolsao

@@ -67,73 +67,49 @@
 </div>
   
 <% elsif @student_exam.exam_not_found? %>
-  <% if !@student_exam.card_processing.exam_execution.nil? %>
-      <h2>No exams available for this student</h2>
+  <% if true %>
+    <h2>Foi encontrado mais de uma prova possível para este aluno</h2>
+    <%= image_tag @student_exam.card.student_url %>
+    <p>
+      <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+      <strong>Student: </strong><%= @student_exam.student.name %><br />
+      <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
+        map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
+      <strong>Number of answers: </strong><%= @student_exam.number_of_marked_options.to_s %>
+    </p>
 
-      <%= image_tag @student_exam.card.student_url %>
-      <p>
-        <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
-        <strong>Student: </strong><%= @student_exam.student.name %><br />
-        <strong>Exam Execution: </strong><%= @student_exam.card_processing.exam_execution.try(&:full_name) || 'Non-fixed' %><br />
-      </p>
-
-      <%= simple_form_for(@student_exam) do |f| %>
-        <%= f.error_notification %>
-        <div class='form-inputs'>
-          <%= f.simple_fields_for @student_exam.student do |ff| %>
-            <%= ff.association :enrolled_super_klazzes,
-              collection: @student_exam.campus.super_klazzes.select{|sk| sk.id == @student_exam.card_processing.exam_execution.super_klazz_id} %>
-          <% end %>
-        </div> 
-        <div class='form-actions'>
-          <%= f.submit 'Finalizar', class: 'btn' %>
-          <%= f.submit 'Continuar' %>
-        </div>
-      <% end %>    
+    <%= simple_form_for(@student_exam) do |f| %>
+      <%= f.error_notification %>
+      <div class='form-inputs'>
+        <%= f.association :exam_execution, 
+          collection: @student_exam.possible_exam_executions %>
+      </div> 
+      <div class='form-actions'>
+        <%= f.submit 'Finalizar', class: 'btn' %>
+        <%= f.submit 'Continuar' %>
+      </div>
+    <% end %>
   <% else %>
-    <% if @student_exam.possible_exam_executions.size > 1 %>
-      <h2>Foi encontrado mais de uma prova possível para este aluno</h2>
-      <p>
-        <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
-        <strong>Student: </strong><%= @student_exam.student.name %><br />
-        <strong>SuperKlazzes: </strong><%= @student_exam.student.enrolled_super_klazzes.
-          map(&:product_year).map(&:product).map(&:name).join(' ') %><br />
-        <strong>Number of answers: </strong><%= @student_exam.number_of_marked_options.to_s %>
-      </p>
+    <h2>Não foram encontradas provas para este aluno</h2>
 
-      <%= simple_form_for(@student_exam) do |f| %>
-        <%= f.error_notification %>
-        <div class='form-inputs'>
-          <%= f.association :exam_execution, 
-            collection: @student_exam.possible_exam_executions %>
-        </div> 
-        <div class='form-actions'>
-          <%= f.submit 'Finalizar', class: 'btn' %>
-          <%= f.submit 'Continuar' %>
-        </div>
-      <% end %>
-    <% else %>
-      <h2>Não foram encontradas provas para este aluno</h2>
+    <%= image_tag @student_exam.card.student_url %>
+    <p>
+      <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
+      <strong>Student: </strong><%= @student_exam.student.name %><br />
+    </p>
 
-      <%= image_tag @student_exam.card.student_url %>
-      <p>
-        <strong>RA: </strong><%= @student_exam.student.ra.to_s %><br />
-        <strong>Student: </strong><%= @student_exam.student.name %><br />
-      </p>
-
-      <%= simple_form_for(@student_exam) do |f| %>
-        <%= f.error_notification %>
-        <div class='form-inputs'>
-          <%= f.simple_fields_for @student_exam.student do |ff| %>
-            <%= ff.association :enrolled_super_klazzes,
-              collection: @student_exam.campus.super_klazzes %>
-          <% end %>
-        </div> 
-        <div class='form-actions'>
-          <%= f.submit 'Finalizar', class: 'btn' %>
-          <%= f.submit 'Continuar' %>
-        </div>
-      <% end %>
+    <%= simple_form_for(@student_exam) do |f| %>
+      <%= f.error_notification %>
+      <div class='form-inputs'>
+        <%= f.simple_fields_for @student_exam.student do |ff| %>
+          <%= ff.association :enrolled_super_klazzes,
+            collection: @student_exam.campus.super_klazzes %>
+        <% end %>
+      </div> 
+      <div class='form-actions'>
+        <%= f.submit 'Finalizar', class: 'btn' %>
+        <%= f.submit 'Continuar' %>
+      </div>
     <% end %>
   <% end %>
 
