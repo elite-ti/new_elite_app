@@ -88,7 +88,6 @@ class StudentExam < ActiveRecord::Base
   def answers_needing_check
     create_exam_answers unless exam_answers.present?
     exam_answers.select{ |ea| ea.need_to_be_checked? }
-    # Hash[(1...exam_answer_as_string.size).zip exam_answer_as_string.split('')].select{|key, value| ['Z', 'W'].include? value }
   end
 
   def student_not_found?
