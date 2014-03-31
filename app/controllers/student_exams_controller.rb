@@ -13,7 +13,7 @@ class StudentExamsController < ApplicationController
 
   def card
     # @student_exam = StudentExam.where(exam_execution_id: Exam.where(code: params[:exam_code]).first.try(:exam_execution_ids), student_id: Student.where(ra: params[:student_ra]).first || 0).first
-    @student_exam = StudentExam.where(exam_execution_id: params[:exam_code], student_id: Student.where(ra: params[:student_ra]).first || 0).first
+    @student_exam = StudentExam.where(exam_execution_id: ExamExecution.where(exam_code: params[:exam_code]), student_id: Student.where(ra: params[:student_ra]).first || 0).first
     @exists_card = !@student_exam.nil?
     render :layout => false
   end
