@@ -3,7 +3,8 @@
 
   <div class="form-inputs">
     <%= f.input :name, label: 'Nome' %>
-    <%= f.input :erp_code, label: 'CODTURMA' %>    
+    <%= f.input :erp_code, label: 'CODETAPA' %>
+    <%= f.input :code, label: 'Código de Prova' %>
     <%= f.input :correct_answers, label: 'Gabarito' %>
     <%= f.input :subjects, label: 'Disciplinas' %>
     <%= f.input :options_per_question,  :as => :hidden, input_html:{value: 5} %>
