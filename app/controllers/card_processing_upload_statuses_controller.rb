@@ -71,7 +71,10 @@ class CardProcessingUploadStatusesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)}
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{exam_date.strftime('%Y-%m-%d')}.csv\""
+        render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)
+      end
     end
   end
 
@@ -92,7 +95,10 @@ class CardProcessingUploadStatusesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)}
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"markings_#{exam_date.strftime('%Y-%m-%d')}.csv\""
+        render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)
+      end
     end
   end
 
