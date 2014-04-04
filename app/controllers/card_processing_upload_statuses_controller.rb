@@ -88,7 +88,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         [
           student_exam.id,
           'Z' * (6 - student_exam.student_number.size) + student_exam.student_number,
-          'Z' * (5 - student_exam.exam_code.size) + student_exam.exam_code,
+          'Z' * (5 - (student_exam.exam_code.try(:size) || 0)) + student_exam.exam_code,
           student_exam.string_of_answers + 'Z' * (100 - student_exam.string_of_answers.size)
         ].join(';')
       end.compact).join("\r\n")
