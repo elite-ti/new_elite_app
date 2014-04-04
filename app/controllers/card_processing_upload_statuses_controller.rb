@@ -65,7 +65,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         [
           ("%06d" % (student_exam.student.try(:ra) || 0)),
           ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
-          student_exam.exam_answer_as_string
+          student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join(';')
       end.compact).join("\r\n")
 
