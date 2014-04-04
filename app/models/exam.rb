@@ -190,16 +190,11 @@ EliteSim
   def self.import(file, email)
     errors = []
     file = file.path if file.class.to_s != 'String'
-    first = true
 
-    CSV.foreach(file) do |is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code|
-      if first
-        first = false
-        next
-      end
+    CSV.foreach(file, encoding:'iso-8859-1:utf-8', col_sep: ';', headers: true) do |row|
       begin
         ActiveRecord::Base.transaction do 
-          p "#{is_bolsao},#{datetime},#{campus_names},#{product_names},#{exam_name},#{cycle_name},#{erp_code},#{subjects},#{correct_answers},#{code}"
+          is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]
 
           p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
           product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
@@ -212,6 +207,7 @@ EliteSim
             options_per_question: 5,
             erp_code: erp_code,
             subjects: subjects,
+            exam_datetime: Date.strptime(datetime, '%d/%m/%Y'),
             code: code)
 
           product_years.each do |product_year|
@@ -233,13 +229,14 @@ EliteSim
 
         end
       rescue Exception => e
+        p 'ERRO! ' + e.message 
+        p e.backtrace.inspect          
         errors << [is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers].join(', ')
-        p 'ERRO! ' + e.message          
       end
     end
 
     # send email
-    p errors
+    # p errors
     if errors.size > 0
       send_email_importing_error(errors, email)
     else
