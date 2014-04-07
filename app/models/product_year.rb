@@ -3,7 +3,7 @@
 class ProductYear < ActiveRecord::Base
   
   attr_accessible :name, :product_id, :year_id
-  SCHOOL_PRODUCT_NAMES = ['6º Ano - 2013', '7º Ano - 2013', '8º Ano - 2013', '1ª Série ENEM - 2013', '2ª Série ENEM - 2013']
+  SCHOOL_PRODUCT_NAMES = ['6º Ano', '7º Ano', '8º Ano', '1ª Série ENEM', '2ª Série ENEM']
 
   belongs_to :product
   belongs_to :year
@@ -24,10 +24,11 @@ class ProductYear < ActiveRecord::Base
   end
 
   def self.school_products
-    ProductYear.where(name: SCHOOL_PRODUCT_NAMES, year_id: Year.last.id)
+    ProductYear.where(product_id: Product.where(name: SCHOOL_PRODUCT_NAMES), year_id: Year.last.id)
   end
 
   def self.free_course_products
-    ProductYear.where("name not in (?)", SCHOOL_PRODUCT_NAMES).where(year_id: Year.last.id)
+    # ProductYear.where("name not in (?)", SCHOOL_PRODUCT_NAMES).where(year_id: Year.last.id)
+    ProductYear.where("product_id not in (?)", Product.where(name: SCHOOL_PRODUCT_NAMES)).where(year_id: Year.last.id)
   end
 end
