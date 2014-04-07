@@ -79,6 +79,22 @@ class Exam < ActiveRecord::Base
     end    
   end
 
+  def create_questions
+    # correct_answers_with_subjects = Hash[*subject_id.zip(correct_answers).flatten]
+    # correct_answers_with_subjects.each do |code, answer|
+    correct_answers.split('').each do |answer|
+      question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
+
+      options_per_question.times do 
+        Option.create!(question_id: question.id)
+      end
+      question.options.where(letter: answer).first.update_attribute :correct, true
+
+      ExamQuestion.create!(exam_id: self.id, question_id: question.id)
+    end
+    update_subjects
+  end
+
 private
 
   def correct_answers_range
@@ -126,22 +142,6 @@ private
       end
       starting_at = starting_at + number_of_questions
     end    
-  end
-
-  def create_questions
-    # correct_answers_with_subjects = Hash[*subject_id.zip(correct_answers).flatten]
-    # correct_answers_with_subjects.each do |code, answer|
-    correct_answers.split('').each do |answer|
-      question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
-
-      options_per_question.times do 
-        Option.create!(question_id: question.id)
-      end
-      question.options.where(letter: answer).first.update_attribute :correct, true
-
-      ExamQuestion.create!(exam_id: self.id, question_id: question.id)
-    end
-    update_subjects
   end
 
   def get_correct_answers
@@ -197,11 +197,14 @@ EliteSim
           is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]
 
           if Exam.where(code: code).size == 1
+            p "#{code} - #{product_names}"
             exam = Exam.find_by_code(code)
             exam.correct_answers = correct_answers.gsub(' ', '')
-            if subjects != exam.subjects
+            if exam.subjects != subjects
+              p 'Rebuilding questions'
               exam.exam_questions.destroy_all
-              create_questions
+              exam.subjects = subjects
+              exam.create_questions
             end
             exam.save
           else
