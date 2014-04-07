@@ -198,7 +198,7 @@ EliteSim
 
           if Exam.where(code: code).size == 1
             exam = Exam.find_by_code(code)
-            exam.correct_answers = correct_answers
+            exam.correct_answers = correct_answers.gsub(' ', '')
             if subjects != exam.subjects
               exam.exam_questions.destroy_all
               create_questions
