@@ -196,35 +196,45 @@ EliteSim
         ActiveRecord::Base.transaction do 
           is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]
 
-          p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
-          product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
-          campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
-          subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
-          correct_answers = correct_answers.gsub(' ', '')
-          exam = Exam.create!(
-            name: cycle_name + ' - ' + exam_name,
-            correct_answers: correct_answers,
-            options_per_question: 5,
-            erp_code: erp_code,
-            subjects: subjects,
-            exam_datetime: Date.strptime(datetime, '%d/%m/%Y'),
-            code: code)
-
-          product_years.each do |product_year|
-            exam_cycle = ExamCycle.where(
-              name: cycle_name + ' - ' + product_year.product.name + " - #{subjects}").first_or_create!(
-              is_bolsao: is_bolsao == 'S', product_year_id: product_year.id)
-
-            campuses.each do |campus|
-              super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
-              next if super_klazz.nil?
-              
-              ExamExecution.create!(
-                exam_cycle_id: exam_cycle.id, 
-                super_klazz_id: super_klazz.id,
-                datetime: datetime,
-                exam_id: exam.id)
+          if Exam.where(code: code).size == 1
+            exam = Exam.find_by_code(code)
+            exam.correct_answers = correct_answers
+            if subjects != exam.subjects
+              exam.exam_questions.destroy_all
+              create_questions
             end
+            exam.save
+          else
+            p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
+            product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
+            campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
+            subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+            correct_answers = correct_answers.gsub(' ', '')
+            exam = Exam.create!(
+              name: cycle_name + ' - ' + exam_name,
+              correct_answers: correct_answers,
+              options_per_question: 5,
+              erp_code: erp_code,
+              subjects: subjects,
+              exam_datetime: Date.strptime(datetime, '%d/%m/%Y'),
+              code: code)
+
+            product_years.each do |product_year|
+              exam_cycle = ExamCycle.where(
+                name: cycle_name + ' - ' + product_year.product.name + " - #{subjects}").first_or_create!(
+                is_bolsao: is_bolsao == 'S', product_year_id: product_year.id)
+
+              campuses.each do |campus|
+                super_klazz = SuperKlazz.where(product_year_id: product_year.id, campus_id: campus.id).first
+                next if super_klazz.nil?
+                
+                ExamExecution.create!(
+                  exam_cycle_id: exam_cycle.id, 
+                  super_klazz_id: super_klazz.id,
+                  datetime: datetime,
+                  exam_id: exam.id)
+              end
+            end            
           end
 
         end
