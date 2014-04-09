@@ -116,28 +116,32 @@ class ExamExecutionsController < ApplicationController
 
   def result
     @exam_execution = ExamExecution.where(id: params[:exam_execution_id].to_i).includes(:exam => {:exam_questions => {:question => [:options, {:topics => :subject}]}}).first
-    @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS).includes({:card_processing => :campus}, :student, :exam_answers)
-    @has_errors = @exam_execution.needs_check?
-    @subjects = @exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+    @existing_answers = @exam_execution.exam.correct_answers.present?
+    if @existing_answers
+      @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS).includes({:card_processing => :campus}, :student, :exam_answers)
+      @has_errors = @exam_execution.needs_check?
+      @subjects = @exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
 
-    subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
-    correct_answers = @exam_execution.exam.exam_questions.map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
+      subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
+      correct_answers = @exam_execution.exam.exam_questions.map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
-    @results = @student_exams.map do |student_exam|
-      {
-        'RA' => ("%07d" % (student_exam.student.ra || student_exam.student.number || 0)),
-        'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '),
-        'PATH' => student_exam_path(student_exam),
-        'CAMPUS' => student_exam.campus.name,
-        'ID' => student_exam.id
-      }.merge(
-          if student_exam.exam_answer_as_string.present?
-            @subjects.inject(Hash.new(0)){|h, v| h[v.code] = (student_exam.exam_answer_as_string || '').split('').each_with_index.select{|answer, index| subject_questions[v.name].include?(index+1) && (correct_answers[index].size == 5 || correct_answers[index].include?(answer))}.size; h}
-          else
-            @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
-          end
-        )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+      @results = @student_exams.map do |student_exam|
+        {
+          'RA' => ("%07d" % (student_exam.student.ra || student_exam.student.number || 0)),
+          'NAME' => student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '),
+          'PATH' => student_exam_path(student_exam),
+          'CAMPUS' => student_exam.campus.name,
+          'ID' => student_exam.id
+        }.merge(
+            if student_exam.exam_answer_as_string.present?
+              @subjects.inject(Hash.new(0)){|h, v| h[v.code] = (student_exam.exam_answer_as_string || '').split('').each_with_index.select{|answer, index| subject_questions[v.name].include?(index+1) && (correct_answers[index].size == 5 || correct_answers[index].include?(answer))}.size; h}
+            else
+              @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
+            end
+          )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+      end
     end
+    
   end
 
   def consolidated_by_cicle

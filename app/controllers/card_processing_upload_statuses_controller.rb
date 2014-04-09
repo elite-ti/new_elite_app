@@ -106,6 +106,7 @@ class CardProcessingUploadStatusesController < ApplicationController
     exam_date = params[:id].to_date
     CardProcessing.where(is_bolsao: false, exam_date: exam_date).map(&:exam_execution).uniq.map(&:exam).uniq.each do |exam|
       correct_answers = exam.correct_answers
+      next if !correct_answers.present?
       number_of_questions = Hash[*exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
       subjects = exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code)
       # StudentExam.where(exam_execution_id: exam.exam_executions.map(&:id), status: 'Valid').where("grades is null or grades like '%,0%'").each do |se|

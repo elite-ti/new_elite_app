@@ -11,7 +11,7 @@ class Exam < ActiveRecord::Base
   has_many :product_years, through: :super_klazzes, :autosave => false
   has_many :campuses, through: :super_klazzes, :autosave => false
 
-  validates :name, :correct_answers, :options_per_question, presence: true
+  validates :name, :options_per_question, presence: true
   validate :correct_answers_range, on: :create
 
   
@@ -55,6 +55,24 @@ class Exam < ActiveRecord::Base
     exam_executions.map(&:datetime).map(&:to_date).uniq
   end
 
+  def recalculate_grades
+    correct_answers = self.correct_answers
+    return if !correct_answers.present?
+    number_of_questions = Hash[*self.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+    subjects = self.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code)
+    StudentExam.where(exam_execution_id: self.exam_executions.map(&:id), status: 'Valid').each do |se|
+      grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
+      se.exam_answer_as_string.split('').each_with_index do |answer, index|
+        if correct_answers[index] == 'X' || answer == correct_answers[index]
+        grades[subjects[index]] = grades[subjects[index]] + 1
+        end
+      end
+      grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
+      se.update_column(:grades, grades.to_a.flatten.join(','))
+    end    
+  end
+
+private
   def create_exam_executions ids_of_campuses, ids_of_product_years, is_bolsao=false
     product_years = ids_of_product_years.map { |e| ProductYear.find(e) }
     campuses = ids_of_campuses.map { |e| Campus.find(e) }
@@ -80,22 +98,21 @@ class Exam < ActiveRecord::Base
   end
 
   def create_questions
-    # correct_answers_with_subjects = Hash[*subject_id.zip(correct_answers).flatten]
-    # correct_answers_with_subjects.each do |code, answer|
-    correct_answers.split('').each do |answer|
+    number_of_questions = self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')[1]}.reduce(:+)
+    (1..number_of_questions).each do |question_number|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
 
       options_per_question.times do 
         Option.create!(question_id: question.id)
       end
-      question.options.where(letter: answer).first.update_attribute :correct, true
+      if !correct_answers[question_number - 1].nil?
+        question.options.where(letter: correct_answers[question_number - 1]).first.update_attribute :correct, true
+      end
 
       ExamQuestion.create!(exam_id: self.id, question_id: question.id)
     end
     update_subjects
   end
-
-private
 
   def correct_answers_range
     return if options_per_question.nil?
@@ -121,6 +138,7 @@ private
 
   def update_subjects
     return if exam_questions.size == 0
+    return if !correct_answers.present?
     starting_at = 1
     self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')}.each do |subject_code, number_of_questions|
       number_of_questions = number_of_questions.to_i
@@ -142,10 +160,6 @@ private
       starting_at = starting_at + number_of_questions
     end    
   end
-
-  def get_correct_answers
-    exam_questions.sort{|x, y| x.number <=> y.number}.map(&:question).flatten.map{|q| q.correct_options.map(&:letter).join()}
-  end  
 
   def self.send_email_importing_success(email)
       ActionMailer::Base.mail(
@@ -206,6 +220,7 @@ EliteSim
               exam.create_questions
             end
             exam.save
+            exam.recalculate_grades
           else
             p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
             product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end

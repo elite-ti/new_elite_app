@@ -51,10 +51,13 @@ class ExamsController < ApplicationController
   end
 
   def result
-    exam_execution_ids = @exam.exam_execution_ids
-    @student_exams = StudentExam.where(status: StudentExam::VALID_STATUS, exam_execution_id: exam_execution_ids).includes({:card_processing => :campus}, :student)
-    @subjects = @exam.exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).group_by{|a| a}.map{|a, b| [a, b.size]}
-    @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
+    @existing_answers = @exam.correct_answers.present?
+    if @existing_answers
+      exam_execution_ids = @exam.exam_execution_ids
+      @student_exams = StudentExam.where(status: StudentExam::VALID_STATUS, exam_execution_id: exam_execution_ids).includes({:card_processing => :campus}, :student)
+      @subjects = @exam.exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).group_by{|a| a}.map{|a, b| [a, b.size]}
+      @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
+    end
   end
 
   def download

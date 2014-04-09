@@ -8,40 +8,46 @@
   <p class="alert-error">Termine a resolução de pendências para retirar o resultado completo. </p>
 <% end %>
 
-<table id="results" class="display is-one-page-datatable">
-  <thead>
-    <tr>
-      <th>RA</th>
-      <th>Nome</th>
-      <th>Unidade</th>
-      <% @subjects.each do |subject, size| %>
-        <th><%= subject.code %></th>
-        <th><%= subject.code %></th>
-      <% end %>
-      <th>Acertos</th>
-      <th>Média</th>
-   </tr>
-  </thead>
+<% if @existing_answers %>
 
-  <tbody>
-  <% @student_exams.each_with_index do |student_exam, index| %>
-    <tr>
-      <td><%= "%07d" % (student_exam.student.ra || 0) %></td>
-      <td><%= link_to(student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
-      <td><%= student_exam.campus.name %></td>
-      <% sum = 0 %>
-      <% grades_hash = Hash[*student_exam.grades.split(',')] %>
-      <% @subjects.each do |subject, size| %>
-        <% sum = sum + (grades_hash[subject.code].to_f*size/10).round(0) %>
-        <td><%= (grades_hash[subject.code].to_f*size/10).round(0) %></td>
-        <td><%= grades_hash[subject.code] %></td>
-      <% end %>
-      <td><%= sum %></td>
-      <td><%= (10*sum.to_f/@subjects.map{|a| a[1]}.inject(:+).to_f).round(3) %></td>
-      <% if false %>
-        <td><%= (grades_hash.map{|a| a[1]}.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.map(&:to_f).inject(:+)).round(3) %></td>
-      <% end %>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+  <table id="results" class="display is-one-page-datatable">
+    <thead>
+      <tr>
+        <th>RA</th>
+        <th>Nome</th>
+        <th>Unidade</th>
+        <% @subjects.each do |subject, size| %>
+          <th><%= subject.code %></th>
+          <th><%= subject.code %></th>
+        <% end %>
+        <th>Acertos</th>
+        <th>Média</th>
+     </tr>
+    </thead>
+
+    <tbody>
+    <% @student_exams.each_with_index do |student_exam, index| %>
+      <tr>
+        <td><%= "%07d" % (student_exam.student.ra || 0) %></td>
+        <td><%= link_to(student_exam.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), student_exam_path(student_exam)) %></td>
+        <td><%= student_exam.campus.name %></td>
+        <% sum = 0 %>
+        <% grades_hash = Hash[*student_exam.grades.split(',')] %>
+        <% @subjects.each do |subject, size| %>
+          <% sum = sum + (grades_hash[subject.code].to_f*size/10).round(0) %>
+          <td><%= (grades_hash[subject.code].to_f*size/10).round(0) %></td>
+          <td><%= grades_hash[subject.code] %></td>
+        <% end %>
+        <td><%= sum %></td>
+        <td><%= (10*sum.to_f/@subjects.map{|a| a[1]}.inject(:+).to_f).round(3) %></td>
+        <% if false %>
+          <td><%= (grades_hash.map{|a| a[1]}.map(&:to_f).inject(:+).to_f / @subjects.map{|a| a[1]}.map(&:to_f).inject(:+)).round(3) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <h3>Resultado indisponível: Gabarito não cadastrado.</h3>
+<% end %>

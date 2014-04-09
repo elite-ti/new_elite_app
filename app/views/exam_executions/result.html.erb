@@ -19,35 +19,39 @@
   <p class="alert-error">Termine a resolução de pendências para retirar o resultado completo. </p>
 <% end %>
 
-<table id="results" class="display is-one-page-datatable">
-  <thead>
-    <tr>
-      <th>RA</th>
-      <th>Nome</th>
-      <th>Unidade</th>
-      <% @subjects.each do |subject| %>
-        <th><%= subject.code.capitalize %></th>
-      <% end %>
-      <th>Total</th>
-   </tr>
-  </thead>
+<% if @existing_answers %>
+  <table id="results" class="display is-one-page-datatable">
+    <thead>
+      <tr>
+        <th>RA</th>
+        <th>Nome</th>
+        <th>Unidade</th>
+        <% @subjects.each do |subject| %>
+          <th><%= subject.code.capitalize %></th>
+        <% end %>
+        <th>Total</th>
+     </tr>
+    </thead>
 
-  <tbody>
-  <% @results.each do |result| %>
-    <tr>
-      <td><%= "%06d" % result['RA'].to_i %></td>
-      <td><%= link_to(result['NAME'].split(' ').map(&:capitalize).join(' '), result['PATH']) %>
-        <span style='float: right;'>
-          <%= result['LINK'] %>
-        </span>
-      </td>
-      <td><%= result['CAMPUS'] %></td>
-      <% sum = 0 %>
-      <% @subjects.each do |subject| %>
-        <td><%= grade = result[subject.code] %><% sum += grade %></td>
-      <% end %>
-      <td><%= sum %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+    <tbody>
+    <% @results.each do |result| %>
+      <tr>
+        <td><%= "%06d" % result['RA'].to_i %></td>
+        <td><%= link_to(result['NAME'].split(' ').map(&:capitalize).join(' '), result['PATH']) %>
+          <span style='float: right;'>
+            <%= result['LINK'] %>
+          </span>
+        </td>
+        <td><%= result['CAMPUS'] %></td>
+        <% sum = 0 %>
+        <% @subjects.each do |subject| %>
+          <td><%= grade = result[subject.code] %><% sum += grade %></td>
+        <% end %>
+        <td><%= sum %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h3>Resultado indisponível: Gabarito não cadastrado.</h3>
+<% end %>
