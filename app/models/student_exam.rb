@@ -35,6 +35,7 @@ class StudentExam < ActiveRecord::Base
 
   def number_of_correct_answers(subject_name=nil)
     # exam_execution.exam.get_correct_answers
+    return nil if !self.exam_execution.try(:exam).try(:correct_answers).present?
     if exam_answer_as_string.nil?
       if subject_name.present?
         exam_answers.select{|exam_answer| exam_answer.exam_question.question.topics.first.subject.name == subject_name && (exam_answer.exam_question.question.correct_options.size == 5 || exam_answer.exam_question.question.correct_options.map(&:letter).include?(exam_answer.answer))}.size
@@ -217,7 +218,7 @@ class StudentExam < ActiveRecord::Base
   end 
 
   def set_exam_answers
-    number_of_questions = exam_execution.exam.exam_questions.size
+    number_of_questions = exam_execution.try(:exam).try(:exam_questions).try(:size) || 1
     self.exam_answer_as_string = string_of_answers[0..number_of_questions-1]
     check_answers
   end
@@ -233,6 +234,7 @@ class StudentExam < ActiveRecord::Base
   def set_grades
     grades_total = Hash[*exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|sub| sub}.map{|key, value| [key,value.size]}.flatten]
     grades_hash = Hash[*grades_total.map{|k,v| [k,0]}.flatten]
+    
     exam_answers.each do |exam_answer|
       subject = exam_answer.exam_question.question.topics.first.subject.code
       correct_answers = exam_answer.exam_question.question.options.select{|o| o.correct}.map(&:letter)
