@@ -122,8 +122,7 @@ private
   def update_subjects
     return if exam_questions.size == 0
     starting_at = 1
-    subject_hash = Hash[*self.subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
-    subject_hash.each_pair do |subject_code, number_of_questions|
+    self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')}.each do |subject_code, number_of_questions|
       number_of_questions = number_of_questions.to_i
       subject = Subject.where(code: subject_code).first!
 
