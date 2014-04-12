@@ -98,7 +98,7 @@ private
   end
 
   def create_questions
-    number_of_questions = self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')[1]}.reduce(:+)
+    number_of_questions = self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')[1].to_i}.reduce(:+)
     (1..number_of_questions).each do |question_number|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
 
