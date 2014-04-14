@@ -260,6 +260,7 @@ class StudentExam < ActiveRecord::Base
   end
 
   def remove_card!
+    
   end
 
 private
