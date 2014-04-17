@@ -19,6 +19,7 @@ EliteApp::Application.routes.draw do
   get 'exam_executions/:exam_execution_id/result', to: 'exam_executions#result', as: 'result_exam_execution'
   get 'exam_executions/:exam_execution_id/attendance', to: 'exam_executions#attendance', as: 'attendance_exam_execution'
   get 'exam_executions/:exam_execution_id/cards', to: 'exam_executions#cards', as: 'cards_exam_execution'
+  get 'exam_executions/:exam_execution_id/scanned', to: 'exam_executions#scanned', as: 'scanned_exam_execution'
 
   resources :topics
   resources :card_types

@@ -144,6 +144,29 @@ class ExamExecutionsController < ApplicationController
     
   end
 
+  def scanned
+    @exam_execution = ExamExecution.find(params[:exam_execution_id])
+    @results = (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
+      StudentExam.where("exam_answer_as_string is not null").where(
+        status: StudentExam::VALID_STATUS,
+        exam_execution_id: params[:exam_execution_id]
+      ).includes(:student).map do |student_exam|
+        [
+          ("%06d" % (student_exam.student.try(:ra) || 0)),
+          ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
+          student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')
+        ].join(';')
+    end.compact).join("\r\n")
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)
+      end
+    end
+  end
+
   def consolidated_by_cicle
     if(params[:exam_cycle_id].nil?)
       render :file => 'public/404.html', :status => :not_found, :layout => false
