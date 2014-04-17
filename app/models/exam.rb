@@ -72,6 +72,23 @@ class Exam < ActiveRecord::Base
     end    
   end
 
+  def create_questions
+    number_of_questions = self.subjects.gsub(')', '').split('+').map{|s| s.split('(')[1].to_i}.reduce(:+)
+    (1..number_of_questions).each do |question_number|
+      question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
+
+      options_per_question.times do 
+        Option.create!(question_id: question.id)
+      end
+      if correct_answers.present? && !correct_answers[question_number - 1].nil?
+        question.options.where(letter: correct_answers[question_number - 1]).first.update_attribute :correct, true
+      end
+
+      ExamQuestion.create!(exam_id: self.id, question_id: question.id)
+    end
+    update_subjects
+  end
+
 private
   def create_exam_executions ids_of_campuses, ids_of_product_years, is_bolsao=false
     product_years = ids_of_product_years.map { |e| ProductYear.find(e) }
@@ -95,23 +112,6 @@ private
           exam_code: code)
       end
     end    
-  end
-
-  def create_questions
-    number_of_questions = self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')[1].to_i}.reduce(:+)
-    (1..number_of_questions).each do |question_number|
-      question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
-
-      options_per_question.times do 
-        Option.create!(question_id: question.id)
-      end
-      if correct_answers.present? && !correct_answers[question_number - 1].nil?
-        question.options.where(letter: correct_answers[question_number - 1]).first.update_attribute :correct, true
-      end
-
-      ExamQuestion.create!(exam_id: self.id, question_id: question.id)
-    end
-    update_subjects
   end
 
   def correct_answers_range
@@ -141,7 +141,7 @@ private
   def update_subjects
     return if exam_questions.size == 0
     starting_at = 1
-    self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')}.each do |subject_code, number_of_questions|
+    self.subjects.gsub(')', '').split('+').map{|s| s.split('(')}.each do |subject_code, number_of_questions|
       number_of_questions = number_of_questions.to_i
       subject = Subject.where(code: subject_code).first!
 
@@ -206,14 +206,16 @@ EliteSim
     file = file.path if file.class.to_s != 'String'
 
     CSV.foreach(file, encoding:'iso-8859-1:utf-8', col_sep: ';', headers: true) do |row|
+      is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code = '', '', '', '', '', '', '', '', '', ''
       begin
         ActiveRecord::Base.transaction do 
           is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, erp_code, subjects, correct_answers, code = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]
-
+          p [is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers].join(',')
           if Exam.where(code: code).size == 1
             p "#{code} - #{product_names}"
             exam = Exam.find_by_code(code)
-            exam.correct_answers = correct_answers.gsub(' ', '')
+            exam.correct_answers = correct_answers.gsub(' ', '') if correct_answers.present?
+            subjects = subjects.gsub(' ', '') if subjects.present?
             if exam.subjects != subjects
               p 'Rebuilding questions'
               exam.exam_questions.destroy_all
@@ -224,9 +226,10 @@ EliteSim
             exam.recalculate_grades
           else
             p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
-            product_years = product_names.split('|').map do |p| ProductYear.where("name like '#{p + ' - ' + Year.last.number.to_s}'").first! end
+            product_years = product_names.split('|').map do |p| ProductYear.where("name ilike '#{p + ' - ' + Year.last.number.to_s}'").first! end
             campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
-            subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
+            subjects = subjects.gsub(' ', '') if subjects.present?
+            subject_hash = Hash[*subjects.gsub(')', '').split('+').map do |s| s.split('(') end.flatten]
             correct_answers = correct_answers.gsub(' ', '') if correct_answers.present?
             exam = Exam.create!(
               name: cycle_name + ' - ' + exam_name,
@@ -259,7 +262,7 @@ EliteSim
       rescue Exception => e
         p 'ERRO! ' + e.message 
         p e.backtrace.inspect          
-        errors << [is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers].join(', ')
+        errors << [is_bolsao, datetime, campus_names, product_names, exam_name, cycle_name, subjects, correct_answers].join(',')
       end
     end
 
