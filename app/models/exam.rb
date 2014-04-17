@@ -105,7 +105,7 @@ private
       options_per_question.times do 
         Option.create!(question_id: question.id)
       end
-      if !correct_answers[question_number - 1].nil?
+      if correct_answers.present? && !correct_answers[question_number - 1].nil?
         question.options.where(letter: correct_answers[question_number - 1]).first.update_attribute :correct, true
       end
 
@@ -116,6 +116,7 @@ private
 
   def correct_answers_range
     return if options_per_question.nil?
+    return if !correct_answers.present?
     possible_letters = 'A'..('A'.ord + options_per_question - 1).chr
 
     correct_answers.split('').each do |answer|
@@ -125,6 +126,7 @@ private
 
   def update_questions
     return if exam_questions.size == 0
+    return if !correct_answers.present?    
     self.correct_answers.split('').each_with_index do |correct_letter, i|
       question_options = self.exam_questions.where(number: i+1).first.question.options
       question_options.each {|o| o.update_column(:correct, false)}
@@ -138,7 +140,6 @@ private
 
   def update_subjects
     return if exam_questions.size == 0
-    return if !correct_answers.present?
     starting_at = 1
     self.subjects.gsub(')', '').split(' + ').map{|s| s.split('(')}.each do |subject_code, number_of_questions|
       number_of_questions = number_of_questions.to_i
@@ -223,10 +224,10 @@ EliteSim
             exam.recalculate_grades
           else
             p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
-            product_years = product_names.split('|').map do |p| ProductYear.where(name: p + ' - ' + Year.last.number.to_s).first! end
+            product_years = product_names.split('|').map do |p| ProductYear.where("name like '#{p + ' - ' + Year.last.number.to_s}'").first! end
             campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
             subject_hash = Hash[*subjects.gsub(')', '').split(' + ').map do |s| s.split('(') end.flatten]
-            correct_answers = correct_answers.gsub(' ', '')
+            correct_answers = correct_answers.gsub(' ', '') if correct_answers.present?
             exam = Exam.create!(
               name: cycle_name + ' - ' + exam_name,
               correct_answers: correct_answers,
