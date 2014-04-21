@@ -37,6 +37,10 @@ module ApplicationHelper
     end
   end
 
+  def print_sortable_date(date)
+    date.present? ? date.strftime('%Y-%m-%d') : ''
+  end
+
   def print_date(date)
     date.present? ? date.strftime('%d/%m/%Y') : ''
   end

@@ -26,7 +26,7 @@
     <tr>
       <td><%= exam.name %></td>
       <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
-      <td><%= exam.exam_dates.map{|date| print_date(date)}.join(', ') %></td>
+      <td><%= exam.exam_dates.map{|date| print_sortable_date(date)}.join(', ') %></td>
       <td><%= exam.code %></td>
       <td>
         <span>
