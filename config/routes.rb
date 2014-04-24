@@ -50,6 +50,7 @@ EliteApp::Application.routes.draw do
     end
     collection do
       post :import
+      get :download
     end
   end
 

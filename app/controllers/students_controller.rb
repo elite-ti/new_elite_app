@@ -8,18 +8,17 @@ class StudentsController < ApplicationController
       super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
       date = Date.parse(params[:exam_date] || ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)), exam_cycle_id: ExamCycle.where(is_bolsao: true).map(&:id)).map(&:datetime).map(&:to_date).map(&:to_s).uniq.max || '2001-01-01')
       @students = Applicant.where(exam_datetime: (date.beginning_of_day..date.end_of_day), super_klazz_id: super_klazz_ids).includes(:student => :applicants).map(&:student).compact.uniq
-      # @students = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student => {:applicants => {:super_klazz => [:campus, :product_year] }}).map(&:student).compact.uniq
       @is_bolsao = true
     else
       # @students = Student.select{|student| student.applied_super_klazzes.size == 0}
-      @students = Enrollment.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))).includes(:student).map(&:student).select{|student| student.ra.present?}.uniq
+      super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability), product_year_id: ProductYear.where(year_id: Year.last))
+      @students = Enrollment.where(super_klazz_id: super_klazz_ids).includes(:student).map(&:student).select{|student| student.ra.present?}.uniq
       @is_bolsao = false      
     end
   end
 
   def import
     p params[:file].tempfile.path
-    # Student.import(params[:file].tempfile)
     StudentCsvImportWorker.perform_async(params[:file].tempfile.path, current_employee.email)
     redirect_to root_url, notice: "Alunos importados com sucesso."
   end
@@ -117,5 +116,32 @@ class StudentsController < ApplicationController
     @is_bolsao = @student.applicants.size > 0
     @student.destroy
     redirect_to students_url(is_bolsao: @is_bolsao), notice: 'Aluno deletado com sucesso.'
+  end
+
+  def download
+    super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability), product_year_id: ProductYear.where(year_id: Year.last))
+    if !params[:is_bolsao].nil? && params[:is_bolsao] == 'true'
+      @enrollments = Applicant.where(super_klazz_id: super_klazz_ids).includes(:student, super_klazz: [:campus, {product_year: :product}])      
+    else
+      @enrollments = Enrollment.where(super_klazz_id: super_klazz_ids).includes(:student, super_klazz: [:campus, {product_year: :product}])
+    end
+    @results = (["RA;Nome;Unidade;Turma"] + 
+      @enrollments.map do |enrollment|
+        [
+          "%06d" % (enrollment.student.ra || 0),
+          enrollment.student.name || '',
+          enrollment.super_klazz.campus.name || '',
+          (enrollment.super_klazz.product_year.name || '')[0..-8],
+          (enrollment.respond_to?(:bolsao_id) ? enrollment.bolsao_id : nil)
+        ].compact.join(';')
+      end).flatten.compact.join("\r\n")
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"students_#{DateTime.now.in_time_zone("Brasilia").strftime('%Y-%m-%d_%H-%M')}.csv\""
+        render text: @results.encode("ISO-8859-1", "utf-8") 
+      end
+    end    
   end
 end

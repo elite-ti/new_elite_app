@@ -1,4 +1,6 @@
-<%= title @is_bolsao ? 'Candidatos' : 'Alunos', link_to(@is_bolsao ? 'Novo Candidato' : 'Novo Aluno', new_student_path(is_bolsao: @is_bolsao)) %>
+<%= title @is_bolsao ? 'Candidatos' : 'Alunos', 
+  link_to(@is_bolsao ? 'Download Candidatos' : 'Download Alunos', download_students_path(is_bolsao: @is_bolsao, format: 'csv')),
+  link_to(@is_bolsao ? 'Novo Candidato' : 'Novo Aluno', new_student_path(is_bolsao: @is_bolsao)) %>
 
 <% if @is_bolsao == true %>
   <%= form_tag students_path(is_bolsao: @is_bolsao), :method => 'get' do %>
@@ -15,7 +17,7 @@
 
 <% elsif current_employee.admin? %>
   <h2>Importar Alunos</h2>
-  <p>Formato: RA,Nome,Unidade,Produto (CSV sem cabeçalho)</p>
+  <p>Formato: RA,Nome,Unidade,Turma (CSV sem cabeçalho)</p>
   <%= form_tag import_students_path, multipart: true do %>
     <%= file_field_tag :file %>
     <%= submit_tag "Importar" %>
