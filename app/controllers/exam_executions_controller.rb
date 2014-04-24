@@ -162,7 +162,7 @@ class ExamExecutionsController < ApplicationController
       format.html
       format.csv do
         response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
-        render text: Iconv.conv('iso-8859-1//IGNORE', 'utf-8', @results)
+        render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end
   end
