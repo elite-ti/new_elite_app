@@ -15,6 +15,7 @@
     <tr>
       <th>Nome</th>
       <th>Turmas</th>
+      <th>Disciplinas</th>
       <th>Datas</th>
       <th>Código</th>
       <th>Links</th>
@@ -26,6 +27,7 @@
     <tr>
       <td><%= exam.name %></td>
       <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
+      <td><%= exam.subjects || '' %></td>
       <td><%= exam.exam_dates.map{|date| print_sortable_date(date)}.join(', ') %></td>
       <td><%= exam.code %></td>
       <td>
