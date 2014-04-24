@@ -10,13 +10,13 @@
 <% end %>
 <br>
 
-<table id='exams' class='display is-datatable'>
+<table id='exams' class='display is-datatable-exams'>
   <thead>
     <tr>
-      <th>Nome</th>
-      <th>Turmas</th>
-      <th>Disciplinas</th>
       <th>Datas</th>
+      <th>Turmas</th>
+      <th>Nome</th>
+      <th>Disciplinas</th>
       <th>Código</th>
       <th>Links</th>
     </tr>
@@ -25,10 +25,10 @@
   <tbody>
   <% @exams.each do |exam| %>
     <tr>
-      <td><%= exam.name %></td>
-      <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
-      <td><%= exam.subjects || '' %></td>
       <td><%= exam.exam_dates.map{|date| print_sortable_date(date)}.join(', ') %></td>
+      <td><%= exam.exam_product_years.map(&:name).join(', ') %></td>
+      <td><%= exam.name %></td>
+      <td><%= exam.subjects || '' %></td>
       <td><%= exam.code %></td>
       <td>
         <span>

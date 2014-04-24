@@ -27,6 +27,19 @@ jQuery ->
       {sWidth:"41%"}
     ]
 
+  $('.is-datatable-exams').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    aaSorting: [[ 0, "desc" ], ["1", "asc"]]    
+    aoColumns: [
+      {sWidth:"12%"},
+      {sWidth:"27%"},
+      {sWidth:"21%"},
+      {sWidth:"26%"},
+      {sWidth:"7%"},
+      {sWidth:"7%"}
+    ]
+
   $('.is-remote-datatable').dataTable
     sPaginationType: 'full_numbers'
     bJQueryUI: true
