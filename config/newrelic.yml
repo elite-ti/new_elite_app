@@ -3,9 +3,9 @@
 # Ruby, Java, .NET, PHP, and Python applications with deep visibility and low overhead.
 # For more information, visit www.newrelic.com.
 #
-# Generated October 07, 2013
+# Generated April 25, 2014
 #
-# This configuration file is custom generated for 3PiR Solutions
+# This configuration file is custom generated for 3PiR Solutions_1
 
 
 # Here are the settings that are common to all environments
@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: '138cc1eb8addec3e641111cb1732e5be9898f558'
+  license_key: '92438dc8f1fc6936cfb08ca5f8d58b854f6a29e4'
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
