@@ -9,6 +9,7 @@ class CardProcessor
   end
   
   def process
+    
     begin
       create_student_exams
       scan
