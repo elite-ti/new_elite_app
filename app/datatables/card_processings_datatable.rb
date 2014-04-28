@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 class CardProcessingsDatatable
-  delegate :params, :h, :link_to, :number_to_currency, :print_datetime, :print_date, :edit_student_exam_path, :can?, :destroy_link, to: :@view
+  delegate :params, :h, :link_to, :number_to_currency, :print_datetime, :print_date, :edit_student_exam_path, :edit_card_processing_path, :can?, :destroy_link, to: :@view
 
   def initialize(view)
     @view = view
