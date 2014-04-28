@@ -90,7 +90,6 @@ class Exam < ActiveRecord::Base
     update_subjects
   end
 
-private
   def create_exam_executions ids_of_campuses, ids_of_product_years, is_bolsao=false
     product_years = ids_of_product_years.map { |e| ProductYear.find(e) }
     campuses = ids_of_campuses.map { |e| Campus.find(e) }
@@ -115,6 +114,7 @@ private
     end    
   end
 
+private
   def correct_answers_range
     return if options_per_question.nil?
     return if !correct_answers.present?
