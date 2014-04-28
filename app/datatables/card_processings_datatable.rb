@@ -40,6 +40,7 @@ private
     end
     if can?(:destroy, card_processing)
       links << destroy_link(card_processing)
+      links << link_to('Reprocessar', edit_card_processing_path(card_processing))
     end
     return links.join(' | ')
   end

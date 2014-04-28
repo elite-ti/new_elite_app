@@ -34,6 +34,33 @@ PENSI Simulados
     ).deliver
   end 
 
+  def reprocess
+    delete_student_exams
+    create_student_exams
+    rescan
+    ActionMailer::Base.mail(
+      from: 'pensisim@pensi.com.br',
+      to: @card_processing.employee.try(:email) || 'pensisim@pensi.com.br',
+      subject: "Envio arquivo ##{@card_processing.id}",
+      body: <<-eos
+Olá,
+
+Você acaba de enviar um arquivo para o PensiSim.
+
+Prova: #{@card_processing.name}
+Data prova: #{@card_processing.exam_date.strftime('%d/%m/%Y')}
+Data Envio: #{@card_processing.created_at.strftime('%d/%m/%Y %H:%M')}
+Unidade: #{@card_processing.campus.name}
+Tipo de Cartão: #{@card_processing.card_type.name}
+Quantidade de cartões: #{@card_processing.student_exams.size}
+Quantidade de erros: #{@card_processing.number_of_errors}
+
+--
+PENSI Simulados
+      eos
+    ).deliver
+  end
+
 private
 
   def create_student_exams
@@ -78,4 +105,19 @@ private
       card_processing.error!
     end
   end
+
+  def rescan
+    p "Reescaneando #{CardProcessing.find(@card_processing.id).student_exams.size} cartoes."
+    begin
+      CardProcessing.find(@card_processing.id).student_exams.each(&:scan)
+    rescue => e
+      p e.message
+      card_processing.error!
+    end
+  end
+
+  def delete_student_exams
+    @card_processing.student_exams.destroy_all
+  end
+    
 end

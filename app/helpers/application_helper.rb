@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def destroy_link(object)
-    link_to 'Destroy', object, method: :delete, confirm: 'Are you sure?'
+    link_to 'Deletar', object, method: :delete, confirm: 'Are you sure?'
   end
 
   def tooltip(content, options = {}, html_options = {}, *parameters_for_method_reference)
