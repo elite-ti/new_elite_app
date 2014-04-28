@@ -2,14 +2,18 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name, label: 'Nome da Prova' %>
-
-    <% if @exam.new_record? %>
-      <div class='form-fields'>
-        <%= f.input :options_per_question, :as => :hidden, :input_html => { :value => 5 } %>
-        <%= f.input :correct_answers, label: 'Respostas' %>
-        <%= f.input :code, label: 'Código da Prova' %>
-      </div>
+    <%= f.input :name, label: 'Nome' %>
+    <%= f.input :code, label: 'Código de Prova' %>
+    <%= f.input :correct_answers, label: 'Gabarito' %>
+    <%= f.input :subjects, label: 'Disciplinas' %>
+    <%= f.input :options_per_question,  :as => :hidden, input_html:{value: 5} %>
+    <%= f.input :exam_datetime, label: 'Data/Hora', as: :datetime, input_html:{value: DateTime.now.strftime('%d/%m/%Y') + ' 14:00'} %>
+    <% if !@exam.new_record? %>
+      <%= f.association :campuses, label_method: :name, label: 'Unidades', input_html:{ "data-value" => 'Selecione as Unidades' }, :disabled => true %>
+      <%= f.association :product_years, label: 'Produtos', :disabled => true %>
+    <% else %>
+      <%= f.association :campuses, label_method: :name, label: 'Unidades', input_html:{ "data-value" => 'Selecione as Unidades' } %>
+      <%= f.association :product_years, collection: ProductYear.where(year_id: Year.last.id), label: 'Produtos' %>
     <% end %>
   </div>
 

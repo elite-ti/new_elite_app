@@ -16,6 +16,7 @@
         <span style="font-weight:bold;">Disciplinas: </span><%= @exam.exam_subjects.map(&:name).join(', ') || 'Não Encontrado' %><br /><br />
         <span style="font-weight:bold;">Opções por questão: </span><%= @exam.options_per_question.to_s || 'Não Encontrado' %><br /><br />
         <span style="font-weight:bold;">Gabarito: </span><%= @exam.correct_answers || 'Não Encontrado' %><br /><br />
+        <span style="font-weight:bold;">Código de Prova: </span><%= @exam.code || "Sem código" %>
       </p>
     </div>
 

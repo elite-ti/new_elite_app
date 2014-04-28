@@ -2,7 +2,7 @@
 
 class ExamExecution < ActiveRecord::Base
 
-  attr_accessible :exam_cycle_id, :super_klazz_id, :exam_id, :datetime, :full_name
+  attr_accessible :exam_cycle_id, :super_klazz_id, :exam_id, :datetime, :full_name, :exam_code
   delegate :is_bolsao, to: :exam_cycle
 
   belongs_to :exam_cycle

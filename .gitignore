@@ -6,7 +6,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
-/tmp
+/tmp/*
 
 *.swp
 /.swp
@@ -20,3 +20,6 @@
 /lib/card_scanner/type_b/bin
 *.bak
 
+*.DS_Store
+/public/list*
+/doc

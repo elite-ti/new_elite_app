@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140212165443) do
+ActiveRecord::Schema.define(:version => 20140428161448) do
 
   create_table "absence_reasons", :force => true do |t|
     t.string   "name"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "erp_code"
   end
 
   create_table "card_processings", :force => true do |t|
@@ -133,25 +134,7 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.string   "command"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "clients", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "contact_name"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  create_table "document_versions", :force => true do |t|
-    t.integer  "exam_id"
-    t.string   "category"
-    t.string   "status"
-    t.string   "file"
-    t.text     "observation"
-    t.integer  "created_by"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.boolean  "has_exam_code"
   end
 
   create_table "elite_roles", :force => true do |t|
@@ -203,6 +186,8 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.integer  "super_klazz_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "erp_code"
+    t.string   "status"
     t.integer  "klazz_id"
   end
 
@@ -224,6 +209,8 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.datetime "updated_at"
   end
 
+  add_index "exam_answers", ["student_exam_id"], :name => "index_exam_answers_on_student_exam_id"
+
   create_table "exam_cycles", :force => true do |t|
     t.string   "name"
     t.boolean  "is_bolsao"
@@ -241,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.datetime "datetime"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "exam_code"
     t.string   "full_name"
   end
 
@@ -265,16 +253,10 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.integer  "options_per_question"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject"
-    t.string   "code"
-  end
-
-  create_table "invitations", :force => true do |t|
-    t.integer  "school_event_id"
-    t.integer  "student_id"
-    t.boolean  "confirmed"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "erp_code"
+    t.string   "subjects"
+    t.datetime "exam_datetime"
+    t.integer  "code"
   end
 
   create_table "klazz_periods", :force => true do |t|
@@ -439,6 +421,7 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "erp_code"
   end
 
   create_table "products", :force => true do |t|
@@ -474,16 +457,6 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.datetime "updated_at"
   end
 
-  create_table "school_events", :force => true do |t|
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.string   "event_type"
-    t.string   "specific_name"
-    t.integer  "capacity"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
   create_table "school_roles", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -500,6 +473,8 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.string   "string_of_answers"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "grades"
+    t.string   "exam_answer_as_string"
     t.string   "exam_code"
   end
 
@@ -522,6 +497,8 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.string   "previous_school"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cod_turma"
+    t.string   "status"
   end
 
   create_table "subject_head_teacher_products", :force => true do |t|
@@ -660,14 +637,6 @@ ActiveRecord::Schema.define(:version => 20140212165443) do
     t.string   "custom_message", :limit => 200
     t.datetime "update_time"
     t.datetime "updated_at",                     :null => false
-  end
-
-  create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "login"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "versions", :force => true do |t|
