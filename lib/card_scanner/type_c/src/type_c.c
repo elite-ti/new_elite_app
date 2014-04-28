@@ -102,6 +102,7 @@ File create_empty_file(int, int);
 void copy_pixel(File *, int, int, File *, int, int);
 double get_column_density(File, int);
 double get_line_density(File, int, int, int);
+double get_segment_density(File, int, int, int);
 void set_pixel_to_red(File, int, int);
 void paint_pixel(File, int, int, int, int, int);
 int adjust_configuration(File);
@@ -131,6 +132,7 @@ int main(int argc, char* argv[]) {
   // File intepolated_file2 = stretch(intepolated_file1);
 
   get_clock_locations(intepolated_file2);
+
   process_file(&intepolated_file2);
   print_answers(intepolated_file2);
   write_png(&intepolated_file2);
@@ -510,30 +512,66 @@ File fine_move(File file) {
 
   int start_x = (double) conf.questions_zone.group_x - 100;
 
+  #ifdef DEBUG 
+  double max = 0;
+
+  for (int i = -250; i < 150; ++i){
+    double density = get_segment_density(file, start_x + i, found_y, file.height - 380);
+    if(density > 0.1)
+      for (int j = 2500; j < file.height; ++j)
+        paint_pixel(file, start_x + i, j, 0, 255, 255);
+  }  
+  #endif
+
   int found_x = -2;
   int count = 0;
-  for (int i = 0; i < 150; ++i){
-    double density = get_column_density(file, start_x + i);
-    if(found_x == -2){
-      if(density > 0.1)
-        found_x = -1;
-      else
-        continue;
+
+  for (int i = -250; i < 150; ++i){
+    double density = get_segment_density(file, start_x + i, found_y, file.height - 380);
+
+    if(density > 0.1){
+      int misses = 0; // count blank lines
+      for (int delta_x = 1; i < 40; ++i){
+        if(get_segment_density(file, start_x + i + delta_x, found_y, file.height - 380) < 0.1)
+          misses += 1;
+      }
+      if(misses < 10){
+        found_x = start_x + i + 74;
+        #ifdef DEBUG 
+        for (int j = 0; j < file.height; ++j)
+          paint_pixel(file, found_x, j, 0, 255, 0);        
+        #endif
+        break;
+      }
     }
-    if(found_x == -1 && density < 0.1){
-      if(count < 10)
-        count++;
-      else
-        found_x = 0;
-    }
-    else
-      count = 0;
-    if(found_x == 0 && density > 0.1){
-      for (int j = 0; j < file.height; ++j)
-        paint_pixel(file, start_x + i, j, 0, 255, 0);
-      found_x = start_x + i;
-      break;
-    }
+
+
+    // if(found_x == -2){
+    //   if(density > 0.1){
+    //     for (int j = 0; j < file.height; ++j)
+    //       paint_pixel(file, start_x + i, j, 0, 255, 255);
+    //     found_x = -1;        
+    //   }
+    //   else
+    //     continue;
+    // }
+    // if(found_x == -1 && density < 0.1){
+    //   if(count < 30)
+    //     count++;
+    //   else{
+    //     for (int j = 0; j < file.height; ++j)
+    //       paint_pixel(file, start_x + i, j, 255, 0, 255);        
+    //     found_x = 0;
+    //   }
+    // }
+    // else
+    //   count = 0;
+    // if(found_x == 0 && density > 0.1){
+    //   for (int j = 0; j < file.height; ++j)
+    //     paint_pixel(file, start_x + i, j, 255, 255, 0);
+    //   found_x = start_x + i;
+    //   break;
+    // }
   }
 
   int delta_y = found_y == 0 ? 0 : conf.questions_zone.group_y - found_y;
@@ -660,6 +698,18 @@ double get_column_density(File file, int x) {
   int count = 0;
   // for(int y = start_y; y < file.height && y < end_y; y++) {
   for(int y = 0; y < file.height; y++) {
+    if(is_pixel_filled(file, x, y))
+        match++;
+      count++;
+  }
+  return (double)match / (double)count;
+}
+
+double get_segment_density(File file, int x, int start_y, int end_y) {
+  int match = 0;
+  int count = 0;
+  // for(int y = start_y; y < file.height && y < end_y; y++) {
+  for(int y = start_y; y < end_y; y++) {
     if(is_pixel_filled(file, x, y))
         match++;
       count++;

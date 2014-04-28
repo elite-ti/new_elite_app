@@ -10,6 +10,7 @@ namespace :card_scanner do
   task :compile, roles: :app do
     run "ruby #{release_path}/lib/card_scanner/type_a/compile.rb"
     run "ruby #{release_path}/lib/card_scanner/type_b/compile.rb"
+    run "ruby #{release_path}/lib/card_scanner/type_c/compile.rb"
   end
   after "deploy:finalize_update", "card_scanner:compile"
 end
