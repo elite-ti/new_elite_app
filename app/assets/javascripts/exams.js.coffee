@@ -15,4 +15,6 @@ class ExamForm
       
 
 jQuery ->
-  exam_form = new ExamForm()
+  $('#exam_campus_ids option').prop('selected', true)
+  $('select').not('#select_roles').chosen()
+  $('select').trigger('liszt:updated')
