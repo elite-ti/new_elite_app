@@ -73,7 +73,7 @@ class Exam < ActiveRecord::Base
   end
 
   def create_questions
-    return if correct_answers.nil? || subjects.nil?
+    return if !correct_answers.present? || !subjects.present?
     number_of_questions = self.subjects.gsub(')', '').split('+').map{|s| s.split('(')[1].to_i}.reduce(:+)
     (1..number_of_questions).each do |question_number|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
