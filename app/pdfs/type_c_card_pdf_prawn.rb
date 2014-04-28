@@ -59,6 +59,7 @@ private
     draw_blank_line 40, 100
     move_down 5
     text 'Preencha o seu RA e Código da Prova', size: 12, :align => :center
+    image "#{Rails.root}/app/assets/images/logo-bw.png", at:[130, 777], fit: [40, 40]    
   end
 
   def bottom
@@ -116,7 +117,7 @@ private
 
   def paint_exam_options code
     group = 0
-    code.split('').each_with_index do |char, index|
+    code.to_s.split('').each_with_index do |char, index|
       rectangle [280 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
