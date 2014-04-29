@@ -56,9 +56,9 @@ class ExamExecutionsController < ApplicationController
         exam_execution_id: params[:exam_execution_id]
       ).includes(:student).map do |student_exam|
         [
-          ("%06d" % (student_exam.student.try(:ra) || 0)),
+          ("%08d" % (student_exam.student.try(:ra) || 0)),
           ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
-          student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')
+          student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join(';')
     end.compact).join("\r\n")
 
