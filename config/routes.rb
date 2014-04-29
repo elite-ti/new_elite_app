@@ -1,5 +1,10 @@
 EliteApp::Application.routes.draw do
-  resources :card_processing_upload_statuses
+  resources :card_processing_upload_statuses do
+    member do
+      get :markings
+      get :scanned
+    end
+  end
 
   resources :attendance_lists
   resources :card_processings

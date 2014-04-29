@@ -1,10 +1,11 @@
 <%= title 'Resultado por dia',
   link_to('Voltar', card_processing_upload_statuses_path) %>
 
-<table id="card_processing_upload_statuses" class="display is-datatable">
+<table id="card_processing_upload_statuses" class="display is-datatable-desc">
   <thead>
     <tr>
       <th>Dia</th>
+      <th>Cartões</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -13,7 +14,8 @@
   <% @possible_dates.each do |date| %>
     <tr>
       <td><%= date.strftime('%Y-%m-%d') %></td>
-      <td><%= link_to('Download Resultado', card_processing_upload_status_path(date, 'csv')) %></td>
+      <td><%= @amounts[date] %></td>
+      <td><%= link_to('Download Dados Cartões', scanned_card_processing_upload_status_path(date, 'csv')) %></td>
     </tr>
   <% end %>
   </tbody>
