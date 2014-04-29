@@ -57,8 +57,8 @@ private
     move_down 10
     text "Data: ", size: 12
     draw_blank_line 40, 100
-    move_down 5
-    text 'Preencha o seu RA e Código da Prova', size: 12, :align => :center
+    draw_text 'Matrícula', size: 15, at: [105, 660]
+    draw_text 'Código de Prova', size: 15, at: [315, 660]
     image "#{Rails.root}/app/assets/images/logo-bw.png", at:[130, 777], fit: [40, 40]    
   end
 
@@ -105,7 +105,7 @@ private
   end
 
   def paint_student_options student
-    ra = "%06d" % student.ra
+    ra = "%08d" % student.ra
     group = 0
     ra.split('').each_with_index do |char, index|
       rectangle [50 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
@@ -117,7 +117,8 @@ private
 
   def paint_exam_options code
     group = 0
-    code.to_s.split('').each_with_index do |char, index|
+    code = "%05d" % code.to_i
+    code.split('').each_with_index do |char, index|
       rectangle [280 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
