@@ -167,7 +167,7 @@ PENSI Simulados
             student_id: student.id, 
             super_klazz_id: klazz.super_klazz_id
           ).first_or_create!(klazz_id: klazz.id)
-          enrollment.update_column(klazz_id: klazz.id) if enrollment.klazz_id != klazz.id          
+          enrollment.update_column(:klazz_id, klazz.id) if enrollment.klazz_id != klazz.id          
         else
           Enrollment.where(
             student_id: student.id, 
