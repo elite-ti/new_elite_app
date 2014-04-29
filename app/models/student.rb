@@ -163,11 +163,11 @@ PENSI Simulados
         student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
         if klazz_name.present?
           klazz = Klazz.find_by_name("#{campus_name} - #{klazz_name}")
-          Enrollment.where(
+          enrollment = Enrollment.where(
             student_id: student.id, 
-            # super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
-            klazz_id: klazz.id
-          ).first_or_create!(super_klazz_id: klazz.super_klazz_id)
+            super_klazz_id: klazz.super_klazz_id
+          ).first_or_create!(klazz_id: klazz.id)
+          enrollment.update_column(klazz_id: klazz.id) if enrollment.klazz_id != klazz.id          
         else
           Enrollment.where(
             student_id: student.id, 
