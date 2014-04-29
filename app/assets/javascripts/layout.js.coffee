@@ -23,7 +23,8 @@ jQuery ->
     aaSorting: [[ 0, "desc" ], ["1", "asc"]]    
     aoColumns: [
       {sWidth:"12%"},
-      {sWidth:"45%"},
+      {sWidth:"10%"},
+      {sWidth:"35%"},
       {sWidth:"43%"}
     ]
 

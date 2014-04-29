@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Data Aplic.</th>
+      <th>Codigo</th>
       <th>Prova</th>
       <th>Ações</th>
     </tr>
@@ -13,6 +14,7 @@
   <% @exam_executions.sort_by(&:datetime).reverse.each do |exam_execution| %>
     <tr>
       <td><%= exam_execution.datetime.to_date.strftime('%Y-%m-%d') %></td>
+      <td><%= exam_execution.exam_code %></td>
       <td><%= exam_execution.full_name %></td>
       <td>
         <span style='float: left;'>
