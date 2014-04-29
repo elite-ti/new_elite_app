@@ -157,7 +157,7 @@ PENSI Simulados
   def self.import(file, email)
     errors = []
     file = file.path if file.class.to_s != 'String'
-    CSV.foreach(file) do |ra, student_name, campus_name, product_name, klazz_name|
+    CSV.foreach(file, encoding:'iso-8859-1:utf-8', col_sep: ';') do |ra, student_name, campus_name, product_name, klazz_name|
       begin
         p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
         student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
