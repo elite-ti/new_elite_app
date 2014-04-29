@@ -4,7 +4,7 @@ class ExamExecutionsController < ApplicationController
   # load_and_authorize_resource
 
   def index
-      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))).where("datetime > '2014-04-01'")
+      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)))
   end
 
   def attendance
@@ -45,6 +45,29 @@ class ExamExecutionsController < ApplicationController
       }.merge(
           @subjects.inject(Hash.new(0)){|h, v| h[v.code] = student_exam.exam_answers.select{|exam_answer| subject_questions[v.name].include?(exam_answer.exam_question.number) && (correct_answers[exam_answer.exam_question.number - 1].size == 5 || correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer))}.size; h}
         )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
+    end
+  end
+
+  def scanned
+    @exam_execution = ExamExecution.find(params[:exam_execution_id])
+    @results = (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
+      StudentExam.where("exam_answer_as_string is not null").where(
+        status: StudentExam::VALID_STATUS,
+        exam_execution_id: params[:exam_execution_id]
+      ).includes(:student).map do |student_exam|
+        [
+          ("%06d" % (student_exam.student.try(:ra) || 0)),
+          ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
+          student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')
+        ].join(';')
+    end.compact).join("\r\n")
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        render text: @results.encode("ISO-8859-1", "utf-8")
+      end
     end
   end
 
