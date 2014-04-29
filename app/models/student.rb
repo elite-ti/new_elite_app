@@ -161,10 +161,10 @@ PENSI Simulados
       begin
         p "#{ra},#{student_name},#{campus_name},#{product_name},#{klazz_name}"
         student = Student.where(ra: ra.to_i).first_or_create!(name: student_name)
-        Enrollment.create!(
+        Enrollment.where(
           student_id: student.id, 
           super_klazz_id: SuperKlazz.where(campus_id: Campus.find_by_name(campus_name).id, product_year_id: ProductYear.find_by_name(product_name + ' - ' + Year.first.number.to_s).id).first.id,
-          klazz_id: Klazz.find_by_name(klazz_name).try(:id))              
+          klazz_id: Klazz.find_by_name(klazz_name).try(:id)).first_or_create!
       rescue Exception => e
         errors << [ra, student_name, campus_name, product_name, klazz_name].join(', ')
         p 'ERRO! ' + e.message
