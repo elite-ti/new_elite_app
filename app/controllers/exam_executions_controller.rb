@@ -51,7 +51,7 @@ class ExamExecutionsController < ApplicationController
   def scanned
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
     @results = (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
-      StudentExam.where("exam_answer_as_string is not null").where(
+      StudentExam.where(
         status: StudentExam::VALID_STATUS,
         exam_execution_id: params[:exam_execution_id]
       ).includes(:student).map do |student_exam|
