@@ -43,7 +43,7 @@ class CardProcessingUploadStatusesController < ApplicationController
 
   def scanned
     exam_date = params[:id].to_date
-    @results = (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
+    @results = 
       StudentExam.where(
         status: StudentExam::VALID_STATUS,
         exam_execution_id:
@@ -58,8 +58,8 @@ class CardProcessingUploadStatusesController < ApplicationController
           ("%08d" % (student_exam.student.try(:ra) || 0)),
           ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
           student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
-        ].join(';')
-      end.compact).join("\r\n")
+        ].join()
+      end.compact.join("\r\n")
 
     respond_to do |format|
       format.html
