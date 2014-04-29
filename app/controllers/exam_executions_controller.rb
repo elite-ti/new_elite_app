@@ -4,7 +4,7 @@ class ExamExecutionsController < ApplicationController
   # load_and_authorize_resource
 
   def index
-      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id)))
+      @exam_executions = ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))).where("datetime > '2014-04-01'")
   end
 
   def attendance

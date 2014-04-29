@@ -3,7 +3,7 @@
 <table id="exam_executions" class="display is-datatable-exam-executions">
   <thead>
     <tr>
-      <th>Data Aplicação</th>
+      <th>Data Aplic.</th>
       <th>Prova</th>
       <th>Ações</th>
     </tr>
@@ -21,6 +21,7 @@
           | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
           | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
           | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
+          | <%= link_to 'CSV', scanned_exam_execution_path(exam_execution_id: exam_execution.id, format: 'csv') %>
         </span>
         <span style='float: left;margin-top: 3px;'>
           <% if false && exam_execution.card_processings.size > 0 %>

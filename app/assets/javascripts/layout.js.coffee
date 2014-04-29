@@ -22,9 +22,9 @@ jQuery ->
     bJQueryUI: true
     aaSorting: [[ 0, "desc" ], ["1", "asc"]]    
     aoColumns: [
-      {sWidth:"5%"},
-      {sWidth:"54%"},
-      {sWidth:"41%"}
+      {sWidth:"12%"},
+      {sWidth:"45%"},
+      {sWidth:"43%"}
     ]
 
   $('.is-remote-datatable').dataTable
