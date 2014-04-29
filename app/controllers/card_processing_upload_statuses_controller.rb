@@ -64,7 +64,7 @@ class CardProcessingUploadStatusesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{exam_date.strftime('%Y-%m-%d')}.csv\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{exam_date.strftime('%Y-%m-%d')}.txt\""
         render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end
@@ -88,7 +88,7 @@ class CardProcessingUploadStatusesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        response.headers['Content-Disposition'] = "attachment; filename=\"markings_#{exam_date.strftime('%Y-%m-%d')}.csv\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"markings_#{exam_date.strftime('%Y-%m-%d')}.txt\""
         render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end

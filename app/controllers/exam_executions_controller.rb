@@ -65,7 +65,7 @@ class ExamExecutionsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.txt\""
         render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end
