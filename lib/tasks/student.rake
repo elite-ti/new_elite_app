@@ -32,19 +32,22 @@ namespace :student do
       :password => "2elite29sistema95"
     )
 
-    results = client.query("SELECT * from wp_bolsao")
+    results = client.query("SELECT * from wp_bolsao order by id")
     # results = client.query("SELECT wp_rel_segmento_turma.*, wp_rel_bolsao_segmento.*, wp_bolsoes_opcao.* FROM wp_rel_segmento_turma " + 
     #                         "inner join wp_rel_bolsao_segmento on wp_rel_bolsao_segmento.id = wp_rel_segmento_turma.rel_id " + 
     #                         "inner join wp_bolsoes_opcao on wp_bolsoes_opcao.tipo = 'turma' and wp_bolsoes_opcao.id = wp_rel_segmento_turma.opcao_id"
     #                       )
     first = true
+    dates = []
     results.each do |row|
       if first
         first = false
         p row.keys.join ','
       end
+      dates << row["data"]
       p row.values.join ','
     end
+    p dates.uniq.sort!
   end
 
   task sync_applicants: :environment do
@@ -535,11 +538,12 @@ namespace :student do
      "select
         *
       from CORPORERM.dbo.SMATRICPL as mat
-      where CODTURMA = 'MADIII_2014_EsPCEx'
      "
+     # where CODTURMA = 'MADIII_2014_EsPCEx'
     )
 
     # p 'RA,ALUNO,CODTURMA,TURMA'
+    klazzes = []
     p result.fields.join(',')
     result.each do |row|
       p result.fields.map{|field| row[field]}.join(',')
