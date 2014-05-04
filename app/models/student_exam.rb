@@ -170,7 +170,7 @@ class StudentExam < ActiveRecord::Base
       normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '')
       exam_execution = possible_exam_executions.where(exam_code: normalized_exam_code.to_i).first
       if card_processing.exam_execution_id.present? 
-        if exam_execution.id == card_processing.exam_execution_id
+        if exam_execution && exam_execution.id == card_processing.exam_execution_id
           self.exam_execution_id = card_processing.exam_execution_id
           set_exam_answers
         else
