@@ -169,15 +169,19 @@ class StudentExam < ActiveRecord::Base
     if card_type.has_exam_code
       normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '')
       exam_execution = possible_exam_executions.where(exam_code: normalized_exam_code.to_i).first
-      if exam_execution
-        self.exam_execution_id = exam_execution.id 
-        set_exam_answers
-      else
-        if card_processing.exam_execution_id.present? 
+      if card_processing.exam_execution_id.present? 
+        if exam_execution.id == card_processing.exam_execution_id
           self.exam_execution_id = card_processing.exam_execution_id
           set_exam_answers
         else
           self.status = EXAM_NOT_FOUND_STATUS
+        end
+      else
+        if exam_execution
+          self.exam_execution_id = exam_execution.id 
+          set_exam_answers
+        else
+          self.status = EXAM_NOT_FOUND_STATUS          
         end
       end
     elsif card_processing.exam_execution_id.present?
