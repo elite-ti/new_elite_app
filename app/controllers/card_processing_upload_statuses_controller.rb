@@ -56,7 +56,7 @@ class CardProcessingUploadStatusesController < ApplicationController
       ).map do |student_exam|
         [
           ("%08d" % (student_exam.student.try(:ra) || 0)),
-          ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
+          ("%05d" % (student_exam.exam_code || 0)),
           student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join()
       end.compact.join("\r\n")
