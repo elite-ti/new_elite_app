@@ -7,6 +7,7 @@
 
 #define ERROR 0.7
 // #define DEBUG // Comment out if not debug version
+// #define MAP_PERCENTAGE
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -132,7 +133,6 @@ int main(int argc, char* argv[]) {
   // File intepolated_file2 = stretch(intepolated_file1);
 
   get_clock_locations(intepolated_file2);
-
   process_file(&intepolated_file2);
   print_answers(intepolated_file2);
   write_png(&intepolated_file2);
@@ -513,14 +513,14 @@ File fine_move(File file) {
   int start_x = (double) conf.questions_zone.group_x - 100;
 
   #ifdef DEBUG 
-  double max = 0;
+  // double max = 0;
 
-  for (int i = -250; i < 150; ++i){
-    double density = get_segment_density(file, start_x + i, found_y, file.height - 380);
-    if(density > 0.1)
-      for (int j = 2500; j < file.height; ++j)
-        paint_pixel(file, start_x + i, j, 0, 255, 255);
-  }  
+  // for (int i = -250; i < 150; ++i){
+  //   double density = get_segment_density(file, start_x + i, found_y, file.height - 380);
+  //   if(density > 0.1)
+  //     for (int j = 2500; j < file.height; ++j)
+  //       paint_pixel(file, start_x + i, j, 0, 255, 255);
+  // }  
   #endif
 
   int found_x = -2;
@@ -531,15 +531,15 @@ File fine_move(File file) {
 
     if(density > 0.1){
       int misses = 0; // count blank lines
-      for (int delta_x = 1; i < 40; ++i){
+      for (int delta_x = 1; delta_x < 40; ++delta_x){
         if(get_segment_density(file, start_x + i + delta_x, found_y, file.height - 380) < 0.1)
           misses += 1;
       }
       if(misses < 10){
-        found_x = start_x + i + 74;
+        found_x = start_x + i + 77;
         #ifdef DEBUG 
         for (int j = 0; j < file.height; ++j)
-          paint_pixel(file, found_x, j, 0, 255, 0);        
+          paint_pixel(file, found_x, j, 0, 255, 0);
         #endif
         break;
       }
@@ -832,6 +832,8 @@ void process_zone(File *file, Zone zone, int customized_clocks) {
 
 void process_question(File *file, Zone zone, int group_number, int question_number, int customized_clocks) {
   char answer = 'Z';
+  double max_percentage= 0;
+  int more_than_one = 0;
 
   for(int option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
     int start_x = ceil((double) zone.group_x + 
@@ -850,11 +852,27 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
       height = zone.option_height;      
     }
 
-    if(process_option(*file, start_x, start_y, width, height) > conf.threshold) {
-      if(answer == 'Z')
-          answer = zone.alternatives[option_number];
-      else
+    double percentage = process_option(*file, start_x, start_y, width, height);
+    #ifdef MAP_PERCENTAGE
+    printf("%d:%g|", option_number, percentage);
+    #endif
+    if(percentage > conf.threshold) {
+      if(answer == 'Z'){
+        answer = zone.alternatives[option_number];
+        max_percentage = percentage;
+      } else {
+        if(!more_than_one && percentage - max_percentage > conf.threshold){
+          answer = zone.alternatives[option_number]; // replace correct answer
+          max_percentage = percentage;
+          more_than_one = 1;
+        } else if(!more_than_one && max_percentage - percentage > conf.threshold){
+          // do nothing - the former was right
+          more_than_one = 1;
+        } else {
           answer = 'W';
+          more_than_one = 1;
+        }
+      }
     }
   }
 
