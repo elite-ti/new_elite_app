@@ -45,15 +45,32 @@ class StudentExamsController < ApplicationController
   def new
     respond_to do |format|
       format.pdf do
-        pdf = TypeCCardPdfPrawn.new(params[:exam_execution_id], params[:student_id], params[:paint])
-        if !params[:exam_execution_id].nil? && !params[:student_id].nil?
-          filename = 'CartaoResposta - ' + Student.find(params[:student_id]).name + ' - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
-        elsif !params[:exam_execution_id].nil?
-          filename = 'CartoesResposta - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
+        if params[:card_type_id].nil?
+          pdf = TypeCCardPdfPrawn.new(params[:exam_execution_id], params[:student_id], params[:paint])
+          if !params[:exam_execution_id].nil? && !params[:student_id].nil?
+            filename = 'CartaoResposta - ' + Student.find(params[:student_id]).name + ' - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
+          elsif !params[:exam_execution_id].nil?
+            filename = 'CartoesResposta - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
+          else
+            filename = 'CartaoResposta_Branco.pdf'
+          end
+          send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
         else
-          filename = 'CartaoResposta_Branco.pdf'
+          if params[:card_type_id].to_s == "1"
+            pdf = TypeACardPdfPrawn.new(nil, nil, nil, nil, nil)
+            filename = 'CartoesRespostaBranco_TipoA.pdf'
+            send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
+          elsif params[:card_type_id].to_s == "3"
+            pdf = TypeCCardPdfPrawn.new(nil, nil, nil, nil, nil)
+            filename = 'CartoesRespostaBranco_TipoC.pdf'
+            send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
+          elsif params[:card_type_id].to_s == "4"
+            pdf = TypeDCardPdfPrawn.new(nil, nil, nil, nil, nil)
+            filename = 'CartoesRespostaBranco_TipoD.pdf'
+            send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
+          end          
         end
-        send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
+
       end
     end
   end
