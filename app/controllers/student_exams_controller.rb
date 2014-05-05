@@ -14,6 +14,7 @@ class StudentExamsController < ApplicationController
 
   def card
     @student_exam = StudentExam.where(exam_execution_id: Exam.where(code: params[:exam_code]).first.try(:exam_execution_ids), student_id: Student.where(ra: params[:student_ra]).first).first
+    @student_exam = StudentExam.where(exam_code: params[:exam_code], student_id: Student.where(ra: params[:student_ra]).first).first if @student_exam.nil?
     @exists_card = !@student_exam.nil?
     render :layout => false
   end
