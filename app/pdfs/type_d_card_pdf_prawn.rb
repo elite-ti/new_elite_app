@@ -85,7 +85,7 @@ private
   def content
     draw_block 0..9, @student_block_size, 1, 50, 635, false
     draw_block 0..9, @exam_block_size, 1, 280, 630, false
-    draw_block 'A'..'D', 50, 2, 150, 560, true
+    draw_block 'A'..'D', 50, 2, 165, 560, true
   end
 
   def draw_block options, repetitions, groups, start_x, start_y, print_number
