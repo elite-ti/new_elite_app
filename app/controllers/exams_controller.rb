@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ExamsController < ApplicationController
   load_and_authorize_resource
 
@@ -58,6 +59,59 @@ class ExamsController < ApplicationController
       @subjects = @exam.exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).group_by{|a| a}.map{|a, b| [a, b.size]}
       @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
     end
+  end
+  
+  def download_result
+    separator = ","
+    base =
+      StudentExam.where("grades is not null").where(
+        status: StudentExam::VALID_STATUS,
+        exam_execution_id: @exam.exam_execution_ids
+      ).includes(
+        student: {enrollments: :super_klazz},
+        exam_execution: [:exam, { super_klazz: [:campus, product_year: [product: :product_type] ]}]
+      )
+
+    header_complement = @exam.subjects.split("+").map{|m| m.gsub(/^\s+/, '').gsub(/\s+$/, '').split("(")[0]} if @exam.correct_answers.present?
+    # recalculate grades
+    correct_answers = @exam.correct_answers
+    number_of_questions = Hash[*@exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+    subjects = @exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code)
+
+    base.each do |student_exam|
+      grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
+      student_exam.exam_answer_as_string.split('').each_with_index do |answer, index|
+        if correct_answers[index] == 'X' || answer == correct_answers[index]
+        grades[subjects[index]] = grades[subjects[index]] + 1
+        end
+      end
+      grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
+      student_exam.update_column(:grades, grades.to_a.flatten.join(','))
+    end    
+
+    @results = ([ (["RA", "Nome do aluno", "Unidade", "Grau", "Série", "Turma", "Código da prova", "Marcações"] + (header_complement || []) ).join(separator)] + 
+      base.map do |student_exam|
+        ([
+          ("%06d" % (student_exam.student.try(:ra) || 0)),
+          (student_exam.student.try(:name) || '').split.map(&:mb_chars).map(&:capitalize).join(' '), 
+          student_exam.exam_execution.try(:super_klazz).try(:campus).try(:name) || '',
+          student_exam.exam_execution.try(:super_klazz).try(:product_year).try(:product).try(:product_type).try(:name) || '',
+          student_exam.exam_execution.try(:super_klazz).try(:product_year).name,
+          student_exam.student.enrollments.select{|e| e.super_klazz_id == student_exam.exam_execution.super_klazz_id}.first.try(:erp_code) || '', 
+          ("%05d" % (student_exam.exam_execution.exam.code || 0)),
+          student_exam.string_of_answers
+        ] + Hash[*(student_exam.grades || '').split(',')].values ).join(separator)
+        
+      end).flatten.compact.join("\r\n")
+
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"Resultados - #{@exam.name} - #{@exam.exam_product_years.first.name}.csv\""
+        render text: @results.encode("ISO-8859-1", "utf-8")
+      end
+    end    
   end
 
   def download

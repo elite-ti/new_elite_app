@@ -35,6 +35,7 @@ EliteApp::Application.routes.draw do
   resources :exams do
     member do 
       get :result
+      get :download_result
     end
     collection do
       post :import
