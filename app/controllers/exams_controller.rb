@@ -78,16 +78,18 @@ class ExamsController < ApplicationController
     number_of_questions = Hash[*@exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
     subjects = @exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code)
 
-    base.each do |student_exam|
-      grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
-      student_exam.exam_answer_as_string.split('').each_with_index do |answer, index|
-        if correct_answers[index] == 'X' || answer == correct_answers[index]
-        grades[subjects[index]] = grades[subjects[index]] + 1
+    if @exam.correct_answers.present?
+      base.each do |student_exam|
+        grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
+        student_exam.exam_answer_as_string.split('').each_with_index do |answer, index|
+          if correct_answers[index] == 'X' || answer == correct_answers[index]
+          grades[subjects[index]] = grades[subjects[index]] + 1
+          end
         end
-      end
-      grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
-      student_exam.update_column(:grades, grades.to_a.flatten.join(','))
-    end    
+        grades.each{ |key,value| grades[key] = (10*value.to_f / number_of_questions[key].to_f).round(2) }
+        student_exam.update_column(:grades, grades.to_a.flatten.join(','))
+      end    
+    end
 
     @results = ([ (["RA", "Nome do aluno", "Unidade", "Grau", "Série", "Turma", "Código da prova", "Marcações"] + (header_complement || []) ).join(separator)] + 
       base.map do |student_exam|
