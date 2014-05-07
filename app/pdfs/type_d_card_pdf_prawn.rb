@@ -1,11 +1,12 @@
 #encoding: UTF-8
 
 class TypeDCardPdfPrawn < Prawn::Document
-  def initialize(exam_execution_id, student_id, paint)
+  def initialize(exam_execution_id, student_id, paint, institution_logo=nil)
     @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
     @exam_code = @exam_execution.try(:exam).try(:code)
     @student = Student.find(student_id) if !student_id.nil?
     @paint = paint
+    @institution_logo = institution_logo
     p paint
     super(page_size: "A4", page_layout: :portrait, top_margin: 20)
     set_default_parameters
@@ -59,7 +60,7 @@ private
     draw_blank_line 40, 100
     draw_text 'Matrícula', size: 15, at: [105, 660]
     draw_text 'Código de Prova', size: 15, at: [315, 660]
-    image "#{Rails.root}/app/assets/images/logo-bw.png", at:[130, 777], fit: [40, 40]    
+    image "#{Rails.root}/app/assets/images/logo-bw#{'-' + @institution_logo || ''}.png", at:[130, 777], fit: [40, 40]    
   end
 
   def bottom

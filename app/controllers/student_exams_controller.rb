@@ -66,7 +66,7 @@ class StudentExamsController < ApplicationController
             filename = 'CartoesRespostaBranco_TipoC.pdf'
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
           elsif params[:card_type_id].to_s == "4"
-            pdf = TypeDCardPdfPrawn.new(nil, nil, nil, nil, nil)
+            pdf = TypeDCardPdfPrawn.new(nil, nil, nil, params[:logo])
             filename = 'CartoesRespostaBranco_TipoD.pdf'
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
           end          
