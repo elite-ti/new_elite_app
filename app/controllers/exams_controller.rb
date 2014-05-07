@@ -102,10 +102,9 @@ class ExamsController < ApplicationController
           student_exam.student.enrollments.select{|e| e.super_klazz_id == student_exam.exam_execution.super_klazz_id}.first.try(:erp_code) || '', 
           ("%05d" % (student_exam.exam_execution.exam.code || 0)),
           student_exam.string_of_answers
-        ] + Hash[*(student_exam.grades || '').split(',')].values ).join(separator)
+        ] + ((Hash[*(student_exam.grades || '').split(',')].values if header_complement.present?) || [])).join(separator)
         
       end).flatten.compact.join("\r\n")
-
 
     respond_to do |format|
       format.html
