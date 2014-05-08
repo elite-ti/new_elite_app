@@ -146,22 +146,32 @@ class ExamExecutionsController < ApplicationController
 
   def scanned
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
-    @results = (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
-      StudentExam.where("exam_answer_as_string is not null").where(
-        status: StudentExam::VALID_STATUS,
+    @results = # (['*VALORES POSSIVELMENTE ALTERADOS PELOS COORDENADORES', 'RA ALUNO;CODIGO PROVA;RESPOSTAS'] +
+      (StudentExam.where(
+        # status: StudentExam::VALID_STATUS,
         exam_execution_id: params[:exam_execution_id]
-      ).includes(:student).map do |student_exam|
+      ).includes([:student, {exam_execution: :exam}]).map do |student_exam|
         [
-          ("%06d" % (student_exam.student.try(:ra) || 0)),
-          ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
-          student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')
-        ].join(';')
+          # student
+          if student_exam.student && student_exam.student.ra
+            ("%06d" % (student_exam.student.try(:ra) || 0))
+          else
+            student_exam.student_number || 'WWWWWW'
+          end,
+          # exam
+          if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
+            ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0))
+          else
+            student_exam.exam_code || 'WWWWW'
+          end,
+          student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W') || ('Z' * 100)
+        ].join()
     end.compact).join("\r\n")
 
     respond_to do |format|
       format.html
       format.csv do
-        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.txt\""
         render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end

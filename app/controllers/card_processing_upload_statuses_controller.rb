@@ -86,7 +86,7 @@ class CardProcessingUploadStatusesController < ApplicationController
       StudentExam.where(
         card_processing_id: CardProcessing.where(is_bolsao: false, exam_date: exam_date).map(&:id)
       ).map do |student_exam|
-        student_exam.student_number = (student_exam.student_number.to_i / 10).to_s if student_exam.student_number.size > 6
+        student_exam.student_number = (student_exam.student_number.to_i / 10).to_s if student_exam.student_number && student_exam.student_number.size > 6
         [
           student_exam.id,
           'Z' * (6 - student_exam.student_number.size) + student_exam.student_number,
