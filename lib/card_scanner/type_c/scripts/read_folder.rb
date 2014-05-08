@@ -5,8 +5,8 @@ require 'find'
 
 this_path = File.dirname(File.expand_path(__FILE__))
 
-parameters = '0.4 60 540 80 40 2900 4229 1 0 6 0123456789 79 38 320 785 975 300 2 675 50 ABCDE 77 38 846 1185 475 2659 1 0 5 0123456789 79 38 1526 815 975 250'
-folder_path = '/Users/pauloacmelo/Downloads/TestElite' # TOFILL
+parameters = '0.3 60 540 80 40 2900 4229 1 0 6 0123456789 79 38 320 785 975 300 2 675 50 ABCDE 77 38 846 1185 475 2659 1 0 5 0123456789 79 38 1526 815 975 250'
+folder_path = '/Users/pauloacmelo/Downloads/TestElite2' # TOFILL
 file_to_be_processed_format = '.tif'
 
 def is_valid_result(result)

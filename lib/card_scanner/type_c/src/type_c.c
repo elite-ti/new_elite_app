@@ -6,7 +6,8 @@
 #include <string.h>
 
 #define ERROR 0.7
-// #define DEBUG // Comment out if not debug version
+#define DEBUG // Comment out if not debug version
+// #define MAP_PERCENTAGE
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -927,6 +928,8 @@ void process_zone(File *file, Zone zone, int customized_clocks) {
 
 void process_question(File *file, Zone zone, int group_number, int question_number, int customized_clocks) {
   char answer = 'Z';
+  double max_percentage= 0;
+  int more_than_one = 0;  
 
   for(int option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
     int start_x = ceil((double) zone.group_x + 
@@ -945,11 +948,27 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
       height = zone.option_height;      
     }
 
-    if(process_option(*file, start_x, start_y, width, height) > conf.threshold) {
-      if(answer == 'Z')
-          answer = zone.alternatives[option_number];
-      else
+    double percentage = process_option(*file, start_x, start_y, width, height);
+    #ifdef MAP_PERCENTAGE
+    printf("%d:%g|", option_number, percentage);
+    #endif
+    if(percentage > conf.threshold) {
+      if(answer == 'Z'){
+        answer = zone.alternatives[option_number];
+        max_percentage = percentage;
+      } else {
+        if(!more_than_one && percentage - max_percentage > conf.threshold/2){
+          answer = zone.alternatives[option_number]; // replace correct answer
+          max_percentage = percentage;
+          more_than_one = 1;
+        } else if(!more_than_one && max_percentage - percentage > conf.threshold/2){
+          // do nothing - the former was right
+          more_than_one = 1;
+        } else {
           answer = 'W';
+          more_than_one = 1;
+        }
+      }
     }
   }
 
