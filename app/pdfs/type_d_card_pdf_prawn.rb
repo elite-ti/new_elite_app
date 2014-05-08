@@ -60,7 +60,11 @@ private
     draw_blank_line 40, 100
     draw_text 'Matrícula', size: 15, at: [105, 660]
     draw_text 'Código de Prova', size: 15, at: [315, 660]
-    image "#{Rails.root}/app/assets/images/logo-bw#{('-' + @institution_logo.to_s if @institution_logo.present?) || ''}.png", at:[130, 777], fit: [40, 40]    
+
+    bounding_box([90, 781], :width => 80, :height => 25) do
+     # stroke_bounds
+     image "#{Rails.root}/app/assets/images/logo-bw#{('-' + @institution_logo.to_s if @institution_logo.present?) || ''}.png", :position => :right, fit: [80, 25]
+   end
   end
 
   def bottom
