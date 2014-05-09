@@ -74,10 +74,11 @@ class Exam < ActiveRecord::Base
 
   def create_questions
     number_of_questions = self.subjects.gsub(')', '').split('+').map{|s| s.split('(')[1].to_i}.reduce(:+)
+    correct_answers = self.correct_answers
     (1..number_of_questions).each do |question_number|
       question = Question.create!(stem: 'Stem', model_answer: 'Model Answer')
 
-      options_per_question.times do 
+      self.options_per_question.times do 
         Option.create!(question_id: question.id)
       end
       if correct_answers.present? && !correct_answers[question_number - 1].nil?
