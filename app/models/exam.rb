@@ -63,7 +63,7 @@ class Exam < ActiveRecord::Base
     StudentExam.where(exam_execution_id: self.exam_executions.map(&:id), status: 'Valid').each do |se|
       grades = Hash[*subjects.uniq.map{|a| [a,0]}.flatten]
       se.exam_answer_as_string.split('').each_with_index do |answer, index|
-        p "{subjects[index]}"
+        p "#{subjects[index]}"
         if correct_answers[index] == 'X' || answer == correct_answers[index]
         grades[subjects[index]] = grades[subjects[index]] + 1
         end
