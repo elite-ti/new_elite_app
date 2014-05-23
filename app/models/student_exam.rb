@@ -143,7 +143,7 @@ class StudentExam < ActiveRecord::Base
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers
       # Student marked wrong exam use Coordinator exam
-      elsif (normalized_exam_code =~ /[0-9]+/)
+      elsif !(normalized_exam_code =~ /[0-9]+/)
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers        
       # Student and Coordinator marked different valid exams
