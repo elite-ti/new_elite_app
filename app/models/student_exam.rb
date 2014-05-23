@@ -139,7 +139,7 @@ class StudentExam < ActiveRecord::Base
     if card_processing.exam_execution_id.present?
       normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '') if exam_code.present?
       # Student marked same exam as the Coordinator
-      if normalized_exam_code =~ /[0-9]+/ && card_processing.exam_execution.exam_code == normalized_exam_code.to_int
+      if normalized_exam_code =~ /[0-9]+/ && card_processing.exam_execution.exam_code.to_i == normalized_exam_code.to_i
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers
       # Student marked wrong exam use Coordinator exam
