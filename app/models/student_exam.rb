@@ -137,7 +137,17 @@ class StudentExam < ActiveRecord::Base
 
   def set_exam_execution
     if card_processing.exam_execution_id.present?
-      if student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz) || is_bolsao
+      normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '') if exam_code.present?
+      # Student marked same exam as the Coordinator
+      if normalized_exam_code =~ /[0-9]+/ && card_processing.exam_execution.exam_code == normalized_exam_code.to_int
+        self.exam_execution_id = card_processing.exam_execution_id
+        set_exam_answers
+      # Student marked wrong exam use Coordinator exam
+      elsif (normalized_exam_code =~ /[0-9]+/)
+        self.exam_execution_id = card_processing.exam_execution_id
+        set_exam_answers        
+      # Student and Coordinator marked different valid exams
+      elsif student.enrolled_super_klazzes.include?(ExamExecution.find(card_processing.exam_execution_id).super_klazz) || is_bolsao
         self.exam_execution_id = card_processing.exam_execution_id
         set_exam_answers
       else
