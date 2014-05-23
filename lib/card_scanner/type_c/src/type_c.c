@@ -574,6 +574,62 @@ File fine_move(File file) {
     // }
   }
 
+  // *************************************************************************
+  // |   Reset questions_zone.horizontal_space_between_options !!IMPORTANT   |
+  // *************************************************************************
+  int total_horizontal_group_size = -1;
+  for (int i = file.width; i > start_x ; i--)
+  {
+    double density = get_segment_density(file, i, found_y, file.height - 380);
+    if( density > 0.3 ){
+      total_horizontal_group_size = i - found_x;
+      break;
+    }
+  }
+  int actual_group_horizontal_size = -1;
+  count = 0;
+  for (int i = found_x + 400; i < file.width ; i++)
+  {
+    double density = get_segment_density(file, i, found_y, file.height - 380);
+    // printf("%d|%f|%d??", i, density, count);
+    if( density < 0.1 ){
+      count = count + 1;
+    } else {
+      count = 0;
+    }
+    if ( count > 100 ){
+      actual_group_horizontal_size = i - 100 - found_x;
+      break;
+    }
+  }
+  int number_of_options = strlen(conf.questions_zone.alternatives);
+  double supposed_horizontal_group_size = (conf.questions_zone.horizontal_space_between_options * (number_of_options - 1) + conf.questions_zone.option_width*number_of_options) + conf.questions_zone.space_between_groups * (conf.questions_zone.number_of_groups - 1);
+  double old_space_between_groups = conf.questions_zone.space_between_groups;
+  double horizontal_error = fabs((double) total_horizontal_group_size - supposed_horizontal_group_size);
+  if( horizontal_error < 100 && horizontal_error > 10 ){
+    #ifdef DEBUG
+      printf("|||%d|%f|%f|%d|", total_horizontal_group_size, supposed_horizontal_group_size, horizontal_error, actual_group_horizontal_size);
+      printf("(%f,%d)", conf.questions_zone.horizontal_space_between_options, conf.questions_zone.space_between_groups);
+    #endif
+    conf.questions_zone.horizontal_space_between_options = 
+      ( 
+        (double) actual_group_horizontal_size - 
+        (double) conf.questions_zone.option_width * number_of_options 
+      ) / (double) (number_of_options - 1);
+
+    conf.questions_zone.space_between_groups = 
+      (
+        (double) total_horizontal_group_size - 
+        (double) conf.questions_zone.number_of_groups * actual_group_horizontal_size
+      ) / (double) (conf.questions_zone.number_of_groups - 1) +
+      (double) actual_group_horizontal_size;    
+    conf.student_zone.horizontal_space_between_options = conf.questions_zone.horizontal_space_between_options;
+    #ifdef DEBUG    
+      printf(">(%f,%d)|||", conf.questions_zone.horizontal_space_between_options, conf.questions_zone.space_between_groups);
+    #endif
+  }
+  // ******************************************
+
   int delta_y = found_y == 0 ? 0 : conf.questions_zone.group_y - found_y;
   int delta_x = found_x == 0 ? 0 : conf.questions_zone.group_x - found_x;
 
