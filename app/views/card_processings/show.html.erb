@@ -16,8 +16,9 @@
     <tr>
       <th>Status</th>
       <th>Aluno</th>
-      <th>Scanned Student Number</th>
-      <th>Scanned Answers</th>
+      <th>Matrícula</th>
+      <th>Cód. Prova</th>
+      <th>Respostas</th>
     </tr>
   </thead>
 
@@ -34,7 +35,8 @@
         </span>
       </td> 
       <td><%= student_exam.student.try(:name) || 'No student' %></td>
-      <td><%= student_exam.student_number %></td>
+      <td><%= student_exam.student_number || '' %></td>
+      <td><%= student_exam.exam_code || '' %></td>
       <td><%= print_long_string(student_exam.string_of_answers, 10) %></td>
     </tr>
   <% end %>
