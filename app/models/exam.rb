@@ -158,7 +158,6 @@ class Exam < ActiveRecord::Base
     }    
   end
 
-private
   def create_exam_executions ids_of_campuses, ids_of_product_years, is_bolsao=false
     product_years = ids_of_product_years.map { |e| ProductYear.find(e) }
     campuses = ids_of_campuses.map { |e| Campus.find(e) }
@@ -183,6 +182,7 @@ private
     end    
   end
 
+private
   def correct_answers_range
     return if options_per_question.nil?
     return if !correct_answers.present?
@@ -294,6 +294,8 @@ EliteSim
             exam.save
             exam.recalculate_grades
           else
+            p product_names
+            p subjects            
             p product_names.split('|').map{|prod| prod + ' - ' + Year.last.number.to_s}.join(', ')
             product_years = product_names.split('|').map do |p| ProductYear.where("name ilike '#{p + ' - ' + Year.last.number.to_s}'").first! end
             campuses = (campus_names == 'Todas' ? Campus.all : Campus.where(name: campus_names.split('|')))
