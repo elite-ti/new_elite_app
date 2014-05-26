@@ -45,18 +45,28 @@ class CardProcessingUploadStatusesController < ApplicationController
     exam_date = params[:id].to_date
     @results = 
       StudentExam.where(
-        status: StudentExam::VALID_STATUS,
+        # status: StudentExam::VALID_STATUS,
         exam_execution_id:
           ExamExecution.where(
             datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day),
             exam_cycle_id: ExamCycle.where(is_bolsao: false)
           )
       ).includes(
-        :student
+        :student, exam_execution: :exam
       ).map do |student_exam|
         [
-          ("%08d" % (student_exam.student.try(:ra) || 0)),
-          student_exam.exam_code,
+          # has student
+          if student_exam.student && student_exam.student.ra
+            ("%08d" % (student_exam.student.ra))
+          else
+            student_exam.student_number
+          end,
+          # has exam_code
+          if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
+            ("%05d" % (student_exam.exam_execution.exam.code))
+          else
+            student_exam.exam_code
+          end,
           student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join()
       end.compact.join("\r\n")
@@ -79,7 +89,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         student_exam.student_number = (student_exam.student_number.to_i / 10).to_s if student_exam.student_number.size > 6
         [
           student_exam.id,
-          'Z' * (6 - student_exam.student_number.size) + student_exam.student_number,
+          'Z' * (8 - student_exam.student_number.size) + student_exam.student_number,
           'Z' * (5 - (student_exam.exam_code.try(:size) || 0)) + (student_exam.exam_code || ''),
           student_exam.string_of_answers + 'Z' * (100 - student_exam.string_of_answers.size)
         ].join(';')
