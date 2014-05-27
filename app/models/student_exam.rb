@@ -168,16 +168,16 @@ class StudentExam < ActiveRecord::Base
   def set_exam_execution
     if card_type.has_exam_code
       normalized_exam_code = exam_code.gsub(/\AZ*/, '').gsub(/Z*\z/, '')
-      exam_execution = possible_exam_executions.where(exam_code: normalized_exam_code.to_i).first
+      exam_executions = possible_exam_executions.where(exam_code: normalized_exam_code.to_i)
       if card_processing.exam_execution_id.present? 
-        if (exam_execution && exam_execution.id == card_processing.exam_execution_id) || (!exam_execution)
+        if (exam_executions && exam_executions.map(&:id).include?(card_processing.exam_execution_id)) || (exam_executions && exam_executions.size == 0)
           self.exam_execution_id = card_processing.exam_execution_id
           set_exam_answers
         else
           self.status = EXAM_NOT_FOUND_STATUS
         end
       else
-        if exam_execution
+        if exam_execution && exam_execution.size == 1
           self.exam_execution_id = exam_execution.id 
           set_exam_answers
         else
