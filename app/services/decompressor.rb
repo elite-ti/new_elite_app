@@ -18,7 +18,7 @@ class Decompressor
     else
       FileUtils.rm_rf(folder_path)
       p return_message
-      raise DecompressorError.new(ERROR_DECOMPRESSING_FILE_MESSAGE)
+      raise DecompressorError.new(ERROR_DECOMPRESSING_FILE_MESSAGE + ': ' + return_message)
     end
   end
 
