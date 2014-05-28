@@ -148,7 +148,8 @@ class ExamExecutionsController < ApplicationController
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
     card_processing_ids = '(' + (CardProcessing.where(exam_execution_id: params[:exam_execution_id]).map(&:id) + [-1]).join(', ') + ')'
     @results =
-      (StudentExam.where("exam_execution_id = #{params[:exam_execution_id]} or (card_processing_id in #{card_processing_ids} and exam_execution_id is null)"
+      # (StudentExam.where("exam_execution_id = #{params[:exam_execution_id]} or (card_processing_id in #{card_processing_ids} and exam_execution_id is null)"
+      (StudentExam.where("card_processing_id in #{card_processing_ids}"
       ).includes([:student, {exam_execution: :exam}]).map do |student_exam|
         [
           # student
