@@ -120,10 +120,10 @@ class ExamExecutionsController < ApplicationController
     if @existing_answers
       @student_exams = @exam_execution.student_exams.where(status: StudentExam::VALID_STATUS).includes({:card_processing => :campus}, :student, :exam_answers)
       @has_errors = @exam_execution.needs_check?
-      @subjects = @exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
+      @subjects = @exam_execution.exam.exam_questions.sort_by(&:number).map(&:question).map(&:topics).map(&:first).map(&:subject).uniq
 
       subject_questions = @exam_execution.exam.exam_questions.map{|eq| [eq.number, eq.question.topics.first.subject.name]}.inject(Hash.new(0)){|h,v| ((h[v[1]] != 0) ? h[v[1]] << v[0] : h[v[1]] = [v[0]]); h}
-      correct_answers = @exam_execution.exam.exam_questions.map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
+      correct_answers = @exam_execution.exam.exam_questions.sort_by(&:number).map(&:question).map{|q| q.options.select{|o| o.correct}.map(&:letter)}
 
       @results = @student_exams.map do |student_exam|
         {
