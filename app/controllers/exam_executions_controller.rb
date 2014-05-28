@@ -163,7 +163,7 @@ class ExamExecutionsController < ApplicationController
           else
             student_exam.exam_code || 'WWWWW'
           end,
-          student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W') || ('Z' * 100)
+          (student_exam.string_of_answers || '').gsub('Z','X').gsub('W','Z').gsub('X','W') || ('Z' * 100)
         ].join()
     end.compact).join("\r\n")
 
