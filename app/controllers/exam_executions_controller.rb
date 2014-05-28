@@ -165,7 +165,7 @@ class ExamExecutionsController < ApplicationController
           end,
           (student_exam.string_of_answers || 'Z'*100).gsub('Z','X').gsub('W','Z').gsub('X','W') || ('Z' * 100)
         ].join()
-    end.compact).join("\r\n")
+    end.compact).join("\r\n") + "\r\n"
 
     respond_to do |format|
       format.html
