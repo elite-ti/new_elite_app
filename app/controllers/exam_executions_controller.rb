@@ -150,7 +150,8 @@ class ExamExecutionsController < ApplicationController
         keys = @results.first.keys.reject{|k| ["PATH", "ID"].include? k }
         @output = keys.join(',') + "\r\n"
         @output += @results.map{|hash| keys.map{|key| hash[key]}.join(',')}.join("\r\n")
-        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        # response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"#{@exam_execution.datetime.strftime('%d_%m_%Y')}_#{@exam_execution.super_klazz.name}_#{DateTime.now.strftime('%Y%m%d%H%M%S')}.xlsx\""
         render text: @output.encode("ISO-8859-1", "utf-8")
       end
       format.xlsx do
