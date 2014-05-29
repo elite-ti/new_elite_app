@@ -159,11 +159,12 @@ class ExamExecutionsController < ApplicationController
             student_exam.student_number || 'WWWWWW'
           end,
           # exam
-          if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
-            ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0))
-          else
-            student_exam.exam_code || 'WWWWW'
-          end,
+          # if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
+          #   ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0))
+          # else
+          #   student_exam.exam_code || 'WWWWW'
+          # end,
+          student_exam.exam_code || 'WWWWW',
           (student_exam.string_of_answers || 'Z'*100).gsub('Z','X').gsub('W','Z').gsub('X','W') || ('Z' * 100)
         ].join()
     end.compact).join("\r\n") + "\r\n"
