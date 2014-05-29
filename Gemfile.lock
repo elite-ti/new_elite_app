@@ -38,9 +38,6 @@ GEM
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
       rubyzip (= 0.9.9)
-    axlsx_rails (0.1.5)
-      axlsx
-      rails (>= 3.1)
     bcrypt-ruby (3.0.1)
     better_errors (0.6.0)
       coderay (>= 1.0.0)
