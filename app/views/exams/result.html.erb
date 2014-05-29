@@ -1,5 +1,5 @@
 <%= title 'Resultado Consolidado', 
-  link_to('Salvar', '#', :id => 'save_button_exam_execution'),
+  link_to('Salvar', result_exam_path(@exam, format: 'xlsx')),
   link_to('Voltar', exams_path) %>
 
 <h2 class="klazz_name_exam_execution"><%= @exam.name + ' • ' + @exam.exam_product_years.map(&:name).join(', ') + ' • ' + @exam.exam_dates.first.strftime('%d/%m/%Y') %></h2>

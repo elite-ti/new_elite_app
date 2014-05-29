@@ -55,10 +55,79 @@ class ExamsController < ApplicationController
     @existing_answers = @exam.correct_answers.present?
     if @existing_answers
       exam_execution_ids = @exam.exam_execution_ids
-      @student_exams = StudentExam.where(status: StudentExam::VALID_STATUS, exam_execution_id: exam_execution_ids).includes({:card_processing => :campus}, :student)
+      @student_exams = StudentExam.where(status: StudentExam::VALID_STATUS, exam_execution_id: exam_execution_ids).includes({:card_processing => :campus}, :student, exam_execution: {super_klazz: [:campus, product_year: :product]})
       @subjects = @exam.exam_questions.includes(:question => {:topics => :subject}).map(&:question).map(&:topics).map(&:first).map(&:subject).group_by{|a| a}.map{|a, b| [a, b.size]}
       @has_errors = @exam.exam_executions.map(&:needs_check?).select{|a| a}.any?
     end
+
+    respond_to do |format|
+      format.html do
+        render 'result'
+      end
+      format.csv do
+        number_of_questions = Hash[*@exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+        @output = @student_exams.map do |student_exam| 
+          grades = Hash[*student_exam.grades.split(',')]
+          (
+            [
+              student_exam.student.ra || '',
+              student_exam.student.name || '',
+              student_exam.exam_execution.super_klazz.campus.name || '',
+              student_exam.exam_execution.super_klazz.product_year.product.name || ''
+            ] + 
+            number_of_questions.map{|subject, questions| [
+              ((grades[subject] || 0).to_f*questions/10).round(0),
+              grades[subject] || 0
+            ]}.flatten +
+            [
+              total_hits = number_of_questions.map{|subject, questions| ((grades[subject] || 0).to_f*questions/10).round(0)}.sum, # Total hits
+              10 * total_hits.to_f / number_of_questions.values.sum.to_f  # Average
+            ]
+          ).join(",")
+        end.join("\r\n")
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam.name}.csv\""
+        render text: @output.encode("ISO-8859-1", "utf-8")
+      end
+      format.xlsx do
+        number_of_questions = Hash[*@exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+        @titles = [["#{@exam.name}"], [(@exam.exam_datetime || @exam.exam_executions.first.datetime).strftime('%d/%m/%Y')], [@exam.exam_product_years.map(&:name).join(', ')]]
+        @headers = ["RA", "Nome", "Unidade", "Turma"] + number_of_questions.keys.map{|k| [k,k]}.flatten + ["Acertos", "Média", "Class."]
+        @output = @student_exams.map do |student_exam| 
+          grades = Hash[*student_exam.grades.split(',')]
+          (
+            [
+              student_exam.student.ra || '',
+              (student_exam.student.name || '').split.map(&:mb_chars).map(&:capitalize).join(' '),
+              student_exam.exam_execution.super_klazz.campus.name || '',
+              student_exam.exam_execution.super_klazz.product_year.product.name || ''
+            ] + 
+            number_of_questions.map{|subject, questions| [
+              ((grades[subject] || 0).to_f*questions/10).round(0),
+              grades[subject] || 0
+            ]}.flatten +
+            [
+              total_hits = number_of_questions.map{|subject, questions| ((grades[subject] || 0).to_f*questions/10).round(0)}.sum, # Total hits
+              10 * total_hits.to_f / number_of_questions.values.sum.to_f,  # Average
+              1 # Classification
+            ]
+          )
+        end.sort_by{|row| [-row[-2], row[1]]}
+        @output.each_with_index do |row, index|
+          # First
+          if index == 0
+            @output[index][-1] = 1
+          # Repeat classification if has same average than previous
+          elsif @output[index-1][-2] == row[-2]
+            @output[index][-1] = @output[index-1][-1]
+          # Default cases
+          else
+            @output[index][-1] = index + 1
+          end
+        end
+
+        render xlsx: "result", :filename => "#{(@exam.exam_datetime || @exam.exam_executions.first.datetime).strftime('%d_%m_%Y')}_#{@exam.exam_product_years.map(&:name).join(', ')}_#{DateTime.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+      end
+    end    
   end
   
   def download_result

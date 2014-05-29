@@ -141,7 +141,34 @@ class ExamExecutionsController < ApplicationController
           )#.merge({'GRADE' => student_exam.exam_answers.select{|exam_answer| correct_answers[exam_answer.exam_question.number - 1].include?(exam_answer.answer)}.size})
       end
     end
-    
+
+    respond_to do |format|
+      format.html do
+        render 'result'
+      end
+      format.csv do
+        keys = @results.first.keys.reject{|k| ["PATH", "ID"].include? k }
+        @output = keys.join(',') + "\r\n"
+        @output += @results.map{|hash| keys.map{|key| hash[key]}.join(',')}.join("\r\n")
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.csv\""
+        render text: @output.encode("ISO-8859-1", "utf-8")
+      end
+      format.xlsx do
+        keys = @results.first.keys.reject{|k| ["PATH", "ID"].include? k }
+        number_of_questions = Hash[*@exam_execution.exam.exam_questions.map(&:question).map(&:topics).map(&:first).map(&:subject).map(&:code).group_by{|a| a}.map{|a,b| [a, b.size]}.flatten]
+        @titles = [["#{@exam_execution.exam.name} - #{(@exam_execution.exam.subjects || '').split('+').join(' + ')}"], [@exam_execution.datetime.strftime('%d/%m/%Y')], [@exam_execution.super_klazz.product_year.name]]
+        @headers = ["RA", "Nome", "Unidade"] + number_of_questions.keys.map{|k| [k,k]}.flatten + ["Acertos", "Média"]
+        @output = @results.map do |hash|
+          keys[0..2].map{|key| hash[key]} + 
+          keys[3..-1].map{|key| [hash[key], 10 * hash[key].to_f / number_of_questions[key]] }.flatten + 
+          [
+            keys[3..-1].map{|key| hash[key]}.sum, 
+            keys[3..-1].map{|key| 10 * hash[key]}.sum.to_f / number_of_questions.values.sum.to_f
+          ]
+        end.sort_by{|row| -row[-1]}
+        render xlsx: "result", :filename => "#{@exam_execution.datetime.strftime('%d_%m_%Y')}_#{@exam_execution.super_klazz.name}_#{DateTime.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+      end
+    end    
   end
 
   def scanned
