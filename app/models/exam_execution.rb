@@ -19,7 +19,7 @@ class ExamExecution < ActiveRecord::Base
   end
 
   def set_full_name
-    self.full_name = super_klazz.campus.name + ' - ' + datetime.strftime('%d/%m') + ' - ' + exam.name
+    self.full_name = super_klazz.name + ' - ' + datetime.strftime('%d/%m') + ' - ' + exam.name
   end
 
   def number_of_enrolled_students
