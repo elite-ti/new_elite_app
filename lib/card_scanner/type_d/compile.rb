@@ -7,7 +7,7 @@ bin_path = File.join(this_path, 'bin')
 output = File.join(bin_path, 'run')
 
 src_path = File.join(this_path, 'src')
-files = "'" + ['type_c.c', 'lodepng.c'].map { |file| File.join(src_path, file) }.join("' '") + "'"
+files = "'" + ['type_d.c', 'lodepng.c'].map { |file| File.join(src_path, file) }.join("' '") + "'"
 
 FileUtils.rm_rf(bin_path) 
 FileUtils.mkdir(bin_path)
