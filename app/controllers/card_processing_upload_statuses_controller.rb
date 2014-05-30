@@ -62,11 +62,12 @@ class CardProcessingUploadStatusesController < ApplicationController
             student_exam.student_number
           end,
           # has exam_code
-          if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
-            ("%05d" % (student_exam.exam_execution.exam.code))
-          else
-            student_exam.exam_code
-          end,
+          # if student_exam.exam_execution && student_exam.exam_execution.exam && student_exam.exam_execution.exam.code
+          #   ("%05d" % (student_exam.exam_execution.exam.code.to_i))
+          # else
+          #   student_exam.exam_code
+          # end,
+          student_exam.exam_code,
           student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join()
       end.compact.join("\r\n")
