@@ -1,4 +1,6 @@
 jQuery ->
+  $('#exam_date_chzn').css({"width": "110px"});
+  $('.chzn-drop').css({"width": "110px"});
   $('#save_button_exam_execution').click ->
     #getting values of current time for generating the file name
     dt = new Date()
