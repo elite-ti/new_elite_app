@@ -45,11 +45,13 @@ class CardProcessingUploadStatusesController < ApplicationController
     exam_date = params[:id].to_date
     @results = 
       StudentExam.where(
-        # status: StudentExam::VALID_STATUS,
-        exam_execution_id:
-          ExamExecution.where(
-            datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day),
-            exam_cycle_id: ExamCycle.where(is_bolsao: false)
+        card_processing_id: 
+          CardProcessing.where(
+            exam_execution_id:
+              ExamExecution.where(
+                datetime: (exam_date.beginning_of_day)..(exam_date.end_of_day),
+                exam_cycle_id: ExamCycle.where(is_bolsao: false)
+              )
           )
       ).includes(
         :student, exam_execution: :exam

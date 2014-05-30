@@ -52,12 +52,19 @@ class ExamExecutionsController < ApplicationController
     @exam_execution = ExamExecution.find(params[:exam_execution_id])
     @results = 
       StudentExam.where(
-        status: StudentExam::VALID_STATUS,
-        exam_execution_id: params[:exam_execution_id]
+        card_processing_id:
+          CardProcessing.where(
+            exam_execution_id: params[:exam_execution_id]
+          )
       ).includes(:student).map do |student_exam|
         [
-          ("%08d" % (student_exam.student.try(:ra) || 0)),
-          ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
+          # has student
+          if student_exam.student && student_exam.student.ra
+            ("%08d" % (student_exam.student.ra))
+          else
+            student_exam.student_number
+          end,
+          student_exam.exam_code,
           student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join()
     end.compact.join("\r\n")
