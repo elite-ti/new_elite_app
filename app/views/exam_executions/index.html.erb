@@ -1,5 +1,16 @@
 <%= title 'Calendário de Provas' %>
 
+<%= form_tag exam_executions_path, :method => 'get' do %>
+  <p>
+    <%= select_tag :exam_date, 
+      options_for_select(
+        ExamExecution.where(super_klazz_id: SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))).map(&:datetime).map(&:to_date).uniq.sort.reverse,
+        params[:exam_date])
+    %>
+    <%= submit_tag "Filtrar", :name => nil %>
+  </p>
+<% end %>
+
 <table id="exam_executions" class="display is-datatable-exam-executions">
   <thead>
     <tr>
@@ -11,7 +22,7 @@
   </thead>
 
   <tbody>
-  <% @exam_executions.sort_by(&:datetime).reverse.each do |exam_execution| %>
+  <% @exam_executions.each do |exam_execution| %>
     <tr>
       <td><%= exam_execution.datetime.to_date.strftime('%Y-%m-%d') %></td>
       <td><%= exam_execution.exam_code %></td>
