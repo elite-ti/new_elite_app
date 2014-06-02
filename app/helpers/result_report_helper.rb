@@ -1,9 +1,6 @@
 require 'axlsx'
 
 module ResultReportHelper
-  def self.exam_report(klazz, week)
-
-  end
 
   def self.exam_execution_report(titles, headers, output)
     pkg = Axlsx::Package.new
