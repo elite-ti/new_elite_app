@@ -1,4 +1,5 @@
-require "axlsx"
+require 'rubygems'
+require 'axlsx'
 
 module ResultReportHelper
   def self.exam_report(klazz, week)
