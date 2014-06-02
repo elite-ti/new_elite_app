@@ -168,6 +168,7 @@ class ExamExecutionsController < ApplicationController
           ]
         end.sort_by{|row| -row[-1]}
 
+        # TODO: Refactor this code into a view
         pkg = Axlsx::Package.new
         wb = pkg.workbook
         wb.styles do |s|
