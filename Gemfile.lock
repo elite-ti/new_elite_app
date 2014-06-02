@@ -282,7 +282,7 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake
-  axlsx_rails
+  axlsx
   bcrypt-ruby
   better_errors
   binding_of_caller
