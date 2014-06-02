@@ -1,5 +1,6 @@
 #encoding: utf-8
 
+require "rubygems"
 require "axlsx"
 class ExamExecutionsController < ApplicationController
   # load_and_authorize_resource
