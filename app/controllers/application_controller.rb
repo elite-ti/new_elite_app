@@ -40,10 +40,10 @@ private
   def current_role
     return nil if current_employee.nil?
 
-    if current_employee.roles.include? session[:role]
+    if current_employee.roles.reject{|role| role == 'operator'}.include? session[:role]
       return session[:role]
     else
-      return current_employee.roles.last
+      return current_employee.roles.reject{|role| role == 'operator'}.last
     end
   end
   helper_method :current_role
@@ -54,6 +54,7 @@ private
   helper_method :current_employee
 
   def set_current_employee
-    Employee.find(session[:user_id]) if session[:user_id]
+    # Employee.find(session[:user_id]) if session[:user_id]
+    Employee.find(1473)
   end
 end

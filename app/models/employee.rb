@@ -21,30 +21,31 @@ class Employee < ActiveRecord::Base
 
   with_options dependent: :destroy do |e|
     has_one :admin
+    has_one :operator
     has_one :teacher
-    has_one :product_head_teacher
     has_one :campus_head_teacher
-    has_one :subject_head_teacher
-    has_one :campus_principal
-    has_one :address, as: :addressable
+    # has_one :product_head_teacher
+    # has_one :subject_head_teacher
+    # has_one :campus_principal
+    # has_one :address, as: :addressable
   end
 
   with_options allow_destroy: true do |e|
     e.accepts_nested_attributes_for :teacher
-    e.accepts_nested_attributes_for :product_head_teacher
     e.accepts_nested_attributes_for :campus_head_teacher
-    e.accepts_nested_attributes_for :subject_head_teacher
-    e.accepts_nested_attributes_for :campus_principal
-    e.accepts_nested_attributes_for :address
+    # e.accepts_nested_attributes_for :product_head_teacher
+    # e.accepts_nested_attributes_for :subject_head_teacher
+    # e.accepts_nested_attributes_for :campus_principal
+    # e.accepts_nested_attributes_for :address
   end
 
-  # validates :email, uniqueness: true, allow_blank: true, 
-  #   format: { with: /\A([^@\s]+)@sistemaeliterio\.com\.br\z/i }
+  validates :email, uniqueness: true, allow_blank: true, 
+    format: { with: /\A([^@\s]+)@pensi\.com\.br\z/i }
   # validates :elite_id, presence: true, uniqueness: true
   validates :name, presence: true
 
   # TODO: add hr role
-  ROLES = %w[admin teacher campus_head_teacher]
+  ROLES = %w[admin teacher campus_head_teacher operator]
 
   def roles
     ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
@@ -83,8 +84,9 @@ class Employee < ActiveRecord::Base
     translation_hash = {
       'Admin' => 'Administrador',
       'Teacher' => 'Professor',
-      'Campus head teacher' => 'Operador',
-      'Campus Head Teacher' => 'Operador'
+      'Campus head teacher' => 'Coordenador',
+      'Campus Head Teacher' => 'Coordenador',
+      'Operator' => 'Operador'
     }
     translation_hash[input] || 'Não Encontrado'
   end

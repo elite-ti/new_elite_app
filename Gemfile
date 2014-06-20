@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'pg'
 gem 'tiny_tds', '0.6.1'
-gem 'mysql2'
+# gem 'mysql2'
 
 gem 'capistrano'
 gem 'unicorn'

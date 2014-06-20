@@ -10,12 +10,13 @@
         collection: Employee::ROLES.map{|x| [Employee.translate_role(x.humanize), x]} %>
 
       <div id='campus_head_teacher_fields'>
-        <h2>Operador</h2>
+        <h2>Coordenador</h2>
         <%= f.simple_fields_for :campus_head_teacher do |builder| %>
           <%= render 'employees/form/campus_head_teacher_fields', f: builder %>
         <% end %>
       </div>
 
+      <% if false %>
       <div id='product_head_teacher_fields'>
         <h2>Product Head Teacher</h2>
         <%= f.simple_fields_for :product_head_teacher do |builder| %>
@@ -36,6 +37,7 @@
           <%= render 'employees/form/campus_principal_fields', f: builder %>
         <% end %>
       </div>
+      <% end %>
     <% end %>
   </div>
 

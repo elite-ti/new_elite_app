@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<table id="exam_executions" class="display is-datatable-exam-executions">
+<table id="exam_executions" class="<%= "display is-datatable-exam-executions" + (current_employee.operator? ? "-operator" : "") %>">
   <thead>
     <tr>
       <th>Data Aplic.</th>
@@ -31,15 +31,21 @@
     <tr>
       <td><%= exam_execution.datetime.to_date.strftime('%Y-%m-%d') %></td>
       <td><%= exam_execution.exam_code %></td>
-      <td><%= exam_execution.full_name %></td>
+      <td><%= exam_execution.name || '' %></td>
       <td>
         <span style='float: left;'>
-          <%= link_to( 'Enviar', new_card_processing_path(exam_execution_id: exam_execution.id), :target => '_blank' )%>
-          | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student+Exam'), :target => '_blank' %>
-          | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
-          | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
-          | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
-          | <%= link_to 'CSV', scanned_exam_execution_path(exam_execution_id: exam_execution.id, format: 'csv') %>
+          <% if current_employee.operator? %>
+            <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student+Exam'), :target => '_blank' %>
+            | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
+            | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
+          <% else %>
+            <%= link_to( 'Enviar', new_card_processing_path(exam_execution_id: exam_execution.id), :target => '_blank' )%>
+            | <%= link_to 'Imprimir', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student+Exam'), :target => '_blank' %>
+            | <%= link_to 'Imprimir2', new_student_exam_path(format: :pdf, exam_execution_id: exam_execution.id, paint: 'Student'), :target => '_blank' %>
+            | <%= link_to 'Presença', attendance_exam_execution_path(format: :pdf, exam_execution_id: exam_execution.id), :target => '_blank'%>
+            | <%= link_to 'Cartões', cards_exam_execution_path(exam_execution_id: exam_execution.id), :target => '_blank'%>
+            | <%= link_to 'CSV', scanned_exam_execution_path(exam_execution_id: exam_execution.id, format: 'csv') %>
+          <% end %>
         </span>
         <span style='float: left;margin-top: 3px;'>
           <% if exam_execution.card_processings.size > 0 %>
