@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 class ExamExecutionsController < ApplicationController
-  # load_and_authorize_resource
+  load_and_authorize_resource
 
   def index
     if params[:filter_by].nil?
