@@ -5,9 +5,9 @@
     <%= render 'employees/form/fields', f: f %>
 
     <% if current_employee.admin? %>
-      <h2>Roles</h2>
+      <h2>Permissões</h2>
       <%= f.input :roles, as: :check_boxes, wrapper_html: { id: 'employee_roles' }, 
-        collection: Employee::ROLES.map{|x| [x.humanize, x]} %>
+        collection: Employee::ROLES.map{|x| [Employee.translate_role(x), x]} %>
 
       <div id='teacher_fields'>
         <h2>Teacher</h2>
@@ -17,12 +17,13 @@
       </div>
 
       <div id='campus_head_teacher_fields'>
-        <h2>Campus Head Teacher</h2>
+        <h2>Coordenador de Unidade</h2>
         <%= f.simple_fields_for :campus_head_teacher do |builder| %>
           <%= render 'employees/form/campus_head_teacher_fields', f: builder %>
         <% end %>
       </div>
 
+      <% if false %>
       <div id='product_head_teacher_fields'>
         <h2>Product Head Teacher</h2>
         <%= f.simple_fields_for :product_head_teacher do |builder| %>
@@ -43,6 +44,7 @@
           <%= render 'employees/form/campus_principal_fields', f: builder %>
         <% end %>
       </div>
+      <% end %>
     <% end %>
   </div>
 

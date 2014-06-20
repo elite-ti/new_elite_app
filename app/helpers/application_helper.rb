@@ -10,11 +10,11 @@ module ApplicationHelper
 
   def select_roles(current_employee, current_role)
     options = ''
-    current_employee.roles.each do |role|
+    current_employee.roles.reject{|role| role == 'operator'}.each do |role|
       if role == current_role
-        options = options + "<option value='#{role}' selected='selected'>#{role.titleize}</option>"
+        options = options + "<option value='#{role}' selected='selected'>#{Employee.translate_role role}</option>"
       else
-        options = options + "<option value='#{role}'>#{role.titleize}</option>"
+        options = options + "<option value='#{role}'>#{Employee.translate_role role}</option>"
       end
     end
     select_tag 'roles', options.html_safe, id: 'select_roles'

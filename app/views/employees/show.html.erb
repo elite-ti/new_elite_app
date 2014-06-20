@@ -4,7 +4,6 @@
 
 <div id='employee_important_fields'>
   <div class='resource'>
-    <p><span>Elite ID: </span><%= @employee.elite_id %></p>
     <p><span>Email: </span><%= @employee.email %></p>
     <p><span>Roles: </span><%= @employee.roles.map(&:titleize).join(', ') %></p>
   </div>

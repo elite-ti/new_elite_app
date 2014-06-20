@@ -22,30 +22,30 @@ class Employee < ActiveRecord::Base
   with_options dependent: :destroy do |e|
     has_one :admin
     has_one :teacher
-    has_one :product_head_teacher
+    # has_one :product_head_teacher
     has_one :campus_head_teacher
-    has_one :subject_head_teacher
-    has_one :campus_principal
+    has_one :operator
+    # has_one :subject_head_teacher
+    # has_one :campus_principal
     has_one :address, as: :addressable
   end
 
   with_options allow_destroy: true do |e|
     e.accepts_nested_attributes_for :teacher
-    e.accepts_nested_attributes_for :product_head_teacher
+    # e.accepts_nested_attributes_for :product_head_teacher
     e.accepts_nested_attributes_for :campus_head_teacher
-    e.accepts_nested_attributes_for :subject_head_teacher
-    e.accepts_nested_attributes_for :campus_principal
+    # e.accepts_nested_attributes_for :subject_head_teacher
+    # e.accepts_nested_attributes_for :campus_principal
     e.accepts_nested_attributes_for :address
   end
 
-  validates :email, uniqueness: true, allow_blank: true, 
+  validates :email, presence: true, uniqueness: true, allow_blank: true, 
     format: { with: /\A([^@\s]+)@sistemaeliterio\.com\.br\z/i }
-  validates :elite_id, presence: true, uniqueness: true
+  # validates :elite_id, presence: true, uniqueness: true
   validates :name, presence: true
 
-  # TODO: add hr role
-  ROLES = %w[admin teacher campus_head_teacher product_head_teacher 
-    subject_head_teacher campus_principal]
+  ROLES = %w[admin teacher campus_head_teacher operator]
+    # subject_head_teacher campus_principal]
 
   def roles
     ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
@@ -63,6 +63,19 @@ class Employee < ActiveRecord::Base
 
   def build_roles
     (ROLES - roles).each { |role| send('build_' + role) }
+  end
+
+  def self.translate_role role
+    translation = {
+      'admin' => 'Administrador',
+      'teacher' => 'Professor',
+      'campus_head_teacher' => 'Coordenador de Unidade',
+      'product_head_teacher' => 'Coordenador de Produto',
+      'subject_head_teacher' => 'Coordenador de Área',
+      'campus_principal' => 'Diretor de unidade',
+      'operator' => 'Operador'
+    }
+    translation[role]
   end
 
   def check_uid(_uid)

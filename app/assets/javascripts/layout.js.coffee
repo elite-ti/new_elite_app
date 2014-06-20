@@ -40,6 +40,16 @@ jQuery ->
       {sWidth:"41%"}
     ]
 
+  $('.is-datatable-exam-executions-operator').dataTable
+    sPaginationType: 'full_numbers'
+    bJQueryUI: true
+    aaSorting: [[ 0, "desc" ], ["1", "asc"]]    
+    aoColumns: [
+      {sWidth:"5%"},
+      {sWidth:"78%"},
+      {sWidth:"17%"}
+    ]
+
   $('.is-remote-datatable').dataTable
     sPaginationType: 'full_numbers'
     bJQueryUI: true

@@ -5,7 +5,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>EliteID</th>
       <th>Roles</th>
     </tr>
   </thead>
@@ -25,7 +24,6 @@
           <% end %>
         </span>
       </td>
-      <td><%= employee.elite_id %></td>
       <td><%= employee.roles.map(&:titleize).join(', ') %></td>
     </tr>
   <% end %>

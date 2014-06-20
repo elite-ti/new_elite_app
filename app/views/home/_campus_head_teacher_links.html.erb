@@ -1,23 +1,27 @@
 <div id="campus_head_teacher">
+  <% if !current_employee.operator? %>
     <div class='section'>
       <h2>Geral</h2>
-      <div class='link'><%= link_to 'Turmas', klazzes_path %></div>
-      <div class='link'><%= link_to 'Alunos', students_path %></div>
+        <div class='link'><%= link_to 'Turmas', klazzes_path %></div>
+        <div class='link'><%= link_to 'Alunos', students_path %></div>
     </div>
+  <% end %>
 
-    <div class='section'>
-      <h2>Provas</h2>
-      <div class='link'><%= link_to 'Calendário - Colégio', exam_executions_path(filter_by: 'school') %></div>
-      <div class='link'><%= link_to 'Calendário - Curso', exam_executions_path(filter_by: 'free_course') %></div>
+  <div class='section'>
+    <h2>Provas</h2>
+    <div class='link'><%= link_to 'Calendário - Colégio', exam_executions_path(filter_by: 'school') %></div>
+    <div class='link'><%= link_to 'Calendário - Curso', exam_executions_path(filter_by: 'free_course') %></div>
+    <% if !current_employee.operator? %>
       <div class='link'><%= link_to 'Arquivos enviados', card_processings_path %></div>
       <div class='link'><%= link_to 'Cartão-Resposta em Branco', new_student_exam_path(format: :pdf), :target => '_blank' %></div>
-    </div>
+    <% end %>
+  </div>
 
+  <% if !current_employee.operator? %>
     <div class='section'>
-    <h2>Bolsão</h2>
-    <div class='link'><%= link_to 'Calendário - Bolsão', exam_executions_path(filter_by: 'is_bolsao') %></div>
-    <div class='link'><%= link_to 'Candidatos', students_path(is_bolsao: true) %></div>
-  </div>
-  </div>
-  </div>
+      <h2>Bolsão</h2>
+        <div class='link'><%= link_to 'Calendário - Bolsão', exam_executions_path(filter_by: 'is_bolsao') %></div>
+        <div class='link'><%= link_to 'Candidatos', students_path(is_bolsao: true) %></div>
+    </div>
+  <% end %>
 </div>
