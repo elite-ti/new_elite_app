@@ -49,9 +49,9 @@ private
   helper_method :current_role
 
   def current_employee
-    # @current_employee ||= set_current_employee
+    @current_employee ||= set_current_employee
     # Employee.find(610)
-    Employee.find(1472)
+    # Employee.find(1472)
     # Employee.find(409)
   end
   helper_method :current_employee
