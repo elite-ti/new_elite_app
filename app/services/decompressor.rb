@@ -10,7 +10,8 @@ class Decompressor
     format = File.extname(file_path).reverse.chop.reverse
     raise DecompressorError.new(NOT_SUPPORTED_MESSAGE) unless is_supported?(format)
     
-    folder_path = `mktemp -d -t temp`.chop
+    # folder_path = `mktemp -d -t temp`.chop
+    folder_path = `mktemp -d`.chop
     
     return_message = send('decompress_' + format, file_path, folder_path)
     if return_message
