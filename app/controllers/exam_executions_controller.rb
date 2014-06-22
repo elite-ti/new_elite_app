@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 class ExamExecutionsController < ApplicationController
-  # load_and_authorize_resource
+  load_and_authorize_resource
 
   def index
       super_klazz_ids = SuperKlazz.where(campus_id: Campus.accessible_by(current_ability).map(&:id))
