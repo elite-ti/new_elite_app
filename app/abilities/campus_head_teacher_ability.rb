@@ -5,7 +5,7 @@ class CampusHeadTeacherAbility < EmployeeAbility
     super(employee)
     @campus_head_teacher = employee.campus_head_teacher
 
-    can :read, Employee, id: accessible_employee_ids 
+    # can :read, Employee, id: accessible_employee_ids 
     can :read, Period
 
     can :read, Campus, id: accessible_campus_ids
@@ -14,6 +14,8 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can [:read, :update, :create], Student
     can [:read, :update, :create], Applicant, exam_campus_id: accessible_campus_ids
 
+    can :read, ExamExecution, campus_id: accessible_campus_ids
+    
     can :create, CardProcessing 
     can :read, CardProcessing, campus_id: accessible_campus_ids
 
