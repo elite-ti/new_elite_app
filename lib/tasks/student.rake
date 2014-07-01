@@ -711,6 +711,7 @@ namespace :student do
     )
 
     count = 0
+    errors = []
     result.each do |row|
       # splitted_klazz = row["TURMA"].force_encoding("ISO-8859-1").encode("utf-8", replace: nil).gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
       splitted_klazz = row["TURMA"].force_encoding("ISO-8859-1").encode("utf-8", replace: nil).gsub('_', ' ').split.map(&:mb_chars).map(&:upcase)
@@ -718,7 +719,7 @@ namespace :student do
       if product_year.nil?
         p ">>> #{row['TURMA']}"
         errors << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
-        log << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
+        # log << ["Erro: Turma não encontrada", row["RA"], row["ALUNO"], row["TURMA"], ""]
       else
         # p [row["RA"], row["ALUNO"], row["TURMA"], product_year.name, row["CODCAMPUS"], row["STATUS"], row["CODTURMA"]].join(', ')
         campus = Campus.select{|campus| (campus.erp_code || '0').split(',').include? row["CODCAMPUS"]}.first
