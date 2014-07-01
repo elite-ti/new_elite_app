@@ -659,18 +659,18 @@ namespace :student do
       end
     end
 
-    p used_ids
+    # p used_ids
 
-    current_enrollments.each do |enrollment|
-      next if used_ids.include? enrollment.id 
-      # p enrollment
-      enrollment.update_attribute(:status, "Cancelado")
-      log << ["Aluno desmatriculado", enrollment.student.ra, enrollment.student.ra, enrollment.erp_code, enrollment.super_klazz.name]
-      if enrollment.student.enrollments.select{|enrollment| enrollment.status == "Matriculado"}.size == 0
-        enrollment.student.update_attribute(:status, "Inativo")
-        log << ["Aluno deletado", enrollment.student.ra, enrollment.student.ra, "", ""]
-      end
-    end
+    # current_enrollments.each do |enrollment|
+    #   next if used_ids.include? enrollment.id 
+    #   # p enrollment
+    #   enrollment.update_attribute(:status, "Cancelado")
+    #   log << ["Aluno desmatriculado", enrollment.student.ra, enrollment.student.ra, enrollment.erp_code, enrollment.super_klazz.name]
+    #   if enrollment.student.enrollments.select{|enrollment| enrollment.status == "Matriculado"}.size == 0
+    #     enrollment.student.update_attribute(:status, "Inativo")
+    #     log << ["Aluno deletado", enrollment.student.ra, enrollment.student.ra, "", ""]
+    #   end
+    # end
 
     client.close
 
