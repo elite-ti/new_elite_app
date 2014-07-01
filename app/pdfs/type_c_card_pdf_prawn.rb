@@ -16,7 +16,7 @@ class TypeCCardPdfPrawn < Prawn::Document
     elsif !@exam_execution.nil?
       ExamExecution.find(@exam_execution).super_klazz.enrollments.group_by{|enrollment| enrollment.erp_code || ''}.each do |erp_code, enrollments|
         enrollments.sort_by{|enrollment| ActiveSupport::Inflector.transliterate(enrollment.student.name).upcase}.each do |enrollment|
-          page(enrollment.student, @exam_execution)
+          page(enrollment.student, @exam_execution, erp_code)
         end
       end
     elsif !@exam_date.nil?
@@ -32,7 +32,7 @@ class TypeCCardPdfPrawn < Prawn::Document
   end
 
 private
-  def page(student, exam_execution=nil)
+  def page(student, exam_execution=nil, erp_code='')
     if @first_page
       @first_page = false
     else
@@ -40,7 +40,7 @@ private
     end
     header
     content
-    paint_student_options(student) if(!student.nil?)
+    paint_student_options(student, erp_code) if(!student.nil?)
     paint_exam_options(exam_execution) if(!exam_execution.nil?)
     paint_answers if (!@answers.nil?)
     markers
@@ -68,7 +68,9 @@ private
     draw_blank_line
     move_down 10
     text "Data: ", size: 12
-    draw_blank_line 40, 100
+    draw_blank_line 40, 80
+    draw_text 'Turma: ', at: [300, 675]
+    draw_blank_line 350, 150
     move_down 10
     text 'Preencha o seu RA e Código da Prova', size: 12, :align => :center
     image "#{Rails.root}/app/assets/images/elite-logo-bw.png", at:[130, 790], fit: [40, 40]    
@@ -116,7 +118,7 @@ private
     fill
   end
 
-  def paint_student_options student
+  def paint_student_options student, erp_code
     ra = "%06d" % ((student.ra || 0) % (10 ** @student_block_size))
     group = 0
     ra.split('').each_with_index do |char, index|
@@ -124,7 +126,8 @@ private
       fill
       draw_text char, at: [50 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 635 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end
-    draw_text student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), at: [45, 725], size: 12
+    draw_text student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), at: [45, 725], width: 455, size: 12
+    draw_text erp_code, at: [355, 677], width: 145, size: 12
   end
 
   def paint_exam_options exam_execution
@@ -135,7 +138,7 @@ private
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 630 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end    
-    draw_text @full_name, at: [45, 701], size: 12
+    text_box @full_name, at: [45, 710], width: 455, height: 20, overflow: :truncate, size: 12
     draw_text exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 677], size: 12
   end
 
@@ -147,7 +150,7 @@ private
       rectangle [150 + (@option_width + @horizontal_space_between_options)*(char.ord - 'A'.ord) + (index/50) * (5 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 560 - (index%50) * (@option_height + @vertical_space_between_options)], @option_width, @option_height
       fill
     end    
-    draw_text @exam_execution.full_name, at: [45, 701], size: 12
+    draw_text @exam_execution.full_name, at: [45, 701], width: 455, size: 12
     draw_text @exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 677], size: 12
   end
 
