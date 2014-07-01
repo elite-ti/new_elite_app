@@ -43,20 +43,35 @@ class AttendanceListPrawn < Prawn::Document
             ]
           end.sort_by{|row| ActiveSupport::Inflector.transliterate(row[1]).upcase} + [['', '', '']]*65
       else
-        @students += @exam_execution.super_klazz.enrolled_students.map do |student| 
-            ["%06d" % (student.ra || 0), 
-              student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
-              ''
-            ]
-          end.sort_by{|row| ActiveSupport::Inflector.transliterate(row[1]).upcase} + [['', '', '']]*65
+        @sorted_by_klazz = true
+        @student_header = @students
+        @students_grouped = @exam_execution.super_klazz.enrollments.map do |enrollment| 
+          ["%06d" % (enrollment.student.ra || 0), 
+            enrollment.student.name.split.map(&:mb_chars).map(&:capitalize).join(' '), 
+            enrollment.erp_code || ''
+          ]
+        # end.sort_by{|row| [row[2], ActiveSupport::Inflector.transliterate(row[1]).upcase]} + [['', '', '']]*65
+        end.group_by{|row| row[2]}
       end      
     end
 
-    p 'printing header'
-    header
-    p 'now content'
-    content
-    p 'over'
+    if @sorted_by_klazz
+      first_page = true
+      @students_grouped.each do |klazz, students|
+        if first_page
+          first_page = false
+        else
+          start_new_page
+        end
+        @klazz = klazz
+        @students = @student_header + students.map{|row| [row[0], row[1], '']}.sort_by{|row| ActiveSupport::Inflector.transliterate(row[1]).upcase} + [['', '', '']]*20
+        header
+        content
+      end
+    else
+      header
+      content
+    end
   end
 
 private
@@ -69,23 +84,14 @@ private
     text "Lista de Presença", size: 24, style: :bold, :align => :center
     move_down 10
     text @product_name, size: 20, style: :bold, :align => :center
-    text_box @date, at: [440, 755], size: 12, width: 80, align: :center
+    text_box @date, at: [440, 755], size: 12, width: 80, align: :right
     text_box @shift, at: [440, 735], size: 12, width: 80, align: :center if @is_bolsao
-    text_box @campus_name, at: [420, 715], size: 12, width: 120, align: :center
+    text_box @klazz, at: [360, 735], size: 12, width: 160, align: :right if @sorted_by_klazz
+    text_box @campus_name, at: [400, 715], size: 12, width: 120, align: :right
     image "#{Rails.root}/app/assets/images/elite-logo.png", at:[10, 770], fit: [70, 70]
   end
   def content
     move_down 20
-    # table(@students, 
-    #   :headers => [
-    #     {text: , font_style: :bold, align: :center},
-    #     {text: '', font_style: :bold, align: :center},
-    #     {text: '', font_style: :bold, align: :center}],
-    #   row_colors: ["FFFFFF", "F0F0F0"], 
-    #   column_widths: [50, 300, 173], 
-    #   cell_style: {:height => 24}
-    # )
-
     table(@students, :header => true, row_colors: ["FFFFFF", "F0F0F0"], column_widths: [53, 300, 170], cell_style: {:height => 18, :size => 9.5}) do |tbl|
       tbl.row(0).font_style = :bold
       tbl.row(0).align = :center

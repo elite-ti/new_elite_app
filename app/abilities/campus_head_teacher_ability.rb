@@ -14,7 +14,7 @@ class CampusHeadTeacherAbility < EmployeeAbility
     can [:read, :update, :create], Student
     can [:read, :update, :create], Applicant, exam_campus_id: accessible_campus_ids
 
-    can [:read, :cards], ExamExecution, campus_id: accessible_campus_ids
+    can [:read, :cards, :attendance], ExamExecution, campus_id: accessible_campus_ids
     
     can :create, CardProcessing 
     can :read, CardProcessing, campus_id: accessible_campus_ids

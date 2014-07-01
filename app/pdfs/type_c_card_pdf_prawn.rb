@@ -14,8 +14,10 @@ class TypeCCardPdfPrawn < Prawn::Document
     if !@exam_execution.nil? && !@student.nil?
       page(@student, @exam_execution)
     elsif !@exam_execution.nil?
-      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.each do |student|
-        page(student, @exam_execution)
+      ExamExecution.find(@exam_execution).super_klazz.enrollments.group_by{|enrollment| enrollment.erp_code || ''}.each do |erp_code, enrollments|
+        enrollments.sort_by{|enrollment| ActiveSupport::Inflector.transliterate(enrollment.student.name).upcase}.each do |enrollment|
+          page(enrollment.student, @exam_execution)
+        end
       end
     elsif !@exam_date.nil?
       ExamExecution.where(exam_cycle_id: ExamCycle.where(is_bolsao: false), datetime: (@exam_date.beginning_of_day)..(@exam_date.end_of_day), super_klazz_id: SuperKlazz.where(campus_id: campus_id)).each do |exam_execution|
