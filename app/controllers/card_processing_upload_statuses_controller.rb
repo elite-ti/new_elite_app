@@ -65,6 +65,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         :student
       ).map do |student_exam|
         [
+          `md5sum #{student_exam.card.png.path}`.split[0] || '00000000000000000000000000000000',
           ("%06d" % (student_exam.student.try(:ra) || 0)),
           ("%05d" % (student_exam.exam_execution.try(:exam).try(:code) || 0)),
           student_exam.exam_answer_as_string.gsub('Z','X').gsub('W','Z').gsub('X','W')

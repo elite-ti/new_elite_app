@@ -182,6 +182,7 @@ class ExamExecutionsController < ApplicationController
       (StudentExam.where("card_processing_id in #{card_processing_ids}"
       ).includes([:student, {exam_execution: :exam}]).map do |student_exam|
         [
+          `md5sum #{student_exam.card.png.path}`.split[0] || '00000000000000000000000000000000',
           # student
           if student_exam.student && student_exam.student.ra
             ("%06d" % (student_exam.student.try(:ra) || 0))
