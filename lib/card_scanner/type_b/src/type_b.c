@@ -46,6 +46,7 @@ typedef struct {
   int default_card_height;
 
   Zone student_zone;
+  Zone exam_zone;
   Zone questions_zone;
 } Configuration;
 
@@ -83,8 +84,8 @@ int get_pivot_x(File file);
 int get_pivot_y(File file, int x);
 
 void process_file(File *);
-void process_zone(File *, Zone);
-void process_question(File *, Zone, int, int);
+void process_zone(File *, Zone, int);
+void process_question(File *, Zone, int, int, int);
 double process_option(File, int, int, int, int);
 
 void print_answers(File);
@@ -111,11 +112,11 @@ int main(int argc, char* argv[]) {
   File rotated_180_file = rotate180(file);
   File rotated_file = rotate(rotated_180_file);
 
-  // write_png(&rotated_file);
+  write_png(&rotated_file);
 
   File moved_file = move(rotated_file);
 
-  adjust_configuration(moved_file);
+  //adjust_configuration(moved_file);
 
   process_file(&moved_file);
   print_answers(moved_file);
@@ -130,8 +131,10 @@ void read_configuration(int argc, char* argv[]) {
   // TODO: hard code this paremeters
   // 0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454
 
-  if(argc != 30) 
+  if(argc != 40) {
+    printf("%d\n", argc);
     stop(1, WRONG_NUMBER_OF_ARGUMENTS);
+  }
   
   strcpy(conf.source_path, argv[1]);
   strcpy(conf.destination_path, argv[2]);
@@ -186,6 +189,27 @@ void read_configuration(int argc, char* argv[]) {
   sscanf(argv[29], "%d", &vertical_group_size);
   conf.questions_zone.vertical_space_between_options = 
     (double)(vertical_group_size - conf.questions_zone.option_height*number_of_questions)/
+    (double)(number_of_questions - 1);
+
+  sscanf(argv[30], "%d", &conf.exam_zone.number_of_groups);
+  sscanf(argv[31], "%d", &conf.exam_zone.space_between_groups);
+  sscanf(argv[32], "%d", &conf.exam_zone.questions_per_group);
+  strcpy(conf.exam_zone.alternatives, argv[33]);
+  sscanf(argv[34], "%d", &conf.exam_zone.option_width);
+  sscanf(argv[35], "%d", &conf.exam_zone.option_height);
+  sscanf(argv[36], "%d", &conf.exam_zone.group_x);
+  sscanf(argv[37], "%d", &conf.exam_zone.group_y);
+
+  number_of_options = strlen(conf.exam_zone.alternatives);
+  sscanf(argv[38], "%d", &horizontal_group_size);
+  conf.exam_zone.horizontal_space_between_options = 
+    (double)(horizontal_group_size - conf.exam_zone.option_width*number_of_options)/
+    (double)(number_of_options - 1);
+
+  number_of_questions = conf.exam_zone.questions_per_group;
+  sscanf(argv[39], "%d", &vertical_group_size);
+  conf.exam_zone.vertical_space_between_options = 
+    (double)(vertical_group_size - conf.exam_zone.option_height*number_of_questions)/
     (double)(number_of_questions - 1);
 }
 
@@ -492,10 +516,11 @@ int get_pivot_x(File file) {
   // }
   for(int x = 0; x < file.width && target_xx < 0; x++) {
     if(target_x < 0) {
-      if(get_column_density(file, x) > 0.3)
+      double density = get_column_density(file, x);
+      if(density > 0.2)
       {
         count = 1;
-        while(x + count < file.width &&  get_column_density(file, x + count) > 0.3)
+        while(x + count < file.width &&  get_column_density(file, x + count) > 0.2)
           count++;
         if(count > 40)
           target_x = x;
@@ -650,19 +675,20 @@ double get_column_density(File file, int x) {
 void process_file(File *file) {
   file->number_of_questions = 0;
 
-  process_zone(file, conf.student_zone);
-  process_zone(file, conf.questions_zone);
+  process_zone(file, conf.student_zone, 0);
+  process_zone(file, conf.exam_zone, 1);
+  process_zone(file, conf.questions_zone, 2);
 
 }
 
-void process_zone(File *file, Zone zone) {
+void process_zone(File *file, Zone zone, int zone_number) {
   for(int group_number = 0; group_number < zone.number_of_groups; group_number++) {
     for(int question_number = 0; question_number < zone.questions_per_group; question_number++)
-      process_question(file, zone, group_number, question_number);
+      process_question(file, zone, group_number, question_number, zone_number);
   }
 }
 
-void process_question(File *file, Zone zone, int group_number, int question_number) {
+void process_question(File *file, Zone zone, int group_number, int question_number, int zone_number) {
   char answer = 'Z';
 
   for(int option_number = 0; option_number < strlen(zone.alternatives); option_number++) {
@@ -673,6 +699,12 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
       question_number * (zone.option_height + zone.vertical_space_between_options);
     int width = zone.option_width;
     int height = zone.option_height;
+
+    // if (zone_number == 2 && group_number == 0 && question_number == 0)
+    // {
+    //   printf("===%d %d %d %d===", start_x, start_y, width, height);
+    //   /* code */
+    // }
 
     if(process_option(*file, start_x, start_y, width, height) > conf.threshold) {
       if(answer == 'Z')

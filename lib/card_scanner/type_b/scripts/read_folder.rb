@@ -4,8 +4,9 @@ require 'find'
 
 this_path = File.dirname(File.expand_path(__FILE__))
 
-parameters = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3464'
-folder_path = '/Users/pauloacmelo/Elite/CardRunnedByScript/Sondagem_09ABR' # TOFILL
+# parameters = '0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3464'
+parameters = '0.3 60 540 80 40 1284 4847     1 0 8 0123456789 79 38 180 537 980 480     2 600 50 ABCDE 77 38 180 1540 470 3050     1 0 5 0123456789 79 38 180 1155 980 290'
+folder_path = '/Users/pauloacmelo/Downloads/obm/OBM-PENSI' # TOFILL
 file_to_be_processed_format = '.tif'
 
 def is_valid_result(result)
@@ -38,6 +39,7 @@ Find.find(folder_path) do |file_path|
     File.basename(file_path, file_to_be_processed_format) + '_normalized.png')
 
   result = `'#{this_path}/../bin/run' '#{file_path}' '#{normalized_path}' #{parameters}`
+  p result
 
   if is_valid_result(result) 
     lines << 'Valid;' + file_path + ';' + result + "\n"

@@ -12,8 +12,10 @@ class TypeCCardPdfPrawn < Prawn::Document
     if !@exam_execution.nil? && !@student.nil?
       page(@student)
     elsif !@exam_execution.nil?
-      ExamExecution.find(@exam_execution).super_klazz.enrolled_students.each do |student|
-        page(student)
+      ExamExecution.find(@exam_execution).super_klazz.enrollments.group_by{|enrollment| enrollment.klazz.try(:name) || ''}.each do |klazz_name, enrollments|
+        enrollments.sort_by{|enrollment| ActiveSupport::Inflector.transliterate(enrollment.student.try(:name)).upcase || ''}.each do |enrollment|
+          page(enrollment)
+        end
       end
     else
       page(nil)
@@ -21,7 +23,7 @@ class TypeCCardPdfPrawn < Prawn::Document
   end
 
 private
-  def page(student)
+  def page(enrollment)
     if @first_page
       @first_page = false
     else
@@ -29,7 +31,7 @@ private
     end
     header
     content
-    paint_student_options(student) if !student.nil? && @paint.include?("Student")
+    paint_student_options(enrollment) if !enrollment.student.nil? && @paint.include?("Student")
     paint_exam_options(@exam_code) if !@exam_execution.nil? && @paint.include?("Exam")
     markers
     bottom    
@@ -56,7 +58,9 @@ private
     draw_blank_line
     move_down 10
     text "Data: ", size: 12
-    draw_blank_line 40, 100
+    draw_blank_line 40, 80
+    draw_text 'Turma: ', at: [300, 685]
+    draw_blank_line 350, 150
     draw_text 'Matrícula', size: 15, at: [105, 660]
     draw_text 'Código de Prova', size: 15, at: [315, 660]
     image "#{Rails.root}/app/assets/images/logo-bw.png", at:[130, 777], fit: [40, 40]    
@@ -104,15 +108,16 @@ private
     fill
   end
 
-  def paint_student_options student
-    ra = "%08d" % student.ra
+  def paint_student_options enrollment
+    ra = "%08d" % (enrollment.student.try(:ra) || 0)
     group = 0
     ra.split('').each_with_index do |char, index|
       rectangle [50 + (@option_width + @horizontal_space_between_options)*char.to_i + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - index * (@option_height + @vertical_space_between_options)], @option_width, @option_height
       fill
       draw_text char, at: [50 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 650 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end
-    draw_text student.name, at: [45, 735], size: 12
+    draw_text enrollment.student.try(:name) || '', at: [45, 735], size: 12
+    draw_text enrollment.try(:klazz).try(:name) || '', at: [355, 687], width: 145, size: 12
   end
 
   def paint_exam_options code
@@ -123,7 +128,7 @@ private
       fill
       draw_text char, at: [280 - 12 + group * (10 * (@horizontal_space_between_options + @option_width) - @horizontal_space_between_options + @horizontal_space_between_groups), 640 - 6 - index * (@option_height + @vertical_space_between_options)], size: 8
     end    
-    draw_text @exam_execution.full_name, at: [45, 711], size: 12
+    draw_text @exam_execution.name, at: [45, 711], size: 12
     draw_text @exam_execution.datetime.strftime('%d/%m/%Y'), at: [45, 687], size: 12
   end
 end
