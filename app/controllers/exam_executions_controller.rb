@@ -80,7 +80,38 @@ class ExamExecutionsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.full_name}.txt\""
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.name}.txt\""
+        render text: @results.encode("ISO-8859-1", "utf-8")
+      end
+    end
+  end
+
+  def scanned_md5
+    @exam_execution = ExamExecution.find(params[:exam_execution_id])
+    @results = 
+      StudentExam.where(
+        card_processing_id:
+          CardProcessing.where(
+            exam_execution_id: params[:exam_execution_id]
+          )
+      ).includes(:student).map do |student_exam|
+        [
+          `md5sum #{student_exam.card.png.path}`.split[0] || '00000000000000000000000000000000',
+          # has student
+          if student_exam.student && student_exam.student.ra
+            ("%08d" % (student_exam.student.ra))
+          else
+            student_exam.student_number
+          end,
+          student_exam.exam_code,
+          student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
+        ].join()
+    end.compact.join("\r\n")
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        response.headers['Content-Disposition'] = "attachment; filename=\"cards_data_#{@exam_execution.name}.txt\""
         render text: @results.encode("ISO-8859-1", "utf-8")
       end
     end

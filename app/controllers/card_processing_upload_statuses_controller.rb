@@ -57,6 +57,7 @@ class CardProcessingUploadStatusesController < ApplicationController
         :student, exam_execution: :exam
       ).map do |student_exam|
         [
+          `md5sum #{student_exam.card.png.path}`.split[0] || '00000000000000000000000000000000',
           # has student
           if student_exam.student && student_exam.student.ra
             ("%08d" % (student_exam.student.ra))
