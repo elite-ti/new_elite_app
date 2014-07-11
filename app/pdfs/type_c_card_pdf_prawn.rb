@@ -31,7 +31,7 @@ private
     end
     header
     content
-    paint_student_options(enrollment) if !enrollment.student.nil? && @paint.include?("Student")
+    paint_student_options(enrollment) if !enrollment.try(:student).nil? && @paint.include?("Student")
     paint_exam_options(@exam_code) if !@exam_execution.nil? && @paint.include?("Exam")
     markers
     bottom    
