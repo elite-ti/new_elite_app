@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
-#define DEBUG // Comment out if not debug version
+// #define DEBUG // Comment out if not debug version
 // #define MAP_PERCENTAGE
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
