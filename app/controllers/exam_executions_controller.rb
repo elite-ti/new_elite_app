@@ -104,7 +104,7 @@ class ExamExecutionsController < ApplicationController
             student_exam.student_number
           end,
           student_exam.exam_code,
-          student_exam.string_of_answers.gsub('Z','X').gsub('W','Z').gsub('X','W')
+          (student_exam.string_of_answers || '').gsub('Z','X').gsub('W','Z').gsub('X','W')
         ].join()
     end.compact.join("\r\n")
 

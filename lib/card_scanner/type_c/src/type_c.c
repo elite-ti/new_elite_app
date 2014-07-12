@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
-// #define DEBUG // Comment out if not debug version
+#define DEBUG // Comment out if not debug version
 // #define MAP_PERCENTAGE
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
@@ -405,7 +405,7 @@ int find_mark(File file, int coord_x, int coord_y, double mark_threshold) {
               pixels_filled++;
         }while(((double) pixels_filled) > mark_threshold * ((double) 2 * radius - 1) && radius < 180);
 
-        if(radius > 90)
+        if(radius > 80)
         {
           mark_position_x[coord_x][coord_y] = start_x + signal_x * (x + radius/2);
           mark_position_y[coord_x][coord_y] = start_y + signal_y * (sum - x + radius/2);
