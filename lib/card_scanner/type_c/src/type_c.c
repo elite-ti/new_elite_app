@@ -700,11 +700,7 @@ void write_png(File *file) {
 
 int is_upside_down(File file) {
   if(mark_position_x[0][1] == 0 && mark_position_y[0][1] == 0)
-  {
-    // mark_position_x[0][1] == 0
-    // mark_position_y[0][1] == 0
     return 1;
-  }
   else
     return 0;
 }
@@ -773,62 +769,10 @@ double get_segment_density(File file, int x, int start_y, int end_y) {
   return (double)match / (double)count;
 }
 
-// File stretch(File file) {
-//   int success = get_clock_locations(file);
-
-//   if(!success)
-//     return file;
-
-//   File stretched_file = create_empty_file(conf.default_card_height, conf.default_card_width);
-
-//   int height1 = conf.student_zone.group_y+1;
-//   int height2 = height1 + conf.student_zone.questions_per_group*conf.student_zone.option_height + conf.student_zone.vertical_space_between_options*(conf.student_zone.questions_per_group-1);
-//   int height3 = conf.questions_zone.group_y;
-//   int height4 = height3 + conf.questions_zone.questions_per_group*conf.questions_zone.option_height + (int)conf.questions_zone.vertical_space_between_options*(conf.questions_zone.questions_per_group-1);
-//   printf("h1:%d|h2:%d|h3:%d|h4:%d\n", height1, height2, height3, height4);
-  
-//   int original_y, blank = 0;
-//   for(int y = 0; y < stretched_file.height; y++) {
-//     for(int x = 0; x < stretched_file.width; x++) {
-//       if(x==0){
-//         if(y < height2 + 10){
-//           blank = 0;
-//           original_y = y;//round(((double)clock_locations[0]/(double)height1)*(double)y);
-//         }
-//         else if(y < height3 - 10)
-//         {
-//           blank = 1;
-//         }
-//         else if(y < height4)
-//         {
-//           blank = 0;
-//           int n1 = (y-height3)/((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
-//           int d1 = y - height3 - n1*((int)conf.questions_zone.option_height+(int)conf.questions_zone.vertical_space_between_options);
-//           int n2 = d1 >= conf.questions_zone.option_height ? 1 : 0;
-//           d1 = (n2 == 1) ? (d1 - conf.questions_zone.option_height) : d1;
-//           int n = 2*n1 + n2;
-
-//           original_y = clock_locations[n]+round((double)d1*(double)(clock_locations[n+1]-clock_locations[n])/(double)(n2==1 ? (int)conf.questions_zone.vertical_space_between_options : conf.questions_zone.option_height));
-//         }
-//         else
-//         {
-//           blank = 0;
-//           original_y++;
-//         }
-//       }
-//       if(original_y<file.height && x<file.width && !blank && is_pixel_filled(file, x, original_y))
-//         copy_pixel(&file, x, original_y, &stretched_file, x, y);
-//     }
-//   }
-
-//   free(file.raster);
-//   return stretched_file;
-// }
-
 int get_clock_locations(File file) {
   int status = 0; // 0: outside, 1: inside
   int index = 0;
-  int *temporary_clock_locations = (int*)malloc(2*conf.questions_zone.questions_per_group*sizeof(int));
+  int *temporary_clock_locations = (int*)malloc(4*conf.questions_zone.questions_per_group*sizeof(int));
   int group_end_y = conf.questions_zone.group_y + conf.questions_zone.questions_per_group * (conf.questions_zone.vertical_space_between_options + conf.questions_zone.option_height) - conf.questions_zone.vertical_space_between_options;
   int tolerance = 0;
   for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 100; ++i){
@@ -864,7 +808,41 @@ int get_clock_locations(File file) {
       }
     }
   }
-  if(index == 2*conf.questions_zone.questions_per_group){
+  // Questions 51 to 100
+  for (int i = conf.questions_zone.group_y + 1; i < group_end_y + 100; ++i){
+    double density = get_line_density(file, conf.questions_zone.group_x + 620, conf.questions_zone.group_x + 670, i);
+    if(status == 0 && density > 0.05){
+      #ifdef DEBUG
+      for (int j = conf.questions_zone.group_x + 615; j < conf.questions_zone.group_x + 670; ++j)
+        paint_pixel(file, j, i, 0, 0, 255);
+      #endif
+      status = 1;
+      temporary_clock_locations[index] = i - 3;
+      index++;
+    }
+    if(status == 1 && density < 0.05){
+      if(tolerance < 5)
+      {
+        #ifdef DEBUG
+        for (int j = conf.questions_zone.group_x + 615; j < conf.questions_zone.group_x + 670; ++j)
+          paint_pixel(file, j, i - 1, 255, 0, 255);
+        #endif
+        tolerance++;
+      }
+      else
+      {
+        tolerance = 0;
+        #ifdef DEBUG
+        for (int j = conf.questions_zone.group_x + 615; j < conf.questions_zone.group_x + 670; ++j)
+          paint_pixel(file, j, i - 4, 0, 0, 255);
+        #endif
+        status = 0;
+        temporary_clock_locations[index] = i - 4;
+        index++;
+      }
+    }
+  }
+  if(index == 4*conf.questions_zone.questions_per_group){
     clock_locations = temporary_clock_locations;
     use_customized_clocks = 1;
     return 1;
@@ -899,8 +877,8 @@ void process_question(File *file, Zone zone, int group_number, int question_numb
     int start_y;
     int height;
     if(customized_clocks){
-      start_y = clock_locations[question_number*2];
-      height = clock_locations[question_number*2 + 1] - clock_locations[question_number*2];
+      start_y = clock_locations[(question_number+group_number*50) *2];
+      height = clock_locations[(question_number+group_number*50)*2 + 1] - clock_locations[(question_number+group_number*50)*2];
     }
     else{
       start_y = ceil((double) zone.group_y + 
