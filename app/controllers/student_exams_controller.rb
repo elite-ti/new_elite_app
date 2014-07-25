@@ -53,8 +53,7 @@ class StudentExamsController < ApplicationController
       format.pdf do
         if params[:card_type_id].nil?
           if params[:exam_date].nil?
-            pdf = TypeCCardPdfPrawn.new(params[:exam_execution_id], params[:student_id], params[:answers], nil, nil)
-            p 'Teste'
+            pdf = TypeCCardPdfPrawn.new(params[:exam_execution_id], params[:student_id], params[:answers], nil, nil, params[:special_paint])
             if !params[:exam_execution_id].nil? && !params[:student_id].nil?
               filename = 'CartaoResposta - ' + Student.find(params[:student_id]).name + ' - ' + ExamExecution.find(params[:exam_execution_id]).name + '.pdf'
             elsif !params[:exam_execution_id].nil?
@@ -64,7 +63,7 @@ class StudentExamsController < ApplicationController
             end
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
           else
-            pdf = TypeCCardPdfPrawn.new(nil, nil, nil, params[:exam_date], nil)
+            pdf = TypeCCardPdfPrawn.new(nil, nil, nil, params[:exam_date], nil, nil)
             filename = 'CartoesResposta - ' + params[:exam_date] + '.pdf'
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
           end
@@ -78,7 +77,7 @@ class StudentExamsController < ApplicationController
             filename = 'CartoesRespostaBranco_TipoB.pdf'
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
           elsif params[:card_type_id].to_s == "3"
-            pdf = TypeCCardPdfPrawn.new(nil, nil, nil, nil, nil)
+            pdf = TypeCCardPdfPrawn.new(nil, nil, nil, nil, nil, nil)
             filename = 'CartoesRespostaBranco_TipoC.pdf'
             send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"          
           elsif params[:card_type_id].to_s == "4"

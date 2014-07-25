@@ -1,7 +1,8 @@
 #encoding: UTF-8
 
 class TypeCCardPdfPrawn < Prawn::Document
-  def initialize(exam_execution_id, student_id, answers, exam_date=nil, campus_id=nil)
+  def initialize(exam_execution_id, student_id, answers, exam_date=nil, campus_id=nil, special_paint=nil)
+    @special_paint = special_paint
     @exam_execution = ExamExecution.find(exam_execution_id) if !exam_execution_id.nil?
     @full_name = @exam_execution.full_name if !exam_execution_id.nil?
     @student = Student.find(student_id) if !student_id.nil?
@@ -41,7 +42,7 @@ private
     header
     content
     paint_student_options(student, erp_code) if(!student.nil?)
-    paint_exam_options(exam_execution) if(!exam_execution.nil?)
+    paint_exam_options(exam_execution) if(!exam_execution.nil? && !@special_paint)
     paint_answers if (!@answers.nil?)
     markers
     bottom    
