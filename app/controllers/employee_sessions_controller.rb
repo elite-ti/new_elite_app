@@ -3,6 +3,7 @@ class EmployeeSessionsController < ApplicationController
 
   def create
     p env
+    p 'teste'
     employee = Employee.find_by_email(env['omniauth.auth']['info']['email'])
     if employee
       employee.check_uid(env['omniauth.auth']['uid'])
