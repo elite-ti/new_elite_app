@@ -5,8 +5,9 @@ require 'find'
 
 this_path = File.dirname(File.expand_path(__FILE__))
 
-parameters = '0.4 60 540 80 40 2900 4229 1 0 6 0123456789 79 38 304 795 1003 300 2 705 50 ABCDE 77 38 846 1185 486 2659 1 0 5 0123456789 79 38 1550 815 1010 250'
-folder_path = '/Users/pauloacmelo/Downloads/TestElite' # TOFILL
+# parameters = '0.4 60 540 80 40 2900 4229 1 0 6 0123456789 79 38 304 795 1003 300 2 705 50 ABCD 77 38 846 1185 486 2659 1 0 5 0123456789 79 38 1550 815 1010 250'
+parameters = '0.4 60 540 80 40 2900 4229 1 0 6 0123456789 79 38 240 780 993 300 2 590 50 ABCD 77 38 846 1185 379 2659 1 0 5 0123456789 79 38 1444 815 993 250'
+folder_path = '/Users/pauloacmelo/Downloads/CardsEliteSimWrong/8214.1' # TOFILL
 file_to_be_processed_format = '.tif'
 
 def is_valid_result(result)
@@ -43,7 +44,8 @@ Find.find(folder_path) do |file_path|
   result = `'#{this_path}/../bin/run' '#{file_path}' '#{normalized_path}' #{parameters}`
   delayed = Time.new - start_time
   p delayed
-  p result
+  # p result
+  result.split("\n").each{|s| p s}
 
   if is_valid_result(result) 
     lines << "Valid;#{file_path};#{result}"

@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ERROR 0.7
-#define DEBUG // Comment out if not debug version
+// #define DEBUG // Comment out if not debug version
 
 #define WRONG_NUMBER_OF_ARGUMENTS "Error: wrong number of arguments."
 #define ERROR_READING_FILE "Error: could not read file."
@@ -150,7 +150,7 @@ int main(int argc, char* argv[]) {
 void read_configuration(int argc, char* argv[]) {
   // TODO: hard code this paremeters
   // 0.4 60 540 80 40 1284 4847 1 0 7 0123456789 79 38 271 540 964 453 2 600 50 ABCDE 77 38 170 1054 473 3454
-  use_customized_clocks = 0;
+  use_customized_clocks = 1;
 
   if(argc != 40) 
     stop(1, WRONG_NUMBER_OF_ARGUMENTS);
@@ -233,6 +233,47 @@ void read_configuration(int argc, char* argv[]) {
   conf.exam_zone.vertical_space_between_options = 
     (double)(vertical_group_size - conf.exam_zone.option_height*number_of_questions)/
     (double)(number_of_questions - 1);
+
+// argv[01] = conf.source_path
+// argv[02] = conf.destination_path
+// argv[03] = conf.threshold
+// argv[04] = conf.pivot_default_x
+// argv[05] = conf.pivot_default_y
+// argv[06] = conf.mark_width
+// argv[07] = conf.mark_height
+// argv[08] = conf.default_card_width
+// argv[09] = conf.default_card_height
+// argv[10] = conf.student_zone.number_of_groups
+// argv[11] = conf.student_zone.space_between_groups
+// argv[12] = conf.student_zone.questions_per_group
+// argv[13] = conf.student_zone.alternatives
+// argv[14] = conf.student_zone.option_width
+// argv[15] = conf.student_zone.option_height
+// argv[16] = conf.student_zone.group_x
+// argv[17] = conf.student_zone.group_y
+// argv[18] = horizontal_group_size
+// argv[19] = vertical_group_size
+// argv[20] = conf.questions_zone.number_of_groups
+// argv[21] = conf.questions_zone.space_between_groups
+// argv[22] = conf.questions_zone.questions_per_group
+// argv[23] = conf.questions_zone.alternatives
+// argv[24] = conf.questions_zone.option_width
+// argv[25] = conf.questions_zone.option_height
+// argv[26] = conf.questions_zone.group_x
+// argv[27] = conf.questions_zone.group_y
+// argv[28] = horizontal_group_size
+// argv[29] = vertical_group_size
+// argv[30] = conf.exam_zone.number_of_groups
+// argv[31] = conf.exam_zone.space_between_groups
+// argv[32] = conf.exam_zone.questions_per_group
+// argv[33] = conf.exam_zone.alternatives
+// argv[34] = conf.exam_zone.option_width
+// argv[35] = conf.exam_zone.option_height
+// argv[36] = conf.exam_zone.group_x
+// argv[37] = conf.exam_zone.group_y
+// argv[38] = horizontal_group_size
+// argv[39] = vertical_group_size
+
 
 }
 
@@ -561,46 +602,46 @@ File fine_move(File file) {
   }  
   #endif
 
-  // Apply Smooth Method MAX-MIN
-  double densities[file.width - start_x + 150];
-  for (int i = 0; i < file.width - start_x + 150; ++i)
-    densities[i] = get_segment_density(file, start_x + i - 150, found_y, file.height - 380);
-
-  double min_densities[file.width - start_x + 150];
-  double temp;
-  for (int i = 0; i < file.width - start_x + 150; ++i){
-    temp = 1000;
-    for (int j = i - 25; j <= i + 25; ++j){
-      if(j >= 0 && j < file.width - start_x + 150 && densities[j] < temp)
-        temp = densities[j];
-    }
-    min_densities[i] = temp;
-  }
-
-  double max_min_densities[file.width - start_x + 150];
-  for (int i = 0; i < file.width - start_x + 150; ++i){
-    temp = -1;
-    for (int j = i - 25; j <= i + 25; ++j){
-      if(j >= 0 && j < file.width - start_x + 150 && min_densities[j] > temp)
-        temp = min_densities[j];
-    }
-    max_min_densities[i] = temp;
-  }
-
-  // printf("|||");
+  // // Apply Smooth Method MAX-MIN
+  // double densities[file.width - start_x + 150];
   // for (int i = 0; i < file.width - start_x + 150; ++i)
-  //   printf("%g,", max_min_densities[i]);  
-  // printf("|||");
+  //   densities[i] = get_segment_density(file, start_x + i - 150, found_y, file.height - 380);
 
-  for (int i = 1; i < file.width - start_x + 150; ++i){
-    // printf("%g,", max_min_densities[i] - max_min_densities[i-1]);
-    if(fabs(max_min_densities[i] - max_min_densities[i-1]) > 0.04){
-      i = i + 5;
-      // printf("%g,", max_min_densities[i] - max_min_densities[i-1]);
-      // for (int j = 0; j < file.height; ++j)
-      //   paint_pixel(file, start_x - 150 + i, j, 255, 0, 0);      
-    }
-  }
+  // double min_densities[file.width - start_x + 150];
+  // double temp;
+  // for (int i = 0; i < file.width - start_x + 150; ++i){
+  //   temp = 1000;
+  //   for (int j = i - 25; j <= i + 25; ++j){
+  //     if(j >= 0 && j < file.width - start_x + 150 && densities[j] < temp)
+  //       temp = densities[j];
+  //   }
+  //   min_densities[i] = temp;
+  // }
+
+  // double max_min_densities[file.width - start_x + 150];
+  // for (int i = 0; i < file.width - start_x + 150; ++i){
+  //   temp = -1;
+  //   for (int j = i - 25; j <= i + 25; ++j){
+  //     if(j >= 0 && j < file.width - start_x + 150 && min_densities[j] > temp)
+  //       temp = min_densities[j];
+  //   }
+  //   max_min_densities[i] = temp;
+  // }
+
+  // // printf("|||");
+  // // for (int i = 0; i < file.width - start_x + 150; ++i)
+  // //   printf("%g,", max_min_densities[i]);  
+  // // printf("|||");
+
+  // for (int i = 1; i < file.width - start_x + 150; ++i){
+  //   // printf("%g,", max_min_densities[i] - max_min_densities[i-1]);
+  //   if(fabs(max_min_densities[i] - max_min_densities[i-1]) > 0.04){
+  //     i = i + 5;
+  //     // printf("%g,", max_min_densities[i] - max_min_densities[i-1]);
+  //     // for (int j = 0; j < file.height; ++j)
+  //     //   paint_pixel(file, start_x - 150 + i, j, 255, 0, 0);      
+  //   }
+  // }
 
   int found_x = -2;
   int count = 0;
@@ -628,7 +669,7 @@ File fine_move(File file) {
   int delta_y = found_y == 0 ? 0 : conf.questions_zone.group_y - found_y;
   int delta_x = found_x == 0 ? 0 : conf.questions_zone.group_x - found_x;
 
-  if(delta_y == 0)
+  if(delta_y == 0 && delta_x == 0)
     return file;
 
   File moved_file = create_empty_file(file.height, file.width);
@@ -639,6 +680,59 @@ File fine_move(File file) {
       copy_pixel(&file, x, y, &moved_file, new_x, new_y);
     }
   }
+
+  // Student zone, question zone and exam zone adjust
+  if (found_x > 0 && found_y > 0) {
+    // start
+    for (int j = found_y - 340; j < found_y - 140; ++j)
+      paint_pixel(file, conf.student_zone.group_x - 300, j, 0, 0, 255);
+    // end
+    for (int j = found_y - 340; j < found_y - 140; ++j)
+      paint_pixel(file, conf.student_zone.group_x + 200, j, 0, 0, 255);
+    
+    int found_student_zone = 0;
+    for (int i = 0; i < conf.student_zone.group_x + 200; ++i) {
+      double density = get_segment_density(moved_file, i, found_y - 340, found_y - 140);
+      if(density > 0.3){
+        #ifdef DEBUG 
+          printf("d(std):%f - %d\n", density, i);
+        #endif
+        conf.student_zone.group_x = i + 75;
+        for (int j = found_y - 340; j < found_y - 140; ++j)
+          paint_pixel(moved_file, i, j, 0, 255, 255);
+        found_student_zone = 1;
+        break;
+      }
+    }
+  
+    for (int i = conf.student_zone.group_x + 1050; i < conf.student_zone.group_x + 1200; ++i) {
+      double density = get_segment_density(moved_file, i, found_y - 340, found_y - 140);
+      if(density > 0.3){
+        #ifdef DEBUG 
+          printf("d(exm):%f - %d\n", density, i);
+        #endif
+        conf.exam_zone.group_x = i + 75;
+        for (int j = found_y - 340; j < found_y - 140; ++j)
+          paint_pixel(moved_file, i, j, 0, 255, 255);
+        break;
+      }
+    }
+
+    for (int i = found_x + conf.questions_zone.space_between_groups - 100; i < found_x + conf.questions_zone.space_between_groups + 150; ++i) {
+      double density = get_segment_density(moved_file, i, found_y, found_y + 1000);
+      if(density > 0.3){
+        #ifdef DEBUG 
+          printf("d(qts):%f - %d\n", density, i);
+        #endif
+        conf.questions_zone.space_between_groups = i + 75 - found_x;
+        for (int j = found_y; j < found_y + 200; ++j)
+          paint_pixel(moved_file, i, j, 0, 255, 255);
+        break;
+      }
+    }
+  }
+
+
   free(file.raster);
   return moved_file;
 }
@@ -723,11 +817,12 @@ double get_tangent(File file) {
   // More precise method
   // 100 = error margin
   // 175 = mark center position (we are before crop)
-  int start_x = conf.questions_zone.group_x + 
-      (conf.questions_zone.number_of_groups - 1) * conf.questions_zone.space_between_groups +
-      strlen(conf.questions_zone.alternatives) * (conf.questions_zone.option_width + conf.questions_zone.horizontal_space_between_options) + 175 + 100;
+  // int start_x = conf.questions_zone.group_x + 
+  //     (conf.questions_zone.number_of_groups - 1) * conf.questions_zone.space_between_groups +
+  //     strlen(conf.questions_zone.alternatives) * (conf.questions_zone.option_width + conf.questions_zone.horizontal_space_between_options) + 175 + 100;
 
-  int start_y = conf.questions_zone.group_y + 175 + 100;
+  // int start_y = conf.questions_zone.group_y + 175 + 100;
+
 
   // printf("|||");
   // printf("%d|", start_x);
