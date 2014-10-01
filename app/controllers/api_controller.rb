@@ -1,8 +1,11 @@
 # encoding 
 class ApiController < ApplicationController
   def index
+  end
+
+  def student_exams
     edited_query = '%' + params[:q].gsub(' ', '%') + '%'
-    if params[:q] != ''
+    if params[:q] != '' && params[:token]='GRZezNtTYitYIXPo3seb6wsC'
       @student_exams = CardProcessing.where(status: 'Processed').where('name like ?', edited_query).map(
         &:student_exams
       ).flatten.map do |student_exam|
@@ -13,7 +16,7 @@ class ApiController < ApplicationController
         ]
       end
     else
-      @student_exams = []
+      @student_exams = 'Invalid token'
     end
     respond_to do |format|
       format.json { render json: @student_exams}
