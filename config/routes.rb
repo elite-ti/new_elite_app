@@ -97,6 +97,7 @@ EliteApp::Application.routes.draw do
   match 'login_as/:id', to: 'employee_sessions#update', as: 'login_as'
   match 'logout', to: 'employee_sessions#destroy', as: 'logout'
 
+  get 'api/cards', to:'api#student_exams', as: 'api'
   get 'home', to: 'home#index', as: 'home'
   get "exam_results", to: 'exam_results#index'  
   root to: 'home#index'
