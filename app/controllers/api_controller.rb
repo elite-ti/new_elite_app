@@ -6,7 +6,7 @@ class ApiController < ApplicationController
 
   def student_exams
     edited_query = '%' + params[:q].gsub(' ', '%') + '%'
-    if params[:q] != '' && params[:token]='GRZezNtTYitYIXPo3seb6wsC'
+    if params[:q] != '' && params[:token] == 'GRZezNtTYitYIXPo3seb6wsC'
       @student_exams = CardProcessing.where(status: 'Processed').where('file like ?', edited_query).map(
         &:student_exams
       ).flatten.map do |student_exam|
