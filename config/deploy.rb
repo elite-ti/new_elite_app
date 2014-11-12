@@ -42,6 +42,7 @@ after 'deploy', 'deploy:cleanup'
 require './config/boot'
 require 'airbrake/capistrano'
 
+
 namespace :deploy do
   namespace :assets do
     task :precompile, :roles => :web, :except => { :no_release => true } do
