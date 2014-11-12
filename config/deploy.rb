@@ -18,14 +18,14 @@ load 'config/recipes/card_scanner'
 load 'config/recipes/carrierwave'
 load 'config/recipes/bkp'
 
-server '50.116.8.31', :web, :app, :db, primary: true
+server '104.236.4.180', :web, :app, :db, primary: true
 
 set :user, 'deployer'
 set :application, 'new_elite_app'
 set :repository, "git@github.com:elite-ti/#{application}.git"
 
-set :google_oauth2_client_id, '4908308523-b7muphfrr8pbutn9tj6592r2iv81an59.apps.googleusercontent.com'
-set :google_oauth2_client_secret, '52EofUDK8dwaZoog9G-wCEfP'
+set :google_oauth2_client_id, '4908308523-khcc9s1j6hvla28ro5f0mjllr5843p3t.apps.googleusercontent.com'
+set :google_oauth2_client_secret, 'jD5JVKVYNeR9OyLJpt1MYlFh'
 
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
